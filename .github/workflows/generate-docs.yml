@@ -1,4 +1,4 @@
-name: Makefile CI
+name: Build Docs
 
 on:
   push:
@@ -13,7 +13,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
+    - name: Setup Python
+      uses: actions/setup-python@v2.3.2
+      with:
+        python-version: '2.7'
 
+    - name: Install Dependencies
+      run: pip install lxml
     - name: Build
       run: make
     
