@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>LoadScenarioSection</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="LoadScenarioSection">LoadScenarioSection</h1>
+<div class="text">
+<b>Kategorie: </b>Global<br><b>Ab Engineversion: </b>4.9.6.0 CR</div>
+<h2>Beschreibung</h2>
+<div class="text">Ladet eine im Szenario vorhandene Sektion. Für weitere Informationen siehe <a href="../../../sdk/https://board.ccan.de/cgi-bin/topic_show.pl?pid=124760">Sven2s Erklärung</a>, 
+	<a href="../../../sdk/http://cndg.forumieren.de/t308-sections-ein-schritt-fur-schritt-tutorial">ein Tutorial im CNDG-Forum</a> sowie 
+	<a href="../../../sdk/http://cndg.forumieren.de/tutorials-f5/sections-tutorial-2-t334.htm">ein weiteres Tutorial im CNDG-Forum</a>.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> LoadScenarioSection
+      (<span class="type">string</span> szSection, <span class="type">int</span> dwFlags);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>szSection: </dt>
+<dd><div class="text">Name der Sektion ohne Sect. Beispiel: Der Name der Sektion SectTunnel.c4g wäre "Tunnel". Der Name der Hauptsektion ist "main".</div></dd>
+<dt>dwFlags: </dt>
+<dd><div class="text">Flags, die für verschiedene Einstellungen zum Speichern gesetzt werden müssen, damit bestimmte Teile der Sektion bei der Rückkehr erhalten bleiben. Folgende Werte sind möglich: 
+		<table>
+<thead><tr>
+<th>Name</th>
+<th>Wert</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>C4SECT_SaveLandscape</td>
+<td>1</td>
+<td>Veränderungen in der Landschaft werden gespeichert.</td>
+</tr>
+<tr class="dark">
+<td>C4SECT_SaveObjects</td>
+<td>2</td>
+<td>Objekte werden gespeichert.</td>
+</tr>
+<tr>
+<td>C4SECT_KeepEffects</td>
+<td>4</td>
+<td>Globale Effekte werden gespeichert.</td>
+</tr>
+</tbody>
+</table>
+		</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Objekte sollten vor dem Wechsel mit <a href="../../../sdk/script/fn/SetObjectStatus.html">SetObjectStatus</a> deaktiviert und nach dem Wechsel wieder reaktiviert werden.<br>
+	Wichtig zu beachten ist, dass die Objekte nach dem Laden der neuen Sektion immer noch die Koordinaten haben, die sie in der alten Sektion hatten. Deshalb kann es vorkommen, dass Objekte nach dem Laden gelöscht werden, weil sie nun außerhalb der Landschaft liegen. Man musst also möglicherweise die Position der Objekte vor dem Sektionswechsel neu setzen, um dies zu verhindern.</div>
+<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/SetObjectStatus.html">SetObjectStatus</a>
+</div>
+<div class="author">Fulgen / Clonk Wiki, Juli 2016</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

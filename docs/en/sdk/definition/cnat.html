@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>CNAT - Contact Attachment</title>
+<script type="text/javascript" src="../../bitmasks.js"></script><script type="text/javascript">
+  var BIT_COUNT = 7;		// Anzahl der Bits
+  var PREFIX = "bit";		// Prefix für die numerierten IDs
+</script><?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="CNAT">CNAT - Contact Attachment</h1>
+<div class="text">In multiple places the engine uses ContactAttachment values (a bitmask) to manage the orientation of objects and processes. For example, a vertex of an object can have the CNAT bit <em>left</em>. If that object has </div>
+<div class="text">
+<table>
+<thead><tr>
+<th>Bit</th>
+<th>Value</th>
+<th>CNAT</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr style="cursor:pointer;" id="bit0" onClick="Switch(0);">
+<td>0</td>
+<td>1</td>
+<td>CNAT_Left</td>
+<td>Direction: Left</td>
+</tr>
+<tr style="cursor:pointer;" id="bit1" onClick="Switch(1);" class="dark">
+<td>1</td>
+<td>2</td>
+<td>CNAT_Right</td>
+<td>Direction: Right</td>
+</tr>
+<tr style="cursor:pointer;" id="bit2" onClick="Switch(2);">
+<td>2</td>
+<td>4</td>
+<td>CNAT_Top</td>
+<td>Direction: Up</td>
+</tr>
+<tr style="cursor:pointer;" id="bit3" onClick="Switch(3);" class="dark">
+<td>3</td>
+<td>8</td>
+<td>CNAT_Bottom</td>
+<td>Direction: Down</td>
+</tr>
+<tr style="cursor:pointer;" id="bit4" onClick="Switch(4);">
+<td>4</td>
+<td>16</td>
+<td>CNAT_Center</td>
+<td>Direction: Center (not for attachment)</td>
+</tr>
+<tr style="cursor:pointer;" id="bit5" onClick="Switch(5);" class="dark">
+<td>5</td>
+<td>32</td>
+<td>CNAT_MultiAttach</td>
+<td>Special flag: new attachment behaviour for objects with the same direction value at several vertices (from version 4.95.4).</td>
+</tr>
+<tr style="cursor:pointer;" id="bit6" onClick="Switch(6);">
+<td>6</td>
+<td>64</td>
+<td>CNAT_NoCollision</td>
+<td>Extra flag: non-colliding vertex (from version 4.95.4)</td>
+</tr>
+</tbody>
+</table>CNAT:
+    <input id="input" onKeyUp="Calc();" name="input" type="text" size="3" maxlength="3">
+</div>
+<div class="author">Sven2, April 2002</div>
+<div class="author">Newton &amp; Günther, Januar 2005</div>
+<div class="author">Matthes, August 2005</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

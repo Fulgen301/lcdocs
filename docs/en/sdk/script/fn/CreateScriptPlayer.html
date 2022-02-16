@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>CreateScriptPlayer</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="CreateScriptPlayer">CreateScriptPlayer</h1>
+<div class="text">
+<b>Category: </b>Player<br><b>Since engine version: </b>4.9.6.0 CR</div>
+<h2>Description</h2>
+<div class="text">Initializes a joining script player. Script players appear as regular players from the scripting point of view. They have a crew, wealth, build knowledge, home base material, hostility, teams, etc. However, script players do not have a game view port and they can not be controlled by human users.<br>Script players can be used to create AI controlled opponent teams in special scenarios.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> CreateScriptPlayer
+      (<span class="type">string</span> szName, <span class="type">int</span> dwClr, <span class="type">int</span> idTeam, <span class="type">int</span> dwFlags, <span class="type">id</span> idExtraData);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szName: </dt>
+<dd><div class="text">Name for the script player. Required.</div></dd>
+<dt>dwClr: </dt>
+<dd><div class="text">Player color</div></dd>
+<dt>idTeam: </dt>
+<dd><div class="text">
+    [opt]
+  Team-Id. If 0, a team is automatically chosen according to the rules also applied to normal joining players.</div></dd>
+<dt>dwFlags: </dt>
+<dd><div class="text">
+    [opt]
+  Bit mask composed of the following values: <table>
+<thead><tr>
+<th>Bit</th>
+<th>Constant</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>CSPF_FixedAttributes</td>
+<td>If set, the player is guaranteed to join with the name and color specified in the parameters. Otherwise those preferences might be ignored in case of conflicts with other players' preferences.</td>
+</tr>
+<tr class="dark">
+<td>1</td>
+<td>CSPF_NoScenarioInit</td>
+<td>If true, the scenario initialization (i.e. placement of home base material, clonks, setting of build knowledge, etc.) is not performed for this player. Also, the global callbacks PreInitializePlayer and InitializePlayer to the scenario script and to goal, rule, and environment objects are not performed. Instead, the callback InitializeScriptPlayer(Player number, Team) is made to the object definition specified in idExtraData. The call is made as DefinitionCall (without <a href="../../../sdk/script/fn/this.html">this</a>() object). Using this parameter you can create script-controlled AI players which do not receive the same standard treatment as user-controlled players.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>CSPF_NoEliminationCheck</td>
+<td>If set, the player will not be eliminated automatically if its crew is empty.</td>
+</tr>
+<tr class="dark">
+<td>3</td>
+<td>CSPF_Invisible</td>
+<td>If set, the player will not show up in player lists such as in the lobby or hostility menu.</td>
+</tr>
+</tbody>
+</table>
+</div></dd>
+<dt>idExtraData: </dt>
+<dd><div class="text">
+    [opt]
+  Id which is passed to the InitializePlayer call. Using this id, it is quite simple to create different types of script players. E.g. a scenario could feature AI players with different types of crew members.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">As do normal players, script player join with a slight delay in network games. This means that following the call to CreateScriptPlayer the player will not be immediately available.<br>That means, actual initialization of that player should happen in the InitializePlayer callback which can use <a href="../../../sdk/script/fn/GetPlayerType.html">GetPlayerType</a>() to check whether this is a script player.<br>If the script player really needs to be available even before normal player initialization - e.g. as opponent in a single player mission - you could create the player via the SavePlayerInfos.txt component.</div>
+<h2>Example</h2>
+			<div class="example">
+				<div class="text">For examples see <a href="../../../sdk/script/ScriptPlayers.html">Script Players</a>.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GetPlayerType.html">GetPlayerType</a>, <a href="../../../sdk/script/ScriptPlayers.html">Script Player</a>
+</div>
+<div class="author">Sven2, Dezember 2007</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

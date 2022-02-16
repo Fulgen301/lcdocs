@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetPhysical</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetPhysical">SetPhysical</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Status<br><b>Since engine version: </b>4.6.5.0 CP
+        (extended in 4.9.6.0 CR)
+      </div>
+<h2>Description</h2>
+<div class="text">Changes the physical properties of an object. With this, the values from the Physical section of the <a href="../../../sdk/definition/DefCore.html">DefCore.txt</a> can be permanently or temporarily adapted.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetPhysical
+      (<span class="type">string</span> szPhysical, <span class="type">int</span> iValue, <span class="type">int</span> iMode, <span class="type">object</span> pObj);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szPhysical: </dt>
+<dd><div class="text">Name of property to be changed</div></dd>
+<dt>iValue: </dt>
+<dd><div class="text">0-100000: new value for the property</div></dd>
+<dt>iMode: </dt>
+<dd><div class="text">
+    [opt]
+  Physical attribute change mode (symbolical constants since CR):<br><table>
+<thead><tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Meaning</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>PHYS_Current</td>
+<td>0</td>
+<td>The physical attributes are changed in the current mode (temporary or permanent) of the object.</td>
+</tr>
+<tr class="dark">
+<td>PHYS_Permanent</td>
+<td>1</td>
+<td>The physical attributes are changed in permanent mode. This modifies the info section of the associated crew object, which means that the changes will be written to the player file as well. Only player crew objects have  a permanent info section.</td>
+</tr>
+<tr>
+<td>PHYS_Temporary</td>
+<td>2</td>
+<td>The object will be set to temporary physical mode, and a temporary info section will be created if none exists already. Use <a href="../../../sdk/script/fn/ResetPhysical.html">ResetPhysical</a> to reset temporary physicals to permanent mode.</td>
+</tr>
+<tr class="dark">
+<td>PHYS_StackTemporary</td>
+<td>3</td>
+<td>Like PHYS_Temporary, but the previous physical-value will be backed up and can be restored by calling <a href="../../../sdk/script/fn/ResetPhysical.html">ResetPhysical</a>. Since CR.</td>
+</tr>
+</tbody>
+</table>
+<br>
+</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Object the physicals of which you want to change. Can be 0 in local calls.</div></dd>
+</dl>
+<h2>Examples</h2>
+			<div class="example">
+<pre class="code"><b>protected</b> <b>func</b> Activate(pEater)
+  {
+  [$DescEatPill$]
+  SetPhysical(<i class="string">"Magic"</i>, 1000000, PHYS_Temporary, pEater);
+  <a href="../../../sdk/script/fn/while.html">while</a>(<a href="../../../sdk/script/fn/DoMagicEnergy.html">DoMagicEnergy</a>(1, pEater)) ;
+  <a href="../../../sdk/script/fn/return.html">return</a>(<a href="../../../sdk/script/fn/RemoveObject.html">RemoveObject</a>());
+  }</pre>
+				<div class="text">Script for a magic pill: the eating clonk will temporarily gain magic energy.</div>
+			</div>
+			<div class="example">
+<pre class="code"><b>protected</b> <b>func</b> FxJumpBoostStart(<b>object</b> trg, <b>int</b> num, <b>int</b> iTemp)
+  {
+  SetPhysical(<i class="string">"Jump"</i>, <a href="../../../sdk/script/fn/GetPhysical.html">GetPhysical</a>(<i class="string">"Jump"</i>, PHYS_Current, trg) + 10000, PHYS_StackTemporary, trg);
+  <a href="../../../sdk/script/fn/return.html">return</a>(FX_OK);
+  }
+		
+<b>protected</b> <b>func</b> FxJumpBoostStop(<b>object</b> trg, <b>int</b> num, <b>int</b> reason, <b>bool</b> tmp)
+  {
+  <a href="../../../sdk/script/fn/ResetPhysical.html">ResetPhysical</a>(trg, <i class="string">"Jump"</i>);
+  <a href="../../../sdk/script/fn/return.html">return</a>(FX_OK);
+  }</pre>
+				<div class="text">Script of an effect named JumpBoost: If created on a Clonk, it can jump higher until the effect is deleted again. Using PHYS_StackTemporary and <a href="../../../sdk/script/fn/ResetPhysical.html">ResetPhysical</a> in this manner ensures that multiple effects written in this style can be combined without causing unwanted behaviour when one effect wears off while another remains.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/definition/DefCore.html#SektionPhysical">DefCore.txt, [Physical]</a>, <a href="../../../sdk/script/fn/GetPhysical.html">GetPhysical</a>, <a href="../../../sdk/script/fn/ResetPhysical.html">ResetPhysical</a>, <a href="../../../sdk/script/fn/TrainPhysical.html">TrainPhysical</a>
+</div>
+<div class="author">Sven2, Juni 2003</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

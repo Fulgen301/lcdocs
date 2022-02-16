@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>PlaceInMaterial</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="PlaceInMaterial">PlaceInMaterial</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Creation<br><b>Since engine version: </b>4.9.1.0 GWE</div>
+<h2>Description</h2>
+<div class="text">Creates an object of the specified type somewhere in the landscape and returns a pointer to the created object.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">object</span> PlaceInMaterial
+      (<span class="type">id</span> idDef, <span class="type">int</span> iMaterial, <span class="type">int</span> iRetries);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>idDef: </dt>
+<dd><div class="text">Object type</div></dd>
+<dt>iMaterial: </dt>
+<dd><div class="text">Material</div></dd>
+<dt>iRetries: </dt>
+<dd><div class="text">
+    [opt]
+  Number of retries</div></dd>
+</dl>
+<h2>Examples</h2>
+			<div class="example">
+				<pre class="code">PlaceInMaterial(FLNT, <a href="../../../sdk/script/fn/Material.html">Material</a>(<i class="string">"Earth"</i>));</pre>
+				<div class="text">Attempts to create a flintstone in earth</div>
+			</div>
+			<div class="example">
+				<pre class="code"><b>var</b> obj = PlaceInMaterial(FLAG, <a href="../../../sdk/script/fn/Material.html">Material</a>(<i class="string">"Gold"</i>));
+<a href="../../../sdk/script/fn/if.html">if</a> (obj)  <a href="../../../sdk/script/fn/SetOwner.html">SetOwner</a>(0, obj);
+<a href="../../../sdk/script/fn/if.html">if</a> (!obj) <a href="../../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Konnte keine Flagge in Gold erzeugen!"</i>);
+				</pre>
+				<div class="text">Attempts to create a flag in a gold vein and make player 0 its owner. If the creation fails, an error message is logged</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/CreateObject.html">CreateObject</a>, <a href="../../../sdk/script/fn/PlaceObjects.html">PlaceObjects</a>
+</div>
+<div class="author">flgr, Januar 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

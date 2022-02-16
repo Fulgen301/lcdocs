@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>CreateMenu</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="CreateMenu">CreateMenu</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Menü<br><b>Ab Engineversion: </b>4.6.5.0 CP</div>
+<h2>Beschreibung</h2>
+<div class="text">Erzeugt ein benutzerdefiniertes Menü in pMenuObject. Menüeinträge müssen mit <a href="../../../sdk/script/fn/AddMenuItem.html">AddMenuItem</a> hinzugefügt werden.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> CreateMenu
+      (<span class="type">id</span> idSymbol, <span class="type">object</span> pMenuObject, <span class="type">object</span> pCommandObject, <span class="type">int</span> iExtra, <span class="type">string</span> szCaption, <span class="type">int</span> iExtraData, <span class="type">int</span> iStyle, <span class="type">bool</span> fPermanent, <span class="type">id</span> idMenuID);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>idSymbol: </dt>
+<dd><div class="text">Objektdefinition, deren Bild als Symbol verwendet wird</div></dd>
+<dt>pMenuObject: </dt>
+<dd><div class="text">Objekt, in welchem das Menü geöffnet wird; kann bei lokalen Aufrufen Null sein</div></dd>
+<dt>pCommandObject: </dt>
+<dd><div class="text">Erhält das Menükommando (siehe <a href="../../../sdk/script/fn/AddMenuItem.html">AddMenuItem</a>); kann bei lokalen Aufrufen Null sein</div></dd>
+<dt>iExtra: </dt>
+<dd><div class="text">Zusätzliche Information im Menü über das jeweils markierte Objekt. Die angegebenen C4MN_*-Konstanten sind seit 4.9.5.0 CE ebenfalls definiert und sollten statt der numerischen Werte verwendet werden:
+				      <table>
+<thead><tr>
+<th>Konstante</th>
+<th>Wert</th>
+<th>Effekt</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>C4MN_Extra_None</td>
+<td>0</td>
+<td>Nichts</td>
+</tr>
+<tr class="dark">
+<td>C4MN_Extra_Components</td>
+<td>1</td>
+<td>Komponenten</td>
+</tr>
+<tr>
+<td>C4MN_Extra_Value</td>
+<td>2</td>
+<td>Wert</td>
+</tr>
+<tr class="dark">
+<td>C4MN_Extra_MagicValue</td>
+<td>3</td>
+<td>Wert als Magiewert. Dabei wird außerdem iExtraData als Vergleichswert angezeigt, z.B. "50/100".</td>
+</tr>
+<tr>
+<td>C4MN_Extra_Info</td>
+<td>4</td>
+<td>Beschreibungstext sofort anzeigen</td>
+</tr>
+<tr class="dark">
+<td>C4MN_Extra_ComponentsMagic</td>
+<td>5</td>
+<td>Komponenten und Magiewert</td>
+</tr>
+<tr>
+<td>C4MN_Extra_LiveMagicValue</td>
+<td>6</td>
+<td>Wie C4MN_Extra_MagicValue, nur wird der Wert kontinuierlich aktualisiert.</td>
+</tr>
+<tr class="dark">
+<td>C4MN_Extra_ComponentsLiveMagic</td>
+<td>7</td>
+<td>Wie C4MN_Extra_ComponentsMagic, nur wird der Wert kontinuierlich aktualisiert.</td>
+</tr>
+</tbody>
+</table>
+</div></dd>
+<dt>szCaption: </dt>
+<dd><div class="text">Bestimmt den angezeigten Menütext, wenn das Menü keine Einträge enthält</div></dd>
+<dt>iExtraData: </dt>
+<dd><div class="text">Vergleichswert für iExtra 3</div></dd>
+<dt>iStyle: </dt>
+<dd><div class="text">Aussehen des Menüs. Folgende Konstanten sind ab CR definiert:
+				      <table>
+<thead><tr>
+<th>Konstante</th>
+<th>Wert</th>
+<th>Aussehen</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>C4MN_Style_Normal</td>
+<td>0</td>
+<td>Normal</td>
+</tr>
+<tr class="dark">
+<td>C4MN_Style_Context</td>
+<td>1</td>
+<td>Kontextmenü</td>
+</tr>
+<tr>
+<td>C4MN_Style_Info</td>
+<td>2</td>
+<td>Infomenü</td>
+</tr>
+<tr class="dark">
+<td>C4MN_Style_Dialog</td>
+<td>3</td>
+<td>Dialog</td>
+</tr>
+<tr>
+<td>C4MN_Style_EqualItemHeight</td>
+<td>128</td>
+<td>Kann mit C4MN_Style_Dialog kombiniert werden: Alle Einträge mit Icon im Dialogmenü bekommen die gleiche Höhe.</td>
+</tr>
+</tbody>
+</table>
+</div></dd>
+<dt>fPermanent: </dt>
+<dd><div class="text">Das Menü bleibt geöffnet, wenn eine Auswahl getroffen wird.</div></dd>
+<dt>idMenuID: </dt>
+<dd><div class="text">
+    [opt]
+  Wenn angegeben, wird diese ID als Menü-ID gesetzt. Die aktuelle Menü-ID wird zum Beispiel von <a href="../../../sdk/script/fn/GetMenu.html">GetMenu</a> zurückgegeben.</div></dd>
+</dl>
+<h2>Beispiel</h2>
+			<div class="example">
+				<div class="text">siehe <a href="../../../sdk/script/fn/AddMenuItem.html">AddMenuItem</a>
+</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/AddMenuItem.html">AddMenuItem</a>, <a href="../../../sdk/script/fn/CloseMenu.html">CloseMenu</a>, <a href="../../../sdk/script/fn/GetMenu.html">GetMenu</a>, <a href="../../../sdk/script/fn/SelectMenuItem.html">SelectMenuItem</a>, <a href="../../../sdk/script/fn/SetMenuDecoration.html">SetMenuDecoration</a>, <a href="../../../sdk/script/fn/SetMenuTextProgress.html">SetMenuTextProgress</a>
+</div>
+<div class="author">springer, April 2002</div>
+<div class="author">Sven2, März 2007</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

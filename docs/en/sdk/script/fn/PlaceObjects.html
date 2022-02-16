@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>PlaceObjects</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="PlaceObjects">PlaceObjects</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Creation<br><b>Since engine version: </b>4.9.5.0 CE</div>
+<h2>Description</h2>
+<div class="text">Creates the specified number of objects in the specified target rectangle and target material (optional). Returns the number of iterations or -1 if creation has failed.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> PlaceObjects
+      (<span class="type">C4ID</span> id, <span class="type">int</span> iAmount, <span class="type">string</span> Mat, <span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">int</span> iWdt, <span class="type">int</span> iHgt, <span class="type">bool</span> fOnSurface, <span class="type">bool</span> fNoStuck);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>id: </dt>
+<dd><div class="text">ID of the object to be created</div></dd>
+<dt>iAmount: </dt>
+<dd><div class="text">Count of objects to be created</div></dd>
+<dt>Mat: </dt>
+<dd><div class="text">Material in which the objects are to be created. This can be a material number or a string as follows: <table>
+<thead><tr>
+<th>iMat</th>
+<th>Create in</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>"GBackSolid"</td>
+<td>Objects are created in solid material. Also see <a href="../../../sdk/script/fn/GBackSolid.html">GBackSolid</a>().</td>
+</tr>
+<tr class="dark">
+<td>"GBackSemiSolid"</td>
+<td>Objects are created in solid or liquid material. Also see <a href="../../../sdk/script/fn/GBackSemiSolid.html">GBackSemiSolid</a>().</td>
+</tr>
+<tr>
+<td>"GBackLiquid"</td>
+<td>Objects are created in liquid material. Also see <a href="../../../sdk/script/fn/GBackLiquid.html">GBackLiquid</a>().</td>
+</tr>
+<tr class="dark">
+<td>"GBackSky"</td>
+<td>Objects are created in mid-air. Also see <a href="../../../sdk/script/fn/GBackSky.html">GBackSky</a>().</td>
+</tr>
+</tbody>
+</table>
+</div></dd>
+<dt>iX: </dt>
+<dd><div class="text">
+    [opt]
+  Left boundary coordinate of the target rectangle (x coordinate).</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">
+    [opt]
+  Top boundary coordinate of the target rectangle (y coordinate).</div></dd>
+<dt>iWdt: </dt>
+<dd><div class="text">
+    [opt]
+  Width of the target rectangle. If not specified, the right landscape boundary</div></dd>
+<dt>iHgt: </dt>
+<dd><div class="text">
+    [opt]
+  Height of the target rectangle. If not specified, the bottom landscape boundary</div></dd>
+<dt>fOnSurface: </dt>
+<dd><div class="text">
+    [opt]
+  If true, all objects will be created above the upper surface of the specified material (this might be outside the target rectangle).</div></dd>
+<dt>fNoStuck: </dt>
+<dd><div class="text">
+    [opt]
+  If true, placement will not ensure that objects are in solid material. This is needed e.g. when placing objects in liquids.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">If there is only very little of the target material present in the landscape, placement calculation will take longer.<br>However, endless retry loops are avoided.</div>
+<h2>Examples</h2>
+			<div class="example">
+				<pre class="code">PlaceObjects(LOAM,20,<a href="../../../sdk/script/fn/Material.html">Material</a>(<i class="string">"Earth"</i>),100,0,200)</pre>
+				<div class="text">Create 20 chunks of loam in earth within the coordinates 100,0 and 200,LandscapeHeight().</div>
+			</div>
+			<div class="example">
+				<pre class="code">PlaceObjects(FISH,10,<i class="string">"GBackLiquid"</i>,0,0,0,<a href="../../../sdk/script/fn/LandscapeHeight.html">LandscapeHeight</a>()/2,0,1);</pre>
+				<div class="text">Creates a total of 10 fishes in all liquids found in the upper half of the landscape</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/CreateObject.html">CreateObject</a>, <a href="../../../sdk/script/fn/PlaceInMaterial.html">PlaceInMaterial</a>
+</div>
+<div class="author">Tyron, August 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

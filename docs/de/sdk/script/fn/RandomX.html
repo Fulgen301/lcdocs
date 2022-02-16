@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>RandomX</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="RandomX">RandomX</h1>
+<div class="text">
+<b>Kategorie: </b>Arithmetik<br><b>Ab Engineversion: </b>4.9.1.0 GWE
+        (erweitert ab 4.9.5.0 CE)
+      </div>
+<h2>Beschreibung</h2>
+<div class="text">Liefert einen Zufallswert zwischen iVal1 und iVal2. Dabei ist egal, welcher Wert der größere ist.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> RandomX
+      (<span class="type">int</span> iVal1, <span class="type">int</span> iVal2);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iVal1: </dt>
+<dd><div class="text">
+    [opt]
+  Anfang des Bereichs</div></dd>
+<dt>iVal2: </dt>
+<dd><div class="text">
+    [opt]
+  Ende des Bereichs</div></dd>
+</dl>
+<h2>Beispiele</h2>
+      <div class="example">
+
+<pre class="code"><a href="../../../sdk/script/fn/SetXDir.html">SetXDir</a>(RandomX(-20,+20));</pre>
+
+        <div class="text">Setzt die horizontale Geschwindigkeit des Objekts auf einen Zufallswert zwischen -20 und +20.</div>
+      </div>
+      <div class="example">
+<pre class="code"><a href="../../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Daniel hat %d Brötchen!"</i>, 0, RandomX(42,23));</pre>
+
+        <div class="text">Gibt die Anzahl von Daniels zufälligen Brötchen aus. Das können Werte zwischen 23 und 42 sein.</div>
+      </div>
+    <div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/Random.html">Random</a>
+</div>
+<div class="author">flgr, Januar 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

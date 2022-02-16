@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetObjDrawTransform</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetObjDrawTransform">SetObjDrawTransform</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Darstellung<br><b>Ab Engineversion: </b>4.9.5.0 CE</div>
+<h2>Beschreibung</h2>
+<div class="text">Transformiert die Grafik des angegebenen Objektes.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetObjDrawTransform
+      (<span class="type">int</span> iWidth, <span class="type">int</span> iXSkew, <span class="type">int</span> iXAdjust, <span class="type">int</span> iYSkew, <span class="type">int</span> iHeight, <span class="type">int</span> iYAdjust, <span class="type">object</span> pObj, <span class="type">int</span> iOverlayID);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iWidth: </dt>
+<dd><div class="text">Breite der Grafik. 1000 ist die Standardbreite, negative Angaben bedeuten eine horizontale Spiegelung der Grafik. Die Grafik wird immer mittig (zentriert) dargestellt.</div></dd>
+<dt>iXSkew: </dt>
+<dd><div class="text">Horizontale schräge Streckung der Grafik: 0 bedeutet keine Streckung. 1000 bedeutet eine Verschiebung der horizontalen Kante um 45° nach links (oben nach links, unten nach rechts). Negative Werte bedeuten eine Verschiebung nach rechts.</div></dd>
+<dt>iXAdjust: </dt>
+<dd><div class="text">Horizontale Verschiebung der Grafik. Bei 1000 wird die Grafik einen Pixel nach rechts verschoben, bei negativen Angaben wird die Grafik nach links verschoben. Die Grafik um halbe Pixel zu verschieben, ist auch möglich.</div></dd>
+<dt>iYSkew: </dt>
+<dd><div class="text">Vertikale schräge Streckung der Grafik: 0 bedeutet keine Streckung. 1000 bedeutet eine Verschiebung der vertikalen Kante um 45° nach unten (links hoch, rechts runter). Negative Werte bedeuten eine Verschiebung nach oben.</div></dd>
+<dt>iHeight: </dt>
+<dd><div class="text">Höhe der Grafik. 1000 ist die Standardhöhe, negative Angaben bedeuten eine vertikale Spiegelung der Grafik. Die Grafik wird immer mittig (zentriert) dargestellt.</div></dd>
+<dt>iYAdjust: </dt>
+<dd><div class="text">Vertikale Verschiebung der Grafik. Bei 1000 wird die Grafik einen Pixel nach unten verschoben, bei negativen Angaben wird die Grafik nach oben verschoben. Die Grafik um halbe Pixel zu verschieben, ist auch möglich.</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">Das Objekt dessen Grafik transformiert dargestellt werden soll. 0 bei lokalem Aufruf.</div></dd>
+<dt>iOverlayID: </dt>
+<dd><div class="text">ID des Overlays, dessen Transformation angepasst werden soll. Bei 0 (default) wird die Hauptgrafik transformiert.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Sämtliche Angaben der Parameter werden in Promille (1000 = 100%) getätigt, weil es in Clonk keine Floating Point-Werte gibt.</div>
+<h2>Beispiele</h2>
+			<div class="example">
+				<pre class="code">SetObjDrawTransform(1000,0,0,0,1000,0);</pre>
+				<div class="text">Setzt die Transformation zurück.</div>
+			</div>
+			<div class="example">
+				<pre class="code"><b>global</b> <b>func</b> SetDTRotation (<b>int</b> r, <b>int</b> xoff, <b>int</b> yoff, <b>object</b> obj) {
+  <b>var</b> fsin=Sin(r, 1000), fcos=Cos(r, 1000);
+  <i>// set matrix values
+</i>  SetObjDrawTransform (
+    +fcos, +fsin, (1000-fcos)*xoff - fsin*yoff,
+    -fsin, +fcos, (1000-fcos)*yoff + fsin*xoff,
+    obj
+  );
+}</pre>
+				<div class="text">Rotiert das Objekt ohne es tatsächlich zu rotieren (Vertices usw. bleiben da wo sie sind).</div>
+			</div>
+			<div class="example">
+				<pre class="code">SetObjDrawTransform(1000,0,0,0,-1000,0,<a href="../../../sdk/script/fn/GetHiRank.html">GetHiRank</a>(0));</pre>
+				<div class="text">Dreht den höchstrangigsten Clonk des ersten Spielers um, so dass er auf dem Kopf steht.</div>
+			</div>
+			<div class="example">
+				<pre class="code">SetObjDrawTransform(500,0,0,0,500,GetDefHeight(GetID())*1000/4);</pre>
+				<div class="text">Verkleinert die Grafik um 50% verschiebt die Unterkante der verkleinerten Grafik an die Unterkante des Objektes: Ein so verkleinerter Baum würde nicht in der Luft schweben (weil Grafik zentriert), sondern seine Wurzel da haben wo sie auch vorher war.</div>
+			</div>
+		<div class="author">Clonkonaut, Mai 2008</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

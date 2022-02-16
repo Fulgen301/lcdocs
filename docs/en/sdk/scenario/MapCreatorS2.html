@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Map Generator</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1 id="Kartengenerator">Map Generator</h1>
+
+	<div class="text">Besides simple dynamic maps defined in Scenario.txt there is also a powerful dynamic map generator for highly complex yet fully random maps.</div>
+	<div class="text">This generator works with nested layers that can be combined using various operators and to which a material value and various attributes can be assigned to describe their resulting shape. The map generator will generate a map using these layers. The map is then later zoomed to the landscape as a static map would be.</div>
+	<div class="text">The structure of maps, layers, and attributes is stored in the component Landscape.txt in the scenario.</div>
+	
+	<h2 id="Syntax">Syntax</h2>
+	<div class="text">The language describing this structure works with objects, attributes, and operators and is case sensitive. Objects are defined as follows:</div>
+	<pre class="code">Objekttyp [Name] { Attribute };</pre>
+	<div class="text">The name is optional. Current objects types are map, overlay, and point (for the poly algorithm). If an object is known it can later be used for another instance which is defined with:</div>
+	<pre class="code">Name { Attribute };</pre>
+	<div class="text">Here, the previously defined object 'Name' is copied and optionally extended by the given attributes. If no additional attributes are defined, the brackets can be omitted.</div>
+	<div class="text">General attribute syntax is:</div>
+	<pre class="code">Attribut=Wert;</pre>
+	<div class="text">Attributes can be defined in any order within the object. They can optionally have % or px as unit and can be specified as single value or range of values (val1 - val2). In case of a duplicate assignment the last value is evaluated.</div>
+	<div class="text">In addition to attributes there can be nested sub-objects which can be combined using operators:</div>
+	<pre class="code">Objekt1 Operator Objekt2;</pre>
+	<div class="text">Operator statements can have any length and control the combination of layers. Operators are: | (OR), &amp; (AND), ^ (XOR).</div>
+	<div class="text">You will find several examples in the Dynamic Worlds folder.</div>
+	
+	<h2 id="Attributes">Attributes</h2>
+	
+		<h3 id="Attr_overlay">Layers (overlay)</h3>
+		<div class="text">The following attributes are defined:</div>
+		<div class="text"><table>
+<thead><tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>mat</td>
+<td>Material</td>
+<td>Material. The material must be defined in the active Material.c4g. Default is Sky.</td>
+</tr>
+<tr class="dark">
+<td>tex</td>
+<td>Texture</td>
+<td>Texture. The material-texture combination should be defined in the active TexMap.</td>
+</tr>
+<tr>
+<td>x, y, wdt, hgt</td>
+<td>Integer</td>
+<td>Size of the specified layer as a percentage of the layer above.</td>
+</tr>
+<tr class="dark">
+<td>algo</td>
+<td>Algorithm</td>
+<td>Area fill type. For a list of available fill types see <a href="#Algos">fill algorhythms</a>.</td>
+</tr>
+<tr>
+<td>zoomX, zoomY</td>
+<td>Integer</td>
+<td>Specifies the scale applied to the fill pattern. -100 to +99.</td>
+</tr>
+<tr class="dark">
+<td>ox, oy</td>
+<td>Integer</td>
+<td>Offset to the fill pattern in percent. You can use this e.g. to shift a sine curve.</td>
+</tr>
+<tr>
+<td>a, b</td>
+<td>Integer</td>
+<td>Additional parameters for the fill pattern.</td>
+</tr>
+<tr class="dark">
+<td>turbulence</td>
+<td>Integer</td>
+<td>10 to 10,000; layer deformation</td>
+</tr>
+<tr>
+<td>rotate</td>
+<td>Integer</td>
+<td>-180 to +180; rotation of the layer.</td>
+</tr>
+<tr class="dark">
+<td>invert</td>
+<td>Boolean</td>
+<td>0 or 1; if 1 the layer filling is inverted.</td>
+</tr>
+<tr>
+<td>seed</td>
+<td>Integer</td>
+<td>Random seed for layer generation. Each seed will create a unique random layer.</td>
+</tr>
+<tr class="dark">
+<td>loosebounds</td>
+<td>Boolean</td>
+<td>Determines whether the area limits are also affected by rotate, turbulence, ox, and oy.</td>
+</tr>
+<tr>
+<td>mask</td>
+<td>Boolean</td>
+<td>0 or 1; if 1 the layer is never drawn. This does not affect sub-layers.</td>
+</tr>
+<tr class="dark">
+<td>grp</td>
+<td>b</td>
+<td>0 or 1; if 1 the layer is considered set if the local algorithm or the algorithm of one of the sub-layers returns true. If an operator follows, the layer itself is not drawn.</td>
+</tr>
+<tr>
+<td>sub</td>
+<td>Boolean</td>
+<td>0 or 1; if 1 the material is considered underground (default)</td>
+</tr>
+<tr class="dark">
+<td>lambda</td>
+<td>Integer</td>
+<td>0 to 20; additional turbulence iterations</td>
+</tr>
+</tbody>
+</table></div>
+		
+		<h3 id="Attr_map">Maps</h3>
+		<div class="text">Maps generally can have the same attributes as layers. However, only mat, tex, and sub are really useful for maps and determine the background filling.</div>
+	
+	
+	<h2 id="Algos">Fill Algorithms</h2>
+	<div class="text">To decide whether a point on a map hits a given layer, it is first transformed (zoom, turbulence, rotate, ox/oy) and then processed in the layer's algorithm. Also it is checked against the mask boundaries (x, y, wdt, hgt). This is usually done before, but with loosebounds after the transformation.</div>
+		
+	<dl>
+<dt id="Algo_solid">solid</dt>
+<dd><div class="text">Default algorithm. Always true.</div></dd>
+<dt id="Algo_random">random</dt>
+<dd><div class="text">Random points. The parameter specifies probability. The higher a, the less likely the point is set.</div></dd>
+<dt id="Algo_checker">checker</dt>
+<dd><div class="text">Alternating boxes of size 10 (at normal zoom).</div></dd>
+<dt id="Algo_bozo">bozo</dt>
+<dd><div class="text">Specks. Parameter a can be used to reduce speck size.</div></dd>
+<dt id="Algo_sin">sin</dt>
+<dd><div class="text">Horizontal sine curve. In standard zoom the amplitude is 10, the period 20 pixels.</div></dd>
+<dt id="Algo_boxes">boxes</dt>
+<dd><div class="text">Orderly boxes. Parameter a defines block size, b the distance of block centers.</div></dd>
+<dt id="Algo_rndchecker">rndchecker</dt>
+<dd><div class="text">As checker, but not in alternating but in random order.</div></dd>
+<dt id="Algo_lines">lines</dt>
+<dd><div class="text">Vertical lines. Parameter a defines line width, b defines distance between lines.</div></dd>
+<dt id="Algo_border">border</dt>
+<dd><div class="text">Draws an inner border in the parent layer (or the whole operator chain respectively). a and b are the horizontal and vertical border width. Because the superior layer needs to be accessed for calculation, it cannot be defined as a group (grp).</div></dd>
+<dt id="Algo_mandel">mandel</dt>
+<dd><div class="text">Draws the Mandel fractal into the target area. Parameter a specifies iteration depth (default 1000). With no zoom, the complete "Apfelmännchen" is drawn (corresponding to -2-2i to 2+2i).</div></dd>
+<dt id="Algo_rndall">rndall</dt>
+<dd><div class="text">The complete area is filled, or not filled, with probability a (in percent). Using this algorithm you could for example specify multiple maps as sub maps of a mask=1 layer and one of these maps would be randomly chosen.</div></dd>
+<dt id="Algo_script">Script</dt>
+<dd>
+<div class="text">This algorithm is defined via a <a href="../../sdk/scenario/script.html">scenario script</a> function of the following form:</div>
+		<pre class="code"><b>func</b> ScriptAlgo[Overlay-Name](iX, iY, iAlpha, iBeta)</pre>
+		<div class="text">The script function's return value should be 0 (no material) or 1 (material). iX and iY are the pixel coordinates for which the function is called. iAlpha and iBeta correspond to parameters a and b.</div>
+		<div class="text">If the layer has no name, the function "ScriptAlgo" is used.</div>
+</dd>
+<dt id="Algo_poly">poly</dt>
+<dd>
+<div class="text">Returns true for pixels within the specified polygon. Points are specifed using</div>
+		<pre class="code">point { x=&lt;X-Koordinate des Eckpunkts&gt;&lt;Einheit&gt;; y=&lt;Y-Koordinate&gt;&gt;&lt;Einheit&gt;; };</pre> 
+		<div class="text">Example:</div>
+		<pre class="code">overlay { algo=poly; mat=Earth;
+  point { x=10px; y=25%; };  
+  point { x=20px; y=25%; };  
+  point { x=10px; y=75%; };  
+  point { x=20px; y=75%; };  
+  point { x=30px; y=50%; };
+};</pre>
+</dd>
+</dl>
+	
+	<h2 id="Operators">Operators</h2>
+	<div class="text">Multiple layers can be combined using operators. This are evaluated from top to bottom and only the bottom most result of the chain is drawn. In a group (grp) the child layers are taken into the calculation but not actually drawn. Operators are | (OR), &amp; (AND), ^ (XOR).</div>
+
+
+<div class="author">Sven2, Juli 2001</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetEffect</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetEffect">GetEffect</h1>
+<div class="text">
+<b>Category: </b>Effects<br><b>Since engine version: </b>4.9.5.0 CE</div>
+<h2>Description</h2>
+<div class="text">Retrieves effect data or determines whether a certain effect is present. The return value depend on the requested value. If an effect cannot be found the return value is always 0.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">any</span> GetEffect
+      (<span class="type">string</span> szEffectName, <span class="type">object</span> pTarget, <span class="type">int</span> iIndex, <span class="type">int</span> iQueryVal, <span class="type">int</span> iMaxPriority);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szEffectName: </dt>
+<dd><div class="text">
+    [opt]
+  Name of the effect without preceding 'Fx'. You can use '*' and '?' wildcards.</div></dd>
+<dt>pTarget: </dt>
+<dd><div class="text">
+    [opt]
+  Target object in which to access effects. If 0, the global effects are accessed.</div></dd>
+<dt>iIndex: </dt>
+<dd><div class="text">
+    [opt]
+  Effect index. With szEffectName specified and multiple matches for the search this will give you the indicated effect from the list of results. If szEffectName is not specified, this index is the effect number. Effect numbers do not necessarily run continuously from 0 to the number of effects. When using the index, this continuity is ensured.</div></dd>
+<dt>iQueryVal: </dt>
+<dd><div class="text">
+    [opt]
+  Index of the value to be retrieved. See remarks.</div></dd>
+<dt>iMaxPriority: </dt>
+<dd><div class="text">
+    [opt]
+  If not 0, only those effects are counted which have the specified priority or lower.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">Using the parameter iQueryVal the following values can be retrieved:<br><br><table>
+<thead><tr>
+<th>iQueryVal</th>
+<th>Value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Effect number</td>
+</tr>
+<tr class="dark">
+<td>1</td>
+<td>Name</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Priority</td>
+</tr>
+<tr class="dark">
+<td>3</td>
+<td>Timer interval</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Command target</td>
+</tr>
+<tr class="dark">
+<td>5</td>
+<td>Command target id</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Duration of the effect</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2>Example</h2>
+      <div class="example">
+        <pre class="code"><b>var</b> obj, i, iEffect;
+<i>// Alle Objekte durchsuchen
+</i><a href="../../../sdk/script/fn/while.html">while</a> (obj=<a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(0, 0,0,0,0, 0, 0,0, 0, obj))
+  {
+  <i>// Von Effektzahl abwärts zählen, da Effekte entfernt werden
+</i>  i = <a href="../../../sdk/script/fn/GetEffectCount.html">GetEffectCount</a>(0, obj);
+  <a href="../../../sdk/script/fn/while.html">while</a> (i--)
+    <a href="../../../sdk/script/fn/if.html">if</a> (iEffect = GetEffect(<i class="string">"*Spell"</i>, obj, i))
+      <a href="../../../sdk/script/fn/RemoveEffect.html">RemoveEffect</a>(0, obj, iEffect);
+  }
+<i>// Globale Effekte entfernen
+</i>i = <a href="../../../sdk/script/fn/GetEffectCount.html">GetEffectCount</a>();
+<a href="../../../sdk/script/fn/while.html">while</a> (i--)
+  <a href="../../../sdk/script/fn/if.html">if</a> (iEffect = GetEffect(<i class="string">"*Spell"</i>, 0, i))
+    <a href="../../../sdk/script/fn/RemoveEffect.html">RemoveEffect</a>(0, 0, iEffect);</pre>
+        <div class="text">Removes all magic effects from all objects and the global list.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/AddEffect.html">AddEffect</a>, <a href="../../../sdk/script/fn/ChangeEffect.html">ChangeEffect</a>, <a href="../../../sdk/script/fn/CheckEffect.html">CheckEffect</a>, <a href="../../../sdk/script/fn/EffectCall.html">EffectCall</a>, <a href="../../../sdk/script/fn/EffectVar.html">EffectVar</a>, <a href="../../../sdk/script/Effects.html">Effects Documentation</a>, <a href="../../../sdk/script/fn/GetEffectCount.html">GetEffectCount</a>, <a href="../../../sdk/script/fn/RemoveEffect.html">RemoveEffect</a>
+</div>
+<div class="author">Sven2, März 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

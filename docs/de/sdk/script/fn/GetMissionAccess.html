@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetMissionAccess</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetMissionAccess">GetMissionAccess</h1>
+<div class="text">
+<b>Kategorie: </b>System<br><b>Ab Engineversion: </b>4.9.1.0 GWE</div>
+<h2>Beschreibung</h2>
+<div class="text">Stellt fest und gibt zurück, ob der Spieler bereits das angegebene Missionszugangspasswort besitzt</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> GetMissionAccess
+      (<span class="type">string</span> strMissionAccess);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>strMissionAccess: </dt>
+<dd><div class="text">Missionszugang, der überprüft wird</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Bei aktiviertem Netzwerk gibt diese Funktion grundsätzlich den Wert false zurück, da ansonsten lokale Unterschiede zur Desynchronisation führen könnten.</div>
+<h2>Beispiel</h2>
+			<div class="example">
+				<pre class="code"><a href="../../../sdk/script/fn/if.html">if</a> (!GetMissionAccess(<i class="string">"DasWarHarteArbeit"</i>))
+{
+  <a href="../../../sdk/script/fn/GainMissionAccess.html">GainMissionAccess</a>(<i class="string">"DasWarHarteArbeit"</i>);
+  <a href="../../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Glückwunsch, du bist hier zum ersten Mal!"</i>);
+}</pre>
+				<div class="text">Gibt eine Nachricht nur aus, wenn der Missionszugang "DasWarHarteArbeit" noch nie erreicht wurde, und gibt dann den Zugang.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/GainMissionAccess.html">GainMissionAccess</a>
+</div>
+<div class="author">Sven2, November 2001</div>
+<div class="author">matthes, Februar 2005</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

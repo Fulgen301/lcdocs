@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetMenu</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetMenu">GetMenu</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Menü<br><b>Ab Engineversion: </b>4.9.1.0 GWE</div>
+<h2>Beschreibung</h2>
+<div class="text">Liefert die ID des Menüs, falls das Objekt ein Menü geöffnet hat. Normalerweise ist das die ID des Menüsymbols (idSymbol), wenn nicht bei <a href="../../../sdk/script/fn/CreateMenu.html">CreateMenu</a> explizit eine andere Menü-ID als idMenuID angegeben wurde. 0 bei keinem Menü oder bei keinem Symbol.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">id</span> GetMenu
+      (<span class="type">object</span> pObj);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">Menüobjekt</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Ein Rückgabewert von -1 bedeutet, dass kein gültiges Symbol ermittelt werden konnte. Dies kann z.B. dann auftreten, wenn bei einem globalen Aufruf kein Objektzeiger an die Funktion übergeben wurde. Engineinterne Menüs (Kaufen, Verkaufen, etc.) geben keine gültigen IDs zurück.</div>
+<h2>Beispiel</h2>
+      <div class="example">
+        <pre class="code"><i>/* Wird bei klick auf Spezial aufgerufen */</i>
+<b>protected</b> <b>func</b> ControlSpecial()
+{
+  <i>/* überhaupt ein Menü offen und ein Symbol angegeben? */</i>
+  <b>if</b>(GetMenu())
+    <i>/* Mutieren */</i>
+    <a href="../../../sdk/script/fn/ChangeDef.html">ChangeDef</a>(GetMenu());
+  <b>return</b>(1);
+}
+        </pre>
+        <div class="text">Zu einem Objekt mutieren, welches vom Symbol repräsentiert wird.</div>
+      </div>
+    <div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/CloseMenu.html">CloseMenu</a>, <a href="../../../sdk/script/fn/CreateMenu.html">CreateMenu</a>, <a href="../../../sdk/script/fn/SetMenuDecoration.html">SetMenuDecoration</a>, <a href="../../../sdk/script/fn/SetMenuTextProgress.html">SetMenuTextProgress</a>
+</div>
+<div class="author">wipfmetz, August 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

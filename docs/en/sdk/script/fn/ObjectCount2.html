@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>ObjectCount2</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="ObjectCount2">ObjectCount2</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Search<br><b>Since engine version: </b>4.9.6.0 CR</div>
+<h2>Description</h2>
+<div class="text">Returns the number of objects fulfilling the specified search criteria. Search criteria are composed of Find_x() function values.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> ObjectCount2
+      (<span class="type">array</span> Criteria, <span class="type"></span> ...);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>Criteria: </dt>
+<dd><div class="text">Search criterion in the form of a Find_* function</div></dd>
+<dt>...: </dt>
+<dd><div class="text">
+    [opt]
+  Additional search criteria in the form of Find_* functions</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">Search criteria are specified as in <a href="../../../sdk/script/fn/FindObjects.html">FindObjects</a> and <a href="../../../sdk/script/fn/FindObject2.html">FindObject2</a>. See <a href="../../../sdk/script/fn/FindObjects.html">FindObjects</a> for additional samples.</div>
+<h2>Example</h2>
+			<div class="example">
+			<pre class="code"><a href="../../../sdk/script/fn/Message.html">Message</a>( <i class="string">"Noch %d feindliche Clonks!"</i>, ObjectCount2(<a href="../../../sdk/script/fn/Find_OCF.html">Find_OCF</a>(<a href="../../../sdk/script/fn/OCF_CrewMember.html">OCF_CrewMember</a>), <a href="../../../sdk/script/fn/Find_Hostile.html">Find_Hostile</a>(<a href="../../../sdk/script/fn/GetOwner.html">GetOwner</a>()) );</pre>
+			<div class="text">Prints info about the strength of the enemy.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/FindObject2.html">FindObject2</a>, <a href="../../../sdk/script/fn/FindObjects.html">FindObjects</a>, <a href="../../../sdk/script/fn/Find_Action.html">Find_Action</a>, <a href="../../../sdk/script/fn/Find_ActionTarget.html">Find_ActionTarget</a>, <a href="../../../sdk/script/fn/Find_Allied.html">Find_Allied</a>, <a href="../../../sdk/script/fn/Find_And.html">Find_And</a>, <a href="../../../sdk/script/fn/Find_AnyContainer.html">Find_AnyContainer</a>, <a href="../../../sdk/script/fn/Find_AtPoint.html">Find_AtPoint</a>, <a href="../../../sdk/script/fn/Find_Category.html">Find_Category</a>, <a href="../../../sdk/script/fn/Find_Container.html">Find_Container</a>, <a href="../../../sdk/script/fn/Find_Distance.html">Find_Distance</a>, <a href="../../../sdk/script/fn/Find_Exclude.html">Find_Exclude</a>, <a href="../../../sdk/script/fn/Find_Func.html">Find_Func</a>, <a href="../../../sdk/script/fn/Find_Hostile.html">Find_Hostile</a>, <a href="../../../sdk/script/fn/Find_ID.html">Find_ID</a>, <a href="../../../sdk/script/fn/Find_InRect.html">Find_InRect</a>, <a href="../../../sdk/script/fn/Find_NoContainer.html">Find_NoContainer</a>, <a href="../../../sdk/script/fn/Find_Not.html">Find_Not</a>, <a href="../../../sdk/script/fn/Find_OCF.html">Find_OCF</a>, <a href="../../../sdk/script/fn/Find_Or.html">Find_Or</a>, <a href="../../../sdk/script/fn/Find_Owner.html">Find_Owner</a>, <a href="../../../sdk/script/fn/ObjectCount.html">ObjectCount</a>
+</div>
+<div class="author">Clonkonaut, Juli 2006</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

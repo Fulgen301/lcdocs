@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>FolderMap.txt</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1 id="FolderMaptxt">FolderMap.txt</h1>
+<div class="text">Ab CR können Rundenordner Auswahlkarten für die enthaltenen Szenarien anbieten.
+Diese Karten werden nur in der Szenarienauswahl im Spiel und nicht im Entwicklerfrontend (Editor) angezeigt. Für ein Beispiel siehe das Westernpack von RedWolf Design.</div>
+
+<div class="text"><table>
+<caption id="SektionFolderMap">Sektion [FolderMap]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>ScenInfoArea</td>
+<td>4 Integer</td>
+<td>Koordinaten (x,y,Breite,Höhe) für die Beschreibungsbox, in der die Beschreibung für das ausgewählte Szenario angezeigt wird.</td>
+</tr>
+<tr class="dark">
+<td>MinResX</td>
+<td>Integer</td>
+<td>Unterschreitet die Bildschirmauflösung des Spielers diesen Wert in der Breite, so wird statt der FolderMap die klassische Szenarienauswahl angezeigt. Dies ist nützlich, falls die Karte so großräumig ausgelegt ist, dass sie bei kleineren Auflösungen unbenutzbar wäre.</td>
+</tr>
+<tr>
+<td>MinResY</td>
+<td>Integer</td>
+<td>Analog zu MinResY: Mindesthöhe der Bildschirmauflösung.</td>
+</tr>
+<tr class="dark">
+<td>FullscreenBG</td>
+<td>Integer</td>
+<td>Wenn ungleich 0, wird das Hintergrundbild auf die gesamte Bildschirmgröße gestreckt. Dabei ist zu beachten, dass Kontrollelemente trotzdem nur innerhalb des mittleren Gebietes platziert werden dürfen.</td>
+</tr>
+<tr>
+<td>HideTitle</td>
+<td>Boolean</td>
+<td>Falls true, wird die Überschrift "Spiel starten" am oberen Rand ausgeblendet.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionAccessGfx">Beliebig viele Sektionen [AccessGfx]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Access</td>
+<td>Zeichenfolge</td>
+<td>Wenn für diesen Benutzer das hier angegebene MissionAccess-Passwort freigeschaltet ist, wird die in dieser Sektion beschriebene Grafik auf der FolderMap angezeigt. Auf diese Weise können einzelne Bestandteile der Karte freigespielt werden. Siehe dazu die Scriptfunktion <a href="../../sdk/script/fn/GainMissionAccess.html">GainMissionAccess</a>.</td>
+</tr>
+<tr class="dark">
+<td>OverlayImage</td>
+<td>Zeichenfolge</td>
+<td>Dateiname der Grafikdatei, die angezeigt wird. Die Datei sollte im selben Rundenordner liegen.</td>
+</tr>
+<tr>
+<td>Area</td>
+<td>4 Integer</td>
+<td>Koordinaten des Bereiches, in dem das Bild angezeigt wird. Die Koordinaten sind relativ zum <a href="../../sdk/#background">Hintergrundbild</a>.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionScenario">Beliebig viele Sektionen [Scenario]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>File</td>
+<td>Zeichenfolge</td>
+<td>Szenariendatei (inklusive Endung .c4s), für die mit dieser Sektion ein Knopf erstellt wird. Für jedes Szenario im Rundenordner sollte eine [Scenario]-Sektion erstellt werden. Es werden grundsätzlich nur die Knöpfe angezeigt, für die der Benutzer MissionAccess (siehe <a href="../../sdk/script/fn/GainMissionAccess.html">GainMissionAccess</a>) freigeschaltet hat. </td>
+</tr>
+<tr class="dark">
+<td>BaseImage</td>
+<td>Zeichenfolge</td>
+<td>Dateiname der Grafikdatei, die angezeigt wird, wenn das Szenario nicht ausgewählt ist. Die Datei sollte im selben Rundenordner liegen.</td>
+</tr>
+<tr>
+<td>OverlayImage</td>
+<td>Zeichenfolge</td>
+<td>Dateiname der Grafikdatei, die angezeigt wird, wenn der Benutzer das Szenario ausgewählt hat oder mit der Maus darüber fährt. Die Datei sollte im selben Rundenordner liegen.</td>
+</tr>
+<tr class="dark">
+<td>Area</td>
+<td>4 Integer</td>
+<td>Koordinaten des Bereiches, in dem der Knopf angezeigt wird. Die Koordinaten sind relativ zum <a href="../../sdk/#background">Hintergrundbild</a>.</td>
+</tr>
+<tr>
+<td>Title</td>
+<td>Zeichenfolge</td>
+<td>Titel, der auf den Knopf geschrieben wird. Für Szenarientitel, die in allen Sprachen gleich sind, kann der Titel auch weggelassen und stattdessen direkt ins BaseImage bzw. Overlayimage gemalt werden. Die Zeichenkette TITLE wird dabei automatisch durch den aus dem Szenario geladenen Titel ersetzt.</td>
+</tr>
+<tr class="dark">
+<td>TitleFontSize</td>
+<td>Integer</td>
+<td>Schriftgröße des Titels. Die Größe bezieht sich auf ein nicht gezoomtes Hintergrundbild und kann je nach Auflösung verändert werden.</td>
+</tr>
+<tr>
+<td>TitleColorInactive</td>
+<td>Integer</td>
+<td>DWORD-Farbe des Titels, wenn der Knopf nicht ausgewählt ist.</td>
+</tr>
+<tr class="dark">
+<td>TitleColorActive</td>
+<td>Integer</td>
+<td>DWORD-Farbe des Titels, wenn der Knopf nicht sgewählt ist.</td>
+</tr>
+<tr>
+<td>TitleOffX</td>
+<td>Integer</td>
+<td>Horizontaler Offset der linken Kante (bzw. Textmitte bei zentriertem Text) des Titels von der linken Kante des Knopfes.</td>
+</tr>
+<tr class="dark">
+<td>TitleOffY</td>
+<td>Integer</td>
+<td>Vertikaler Offset der Oberkante des Titels von der oberen Kante des Knopfes.</td>
+</tr>
+<tr>
+<td>TitleAlign</td>
+<td>Integer</td>
+<td>Ausrichtung des Titels: 0 für linksbündig, 1 für zentriert, 2 für rechtsbündig.</td>
+</tr>
+<tr class="dark">
+<td>TitleUseBookFont</td>
+<td>Boolean</td>
+<td>0 oder 1. Bei 1 wird die schattenlose Schriftart des Startupmenüs anstatt der nromalen InGame-Schriftart für den Titelverwendet.</td>
+</tr>
+<tr>
+<td>SingleClick</td>
+<td>Boolean</td>
+<td>Falls true, wird der Eintrag bereits bei Einzelklick gestartet/geöffnet.</td>
+</tr>
+</tbody>
+</table></div>
+
+<h2 id="order">Anordnung der Elemente</h2>
+<div class="text">Es werden grundsätzlich alle AccessGfx-Grafiken unter die Szenarienknöpfe gezeichnet. Die Szenarienknöpfe erscheinen in der Reihenfolge, in der sie in der Datei angegeben sind. Dabei ist darauf zu achten, dass man sie in einer sinnvollen Reihenfolge angibt (also von links nach rechts und von oben nach unten), da das Durchschalten mit Tastatur oder Gamepad hiervon abhängt. Es ist auch Aufgabe des Entwicklers, dafür zu sorgen, dass sich Knöpfe und Grafiken nicht überlappen.</div>
+
+<h2 id="background">Hintergrundbild</h2>
+<div class="text">Wenn der Ordner eine FolderMap enthält, wird eine der Bilddateien FolderMap.png/.jpg/.jpeg/.bmp als Hintergrund erwartet. Die optimale Bildgröße, bei der das Hintergrundbild ohne gestreckt zu werden angezeigt werden kann, hängt von der Bildschirmauflösung des Benutzers ab:</div>
+<div class="text"><table>
+<thead><tr>
+<th>Auflösung</th>
+<th>Größe der FolderMap</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>640x480</td>
+<td>616x385</td>
+</tr>
+<tr class="dark">
+<td>800x600</td>
+<td>768x480</td>
+</tr>
+<tr>
+<td>1024x768</td>
+<td>984x616</td>
+</tr>
+</tbody>
+</table></div>
+<div class="text">Das Bild wird immer auf die volle, für die Auswahl zur Verfügung stehende Größe gestreckt bzw. gestaucht. Alle Positionsangaben für Szenarien, die Beschreibungsleiste, etc. beziehen sich auf Koordinaten in diesem Hintergrundbild und werden entsprechend mitgestreckt oder gestaucht. Es empfiehlt sich also, die Karte für eine relativ große Auflösung wie z.B. 1024x768 zu gestalten, und stets zu testen, ob für kleine Auflösungen noch alles lesbar ist.</div>
+
+<h2 id="devel">Tipps zur Entwicklung</h2>
+<div class="text">Zum Testen kann die FolderMap mit einem entpackten Rundenordner entworfen, und dann in der Szenarienauswahl mit Druck auf F5 jeweils neu geladen werden. Erscheint statt der FolderMap die klassische Szenarienauswahl, ist beim Laden der Definitionsdatei ein Fehler aufgetreten, oder zum Beispiel eine referenzierte Grafikdatei nicht gefunden worden. Bei aktiviertem Debugmodus findet sich in dem Fall eine Fehlermeldung in der Datei Clonk.log.</div>
+
+
+
+<div class="author">Sven2, September 2006</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

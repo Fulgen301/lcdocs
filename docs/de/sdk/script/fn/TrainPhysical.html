@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>TrainPhysical</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="TrainPhysical">TrainPhysical</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Status<br><b>Ab Engineversion: </b>4.9.6.0 CR</div>
+<h2>Beschreibung</h2>
+<div class="text">Erhöht den Wert der physischen Eigenschaft eines Objekts um den in iTrainBy angegebenen Wert. Mit diesem Aufruf werden sowohl die permanenten, als auch temporäre und temporär gestapelte Physicals trainiert. Dieser Befehl kann beispielsweise genutzt werden, um nach einem Zauber die Magiephysical zu trainieren.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> TrainPhysical
+      (<span class="type">string</span> szPhysical, <span class="type">int</span> iTrainBy, <span class="type">int</span> iMaxTrain, <span class="type">object</span> pObj);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>szPhysical: </dt>
+<dd><div class="text">Name der Eigenschaft, die geändert werden soll</div></dd>
+<dt>iTrainBy: </dt>
+<dd><div class="text">0-100000: Wert, um den trainiert wird</div></dd>
+<dt>iMaxTrain: </dt>
+<dd><div class="text">Wert, der durch das Training nie überschritten wird. Es wird allerdings in keinem Fall die Physical reduziert, auch wenn der Zielwert unter dem hier angegebenen Wert läge.<br>
+</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Objekt, dessen Physical trainiert werden soll. 0 bei lokalen Aufrufen.</div></dd>
+</dl>
+<h2>Beispiel</h2>
+			<div class="example">
+<pre class="code"><i>// Globaler Aufruf, wenn ein Zauber erfolgreich war: Magie trainieren
+</i><b>global</b> <b>func</b> OnClonkSucceededSpell(<b>id</b> idSpell, <b>object</b> pClonk)
+  {
+  <b>if</b> (!pClonk) <b>if</b> (!(pClonk = <a href="../../../sdk/script/fn/this.html">this</a>())) <a href="../../../sdk/script/fn/return.html">return</a>(<a href="../../../sdk/script/fn/_inherited.html">_inherited</a>(idSpell));
+  <i>// Zauberkraft trainieren (plus 1/10 des Zauberwerts)
+</i>  <b>if</b> (!<a href="../../../sdk/script/fn/ObjectCount.html">ObjectCount</a>(NMGE))
+    {
+    <b>var</b> iMaxTrain, idInfo;
+    <i>// Maximales Training bei Infoobjekten: Nach Ursprungsdefinition richten
+</i>    <b>if</b> (idInfo = <a href="../../../sdk/script/fn/GetObjectInfoCoreVal.html">GetObjectInfoCoreVal</a>(<i class="string">"id"</i>, <i class="string">"ObjectInfo"</i>, pClonk)) iMaxTrain = idInfo-&gt;~MaxMagicPhysical();
+    <i>// Infodefinition hat kein MaxMagicPhysical (d.h., kein Zauberclonk) oder kein Infoobjekt vorhanden:
+</i>    <i>// Training wird eh nicht permanent gesichert; nach aktueller Definition richten
+</i>    <b>if</b> (!iMaxTrain) iMaxTrain = pClonk-&gt;~MaxMagicPhysical();
+    <i>// Trainieren
+</i>    TrainPhysical(<i class="string">"Magic"</i>, <a href="../../../sdk/script/fn/Value.html">Value</a>(idSpell)/MCLK_ManaTrainRate, iMaxTrain, pClonk);
+    }
+  <i>// Gegebenenfalls weitere Hooks erlauben
+</i>  <a href="../../../sdk/script/fn/return.html">return</a> (<a href="../../../sdk/script/fn/_inherited.html">_inherited</a>(idSpell, pClonk));
+  }</pre>
+				<div class="text">Beispiel aus der System.c4g: Trainiert bei einem erfolgreichen Zauber die Magiephsical des Zauberers. Dabei wird sicher gestellt, dass der zaubernde Clonk nicht über das durch die Funktion MaxMagicPhysical() in seiner Definition angegebene Limit trainiert werden kann.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/definition/DefCore.html#SektionPhysical">DefCore.txt, [Physical]</a>, <a href="../../../sdk/script/fn/GetPhysical.html">GetPhysical</a>, <a href="../../../sdk/script/fn/ResetPhysical.html">ResetPhysical</a>, <a href="../../../sdk/script/fn/SetPhysical.html">SetPhysical</a>
+</div>
+<div class="author">Sven2, Juni 2003</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

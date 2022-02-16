@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>Explode</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="Explode">Explode</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Existenz<br><b>Ab Engineversion: </b>4.6.5.0 CP
+        (erweitert ab 4.9.6.0 CR)
+      </div>
+<h2>Beschreibung</h2>
+<div class="text">Lässt ein Objekt explodieren. Die Explosion beschädigt Landschaft und Objekte, und das Objekt wird mitsamt Inhalt vor der Explosion entfernt. Wenn sich das Objekt in einen anderen Objekt befindet, werden alle anderen Inhaltsobjekte und das enthaltende Objekt beschädigt. Als Verursacher des Schadens gilt der Besitzer des explodierenden Objekts.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> Explode
+      (<span class="type">int</span> iLevel, <span class="type">object</span> pObj, <span class="type">id</span> idEffect, <span class="type">string</span> szParticle);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iLevel: </dt>
+<dd><div class="text">Explosionsstärke. Die Explosionsstärke bestimmt das Ausmaß des Explosionsschadens sowie die akustische Gestaltung. Bis Stärke 29 einschließlich wird Blast1 abgespielt, von Stärke 30 bis stärke 39 einschließlich Blast2, und bei Werten darüber Blast3.</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Objekt, das explodiert. 0 bei lokalem Aufruf.</div></dd>
+<dt>idEffect: </dt>
+<dd><div class="text">
+    [opt]
+  Wenn angegeben, wird ein Objekt dieser Art und keine Partikel erzeugt. Es wird angenommen, dass das neu erstellte Objekt den Explosionseffekt übernimmt. Ab 4.9.6.0 CR</div></dd>
+<dt>szParticle: </dt>
+<dd><div class="text">
+    [opt]
+  Name eines Partikels, der statt der normalen Explosionspartikel erzeugt wird.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Siehe Hinweis zu <a href="../../../sdk/script/fn/RemoveObject.html">RemoveObject</a>.</div>
+<h2>Beispiel</h2>
+			<div class="example">
+				<pre class="code">Explode(25, <a href="../../../sdk/script/fn/GetHiRank.html">GetHiRank</a>(0));</pre>
+				<div class="text">Der höchstrangige Clonk des ersten Spielers explodiert.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/BlastObjects.html">BlastObjects</a>, <a href="../../../sdk/script/fn/RemoveObject.html">RemoveObject</a>
+</div>
+<div class="author">Sven2, November 2001</div>
+<div class="author">Clonkonaut, April 2008</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

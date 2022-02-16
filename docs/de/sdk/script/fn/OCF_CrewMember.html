@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>OCF_CrewMember</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="OCF_CrewMember">OCF_CrewMember</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / OCF<br><b>Ab Engineversion: </b>4.6.5.0 CP</div>
+<h2>Beschreibung</h2>
+<div class="text">Object character flag: Das Objekt kann theoretisch zu einer Crew hinzugefügt werden oder gehört schon zu einer Crew. Das heißt, es hat den ensprechenden DefCore-Eintrag gesetzt, und lebt.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> OCF_CrewMember
+      ();
+    </div>
+<h2>Anmerkungen</h2>
+<div class="text">Dieser Wert ist als Engine-Konstante definiert. Die Funktionsklammern können daher optional weggelassen werden.</div>
+<div class="text">
+			Für weitere Informationen und Beispiele zur Benutzung dieser Konstanten siehe <a href="../../../sdk/definition/ocf.html">Object character flags</a>.<br>
+			Objekte, die das OCF_CrewMember()-Flag gesetzt haben, bekommen von der Engine außerdem einige Sonderbehandlungen:<br>
+			<ul>
+<li>Es sucht auch ohne PathFinder=1 in der DefCore mit dem PathFinder</li>
+			<li>Es benutzt einige PathFinder-interne Optimierungen, die auf die Größe eines Clonks zugeschnitten sind</li>
+			<li>Er benutzt auch ohne PathFinder=1 die veränderten Sprungmethoden (z.B. kurze Sprünge)</li>
+			<li>Er kann durch das Attack-Command angegriffen werden</li>
+			<li>Es werden Fehlernachrichten durch fehlgeschlagene Commands ausgegeben und %sFailed-Calls im Zielobjekt des Kommandos getätigt</li>
+			<li>Es wird automatisch ein Acquire-Command gesetzt, wenn bei einer BUILD-Action Material fehlt - dafür wird kein BuildNeedsMaterial aufgerufen</li>
+			<li>Beim Rechtsklick mit der Maus werden Context*-Scriptfunktionen nur dann angezeigt, wenn der Besitzer gleich ist</li>
+			<li>Der Objektname wird angezeigt, wenn die Spielernummer nicht gleich und nicht -1 ist, die Spieler verbündet sind, und das Feature in den Optionen aktiviert ist</li>
+			<li>Das Objekt kann nicht verkauft werden</li>
+</ul>
+		</div>
+<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/FindObject.html">FindObject</a>, <a href="../../../sdk/script/fn/GetOCF.html">GetOCF</a>, <a href="../../../sdk/definition/ocf.html">Object character flags</a>
+</div>
+<div class="author">Sven2, Mai 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

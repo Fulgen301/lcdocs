@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>ClearParticles</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="ClearParticles">ClearParticles</h1>
+<div class="text">
+<b>Category: </b>Particle<br><b>Since engine version: </b>4.9.1.0 GWE</div>
+<h2>Description</h2>
+<div class="text">Removes all particles of the specified type from pObj.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> ClearParticles
+      (<span class="type">string</span> szName, <span class="type">object</span> pObj);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szName: </dt>
+<dd><div class="text">Name of the particle definition of which you want to delete all particles. If 0, all particles of all types will be removed.</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">Index of the material to be extracted. Also see <a href="../../../sdk/script/fn/CreateParticle.html">CreateParticle</a>
+</div></dd>
+</dl>
+<h2>Examples</h2>
+			<div class="example">
+				<pre class="code">ClearParticles(<i class="string">"Smoke"</i>);</pre>
+				<div class="text">Removes all smoke.</div>
+			</div>
+			<div class="example">
+				<pre class="code">ClearParticles(<i class="string">"Smoke"</i>, <a href="../../../sdk/script/fn/FindObject2.html">FindObject2</a>(<a href="../../../sdk/script/fn/Find_ID.html">Find_ID</a>(CLNK)));</pre>
+				<div class="text">Removes all smoke from a clonk.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/CreateParticle.html">CreateParticle</a>, <a href="../../../sdk/script/fn/PushParticles.html">PushParticles</a>
+</div>
+<div class="author">Sven2, April 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

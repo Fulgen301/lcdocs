@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>ChangeEffect</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="ChangeEffect">ChangeEffect</h1>
+<div class="text">
+<b>Category: </b>Effects<br><b>Since engine version: </b>4.9.5.0 CE</div>
+<h2>Description</h2>
+<div class="text">Changes the name of an effect. This also affects the names of the related callback functions.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> ChangeEffect
+      (<span class="type">string</span> szEffectName, <span class="type">object</span> pTarget, <span class="type">int</span> iIndex, <span class="type">string</span> szNewEffectName, <span class="type">int</span> iNewTimer);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szEffectName: </dt>
+<dd><div class="text">
+    [opt]
+  Name of the effect without preceding 'Fx'. You can use '*' and '?' wildcards.</div></dd>
+<dt>pTarget: </dt>
+<dd><div class="text">
+    [opt]
+  Targt object in which to change effects. With 0, the global effects are processed.</div></dd>
+<dt>iIndex: </dt>
+<dd><div class="text">
+    [opt]
+  Effect index. If using a wildcard search in szEffectName results in multiple matches, this index will indicate which effect from the list of results to use. If on the other hand no szEffectName is specified, this index will access the effect of the given effect number. As opposed to direct access via effect numbers, access by index will ensure that all indexed effects from 0 to the given number are reached.</div></dd>
+<dt>szNewEffectName: </dt>
+<dd><div class="text">
+    [opt]
+  New effect name without prepended 'Fx'</div></dd>
+<dt>iNewTimer: </dt>
+<dd><div class="text">
+    [opt]
+  New timer interval. If -1, the previous value will be kept. Otherwise, this call will also reset effect time.</div></dd>
+</dl>
+<h2>Examples</h2>
+      <div class="example">
+        <pre class="code">ChangeEffect(<i class="string">"MeinEffekt"</i>, 0, 0, <i class="string">"AndererEffekt"</i>);</pre>
+        <div class="text">Renames the global effect "MyEffect" (if it exists) to "OtherEffect".</div>
+      </div>
+      <div class="example">
+        <pre class="code"><b>var</b> obj, i, iEffect;
+<a href="../../../sdk/script/fn/while.html">while</a> ((i=0) || obj=<a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(0, 0,0,0,0, 0, 0,0, 0, obj))
+  <a href="../../../sdk/script/fn/while.html">while</a> (iEffect = <a href="../../../sdk/script/fn/GetEffect.html">GetEffect</a>(<i class="string">"*Fire*"</i>, obj, i))
+    ChangeEffect(0, obj, i++, <a href="../../../sdk/script/fn/GetEffect.html">GetEffect</a>(0, obj, iIndex, 1), 2);</pre>
+        <div class="text">Switches all fire into fast mode.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/AddEffect.html">AddEffect</a>, <a href="../../../sdk/script/fn/CheckEffect.html">CheckEffect</a>, <a href="../../../sdk/script/fn/EffectCall.html">EffectCall</a>, <a href="../../../sdk/script/fn/EffectVar.html">EffectVar</a>, <a href="../../../sdk/script/Effects.html">Effects Documentation</a>, <a href="../../../sdk/script/fn/GetEffect.html">GetEffect</a>, <a href="../../../sdk/script/fn/GetEffectCount.html">GetEffectCount</a>, <a href="../../../sdk/script/fn/RemoveEffect.html">RemoveEffect</a>
+</div>
+<div class="author">Sven2, März 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

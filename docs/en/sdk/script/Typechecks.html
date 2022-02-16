@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Data Types</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1>Data Types</h1>
+
+
+	<div class="text">C4Script supports the following data types for variables, parameters, and return values:</div>
+
+	<div class="text"><table>
+<thead><tr>
+<th>Type Name</th>
+<th>Full Name</th>
+<th>Contents of Variable</th>
+<th>Example</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>Integer</td>
+<td>A whole number from -2.147.483.648 to +2.147.483.647.</td>
+<td><code>42 </code></td>
+</tr>
+<tr class="dark">
+<td><code>bool</code></td>
+<td>Boolean</td>
+<td>"true" (value <code>true</code>) or "false" (value <code>false</code>). Expected as parameter by many structures such as <a href="../../sdk/script/fn/if.html">if</a> and <a href="../../sdk/script/fn/while.html">while</a>.</td>
+<td><code><b>true</b> </code></td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>definition id</td>
+<td>ID of an object definition (see <a href="../../sdk/definition/index.html#ObjektundEntwicklerIdentifikation">Object Definitions</a>)</td>
+<td><code>CLNK </code></td>
+</tr>
+<tr class="dark">
+<td><code>string</code></td>
+<td>String</td>
+<td>Any text. Single characters can be extracted as int with . Furthermore, it is possible to extract single characters as single-character-strings using <code><i class="string">"string"</i>[index]</code>. Strings can not be modified this way. Negative indices count backwards, starting from the end.</td>
+<td><code><i class="string">"Dies ist ein Text!"</i> </code></td>
+</tr>
+<tr>
+<td><code>object</code></td>
+<td>Object pointer</td>
+<td>Reference to an existing object at runtime. No direct representation. See <a href="../../sdk/script/fn/FindObject.html">FindObject</a>(). Access to local variables is possible via <code>obj[<i class="string">"name"</i>]</code> or <code>obj.name</code>, the latter if <code><b>#strict</b> 3</code> is activated.</td>
+<td>-</td>
+</tr>
+<tr class="dark">
+<td><code>array</code></td>
+<td>array</td>
+<td>A type containing multiple variables, whose number can be enquired with <a href="../../sdk/script/fn/GetLength.html">GetLength</a>, and which can be recalled with <code><em>array</em>[<em>index</em>]</code>. Since CR.</td>
+<td><code>[0,42,CLNK] </code></td>
+</tr>
+<tr>
+<td><code>map</code></td>
+<td>Map</td>
+<td>A type that allows storing values associated with keys of arbitrary types. <a href="../../sdk/script/fn/GetKeys.html">GetKeys</a> and <a href="../../sdk/script/fn/GetValues.html">GetValues</a> can be used to determine the set keys and values of the map as array. Values can be accessed by their key using <code><em>map</em>[<em>key</em>]</code>. If the key is a fixed string containing only characters allowed in identifiers the access can also happen via <code><em>map</em>.<em>key</em></code>. Since LC [334], only with <a href="../../sdk/script/Strict.html">#strict 3</a> or above.</td>
+<td><code>{ X: 10, Y: 50 }</code></td>
+</tr>
+</tbody>
+</table></div>
+
+	<div class="text">Additionally, there are two special types:</div>
+
+	<div class="text"><ul>
+	<li>
+<code>any</code>: The type is unknown or does not matter. "nil" always has this type.</li>
+	<li>
+<code>&amp;</code>: The value is a reference, for example to a variable. It behaves exactly as the target value, but can be changed (for example with the operator "<code>=</code>"). See also <a href="../../sdk/script/Funcs.html#referenzen">Reference parameters</a>.</li>
+	</ul></div>
+
+	<h2>Arrays</h2>
+	
+		<div class="text">Arrays can be created directly with <code>[<em>expression 1</em>, <em>expression 2</em>, ...]</code> or indirectly with <a href="../../sdk/script/fn/CreateArray.html">CreateArray</a>(). They are automatically enlarged if necessary on element access, but it's faster to create them with the needed length from the start. If an array is stored in a variable or used as a parameter to a function, the new variable has it's own copy of the array. The actual copy is deferred if possible, though. If an array is passed to a function for modification, a reference has to be used.</div>
+		<div class="text">Access to element <code>i</code> of array <code>a</code> is achieved through <code>a[i]</code>. <code>i=0</code> is the first element.</div>
+		<div class="text">Elements can be appended to the array using <code>a[] = value;</code>
+</div>
+		<h3>Example 1</h3>
+<pre class="code"><b>func</b> ArraySum(<b>array</b> a)
+{
+  <b>var</b> l = GetLength(a);
+  <b>var</b> result = 0;
+  <b>for</b> (<b>var</b> i = 0; i &lt; l; ++i)
+  {
+    result += a[i];
+  }
+  <b>return</b> (result);
+}</pre>
+		<div class="text">This function adds up all elements of an array.</div>
+		<h3>Example 2</h3>
+<pre class="code"><b>func</b> RandomID()
+{
+  <b>var</b> a = [CLNK, WIPF, BIRD, HUT1];
+  <b>return</b> (a[Random(4)]);
+}</pre>
+		<div class="text">This function randomly chooses one out of four ids and returns it.</div>
+	
+
+  <h2>Maps</h2>
+  
+    <div class="text">Maps are also known as hashes or associative arrays in other languages. Maps are only available if <a href="../../sdk/script/Strict.html">#strict 3</a> or higher is enabled. Maps can be created directly with <code>{ <em>Key 1</em> = <em>Expression 1</em>, <em>Key 2</em> = <em>Expression 2</em>, "<em>key3</em><i class="string">" = "</i><em>Expression 3</em>, [<em>Key Expression</em>] = <em>Expression 4</em>, ... }</code>. To ease future additions, a comma may be placed after the last key-value-pair. An empty map can be created with <code>{}</code>. If a key contains characters not allowed in identifiers the key must be enclosed in "" (quotation marks), otherwise quotation marks are optional. To use values of types different than string or the result of an expression as key, enclose it in <code>[]</code> (see example).</div>
+    <div class="text">The syntax for accessing map values is <code><b>map</b>[key]</code>. If the key is a fixed string containing only characters allowed in identifiers the access can also happen via <code><em>map</em>.<em>key</em></code>. To remove a key from the map set its value to <code>nil</code>.</div>
+    <div class="text">If a map is stored in a variable or used as a parameter to a function, the new variable has it's own copy of the map. The actual copy is deferred if possible, though. If a map is passed to a function for modification, a reference has to be used.</div>
+    <div class="text">Using a special <a href="../../sdk/script/for.html#Mapschleife">for</a> variant it is possible to iterate over all key-value-pairs of a map. <a href="../../sdk/script/fn/GetKeys.html">GetKeys</a> and <a href="../../sdk/script/fn/GetValues.html">GetValues</a> can be used to determine the set keys and values of the map as array. Internally, maps are implemented using a hash. To ensure synchronization in the network mode, additionally the insertion order of the keys is stored. Insertion order in this case means the order in which each key is set in a map for the first time, possibly after it has been already deleted.</div>
+    <h3>Attention</h3>
+    <div class="text">If an object is used directly as key and in the meantime it is deleted, the related value is removed from the map. However, if the object is contained arbitrarily in a map or array that is being used as a key and the object is deleted, the associated value becomes inaccessible and also can not be removed. The only way to get rid of such a state is resetting the whole map by assigning a new one to the variable.</div>
+    <h3>Example 1</h3>
+<pre class="code"><b>func</b> MapPlayground(<b>int</b> plr)
+{
+  <b>var</b> clonk = <a href="../../sdk/script/fn/GetCursor.html">GetCursor</a>(plr);
+  <b>var</b> m = {
+    Position = { X = <a href="../../sdk/script/fn/GetX.html">GetX</a>(clonk), Y = <a href="../../sdk/script/fn/GetY.html">GetY</a>(clonk) },
+    Name = <a href="../../sdk/script/fn/GetName.html">GetName</a>(clonk),
+    Contents = {},
+    <i class="string">"Player's Name"</i> = <a href="../../sdk/script/fn/GetPlayerName.html">GetPlayerName</a>(plr),
+  };
+
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Der Clonk von %s heißt %s und befindet sich bei Position %v."</i>, m[<i class="string">"Player's Name"</i>], m.Name, m.Position);
+
+  <b>var</b> flint = clonk-&gt;<a href="../../sdk/script/fn/CreateContents.html">CreateContents</a>(FLNT);
+  <b>var</b> rock = clonk-&gt;<a href="../../sdk/script/fn/CreateContents.html">CreateContents</a>(ROCK);
+
+  m.Contents[0] = flint;
+  m.Contents[1] = rock;
+
+  m.Contents[FLNT] = flint;
+  m.Contents[ROCK] = rock;
+
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"%v"</i>, m);
+
+  m.Contents[FLNT] = <b>nil</b>;
+
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Contents: %v"</i>, m.Contents);
+}</pre>
+    <div class="text">This function demonstrates the usage of maps.</div>
+    <h3>Example 2</h3>
+<pre class="code">
+<b>#strict</b> 3
+
+<b>local</b> discounts;
+
+<b>func</b> Initialize()
+{
+  discounts = {
+    <i>// [discount in %, pieces left], could also be maps, but would be more writing effort :p
+</i>    [CLNK] = [10, 3],
+    [EFLN] = [25, 4],
+    [WOOD] = [50, 50],
+    [<a href="../../sdk/script/fn/GetID.html">GetID</a>(<a href="../../sdk/script/fn/GetCursor.html">GetCursor</a>(0))] = [5, 1],
+    <i>// ...
+</i>  };
+}
+
+<b>func</b> GetDiscount(<b>id</b> ID)
+{
+  <b>return</b> discounts[ID]?[0] || 0;
+}
+
+<b>func</b> SoldItem(<b>id</b> ID)
+{
+  <b>if</b>(discounts[ID])
+  {
+    <b>if</b>(--discounts[ID][1] == 0)
+    {
+      discounts[ID] = <b>nil</b>;
+    }
+  }
+}
+</pre>
+    <div class="text">Part of an object script that manages discounts for various articles of limited amount using a map.</div>
+  
+
+	<h2>Conversion</h2>
+
+	<div class="text">Consult the following table to determine which types can be converted and which conversions might cause errors:</div>
+	<div class="text"><table>
+<thead><tr>
+<th>to -&gt;</th>
+<th><code>int</code></th>
+<th><code>bool</code></th>
+<th><code>id</code></th>
+<th><code>object</code></th>
+<th><code>string</code></th>
+<th><code>array</code></th>
+<th><code>map</code></th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>OK</td>
+<td>OK</td>
+<td>if &lt;= 9999</td>
+<td>Error</td>
+<td>Error</td>
+<td>Error</td>
+<td>Error</td>
+</tr>
+<tr class="dark">
+<td><code>bool</code></td>
+<td>OK</td>
+<td>OK</td>
+<td>Error</td>
+<td>Error</td>
+<td>Error</td>
+<td>Error</td>
+<td>Error</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>#strict</td>
+<td>OK</td>
+<td>OK</td>
+<td>Error</td>
+<td>Error</td>
+<td>Error</td>
+<td>Error</td>
+</tr>
+<tr class="dark">
+<td><code>object</code></td>
+<td>#strict</td>
+<td>OK</td>
+<td>Error</td>
+<td>OK</td>
+<td>Error</td>
+<td>Error</td>
+<td>Error</td>
+</tr>
+<tr>
+<td><code>string</code></td>
+<td>#strict</td>
+<td>OK</td>
+<td>Error</td>
+<td>Error</td>
+<td>OK</td>
+<td>Error</td>
+<td>Error</td>
+</tr>
+<tr class="dark">
+<td><code>array</code></td>
+<td>Error</td>
+<td>OK</td>
+<td>Error</td>
+<td>Error</td>
+<td>Error</td>
+<td>OK</td>
+<td>Error</td>
+</tr>
+<tr>
+<td><code>map</code></td>
+<td>Error</td>
+<td>OK</td>
+<td>Error</td>
+<td>Error</td>
+<td>Error</td>
+<td>Error</td>
+<td>OK</td>
+</tr>
+</tbody>
+</table></div>
+
+	<h2>Additional information:</h2>
+	<div class="text"><ul>
+		<li>Conversions marked #strict will only throw an error if the script is <a href="../../sdk/script/Strict.html">#strict</a>. This only concerns harmless but nonsense conversions which might have appeared in older scripts.</li>
+		<li>Conversion to id is valid only if the number is greater than or equal to 0 and less that or equal to 9999. This procedure also supports IDs that contain digits only.</li>
+		<li>Conversion to bool is generally allowed. All values except 0 are <code>true</code>.</li>
+	</ul></div>
+
+
+
+<div class="author">Günther, April 2006</div>
+<div class="author">PeterW, April 2006</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

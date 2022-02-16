@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>The 'for' Loop</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1>The 'for' Loop</h1>
+
+<div class="text">The <code>for</code> loop is a very convenient loop with starting initialization. It is most often used as <a href="#Zaehlschleife">counting loop</a>. It will take three statements as parameters, each separated by a ';' semicolon. Followed by the code block to be executed:</div>
+<pre class="code"><b>for</b>([Initialisierung]; [Bedingung]; [Inkrementierung]))
+  [Auszuführende Anweisung];
+</pre>
+<div class="text">
+<ul>
+<li>The first statement will be executed once at the beginning of the loop. This is a good place to initialize counter variables.</li>
+<li>The second statement contains the loop condition. As soon as this condition returns 'false', the loop execution is stopped. The condition is checked before each loop execution.</li>
+<li>The third statement is executed after each loop execution. This is a good place to count up or down your counter variables.</li>
+</ul>
+</div>
+<div class="text">It is possible to omit any of the three statements. If there is no condition statement, then the loop will run forever unless it is manually interrupted (i.e. using the <code>break</code> keyword). This is an infinite loop:</div>
+<pre class="code"><b>for</b>(;;)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Fl00d!"</i>);
+</pre>
+
+<h2 id="Zaehlschleife">Using for as a counting loop</h2>
+
+<div class="text">This is the most common use of the for loop. If, for example, you want to print all numbers from 1 to 10, you would write:</div>
+
+<pre class="code"><b>for</b>(<b>var</b> i = 1; i &lt;= 10; i++)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"%d"</i>, i);
+</pre>
+
+<div class="text">Notice: the following <a href="../../sdk/script/fn/while.html">while</a> loop would do exactly the same:</div>
+
+<pre class="code"><b>var</b> i = 0;
+<a href="../../sdk/script/fn/while.html">while</a>(++i &lt;= 10)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"%d"</i>, i);
+</pre>
+
+<h2 id="Arrayschleife">Using for to iterate over an array</h2>
+
+<div class="text">Another function of the <code>for</code>-loop is iterating over arrays. Each element of the array is stored in the variable and the loop body executed for that element. The script looks like this:</div>
+
+<pre class="code"><b>for</b>(<b>var</b> element in a)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"%v"</i>, element);
+</pre>
+
+<div class="text">This script would output all elements of the array <code>a</code> to the log.</div>
+
+<h2 id="Mapschleife">Using for to iterate over a map</h2>
+
+<div class="text">Another function of the <code>for</code>-loop is iterating over key-value-pairs of maps. The script looks like this:</div>
+
+<pre class="code"><b>for</b>(<b>var</b> key, value in m)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"%v =&gt; %v"</i>, key, value);
+</pre>
+
+<div class="text">This script would output all entries of the map <code>m</code> to the log in the format "Key =&gt; Value".</div>
+
+<h2>Further examples:</h2>
+
+<pre class="code"><b>for</b>(<b>var</b> i = 10; i &gt;= 1; i--)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"%d"</i>, i);
+</pre>
+
+<div class="text">Counts backwards from 10 to 1.</div>
+
+<pre class="code"><a href="../../sdk/script/fn/Var.html">Var</a>(0) = 2;
+<a href="../../sdk/script/fn/Var.html">Var</a>(1) = 1;
+<a href="../../sdk/script/fn/Var.html">Var</a>(2) = 4;
+<a href="../../sdk/script/fn/Var.html">Var</a>(3) = 3;
+<a href="../../sdk/script/fn/Var.html">Var</a>(4) = 2;
+<b>for</b>(<b>var</b> i = 0; <a href="../../sdk/script/fn/Var.html">Var</a>(i) != 3; i++)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Var(%d) = %d"</i>, i, <a href="../../sdk/script/fn/Var.html">Var</a>(i));
+</pre>
+
+<div class="text">Prints the indexe local variables (see <code><a href="../../sdk/script/fn/Var.html">Var</a>()</code>), until the value '3' is encountered. The result would be:</div>
+
+<pre class="code">Var(0) = 2
+Var(1) = 1
+Var(2) = 4
+</pre>
+
+<div class="author">Peter, Juni 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetDir</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetDir">GetDir</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Aktivität<br><b>Ab Engineversion: </b>4.6.5.0 CP</div>
+<h2>Beschreibung</h2>
+<div class="text">Liefert die aktuelle Richtung eines Objekts als DIR_x()-Wert.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> GetDir
+      (<span class="type">object</span> pObj);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">Objekt, dessen Richtung abgefragt wird. 0 bei lokalem Aufruf.</div></dd>
+</dl>
+<h2>Beispiel</h2>
+			<div class="example">
+				<pre class="code"><i>/* Wird bei Doppelklick auf Graben aufgerufen */</i>
+<b>protected</b> <b>func</b> Activate()
+{
+	<i>// Pfeil erstellen
+</i>	<b>var</b> pArrow = <a href="../../../sdk/script/fn/CreateContents.html">CreateContents</a>(ARRW);
+	<i>// X-Geschwindigkeit für den Pfeil ermitteln
+</i>	<b>var</b> ispeedX = -10 + 20 * <a href="../../../sdk/script/fn/GetDir.html">GetDir</a>();
+	<i>// X-Ausgangsposition für den Pfeil ermitteln
+</i>	<b>var</b> iexitX = -5 + 10 * <a href="../../../sdk/script/fn/GetDir.html">GetDir</a>();
+	<i>// Rotation des Pfeiles
+</i>	<b>var</b> irot = -90 + 180 * <a href="../../../sdk/script/fn/GetDir.html">GetDir</a>();
+	<i>// Pfeil schleudern
+</i>	<a href="../../../sdk/script/fn/Exit.html">Exit</a>(pArrow, iexitX, 0, irot, ispeedX, 0);
+	<a href="../../../sdk/script/fn/return.html">return</a>(1);
+} 
+				</pre>
+				<div class="text">Clonk der einen Bogen verschluckt hat.</div>
+				<div class="text">Hinweis: <a href="../../../sdk/script/fn/DIR_Left.html">DIR_Left</a>() = 0 / <a href="../../../sdk/script/fn/DIR_Right.html">DIR_Right</a>() = 1</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/DIR_Left.html">DIR_Left</a>, <a href="../../../sdk/script/fn/DIR_Right.html">DIR_Right</a>, <a href="../../../sdk/script/fn/SetDir.html">SetDir</a>
+</div>
+<div class="author">wipfmetz, Juni 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetPortrait</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetPortrait">SetPortrait</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Display<br><b>Since engine version: </b>4.9.5.0 CE</div>
+<h2>Description</h2>
+<div class="text">Changes the portrait of a crew member at runtime.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetPortrait
+      (<span class="type">string</span> szPortrait, <span class="type">object</span> pTarget, <span class="type">id</span> idSrcDef, <span class="type">bool</span> fPermanent, <span class="type">bool</span> fCopyGfx);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szPortrait: </dt>
+<dd><div class="text">Name of the portrait to be set. This will load the image file "PortraitX.png" (X being replaced with the specified name). This parameter can handle the following special values: <table>
+<thead><tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>"none"</td>
+<td>Portrait will be removed.</td>
+</tr>
+<tr class="dark">
+<td>"random"</td>
+<td>A random portrait will be selected from all available portraits.</td>
+</tr>
+<tr>
+<td>"custom"</td>
+<td>The portrait will be set to the object's individually stored portrait, if available.</td>
+</tr>
+</tbody>
+</table>
+</div></dd>
+<dt>pTarget: </dt>
+<dd><div class="text">
+    [opt]
+  Object the portrait of which you want to change. Can be 0 in local calls.</div></dd>
+<dt>idSrcDef: </dt>
+<dd><div class="text">
+    [opt]
+  Definition from which you want to load the portrait. If not specified, the portrait will be loaded from the definition of the object.</div></dd>
+<dt>fPermanent: </dt>
+<dd><div class="text">
+    [opt]
+  If 'true' the new portrait setting will be stored in the player file and used in future rounds. Otherwise the portrait setting will be discarded at the end of the round.</div></dd>
+<dt>fCopyGfx: </dt>
+<dd><div class="text">
+    [opt]
+  Copies the image of the new portrait to the player file and sets the portrait to "custom". In this way, the portrait will still be available even if the definition from which it was originally loaded is not available in a given round. On the other hand, with this setting it is impossible to determine from which source the portrait was originally loaded.</div></dd>
+</dl>
+<h2>Examples</h2>
+      <div class="example">
+        <pre class="code">SetPortrait(<i class="string">"random"</i>, <a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(0, 0,0,0,0, <a href="../../../sdk/script/fn/OCF_CrewMember.html">OCF_CrewMember</a>) );</pre>
+        <div class="text">Assings a random portrait.</div>
+      </div>
+      <div class="example">
+        <pre class="code">SetPortrait(<a href="../../../sdk/script/fn/GetPortrait.html">GetPortrait</a>(0, 0, 1), 0, <a href="../../../sdk/script/fn/GetPortrait.html">GetPortrait</a>(0, 1, 1) );</pre>
+        <div class="text">Restores the default portrait of a clonk in case it was changed by a SetPortrait call.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GetPortrait.html">GetPortrait</a>
+</div>
+<div class="author">Clonk-Karl, Dezember 2005</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

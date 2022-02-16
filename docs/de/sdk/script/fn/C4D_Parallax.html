@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>C4D_Parallax</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="C4D_Parallax">C4D_Parallax</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Kategorie<br><b>Ab Engineversion: </b>4.9.1.0 GWE</div>
+<h2>Beschreibung</h2>
+<div class="text">
+			Objektkategorie: Bewegt sich parallax zum Rest der Landschaft. Das bedeutet, dass sich die scheinbare Objektposition je nach Scrollposition des Viewports ändert. Damit können beispielsweise Objekte scheinbar in den Hintergrund geschoben, oder Statusanzeigen realisiert werden.<br>
+			Die parallaxe Verschiebung wird dabei prozentual zum Normalverhalten in den ersten beiden indizierten, lokalen Variablen (siehe <a href="../../../sdk/script/fn/Local.html">Local</a>()) des Objekts angegeben (Local(0) und Local(1) jeweils für die horizontale respektive vertikale Verschiebung). Das heißt, um das Normalverhalten zu erzielen, müssen diese Werte jeweils auf 100 gesetzt werden. Stehen sie auf 0, gleicht die Objektposition der Sichtfensterposition. Für Hintergrundparallaxität werden also gewöhnlich Werte zwischen 0 und 100 gewählt.<br>
+Um Objekte direkt am Sichtfenster des Spielers zu positionieren, um so zum Beispiel Statusanzeigen zu realisieren, können Local(0) und Local(1) auf 0 gesetzt werden. Die Objektposition ist dann immer relativ zur oberen linken Ecke des Sichtfensters. Ab CR können für die Position solcher Objekte auch negative Werte angegeben werden: Diese werden dann jeweils vom rechten bzw. unteren Rand des Sichtfensters gerechnet. Auf diese Weise lassen sich Statusanzeigen auch am rechten oder unteren Rand der Sichtfenster platzieren.
+		</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int </span> C4D_Parallax
+      ();
+    </div>
+<h2>Anmerkung</h2>
+<div class="text">Dieser Wert ist als Engine-Konstante definiert. Die Funktionsklammern können daher optional weggelassen werden.</div>
+<h2>Beispiel</h2>
+			<div class="example">
+<pre class="code"><a href="../../../sdk/script/fn/SetCategory.html">SetCategory</a>(<a href="../../../sdk/script/fn/GetCategory.html">GetCategory</a>() | C4D_Parallax() | <a href="../../../sdk/script/fn/C4D_Background.html">C4D_Background</a>());
+<a href="../../../sdk/script/fn/Local.html">Local</a>()=50; <a href="../../../sdk/script/fn/Local.html">Local</a>(1)=100;
+</pre>
+				<div class="text">Versetzt das aufrufende Objekt in den Hintergrund, und gibt ihm horizontale Parallaxität.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/C4D_Background.html">C4D_Background</a>, <a href="../../../sdk/script/fn/GetCategory.html">GetCategory</a>, <a href="../../../sdk/script/fn/GetDefinition.html">GetDefinition</a>, <a href="../../../sdk/script/fn/SetCategory.html">SetCategory</a>, <a href="../../../sdk/script/fn/SetSkyParallax.html">SetSkyParallax</a>
+</div>
+<div class="author">Sven2, Juni 2003</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

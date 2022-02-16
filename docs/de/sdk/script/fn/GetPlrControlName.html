@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetPlrControlName</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetPlrControlName">GetPlrControlName</h1>
+<div class="text">
+<b>Kategorie: </b>Spieler<br><b>Ab Engineversion: </b>4.9.7.0 CR</div>
+<h2>Beschreibung</h2>
+<div class="text">Gibt den Namen der Taste iCon von iPlr zurück.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">string</span> GetPlrControlName
+      (<span class="type">int</span> iPlr, <span class="type">int</span> iCon, <span class="type">bool</span> fShort);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iPlr: </dt>
+<dd><div class="text">Spieler, dessen Taste gesucht wird.</div></dd>
+<dt>iCon: </dt>
+<dd><div class="text">Taste, die gesucht wird. Folgende Werte sind möglich:
+					<table>
+<thead><tr>
+<th>Name</th>
+<th>Wert</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>CON_CursorLeft</td>
+<td>0</td>
+</tr>
+<tr class="dark">
+<td>CON_CursorToggle</td>
+<td>1</td>
+</tr>
+<tr>
+<td>CON_CursorRight</td>
+<td>2</td>
+</tr>
+<tr class="dark">
+<td>CON_Throw</td>
+<td>3</td>
+</tr>
+<tr>
+<td>CON_Up</td>
+<td>4</td>
+</tr>
+<tr class="dark">
+<td>CON_Dig</td>
+<td>5</td>
+</tr>
+<tr>
+<td>CON_Left</td>
+<td>6</td>
+</tr>
+<tr class="dark">
+<td>CON_Down</td>
+<td>7</td>
+</tr>
+<tr>
+<td>CON_Right</td>
+<td>8</td>
+</tr>
+<tr class="dark">
+<td>CON_Menu</td>
+<td>9</td>
+</tr>
+<tr>
+<td>CON_Special</td>
+<td>10</td>
+</tr>
+<tr class="dark">
+<td>CON_Special2</td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
+				</div></dd>
+<dt>fShort: </dt>
+<dd><div class="text">Wenn true, wird die kurze Version der Taste zurückgegeben. (Beispiel: statt "&lt; &gt; |" wird "&lt;" zurückgegeben.)</div></dd>
+</dl>
+<h2>Beispiel</h2>
+			<div class="example">
+				<pre class="code"><a href="../../../sdk/script/fn/Log.html">Log</a>(GetPlrControlName(0, CON_Dig));</pre>
+				<div class="text">Gibt den Namen der Taste [Graben] vom ersten Spieler im Log aus. Dies ist "D", wenn dieser das unveränderte Tastaturprofil 1 hat.</div>
+			</div>
+		<div class="author">Fulgen / Clonk Wiki, Juli 2016</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetPlayerID</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetPlayerID">GetPlayerID</h1>
+<div class="text">
+<b>Kategorie: </b>Spieler<br><b>Ab Engineversion: </b>4.9.6.0 CR</div>
+<h2>Beschreibung</h2>
+<div class="text">
+	Gibt die Spieler-ID eines beigetretenen Spielers zurück. Spieler-IDs werden von 1 hochgezählt, und - anders als Spielernummern - nicht wieder benutzt, nachdem ein Spieler eliminiert wurde. Jeder neu beigetetene Spieler hat also eine eigene ID.
+    </div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> GetPlayerID
+      (<span class="type">int</span> iPlayerNumber);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iPlayerNumber: </dt>
+<dd><div class="text">Spielernummer, dessen ID abgefragt werden soll.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Spieler-IDs werden in Netzwerkspielen schon in der Lobby zugewiesen. Da Lobbyspieler noch im Nachhinein entfernt oder Netzwerkclients vor dem eigentlichen Start ihre Verbindung verlieren können, ist auch bei Spieler-IDs nicht garantiert, dass beim Spielstart alle IDs von 1 bis <a href="../../../sdk/script/fn/GetPlayerCount.html">GetPlayerCount</a>() belegt sind.</div>
+<h2>Beispiel</h2>
+      <div class="example">
+        <pre class="code"><b>static</b> num_scores;
+        
+<b>protected</b> <b>func</b> RemovePlayer(<b>int</b> iPlr)
+  {
+  <b>var</b> idPlr = GetPlayerID(iPlr);
+  <a href="../../../sdk/script/fn/Global.html">Global</a>(idPlr*2)   = <a href="../../../sdk/script/fn/GetPlayerName.html">GetPlayerName</a>(iPlr);
+  <a href="../../../sdk/script/fn/Global.html">Global</a>(idPlr*2+1) = <a href="../../../sdk/script/fn/GetScore.html">GetScore</a>(iPlr);
+  ++num_scores;
+  }
+  
+<b>protected</b> <b>func</b> OnGameOver()
+  {
+  <b>var</b> msg = <i class="string">"Scores:"</i>, i, plr_name;
+  <a href="../../../sdk/script/fn/while.html">while</a> (num_scores)
+    <b>if</b> (plr_name = <a href="../../../sdk/script/fn/Global.html">Global</a>(i++*2))
+      {
+      msg = <a href="../../../sdk/script/fn/Format.html">Format</a>(<i class="string">"%s|%s=%d"</i>, msg, plr_name, <a href="../../../sdk/script/fn/Global.html">Global</a>(i*2-1));
+      --num_scores;
+      }
+  <a href="../../../sdk/script/fn/Message.html">Message</a>(msg);
+  }</pre>
+        <div class="text">Speichert die Punkte und Namen aller Spieler bei ihrer Eliminierung in einer globalen Liste. Wenn die Runde vorbei ist, wird diese Liste als Nachricht ausgegeben. Da die Liste mit Spieler-IDs statt Spielernummern indiziert wird, ist sicher gestellt, dass neu beitretende Spieler keine Punkte ehemaliger Spieler überschreiben.</div>
+      </div>
+    <div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/GetPlayerTeam.html">GetPlayerTeam</a>
+</div>
+<div class="author">Sven2, März 2006</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

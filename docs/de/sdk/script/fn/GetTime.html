@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetTime</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetTime">GetTime</h1>
+<div class="text">
+<b>Kategorie: </b>System<br><b>Ab Engineversion: </b>4.9.1.0 GWE</div>
+<h2>Beschreibung</h2>
+<div class="text">Gibt die Zeit seit Windowsstart in Millisekunden zurück. Kann zur genauen Zeitmessung
+					verwendet werden.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> GetTime
+      ();
+    </div>
+<h2>Anmerkung</h2>
+<div class="text">Da die Zeiten bei unterschiedlichen Computern variieren können, gibt diese Funktion,
+						um eine Syncunsicherheit zu vermeiden, beim Netzwerkspiel und bei Filmaufnahmen 0
+						zurück.</div>
+<h2>Beispiel</h2>
+			<div class="example">
+				<pre class="code"><b>func</b> TestCos()
+{
+	<b>if</b>(<a href="../../../sdk/script/fn/IsNetwork.html">IsNetwork</a>()) <a href="../../../sdk/script/fn/return.html">return</a>(<a href="../../../sdk/script/fn/Log.html">Log</a>(<i class="string">"TestCos funktioniert im Netzwerk nicht!"</i>));
+	<b>var</b> iStartTime = GetTime();
+	<b>for</b>(<b>var</b> i = 0; i &lt; 100; i++) <b>var</b> x = <a href="../../../sdk/script/fn/Cos.html">Cos</a>(i, 100);
+	<b>var</b> iTime = GetTime() - iStartTime;
+	<a href="../../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Ein Cos-Aufruf benötigt: %d.%02d ms"</i>, iTime / 100, iTime % 100);
+}</pre>
+				<div class="text">Diese Funktion prüft die Performance der Funktion "<a href="../../../sdk/script/fn/Cos.html">Cos</a>".
+							Dabei wird die Funktion 100-mal aufgerufen und die verbrauchte Zeit mittels GetTime()
+							gemessen.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/GetSystemTime.html">GetSystemTime</a>
+</div>
+<div class="author">Peter, August 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

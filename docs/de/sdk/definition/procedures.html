@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Prozeduren</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="Prozeduren">Prozeduren</h1>
+
+<div class="text">Für Objekt-Aktivitäten bietet die Engine diverse Standardprozeduren an, die verschiedene
+typische Verhaltensweisen steuern. Durch die Standardprozedur WALK wechselt z.B. die Aktivität Walk
+automatisch nach Jump, sobald der Boden unter den Füßen verloren wurde.</div>
+<div class="text">
+<table>
+<thead><tr>
+<th>Prozedur</th>
+<th>Beschreibung</th>
+<th>Verhalten</th>
+<th>CNAT</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>NONE</td>
+<td>Keine Prozedur</td>
+<td>Nur Schwerkraft oder in der <a href="../../sdk/definition/actmap.html">Aktivität</a>
+festgelegtes Attach.</td>
+<td>[Action] Attach</td>
+</tr>
+<tr class="dark">
+<td>WALK</td>
+<td>Laufen</td>
+<td>Nach <a href="../../sdk/definition/defcore.html#SektionPhysical">Physical</a> Walk und aktueller
+<a href="../../sdk/script/fn/SetComDir.html">ComDir</a>.</td>
+<td>CNAT_Bottom</td>
+</tr>
+<tr>
+<td>FLIGHT</td>
+<td>Freier Fall</td>
+<td>Nur Schwerkraft.</td>
+<td>CNAT_None</td>
+</tr>
+<tr class="dark">
+<td>KNEEL</td>
+<td>Aufstehen</td>
+<td>Verhalten nach <a href="../../sdk/definition/actmap.html">Aktivität</a>.</td>
+<td>CNAT_Bottom</td>
+</tr>
+<tr>
+<td>SCALE</td>
+<td>Klettern</td>
+<td>Nach <a href="../../sdk/definition/defcore.html#SektionPhysical">Physical</a> Scale und aktueller
+<a href="../../sdk/script/fn/SetComDir.html">ComDir</a>.</td>
+<td>CNAT_Left/Right</td>
+</tr>
+<tr class="dark">
+<td>HANGLE</td>
+<td>Hangeln</td>
+<td>Nach <a href="../../sdk/definition/defcore.html#SektionPhysical">Physical</a> Hangle und aktueller
+<a href="../../sdk/script/fn/SetComDir.html">ComDir</a>.</td>
+<td>CNAT_Top</td>
+</tr>
+<tr>
+<td>DIG</td>
+<td>Graben</td>
+<td>Nach <a href="../../sdk/definition/defcore.html#SektionPhysical">Physical</a> Dig und aktueller
+<a href="../../sdk/script/fn/SetComDir.html">ComDir</a>. Bei 
+<a href="../../sdk/script/fn/SetActionData.html">Data</a>=1 wird Material freigegraben.</td>
+<td>CNAT_None</td>
+</tr>
+<tr class="dark">
+<td>SWIM</td>
+<td>Schwimmen</td>
+<td>Nach <a href="../../sdk/definition/defcore.html#SektionPhysical">Physical</a> Swim und aktueller
+<a href="../../sdk/script/fn/SetComDir.html">ComDir</a>.</td>
+<td>CNAT_None</td>
+</tr>
+<tr>
+<td>THROW</td>
+<td>Werfen</td>
+<td>Verhalten nach <a href="../../sdk/definition/actmap.html">Aktivität</a>.</td>
+<td>CNAT_Bottom</td>
+</tr>
+<tr class="dark">
+<td>BRIDGE</td>
+<td>Brückenbau</td>
+<td>Nach <a href="../../sdk/script/fn/SetComDir.html">ComDir</a>. Brückenmaterial als Index in
+<a href="../../sdk/script/fn/SetActionData.html">Data</a>.</td>
+<td>CNAT_Bottom</td>
+</tr>
+<tr>
+<td>BUILD</td>
+<td>Bauen</td>
+<td>Baut das <a href="../../sdk/script/fn/SetAction.html">Zielobjekt</a>.</td>
+<td>CNAT_Bottom</td>
+</tr>
+<tr class="dark">
+<td>PUSH</td>
+<td>Schieben</td>
+<td>Schiebt das <a href="../../sdk/script/fn/SetAction.html">Zielobjekt</a> nach 
+<a href="../../sdk/definition/defcore.html#SektionPhysical">Physical</a> Push und 
+<a href="../../sdk/script/fn/SetComDir.html">ComDir</a>.</td>
+<td>CNAT_Bottom</td>
+</tr>
+<tr>
+<td>CHOP</td>
+<td>Fällen</td>
+<td>Fällt das <a href="../../sdk/script/fn/SetAction.html">Zielobjekt</a> nach 
+<a href="../../sdk/definition/defcore.html#SektionPhysical">Physical</a> Chop.</td>
+<td>CNAT_Bottom</td>
+</tr>
+<tr class="dark">
+<td>LIFT</td>
+<td>Heben</td>
+<td>Hebt das <a href="../../sdk/script/fn/SetAction.html">Zielobjekt</a> nach 
+<a href="../../sdk/script/fn/SetComDir.html">ComDir</a>.</td>
+<td>CNAT_None</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td>Schweben</td>
+<td>Nach <a href="../../sdk/definition/defcore.html#SektionPhysical">Physical</a> Float und aktueller
+<a href="../../sdk/script/fn/SetComDir.html">ComDir</a>.</td>
+<td>CNAT_None</td>
+</tr>
+<tr class="dark">
+<td>ATTACH</td>
+<td>Festhalten</td>
+<td>Richtet Objektposition Vertex a an Vertex b des 
+<a href="../../sdk/script/fn/SetAction.html">Zielobjekts</a> aus. a und b sind die beiden niederwertigen Bytes
+von <a href="../../sdk/script/fn/SetActionData.html">ActionData</a> (Siehe 
+<a href="../../sdk/script/fn/SetActionData.html">SetActionData</a> für Beispiel). Erweitert ab CE.</td>
+<td>CNAT_None</td>
+</tr>
+<tr>
+<td>FIGHT</td>
+<td>Kämpfen</td>
+<td>Nach <a href="../../sdk/definition/defcore.html#SektionPhysical">Physical</a> Fight gegen 
+<a href="../../sdk/script/fn/SetAction.html">Zielobjekt</a>.</td>
+<td>CNAT_Bottom</td>
+</tr>
+<tr class="dark">
+<td>CONNECT</td>
+<td>Verbinden</td>
+<td>Nur <a href="../../sdk/definition/lineconnect.html">Leitungsobjekte</a>. Verbindet 
+<a href="../../sdk/script/fn/SetAction.html">Zielobjekt 1</a> und 
+<a href="../../sdk/script/fn/SetAction.html">Zielobjekt 2</a>.</td>
+<td>CNAT_None</td>
+</tr>
+<tr>
+<td>PULL</td>
+<td>Ziehen</td>
+<td>Zieht das <a href="../../sdk/script/fn/SetAction.html">Zielobjekt</a> nach 
+<a href="../../sdk/definition/defcore.html#SektionPhysical">Physical</a> Push und 
+<a href="../../sdk/script/fn/SetComDir.html">ComDir</a>.</td>
+<td>CNAT_Bottom</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="text">Prozeduren sind in der Engine fest programmiert und stammen aus alten Zeiten, bevor
+entsprechendes Verhalten flexibler auf der Ebene von Aktivitäten und Scripts möglich war. Hinter den
+meisten Prozeduren verbirgt sich extrem komplexes Verhalten und sie lassen sich nur in ihrer
+ursprünglichen Verwendung in Clonks sinnvoll einsetzen.</div>
+
+<div class="author">Sven2, April 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

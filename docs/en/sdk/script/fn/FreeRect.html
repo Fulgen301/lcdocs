@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>FreeRect</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="FreeRect">FreeRect</h1>
+<div class="text">
+<b>Category: </b>Landscape<br><b>Since engine version: </b>4.6.5.0 CP
+        (extended in 4.9.5.0 CE)
+      </div>
+<h2>Description</h2>
+<div class="text">Removes all material within the specified rectangle. Coordinates are always global. Excluding the right and lower limits of the rectangle.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">void</span> FreeRect
+      (<span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">int</span> iWdt, <span class="type">int</span> iHgt, <span class="type">int</span> iFreeDensity);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>iX: </dt>
+<dd><div class="text">Left limit of the rectangle</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">Top limit of the rectangle</div></dd>
+<dt>iWdt: </dt>
+<dd><div class="text">Width of the rectangle</div></dd>
+<dt>iHgt: </dt>
+<dd><div class="text">Height of the rectangle</div></dd>
+<dt>iFreeDensity: </dt>
+<dd><div class="text">If specified, material of the specified density is removed</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">This call may take quite a while for large rectangles.</div>
+<h2>Example</h2>
+      <div class="example">
+        <pre class="code">FreeRect(0, 0, <a href="../../../sdk/script/fn/LandscapeWidth.html">LandscapeWidth</a>(), <a href="../../../sdk/script/fn/LandscapeHeight.html">LandscapeHeight</a>());</pre>
+        <div class="text">Empties the complete landscape.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/DigFree.html">DigFree</a>, <a href="../../../sdk/script/fn/DigFreeRect.html">DigFreeRect</a>, <a href="../../../sdk/script/fn/Explode.html">Explode</a>
+</div>
+<div class="author">Sven2, November 2001</div>
+<div class="author">Clonkonaut, April 2008</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

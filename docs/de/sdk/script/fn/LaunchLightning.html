@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>LaunchLightning</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="LaunchLightning">LaunchLightning</h1>
+<div class="text">
+<b>Kategorie: </b>Umwelt
+    / Wetter<br><b>Ab Engineversion: </b>4.6.5.0 CP
+        (erweitert ab 4.9.1.0 GWE)
+      </div>
+<h2>Beschreibung</h2>
+<div class="text">Erzeugt einen Blitz. Dieser bewegt sich von der Position (iX, iY) mit der angegebenen Geschwindigkeit fort. Dabei geben iXRange/iYRange an, wie sehr der Blitz von diesem vorgegegebenen Weg abweichen kann (mit iXRange = iYRange = 0 würde der Blitz schnurgerade verlaufen). iXRange/iYRange sind sozusagen ein Maß für die "Zackigkeit" eines Blitzes.<br>
+          Die Position muss auch bei lokalem Aufruf in globalen Koordinaten angegeben werden.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> LaunchLightning
+      (<span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">int</span> iXAdvance, <span class="type">int</span> iXRange, <span class="type">int</span> iYAdvance, <span class="type">int</span> iYRange, <span class="type">bool</span> fDoGamma);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iX: </dt>
+<dd><div class="text">X-Zielposition</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">Y-Zielposition</div></dd>
+<dt>iXAdvance: </dt>
+<dd><div class="text">horizontale mittlere Geschwindigkeit des Blitzes</div></dd>
+<dt>iXRange: </dt>
+<dd><div class="text">maximale Abweichung von iXAdvance</div></dd>
+<dt>iYAdvance: </dt>
+<dd><div class="text">vertikale mittlere Geschwindigkeit des Blitzes</div></dd>
+<dt>iYRange: </dt>
+<dd><div class="text">maximale Abweichung von iYAdvance</div></dd>
+<dt>fDoGamma: </dt>
+<dd><div class="text">Wenn gesetzt, bewirkt dieser Blitz ein Aufflackern des Bildschirms bei allen Spielern.</div></dd>
+</dl>
+<h2>Beispiele</h2>
+      <div class="example">
+        <pre class="code">LaunchLightning(<a href="../../../sdk/script/fn/Random.html">Random</a>(<a href="../../../sdk/script/fn/LandscapeWidth.html">LandscapeWidth</a>()), 0, -20, 41, +5, 15);</pre>
+        <div class="text">Dieser Aufruf erzeugt einen normalen Wetterblitz</div>
+      </div>
+      <div class="example">
+        <pre class="code">LaunchLightning(100, 100, +5, 15, -10, 21);</pre>
+        <div class="text">Hierbei handelt es sich um einen "Zauberblitz", der nach rechts gerichtet ist.<br>
+              (Beispiele aus Orginal-Doku)</div>
+      </div>
+    <div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/LaunchEarthquake.html">LaunchEarthquake</a>, <a href="../../../sdk/script/fn/LaunchVolcano.html">LaunchVolcano</a>
+</div>
+<div class="author">PeterW, November 2001</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

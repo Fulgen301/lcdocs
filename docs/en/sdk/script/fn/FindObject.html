@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>FindObject</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="FindObject">FindObject
+    (deprecated)
+  </h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Search<br><b>Since engine version: </b>4.6.5.0 CP
+        (extended in 4.9.1.0 GWE)
+      </div>
+<h2>Description</h2>
+<div class="text">Returns the first object matching the search criteria. If iWdt and iHgt are both -1, the closest object will be found. If both are 0, only the point iX/iY will be searched. If iX, iY, iWdt and iHgt are 0, the whole landscape will be searched (even if called from an object). All criteria which are specified and not 0 have to be fulfilled.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">object</span> FindObject
+      (<span class="type">id</span> idDef, <span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">int</span> iWdt, <span class="type">int</span> iHgt, <span class="type">int</span> dwOCF, <span class="type">string</span> szAction, <span class="type">object</span> pActionTarget, <span class="type">any</span> pContainer, <span class="type">object</span> pFindNext);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>idDef: </dt>
+<dd><div class="text">
+    [opt]
+  Object type</div></dd>
+<dt>iX: </dt>
+<dd><div class="text">
+    [opt]
+  Search position or left boundary of the search rectangle respectively. Relative to the calling object if applicable.</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">
+    [opt]
+  Search position or upper boundary of the search rectangle, respectively. Relative to the calling object, if applicable.</div></dd>
+<dt>iWdt: </dt>
+<dd><div class="text">
+    [opt]
+  Width of the search rectangle. See remark below.</div></dd>
+<dt>iHgt: </dt>
+<dd><div class="text">
+    [opt]
+  Height of the search rectangle. See remark below.</div></dd>
+<dt>dwOCF: </dt>
+<dd><div class="text">
+    [opt]
+  Bit mask of object character flags. All objects which have at least one of the given flags are found. 0 for all objects.</div></dd>
+<dt>szAction: </dt>
+<dd><div class="text">
+    [opt]
+  Activity of the object to be found.</div></dd>
+<dt>pActionTarget: </dt>
+<dd><div class="text">
+    [opt]
+  Activity target of the object to be found. See also <a href="../../../sdk/script/fn/SetAction.html">SetAction</a>, <a href="../../../sdk/script/fn/GetActionTarget.html">GetActionTarget</a>
+</div></dd>
+<dt>pContainer: </dt>
+<dd><div class="text">
+    [opt]
+  Container of the object to be found. If given, only this container will be searched. Also possible is <a href="../../../sdk/script/fn/NoContainer.html">NoContainer</a> for objects outside and <a href="../../../sdk/script/fn/AnyContainer.html">AnyContainer</a> for all contained objects.</div></dd>
+<dt>pFindNext: </dt>
+<dd><div class="text">
+    [opt]
+  Object after which the search will begin. With this parameter and a loop all objects matching the criteria can be found.</div></dd>
+</dl>
+<h2>Remarks</h2>
+<div class="text">If called from an object, the calling object will not be found.</div>
+<div class="text">If a full search rectangle is provided (i.e. width and height larger than zero), objects match if their center point lies within this rectangle. If all four values of the search rectangle (iX, iY, iWdt, iHgt) are zero or not provided, the complete landscape area is searched. If both width and height (iWdt, iHgt) of the search rectangle are zero, the position (iX, iY) is interpreted as a search point and objects match if their shape overlaps that point. If both width and height of the search rectangle are -1, the object nearest to the search point is found.</div>
+<div class="text">This function is deprecated. It is recommended that FindObject2 or FindObjects is used instead, because those functions support assitional search criterions, and they are often faster.</div>
+<h2>Examples</h2>
+			<div class="example">
+<pre class="code"><b>var</b> obj;
+<b>if</b> (FindObject(0, <a href="../../../sdk/script/fn/LandscapeWidth.html">LandscapeWidth</a>()-100, 0, 100,<a href="../../../sdk/script/fn/LandscapeHeight.html">LandscapeHeight</a>(), <a href="../../../sdk/script/fn/OCF_CrewMember.html">OCF_CrewMember</a>()))
+  <a href="../../../sdk/script/fn/Message.html">Message</a> (<a href="../../../sdk/script/fn/Format.html">Format</a> (<i class="string">"&lt;%s&gt;|Hier gehts nicht weiter."</i>, obj, <a href="../../../sdk/script/fn/GetName.html">GetName</a> (obj)<i class="string">");"</i></pre>
+				<div class="text">The clonk realizes the landscape is finite at the right border.</div>
+			</div>
+			<div class="example">
+				<pre class="code"><a href="../../../sdk/script/fn/Incinerate.html">Incinerate</a>(FindObject(CLNK, 0,0, -1,-1));</pre>
+				<div class="text">Inflames the closest clonk.</div>
+			</div>
+			<div class="example">
+				<pre class="code"><a href="../../../sdk/script/fn/Explode.html">Explode</a>(100, FindObject(0, 100, 100, 0, 0, <a href="../../../sdk/script/fn/OCF_Living.html">OCF_Living</a>(), <i class="string">"Jump"</i>));</pre>
+				<div class="text">If a clonk is at position 100/100 and jumping (or falling), he explodes.</div>
+			</div>
+			<div class="example">
+
+<pre class="code"><b>var</b> obj;
+<a href="../../../sdk/script/fn/while.html">while</a> (obj=FindObject(WIPF, 0,0,0,0, 0, 0,0, <a href="../../../sdk/script/fn/NoContainer.html">NoContainer</a>(), obj)) <a href="../../../sdk/script/fn/Incinerate.html">Incinerate</a>(obj);</pre>
+
+				<div class="text">Inflames all Wipfs outside.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/AnyContainer.html">AnyContainer</a>, <a href="../../../sdk/script/fn/FindObject2.html">FindObject2</a>, <a href="../../../sdk/script/fn/FindObjectOwner.html">FindObjectOwner</a>, <a href="../../../sdk/script/fn/FindObjects.html">FindObjects</a>, <a href="../../../sdk/script/fn/NoContainer.html">NoContainer</a>
+</div>
+<div class="author">Sven2, November 2001</div>
+<div class="author">matthes, Juni 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

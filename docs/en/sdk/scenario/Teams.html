@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Teams.txt</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1 id="Scenariotxt">Teams.txt</h1>
+<div class="text">Via the Teams.txt component you can specify in which way groups of players play with or against together in multiplayer melees. From 4.9.6.0 CR.</div>
+
+<div class="text"><table>
+<caption id="SektionTeams">Section [Teams]</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+<th>Default value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Active</td>
+<td>Integer</td>
+<td>0 or 1. If 0, no teams exist and it is assumed that no teams can be formed at runtime. This also means that no hostility options will be available in the player menu.</td>
+<td>1</td>
+</tr>
+<tr class="dark">
+<td>AllowHostilityChange</td>
+<td>Integer</td>
+<td>0 or 1. If 1, players can declare hostility or alliance at runtime.</td>
+<td>0 if Teams.txt is present. 1 if Teams.txt is not present but the melee rule is active.</td>
+</tr>
+<tr>
+<td>AllowTeamSwitch</td>
+<td>Integer</td>
+<td>0 or 1. If 1, players can choose a different team at runtime.</td>
+<td>0</td>
+</tr>
+<tr class="dark">
+<td>AutoGenerateTeams</td>
+<td>Integer</td>
+<td>0 or 1. If 1, players can declare hostility or alliance at runtime.</td>
+<td>0 is there are team sections present. 1 if there are none.</td>
+</tr>
+<tr>
+<td>TeamDistribution</td>
+<td>Identifier</td>
+<td>Player distribution to the teams. Possible values are: Free (free choice), Host (the host chooses during lobby), Random (random distribution) or RandomInv (random distribution, but not displayed during lobby).</td>
+<td>Free</td>
+</tr>
+<tr class="dark">
+<td>TeamColors</td>
+<td>Integer</td>
+<td>0 or 1. If 1, all players of a team are assigned the same color.</td>
+<td>0</td>
+</tr>
+<tr>
+<td>MaxScriptPlayers</td>
+<td>Integer</td>
+<td>Maximum number of script players which the host can activate in the lobby of network games. This includes script players that have already joined.</td>
+<td>0</td>
+</tr>
+<tr class="dark">
+<td>ScriptPlayerNames</td>
+<td>String</td>
+<td>A list of names separated by "|" which are assigned to script players joinging in the lobby. If no list of names is provided, all script players are called "Computer".</td>
+<td>Computer</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionTeam">Any number of sections [Team]</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+<th>Default value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Integer</td>
+<td>Identifier: a unique number greater than 0 which can be used to identify a team in scenario scripts. Usually you can simply use ascending numerical values as team identifiers.</td>
+<td>Must be specified!</td>
+</tr>
+<tr class="dark">
+<td>Name</td>
+<td>String (max. 30 chars)</td>
+<td>Team name. You can also specify localized strings such as $TeamRight$. See <a href="../../sdk/lang.html#Teamstxt">Localization</a>.</td>
+<td></td>
+</tr>
+<tr>
+<td>PlrStartIndex</td>
+<td>Integer</td>
+<td>If not 0, all members of this team use the corresponding [PlayerX] section in <a href="../../sdk/scenario/scenario.html#SektionenPlayer1Player2Player3Player4">Scenario.txt</a> for starting conditions. If 0, starting conditions are assigned automatically and independent of team membership.</td>
+<td>0</td>
+</tr>
+<tr class="dark">
+<td>Color</td>
+<td>Integer</td>
+<td>32 bit RGB value of the team color. The team color is used instead of the player color if TeamColors is set.</td>
+<td>0</td>
+</tr>
+<tr>
+<td>IconSpec</td>
+<td>String</td>
+<td>Specifies a team icon for runtime joins or non-network games.</td>
+<td></td>
+</tr>
+<tr class="dark">
+<td>MaxPlayer</td>
+<td>Integer</td>
+<td>Maximum number of players who may join this team. 0 for infinite.</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="author">Sven2, Juni 2006</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

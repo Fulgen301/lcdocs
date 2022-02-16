@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>Format</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="Format">Format</h1>
+<div class="text">
+<b>Category: </b>Script
+    / Strings<br><b>Since engine version: </b>4.6.5.0 CP</div>
+<h2>Description</h2>
+<div class="text">Composes a string of several values. To do this, the specified string is scanned for '%' placeholders which are then replaced by the parameters.<br>The general syntax for these placeholders is:<br><code>%[length][.precision]type</code>Except for type all fields are optional. Type specifies the data type of the parameter to be expected. It is one of the following values: <table>
+<thead><tr>
+<th>Type</th>
+<th>Meaning</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>d</td>
+<td>Whole number (int)</td>
+</tr>
+<tr class="dark">
+<td>x</td>
+<td>Whole number (int), hexadecimal representation (0123456789abcdef)</td>
+</tr>
+<tr>
+<td>X</td>
+<td>Whole number (int), hexadecimal representation (0123456789ABCDEF)</td>
+</tr>
+<tr class="dark">
+<td>i</td>
+<td>id (with ids, length and precision parameters do not apply)</td>
+</tr>
+<tr>
+<td>s</td>
+<td>String</td>
+</tr>
+<tr class="dark">
+<td>v</td>
+<td>Any. Primarily useful for debugging.</td>
+</tr>
+</tbody>
+</table> Length specifies the minimum number of characters used to display the value. If the value is shorter, the display is padded on the left with spaces, or with zeroes if there is a '0' before the length specification.<br><br>The meaning of the precision field varies with the data type: with integers (d) it specifies the minimum display length (the number is padded with zeroes at the beginning); while with strings (s) it specifies the maximum number of characters to be displayed.<br>
+</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">string</span> Format
+      (<span class="type">string</span> szStr, <span class="type"></span> ...);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szStr: </dt>
+<dd><div class="text">String into which to insert values</div></dd>
+<dt>...: </dt>
+<dd><div class="text">Values to be inserted</div></dd>
+</dl>
+<h2>Examples</h2>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/Message.html">Message</a>(Format(<i class="string">"Hallo, %s. Du hast %d Clonks!"</i>, <a href="../../../sdk/script/fn/GetPlayerName.html">GetPlayerName</a>(0), <a href="../../../sdk/script/fn/GetCrewCount.html">GetCrewCount</a>(0)));</pre>
+        <div class="text">Displays "Hallo Twonky, du hast 3 Clonks!" (names vary).</div>
+      </div>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/Log.html">Log</a>(Format(<i class="string">"'%3d'"</i>, 1));</pre>
+        <div class="text">Displays: ' 1'</div>
+      </div>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/Log.html">Log</a>(Format(<i class="string">"'%i'"</i>, <a href="../../../sdk/script/fn/GetID.html">GetID</a>(<a href="../../../sdk/script/fn/GetCursor.html">GetCursor</a>())));</pre>
+        <div class="text">Displays (e.g.): 'CLNK'</div>
+      </div>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/Log.html">Log</a>(Format(<i class="string">"'%3.2d'"</i>, 5));</pre>
+        <div class="text">Displays: ' 05'</div>
+      </div>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/Log.html">Log</a>(Format(<i class="string">"'%.2s'"</i>, <i class="string">"test"</i>));</pre>
+        <div class="text">Displays: 'te'</div>
+      </div>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/Log.html">Log</a>(Format(<i class="string">"'%03d'"</i>, 12));</pre>
+        <div class="text">Displays: '012'</div>
+      </div>
+    <div class="author">Sven2, November 2001</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

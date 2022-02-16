@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>LaunchLightning</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="LaunchLightning">LaunchLightning</h1>
+<div class="text">
+<b>Category: </b>Environment
+    / Weather<br><b>Since engine version: </b>4.6.5.0 CP
+        (extended in 4.9.1.0 GWE)
+      </div>
+<h2>Description</h2>
+<div class="text">Creates a bolt of lightning. This will then move from the starting position (iX, iY) at the specified speed and the specified deviation (iXRange, iYRange). Setting the deviation values to 0 would create a straight, linear bolt.<br>Coordinates are global, even in local calls.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> LaunchLightning
+      (<span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">int</span> iXAdvance, <span class="type">int</span> iXRange, <span class="type">int</span> iYAdvance, <span class="type">int</span> iYRange, <span class="type">bool</span> fDoGamma);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>iX: </dt>
+<dd><div class="text">X position</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">Y position</div></dd>
+<dt>iXAdvance: </dt>
+<dd><div class="text">Horizontal average speed of the lightning bolt</div></dd>
+<dt>iXRange: </dt>
+<dd><div class="text">Maximum deviation of iXAdvance</div></dd>
+<dt>iYAdvance: </dt>
+<dd><div class="text">Vertical average speed of the lightning bolt</div></dd>
+<dt>iYRange: </dt>
+<dd><div class="text">Maximum deviation of iYAdvance</div></dd>
+<dt>fDoGamma: </dt>
+<dd><div class="text">If true, the lightning will cause a screen flash for all players.</div></dd>
+</dl>
+<h2>Examples</h2>
+      <div class="example">
+        <pre class="code">LaunchLightning(<a href="../../../sdk/script/fn/Random.html">Random</a>(<a href="../../../sdk/script/fn/LandscapeWidth.html">LandscapeWidth</a>()), 0, -20, 41, +5, 15);</pre>
+        <div class="text">This call creates normal weather lightning</div>
+      </div>
+      <div class="example">
+        <pre class="code">LaunchLightning(100, 100, +5, 15, -10, 21);</pre>
+        <div class="text">This will create a bolt such as the one in the magic lightning spell, directed to the right.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/LaunchEarthquake.html">LaunchEarthquake</a>, <a href="../../../sdk/script/fn/LaunchVolcano.html">LaunchVolcano</a>
+</div>
+<div class="author">PeterW, November 2001</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

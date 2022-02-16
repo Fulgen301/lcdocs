@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetChar</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetChar">GetChar</h1>
+<div class="text">
+<b>Category: </b>Script
+    / Strings<br><b>Since engine version: </b>4.9.1.0 GWE</div>
+<h2>Description</h2>
+<div class="text">Determines the ASCII character code of a character in a string.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> GetChar
+      (<span class="type">string</span> szText, <span class="type">int</span> iIndex);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szText: </dt>
+<dd><div class="text">String of which to get a character</div></dd>
+<dt>iIndex: </dt>
+<dd><div class="text">Position of the character. The first character is at position 0. If the specified position is outside the string, 0 is returned.</div></dd>
+</dl>
+<h2>Remarks</h2>
+<div class="text">Using <code><a href="../../../sdk/script/fn/Format.html">Format</a>(<i class="string">"%c"</i>)</code> the character can be converted back into a string.</div>
+<div class="text">Using <code><i class="string">"string"</i>[index]</code> the character at the position denoted by index can be extracted as a string. Negative indices count backwards from the string end.</div>
+<h2>Example</h2>
+			<div class="example">
+
+<pre class="code"><b>var</b> c=GetChar(<a href="../../../sdk/script/fn/GetPlayerName.html">GetPlayerName</a>(0), 0);
+<a href="../../../sdk/script/fn/if.html">if</a> (<a href="../../../sdk/script/fn/Inside.html">Inside</a>(c, 97, 122)) c-=32;
+<a href="../../../sdk/script/fn/if.html">if</a> (<a href="../../../sdk/script/fn/Inside.html">Inside</a>(c, 65, 90)) <a href="../../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Dein Name beginnt mit dem %d. Buchstaben des Alphabets."</i>, 0, c-64)</pre>
+
+				<div class="text">Gets the first character of the name of the first player.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/Format.html">Format</a>, <a href="../../../sdk/script/fn/GetLength.html">GetLength</a>
+</div>
+<div class="author">Sven2, November 2001</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

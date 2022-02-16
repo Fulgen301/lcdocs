@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>Explode</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="Explode">Explode</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Existence<br><b>Since engine version: </b>4.6.5.0 CP
+        (extended in 4.9.6.0 CR)
+      </div>
+<h2>Description</h2>
+<div class="text">Makes an object explode. The explosion will affect landscape and objects and the object including all of its contents is removed. If the object is contained, the explosion will also damage all other objects in that container. The owner of the exploding object is considered to have caused the explosion.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> Explode
+      (<span class="type">int</span> iLevel, <span class="type">object</span> pObj, <span class="type">id</span> idEffect, <span class="type">string</span> szParticle);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>iLevel: </dt>
+<dd><div class="text">Explosion level. This determines the amount of explosion damage caused and the type of explosion sound played. Up to level 29 the explosion is a Blast1, 30 to 39 is a Blast2, and above is a Blast3.</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Object which explodes. Can be 0 in local calls.</div></dd>
+<dt>idEffect: </dt>
+<dd><div class="text">
+    [opt]
+  If specified, an object of this type is created instead of a particle. It is assumed that the newly created object will perform the explosion effect. From CR 4.9.6.0</div></dd>
+<dt>szParticle: </dt>
+<dd><div class="text">
+    [opt]
+  Type of particle to be created instead of the normal explosion particle.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">See notice for <a href="../../../sdk/script/fn/RemoveObject.html">RemoveObject</a>.</div>
+<h2>Example</h2>
+			<div class="example">
+				<pre class="code">Explode(25, <a href="../../../sdk/script/fn/GetHiRank.html">GetHiRank</a>(0));</pre>
+				<div class="text">The first player's highest ranking clonk explodes.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/BlastObjects.html">BlastObjects</a>, <a href="../../../sdk/script/fn/RemoveObject.html">RemoveObject</a>
+</div>
+<div class="author">Sven2, November 2001</div>
+<div class="author">Clonkonaut, April 2008</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetController</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetController">GetController</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Crew<br><b>Since engine version: </b>4.6.5.0 CP</div>
+<h2>Description</h2>
+<div class="text">Determines which player is currently controlling an object or has last controlled it. With crew members this is usually the owning player. With vehicles it is the owner of the clonk that has last grabbed or pushed it. Objects that are collected by living things automatically change their owner to the owner of the new container. If an object changes its owner (see <a href="../../../sdk/script/fn/SetOwner.html">SetOwner</a>()), the controller is automatically set to the new owner.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> GetController
+      (<span class="type">object</span> pObj);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Object of which to get the controller. Can be 0 in local calls.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">The controller value is not affected by temporary control e.g. through <a href="../../../sdk/script/fn/SetCursor.html">SetCursor</a>.</div>
+<h2>Example</h2>
+			<div class="example">
+				<pre class="code"><a href="../../../sdk/script/fn/DoScore.html">DoScore</a>(GetController(), 100);</pre>
+				<div class="text">Gives 100 score to the player controlling the calling object.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GetCursor.html">GetCursor</a>, <a href="../../../sdk/script/fn/GetOwner.html">GetOwner</a>, <a href="../../../sdk/script/fn/SetController.html">SetController</a>
+</div>
+<div class="author">Sven2, Mai 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

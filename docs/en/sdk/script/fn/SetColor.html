@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetColor</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetColor">SetColor</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Display<br><b>Since engine version: </b>4.9.1.0 GWE</div>
+<h2>Description</h2>
+<div class="text">Sets the ColorByOwner color of an object. This call corresponds to setting the owner using <a href="../../../sdk/script/fn/SetOwner.html">SetOwner</a> to a player with player color iColor.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetColor
+      (<span class="type">int</span> iColor, <span class="type">object</span> pObj);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>iColor: </dt>
+<dd><div class="text">New color for ColorByOwner areas</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Target object. Can be 0 in local calls.</div></dd>
+</dl>
+<h2>Example</h2>
+      <div class="example">
+
+<pre class="code">SetColor(2, <a href="../../../sdk/script/fn/GetCursor.html">GetCursor</a>(0));</pre>
+
+        <div class="text">Colors the owner areas of the currently selected clonk of the first player red.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GetColor.html">GetColor</a>, <a href="../../../sdk/script/fn/SetColorDw.html">SetColorDw</a>
+</div>
+<div class="author">jwk, August 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Material Definitions</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1 id="Materialdefinitionen">Material Definitions</h1>
+
+	<div class="text">Using material definitions you can specify looks and behaviour of the landscape materials.</div>
+
+	<h2 id="MaterialdefinitionsKomponentenMaterialc4g">Material Definition Components (Material.c4g)</h2>
+	<dl>
+<dt id="TexMaptxt">
+<img src="../../images/icon_text.gif" width="16" height="16">TexMap.txt</dt>
+<dd>
+<div class="text">Lookup table for color indices in static and dynamic landscapes. Colors 0-127 are matched to a material-texture-reference. Colors 128-255 are matched to the same list of references only these are marked 'underground'.</div>
+		<div class="text">The engine will draw materials with a higher index above those with a lower index so that, e.g. using the standard table, rough chunks of earth will overlap water which has a smooth border. Mineral resources have an even higher index so that their rough border overlaps the earth and not the other way around. This is also the reason why there might be differing numbers of total pixels of a given material drawn than you might expect just from calculating the square sizes of the unzoomed map materials.</div>
+		<div class="text">If a custom map fails with the message 'texture n undefined' you should define the specified texture in the TexMap. You should always use a paint program capable of editing indexed color palettes without modifying the palette (MS Paint is not suited for this).</div>
+		<div class="text">If TexMap.txt contains <code>OverloadMaterials
+		OverloadTextures</code> at the beginning materials / textures from the default Material.c4g are loaded before the custom definitions, which may also override the default definitions.</div>
+</dd>
+<dt id="c4m">
+<img src="../../images/icon_material.gif" width="16" height="16"><a href="../../sdk/material/c4m.html">*.c4m</a>
+</dt>
+<dd><div class="text">The engine will accept up to 125 material definitions at a time. C4M files a simple text files. The materials Vehicle, Tunnel, Water, Snow, Granite, Sand, and Earth must always be available.</div></dd>
+<dt id="bmp">
+<img src="../../images/icon_image.gif" width="16" height="16">*.png / *.bmp</dt>
+<dd><div class="text">There can be any number of textures in PNG or uncompressed Windows BMP format (with 256 colors) in any material group. Width and height of each bitmap must be powers of 2 (that is 16, 32, 64, 128, 256, etc.) With the old BMP format only the first three colors of the texture bitmap may be used as to these the three material colors are applied.</div></dd>
+</dl>	
+		
+	<h2 id="MaterialTexturReferenzen">Material-Texture-References</h2>
+	<div class="text">At numerous places in scenario definitions materials are specified with additional information on texture and amounts.</div>
+	<div class="text"><table><tbody>
+<tr>
+<td>Simple material specification (using the default texture):</td>
+<td><code>Earth</code></td>
+</tr>
+<tr class="dark">
+<td>Material using an specified texture:</td>
+<td><code>Earth-Rough</code></td>
+</tr>
+<tr>
+<td>Material and texture with specified amount:</td>
+<td><code>Gold-Rough=100</code></td>
+</tr>
+<tr class="dark">
+<td>Multiple material definitions:</td>
+<td><code>Earth-Smooth=10; Rock-Rough=5; Gold=2</code></td>
+</tr>
+</tbody></table></div>
+
+
+<div class="author">Sven2, April 2002</div>
+<div class="author">matthes, April 2004</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

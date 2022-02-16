@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>CastObjectsX</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="CastObjectsX">CastObjectsX</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Erzeugung<br><b>Ab Engineversion: </b>4.9.7.0 CR</div>
+<h2>Beschreibung</h2>
+<div class="text">Verschleudert iNumber Objekte an angegebener Position mit einer Geschwindigkeit von iLevel mit dem Winkel angw. Bei einem lokalen Aufruf haben die erzeugten Objekte den selben Besitzer wie das aufrufende Objekt.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> CastObjectsX
+      (<span class="type">id </span> id, <span class="type">int </span> iNumber, <span class="type">int </span> iLevel, <span class="type">int </span> iX, <span class="type">int </span> iY, <span class="type">int</span> angs, <span class="type">int</span> angw);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>id: </dt>
+<dd><div class="text">ID des Objekttyps, der verschleudert wird</div></dd>
+<dt>iNumber: </dt>
+<dd><div class="text">Anzahl verschleuderter Objekte.</div></dd>
+<dt>iLevel: </dt>
+<dd><div class="text">Geschwindigkeit der verschleuderten Objekte</div></dd>
+<dt>iX: </dt>
+<dd><div class="text">
+    [opt]
+  X-Ausgangsposition. Offset zum aufrufenden Objekt bei lokalem Aufruf.</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">
+    [opt]
+  Y-Ausgangsposition. Offset zum aufrufenden Objekt bei lokalem Aufruf.</div></dd>
+<dt>angs: </dt>
+<dd><div class="text">Abschusswinkel</div></dd>
+<dt>angw: </dt>
+<dd><div class="text"></div></dd>
+</dl>
+<h2>Beispiel</h2>
+			<div class="example">
+				<pre class="code"><b>var</b> num=<a href="../../../sdk/script/fn/GetVertexNum.html">GetVertexNum</a>()<a href="../../../sdk/script/operatoren.html">-</a>1;
+CastObjectsX(SPRK,1,20,<a href="../../../sdk/script/fn/GetVertex.html">GetVertex</a>(num, 0)<a href="../../../sdk/script/operatoren.html">-</a><a href="../../../sdk/script/fn/GetX.html">GetX</a>(), <a href="../../../sdk/script/fn/GetVertex.html">GetVertex</a>(num, 1)<a href="../../../sdk/script/operatoren.html">-</a><a href="../../../sdk/script/fn/GetY.html">GetY</a>(),90);
+				</pre>
+				<div class="text">Erzeugt am letzten Vertex einer Linie einen Funken, der senkrecht nach oben geschleudert wird. Bei mehrmaligem Aufruf erzielt man damit den gleichen Effekt wie bei einem Blitzeinschlag.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/CastObjects.html">CastObjects</a>, <a href="../../../sdk/script/fn/CreateObject.html">CreateObject</a>
+</div>
+<div class="author">Fulgen / Clonk Wiki, Juli 2016</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

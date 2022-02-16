@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>CNAT - Contact Attachment</title>
+<script type="text/javascript" src="../../bitmasks.js"></script><script type="text/javascript">
+  var BIT_COUNT = 7;		// Anzahl der Bits
+  var PREFIX = "bit";		// Prefix für die numerierten IDs
+</script><?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="CNAT">CNAT - Contact Attachment</h1>
+<div class="text">An zahlreichen Stellen benutzt die Engine ContactAttachment-Werte (DWord-Bitmasken), um
+Ausrichtungen von Objekten und Vorgängen zu verwalten. So kann z.B. einem Objekt-Vertex ein
+CNAT-Wert zugewiesen werden, der die Ausrichtung <em>Links</em> enthält. Sind für dieses
+Objekt <em>ContactCalls</em> aktiviert (siehe
+<a href="../../sdk/definition/defcore.html">DefCore.txt</a>), so ruft die Engine bei jedem Kontakt
+dieses Vertex mit der Landschaft die Objektscript-Funktion <em>ContactLeft</em> auf. CNAT-Werte
+setzen sich aus folgenden Bits zusammen:</div>
+<div class="text">
+<table>
+<thead><tr>
+<th>Bit</th>
+<th>Wert</th>
+<th>CNAT</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr style="cursor:pointer;" id="bit0" onClick="Switch(0);">
+<td>0</td>
+<td>1</td>
+<td>CNAT_Left</td>
+<td>Richtung: Links</td>
+</tr>
+<tr style="cursor:pointer;" id="bit1" onClick="Switch(1);" class="dark">
+<td>1</td>
+<td>2</td>
+<td>CNAT_Right</td>
+<td>Richtung: Rechts</td>
+</tr>
+<tr style="cursor:pointer;" id="bit2" onClick="Switch(2);">
+<td>2</td>
+<td>4</td>
+<td>CNAT_Top</td>
+<td>Richtung: Oben</td>
+</tr>
+<tr style="cursor:pointer;" id="bit3" onClick="Switch(3);" class="dark">
+<td>3</td>
+<td>8</td>
+<td>CNAT_Bottom</td>
+<td>Richtung: Unten</td>
+</tr>
+<tr style="cursor:pointer;" id="bit4" onClick="Switch(4);">
+<td>4</td>
+<td>16</td>
+<td>CNAT_Center</td>
+<td>Richtung: Mitte (nicht für Attachment)</td>
+</tr>
+<tr style="cursor:pointer;" id="bit5" onClick="Switch(5);" class="dark">
+<td>5</td>
+<td>32</td>
+<td>CNAT_MultiAttach</td>
+<td>Zusatz-Flag: neues Attachment-Verhalten für Objekte mit gleicher Richtung an mehreren
+  Vertices (ab Version 4.95.4)</td>
+</tr>
+<tr style="cursor:pointer;" id="bit6" onClick="Switch(6);">
+<td>6</td>
+<td>64</td>
+<td>CNAT_NoCollision</td>
+<td>Zusatz-Flag: kollisionsfreier Vertex (ab Version 4.95.4)</td>
+</tr>
+</tbody>
+</table>CNAT:
+    <input id="input" onKeyUp="Calc();" name="input" type="text" size="3" maxlength="3">
+</div>
+<div class="author">Sven2, April 2002</div>
+<div class="author">Newton &amp; Günther, Januar 2005</div>
+<div class="author">Matthes, August 2005</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

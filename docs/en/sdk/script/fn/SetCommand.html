@@ -1,0 +1,499 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetCommand</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetCommand">SetCommand</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Commands<br><b>Since engine version: </b>4.6.5.0 CP
+        (extended in 4.9.1.0 GWE)
+      </div>
+<h2>Description</h2>
+<div class="text">Gives a command to an object. The object will try to complete the command using the internal artificial intelligence (including pathfinding).</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetCommand
+      (<span class="type">object</span> pObj, <span class="type">string</span> szCommand, <span class="type">object</span> pTarget, <span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">object</span> pTarget2, <span class="type">any</span> Data, <span class="type">int</span> iRetries);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">Object for which the command is given.</div></dd>
+<dt>szCommand: </dt>
+<dd><div class="text">Command name (as string). See the table below</div></dd>
+<dt>pTarget: </dt>
+<dd><div class="text">
+    [opt]
+  target object for the command</div></dd>
+<dt>iX: </dt>
+<dd><div class="text">
+    [opt]
+  X target coordinate</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">
+    [opt]
+  Y target coordinate</div></dd>
+<dt>pTarget2: </dt>
+<dd><div class="text">
+    [opt]
+  secondary target object</div></dd>
+<dt>Data: </dt>
+<dd><div class="text">
+    [opt]
+  additional data for the command</div></dd>
+<dt>iRetries: </dt>
+<dd><div class="text">
+    [opt]
+  Number of retries if the command fails, until the command fails completely.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">The following commands are defined: <table>
+<thead><tr>
+<th>szCommand</th>
+<th>pTarget</th>
+<th>iX,iY</th>
+<th>pTarget2</th>
+<th>iData</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Acquire</td>
+<td>Null</td>
+<td>0,0</td>
+<td>Ignore container</td>
+<td>Object type (id)</td>
+<td>Type of object to be acquired. May be bought at the home base if necessary. Material contained in the specified container (Target2) is to be ignored in the search.</td>
+</tr>
+<tr class="dark">
+<td>Activate</td>
+<td>Target object</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Activate the target object (exit from its container).</td>
+</tr>
+<tr>
+<td>Activate</td>
+<td>Null</td>
+<td>0,0</td>
+<td>Target object</td>
+<td></td>
+<td>Open the Get menu for the contents of the target object.</td>
+</tr>
+<tr class="dark">
+<td>Activate</td>
+<td>Null</td>
+<td>Number,0</td>
+<td>Target object</td>
+<td>Object type (id)</td>
+<td>Activate n objects of the specified type in the target object.</td>
+</tr>
+<tr>
+<td>Attack</td>
+<td>Target object</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Attack the target object.</td>
+</tr>
+<tr class="dark">
+<td>Build</td>
+<td>Target object</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Build the target object and supply it with energy when done.</td>
+</tr>
+<tr>
+<td>Buy</td>
+<td>Null</td>
+<td>0,0</td>
+<td>Null</td>
+<td>Object type (id)</td>
+<td>Buy an object of the specified type at the closest friendly home base.</td>
+</tr>
+<tr class="dark">
+<td>Buy</td>
+<td>Basis</td>
+<td>Number,0</td>
+<td>Null</td>
+<td>Object type (id)</td>
+<td>Buy n objects of the specified type at the home base.</td>
+</tr>
+<tr>
+<td>Buy</td>
+<td>Basis</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Open the Buy menu for the specified home base.</td>
+</tr>
+<tr class="dark">
+<td>Call</td>
+<td>Object</td>
+<td>Par(1),Par(2)</td>
+<td>Par(3)</td>
+<td>
+<em>Function</em> (string)</td>
+<td>Call <em>Function</em> in the object script. Par(0) will be the calling object. If the command fails because underlaying commands have failed, the function <em>Function</em>Failed is called instead.</td>
+</tr>
+<tr>
+<td>Chop</td>
+<td>Target object</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Fell the target object object (tree).</td>
+</tr>
+<tr class="dark">
+<td>Construct</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Open the Construction menu.</td>
+</tr>
+<tr>
+<td>Construct</td>
+<td>Null</td>
+<td>0,0</td>
+<td>Null</td>
+<td>Object type (id)</td>
+<td>Create a construction site at the closest possible position.</td>
+</tr>
+<tr class="dark">
+<td>Construct</td>
+<td>Null</td>
+<td>Target position</td>
+<td>Null</td>
+<td>Object type (id)</td>
+<td>Create a construction site at the target position and start building.</td>
+</tr>
+<tr>
+<td>Construct</td>
+<td>Target object</td>
+<td>Target position [opt]</td>
+<td>Null</td>
+<td>Object type (id)</td>
+<td>Help the target object with the construction (help building as soon as the site is created).</td>
+</tr>
+<tr class="dark">
+<td>Dig</td>
+<td>Null</td>
+<td>Target position</td>
+<td></td>
+<td></td>
+<td>Dig towards the target position.</td>
+</tr>
+<tr>
+<td>Drop</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Immediately drop the first object in the inventory.</td>
+</tr>
+<tr class="dark">
+<td>Drop</td>
+<td>Null</td>
+<td>Target position</td>
+<td></td>
+<td></td>
+<td>Drop the first object in the inventory at the target position.</td>
+</tr>
+<tr>
+<td>Drop</td>
+<td>Target object</td>
+<td>Target position</td>
+<td></td>
+<td></td>
+<td>Collect the target object and drop it at the target position.</td>
+</tr>
+<tr class="dark">
+<td>Energy</td>
+<td>Target object</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Supply the target object with energy from the closest supplier.</td>
+</tr>
+<tr>
+<td>Energy</td>
+<td>Target object</td>
+<td>0,0</td>
+<td>Supplier</td>
+<td></td>
+<td>Supply the target object with energy from this supplier.</td>
+</tr>
+<tr class="dark">
+<td>Enter</td>
+<td>Target object</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Enter the target object.</td>
+</tr>
+<tr>
+<td>Exit</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Exit the current container.</td>
+</tr>
+<tr class="dark">
+<td>Follow</td>
+<td>Target object</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Follow the target object (permanently).</td>
+</tr>
+<tr>
+<td>Get</td>
+<td>Target object</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Collect the target object, dig it out if necessary.</td>
+</tr>
+<tr class="dark">
+<td>Get</td>
+<td>Null</td>
+<td>Number,0</td>
+<td>Target object</td>
+<td>Object type (id)</td>
+<td>Get the specified number of objects from the target object. From 4.9.8.3.</td>
+</tr>
+<tr>
+<td>Grab</td>
+<td>Target object</td>
+<td>Offset</td>
+<td></td>
+<td></td>
+<td>Grab the target object at the specified offset to the object center.</td>
+</tr>
+<tr class="dark">
+<td>Home</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Return to the closest friendly home base.</td>
+</tr>
+<tr>
+<td>Jump</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Jump into the current direction.</td>
+</tr>
+<tr class="dark">
+<td>Jump</td>
+<td>Null</td>
+<td>Target position</td>
+<td></td>
+<td></td>
+<td>Jump into the direction of the target position.</td>
+</tr>
+<tr>
+<td>MoveTo</td>
+<td>Target object</td>
+<td>0,0</td>
+<td>Null</td>
+<td>No automatic adjustment? (bool)</td>
+<td>Move to the position of the target object. Set iData to true to avoid automatic adjustment of the target coordinates to landscape surface.</td>
+</tr>
+<tr class="dark">
+<td>MoveTo</td>
+<td>Null</td>
+<td>Target position</td>
+<td>Null</td>
+<td>No automatic adjustment? (bool)</td>
+<td>Move to the target position. Set iData to true to avoid automatic adjustment of the target coordinates to landscape surface.</td>
+</tr>
+<tr>
+<td>None</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Clear all current commands.</td>
+</tr>
+<tr class="dark">
+<td>PushTo</td>
+<td>Target object</td>
+<td>Target position</td>
+<td></td>
+<td></td>
+<td>Push the target object to the target position.</td>
+</tr>
+<tr>
+<td>PushTo</td>
+<td>Object</td>
+<td>0,0</td>
+<td>Target object</td>
+<td></td>
+<td>Push the target object into the secondary target object.</td>
+</tr>
+<tr class="dark">
+<td>Put</td>
+<td>Target object</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Put the first inventory object into the target object.</td>
+</tr>
+<tr>
+<td>Put</td>
+<td>Target object</td>
+<td>Number,0</td>
+<td></td>
+<td></td>
+<td>Put the specified number of inventory objects into the target object. From 4.9.8.3.</td>
+</tr>
+<tr class="dark">
+<td>Put</td>
+<td>Target object</td>
+<td>0,0</td>
+<td>Object</td>
+<td></td>
+<td>Collect the target object and put it into the secondary target object.</td>
+</tr>
+<tr>
+<td>Put</td>
+<td>Target object</td>
+<td>0,0</td>
+<td>Null</td>
+<td>Object type (id)</td>
+<td>Put the inventory object of the specified type into the target object.</td>
+</tr>
+<tr class="dark">
+<td>Put</td>
+<td>Target object</td>
+<td>Number,0</td>
+<td>Null</td>
+<td>Object type (id)</td>
+<td>Put the specified number of inventory objects of the specified type into the target object. From 4.9.8.3.</td>
+</tr>
+<tr>
+<td>Sell</td>
+<td>Null</td>
+<td>0,0</td>
+<td>Object2</td>
+<td>Object type (id)</td>
+<td>Sell an object of the specified type at the closest home base. If Object2 is specified, this one will be sold first.</td>
+</tr>
+<tr class="dark">
+<td>Sell</td>
+<td>Basis</td>
+<td>Number,0</td>
+<td>Object2</td>
+<td>Object type (id)</td>
+<td>Sell a number of objects of the specified type at the home base. If Object2 is specified, this one will be sold first.</td>
+</tr>
+<tr>
+<td>Sell</td>
+<td>Basis</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Open Sell menu for the specified base object.</td>
+</tr>
+<tr class="dark">
+<td>Throw</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Throw the first inventory item immediately.</td>
+</tr>
+<tr>
+<td>Throw</td>
+<td>Null</td>
+<td>Target position</td>
+<td></td>
+<td></td>
+<td>Throw the first inventory item towards the target position.</td>
+</tr>
+<tr class="dark">
+<td>Throw</td>
+<td>Target object</td>
+<td>Target position</td>
+<td></td>
+<td></td>
+<td>Collect the target object and throw it towards the target position.</td>
+</tr>
+<tr>
+<td>UnGrab</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Let go of the object currently grabbed.</td>
+</tr>
+<tr class="dark">
+<td>Wait</td>
+<td>Null</td>
+<td>0,0</td>
+<td>Null</td>
+<td>Frames</td>
+<td>Wait specified number of frames/ticks.</td>
+</tr>
+</tbody>
+</table>
+<br>To open the get menu of an object, the data parameter must be true. Example: <code><b>func</b> ControlLeft(<b>object</b> byObj) { SetCommand(byObj, <i class="string">"Get"</i>, <a href="../../../sdk/script/fn/this.html">this</a>, 0, 0, 0, <b>true</b>); }</code>
+</div>
+<h2>Example</h2>
+      <div class="example">
+        <pre class="code">SetCommand(<a href="../../../sdk/script/fn/this.html">this</a>, <i class="string">"Attack"</i>, <a href="../../../sdk/script/fn/FindObjectOwner.html">FindObjectOwner</a>(CLNK, 1, 0, 0, -1, -1), 0, 0, 0, 0, 10);</pre>
+        <div class="text">This script gives the clonk the order to attack the closest clonk of player 1. If the command fails (e.g. due to unsuccessful pathfinding), retry 10 times.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/AddCommand.html">AddCommand</a>, <a href="../../../sdk/script/fn/AppendCommand.html">AppendCommand</a>, <a href="../../../sdk/script/fn/FinishCommand.html">FinishCommand</a>, <a href="../../../sdk/script/fn/GetCommand.html">GetCommand</a>, <a href="../../../sdk/script/fn/PlayerObjectCommand.html">PlayerObjectCommand</a>
+</div>
+<div class="author">PeterW, November 2001</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../doku.css">
+<title>Command Line Parameters</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../sdk/index.html">Introduction</a></li>
+<li><a href="../content.html">Contents</a></li>
+<li><a href="../search.php">Search</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../sdk/files.html">Game Data</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="cmdline">Command Line Parameters</h1>
+
+<div class="text">The installation directory of Clonk contains various executable program files. Usually programs are started with a double click or from a start menu without additional parameters. When starting programs from a command line shell or script file (batch file), additional command line parameters can be specified.</div>
+
+<h2 id="Clonk">Clonk.exe (Windows) clonk (Linux) Clonk (Mac)</h2>
+<div class="text">The engine. The main program of the game. Without startup parameters, the game starts in fullscreen (player mode) and shows the startup menu. The following command line parameters are recognized:</div>
+<dl>
+<dt id="console">/console</dt>
+<dd><div class="text">Starts in console mode (also called developer mode or windowed mode). In console mode, scenarios can be edited and saved. The game will also start in console mode if a scenario (*.c4s) and no /fullscreen is specified.</div></dd>
+<dt id="fullscreen">/fullscreen</dt>
+<dd><div class="text">Starts in fullscreen mode (also called player mode). If no scenario and no direct join adress is given, the startup menu is shown.</div></dd>
+<dt id="config">/config:Filename</dt>
+<dd><div class="text">Loads and saves the configuration from the specified file instead of the default configuration file or the Windows registry.</div></dd>
+<dt id="record">/record</dt>
+<dd><div class="text">The round is recorded.</div></dd>
+<dt id="network">/network or /nonetwork</dt>
+<dd><div class="text">Activates or deactivates network mode.</div></dd>
+<dt id="signup">/signup or /nosignup</dt>
+<dd><div class="text">Activates or deactivates online signup of the game as public internet game. This value is stored in the configuration.</div></dd>
+<dd><div class="text">/signup implies /network. /nosignup implies /noleague.</div></dd>
+<dt id="league">/league or /noleague</dt>
+<dd><div class="text">Activates or deactivates online signup of the game as league game. This value is stored in the configuration.</div></dd>
+<dd><div class="text">/league implies /network and /signup.</div></dd>
+<dt id="runtimejoin">/runtimejoin or /noruntimejoin</dt>
+<dd><div class="text">Activates or deactivates runtime join. This setting will be stored in the configuration.</div></dd>
+<dt id="regjoinonly">/regjoinonly</dt>
+<dd><div class="text">Prevents any unregistered client from joining games hosted on this computer (<em>always</em> active in dedicated server engines).</div></dd>
+<dt id="ncrw">/faircrew or /trainedcrew</dt>
+<dd><div class="text">Activates or deactivates fair crew. With fair crew, all clonks start with the same physical properties. With trained crew, clonks start with their individually stored, trained physical value. This value is stored in the configuration.</div></dd>
+<dt id="lobby">/lobby[:time]</dt>
+<dd><div class="text">Activates the lobby before a network game is started. The lobby is the waiting- and chat screen. The lobby is on by default for all network games. Implies /network. If you specify a time (e.g. /lobby:120) the lobby will start with a countdown, automatically launching the game after (in this case) 120 seconds.</div></dd>
+<dt id="observe">/observe</dt>
+<dd><div class="text">For network games: The client joins as observer (without players). Implies /network.</div></dd>
+<dt id="Join">/join:&lt;<em>Address</em>&gt;</dt>
+<dd><div class="text">Searches for a network game on the specified address and joins it. No local scenario (*.c4s) should be specified. Implies /network.</div></dd>
+<dt id="clonkp">clonk://&lt;<em>Address</em>&gt;/</dt>
+<dd><div class="text">Same as /join if an address is specified. If "update" is specified as an address, this will cause the engine to perform an update check instead.</div></dd>
+<dt id="tcpport">/tcpport:&lt;<em>Port number</em>&gt;</dt>
+<dd><div class="text">Sets the TCP port number for client connections in network games. This setting will be stored in the configuration. If -1 is specified, TCP is disabled and all connections are created using UDP.</div></dd>
+<dt id="udpport">/udpport:&lt;<em>Port number</em>&gt;</dt>
+<dd><div class="text">Sets the UDP port number for client connections in network games. This setting will be stored in the configuration. If -1 is specified, UDP is disabled and all connections are created using TCP.</div></dd>
+<dt id="pass">/pass:&lt;<em>Password</em>&gt;</dt>
+<dd><div class="text">For network hosts: sets the join password to the specified value. If &lt;<em>Password</em>&gt; is left empty, no password is set.</div></dd>
+<dt id="comment">/comment:&lt;<em>comment</em>&gt;</dt>
+<dd><div class="text">For network hosts: sets the network game comment. This setting will be stored in the configuration.</div></dd>
+<dt id="update">/update</dt>
+<dd><div class="text">Performs an update check at program start.</div></dd>
+<dt id="recdump">/recdump:&lt;<em>File name</em>&gt;</dt>
+<dd><div class="text">Only for replay of recorded games: Before the replay is started, all replay data (player controls) are dumped into a file called &lt;<em>File name</em>&gt; in the Clonk folder. If the file name extension is .txt, the controls will be dumped in text mode, otherwise binary. The replay file must be specified seperately as a scenario file (e.g. Clonk.exe Records.c4f\Record001.c4s /recdump:CtrlRec.txt).</div></dd>
+<dt id="startup">/startup:&lt;<em>Name</em>&gt;</dt>
+<dd><div class="text">Only for fullscreen startup menu: Instead of the main menu, one of the submenus is shown directly. Possible values for &lt;<em>Name</em>&gt; are <em>main</em> (Main menu), <em>scen</em> (Scenario selection), <em>netscen</em> (Scenario selection for a new network game), <em>net</em> (Network/Internet game list), <em>options</em> (Options menu) und <em>plrsel</em> (Player selection).</div></dd>
+<dt id="c4s">*.c4s</dt>
+<dd><div class="text">If a scenario is specified (File extension .c4s), it will be started directly.</div></dd>
+<dt id="c4d">*.c4d</dt>
+<dd><div class="text">If the started scenario does not specify any required definitions (File extension .c4d), and no definitions are supplied in the registry, definitions can be specified via command line.</div></dd>
+<dt id="c4p">*.c4p</dt>
+<dd><div class="text">Player files (File extension .c4p) can be specified in the command line. If no player files are given, the registry values are used. By specifying a non-existant player (like doesnotexist.c4p), the game can be started without players (e.g. in order to just edit landscapes in developer mode).</div></dd>
+<dt id="c4u">*.c4u</dt>
+<dd><div class="text">If the filename of an update package (extension .c4u) is passed to the engine, then the program will attempt to apply that update package to the local installation.</div></dd>
+</dl>
+
+
+<h2 id="Editor">Editor.exe (Windows only)</h2>
+<div class="text">The editor for accessing group files and developing of game extensions. The editor does not have any command line parameters.</div>
+
+
+<h2 id="C4Group">c4group.exe (Windows) c4group (Linux) c4group (Mac)</h2>
+<div class="text">This command line program is used for processing group files. A list of command line options is available by starting the program without parameters via command line (not by double clicking).</div>
+
+<div class="author">Sven2, Februar 2007</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../sdk/index.html">Introduction</a></li>
+<li><a href="../content.html">Contents</a></li>
+<li><a href="../search.php">Search</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../sdk/files.html">Game Data</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

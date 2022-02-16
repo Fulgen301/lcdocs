@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Scenario Scripts</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1 id="SzenarioScripte">Scenario Scripts</h1>
+
+	<div class="text">Scenario scripts can control a general mission sequence or define specific features such as rejoins or special player placement. For documentation of the scripting language see <a href="../../sdk/script/index.html">C4Script</a>.</div>
+
+	<h2 id="Callbacks">Callbacks in Scenario Scripts</h2>
+	<div class="text">At the start of each round, before the players have joined, the engine calls the function "Initialize" in the scenario script, if defined. Within this function a scenario can perform special object placement or start the scenario scripting sequence.</div>
+
+	<pre class="code"><b>func</b> Initialize()
+{
+  <a href="../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Hallo"</i>); 
+  <a href="../../sdk/script/fn/CreateObject.html">CreateObject</a>(HUT1,250,200,0);
+  <a href="../../sdk/script/fn/ScriptGo.html">ScriptGo</a>(1);
+}</pre>
+
+	<div class="text">Sequential scripting: at the start of a round the internal script counter is set to 0. If sequential scripting has been started with ScriptGo, the counter is increased by one every ten frames and the corresponding script function is called in the scenario script, if defined.</div>
+	
+	<pre class="code"><b>func</b> Script26()
+{
+  <a href="../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Diese Funktion wird nach 260 Frames ausgeführt."</i>);
+}</pre>
+
+	<div class="text">The script counter can also be manually adjusted using <a href="../../sdk/script/fn/goto.html">goto</a>() to jump to certain counter positions.</div>
+	<div class="text">After joining a new player the engine calls the function InitializePlayer in the scenario script for that player. This function is called after the basic player objects as defined in Scenario.txt have been placed, so a preliminary starting position has been selected and the player's crew and starting material and buildings are present. In this function, you can now perform more special initial placement.</div>
+
+	<pre class="code"><b>func</b> InitializePlayer(iPlr)
+{
+  <i>// Eine Meldung für diesen Spieler
+</i>  <a href="../../sdk/script/fn/Message.html">Message</a>( <i class="string">"Spieler Nr. %d ist beigetreten"</i>, 0, iPlr );
+  <a href="../../sdk/script/fn/Sound.html">Sound</a>(<i class="string">"Ding"</i>);
+  <i>// Ersten Clonk des Spielers doch an einer anderen Stelle starten lassen
+</i>  <a href="../../sdk/script/fn/SetPosition.html">SetPosition</a>( <a href="../../sdk/script/fn/Random.html">Random</a>(<a href="../../sdk/script/fn/LandscapeWidth.html">LandscapeWidth</a>()), <a href="../../sdk/script/fn/Random.html">Random</a>(<a href="../../sdk/script/fn/LandscapeHeight.html">LandscapeHeight</a>()), <a href="../../sdk/script/fn/GetCrew.html">GetCrew</a>(iPlr));
+}</pre>
+
+	<div class="text">When a player leaves a round, the function RemovePlayer is called.</div>
+	<div class="text">If a round is ended through the game i.e. by player elimination, fulfillment of all goals as defined in Scenario.txt <a href="../../sdk/scenario/scenario.html#SektionGame">section [Game]</a>), or by the script command GameOver, the engine will call the function OnGameOver in the scenario script. This will not be called if the round was aborted.</div>
+
+	<pre class="code"><b>func</b> OnGameOver()
+{
+  <a href="../../sdk/script/fn/Sound.html">Sound</a>(<i class="string">"Trumpet"</i>);
+  <i>// Hier bietet sich die Möglichkeit für spezielle Rundenauswertung in der Log-Datei Clonk4.log
+</i>  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Vermögen von Spieler 1: %d"</i>, <a href="../../sdk/script/fn/GetWealth.html">GetWealth</a>(0));
+}</pre>
+
+
+<div class="author">Sven2, April 2002</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

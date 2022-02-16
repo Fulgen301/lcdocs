@@ -1,0 +1,623 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Scenario.txt</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1 id="Scenariotxt">Scenario.txt</h1>
+<div class="text">Über die Scenario.txt lassen sich alle Szenarienvoreinstellungen anpassen.
+Dazu gehören einfache, dynamische Karten, Spielervorgaben, Spielziele, Wetter, usw.
+Die meisten dieser Einstellungen lassen sich allerdings bequemer über den Editor in den Rundenoptionen konfigurieren.
+Für komplexere Startbedingungen wie zum Beispiel Teamschlachten mit automatischen Rejoins,
+sowie für vorgegebene Handlungsabläufe im Spiel benötigt man ein <a href="../../sdk/scenario/script.html">Script</a>.</div>
+<div class="text">Einige der Werte werden mit vier Zahlen angegeben, die Mittelwert, Abweichung, Minimum und Maximum festlegen.
+Der tatsächliche Wert wird dann durch
+<code>BoundBy(Mittelwert+Random(2*Abweichung+1)-Abweichung,Minimum,Maximum);</code>
+bestimmt.</div>
+
+<div class="text"><table>
+<caption id="SektionHead">Sektion [Head]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Icon</td>
+<td>Integer</td>
+<td>Standard-Icon des Szenarios. Siehe Szenarioeigenschaften im Menüsystem.</td>
+</tr>
+<tr class="dark">
+<td>Title</td>
+<td>Zeichenfolge (max 512)</td>
+<td>Titel des Szenarios. Wird durch die Einträge in Title.txt ersetzt.</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>4 Integer</td>
+<td>Vom Szenario benötigte Version der Engine.</td>
+</tr>
+<tr class="dark">
+<td>Access</td>
+<td>Integer</td>
+<td> </td>
+</tr>
+<tr>
+<td>Difficulty</td>
+<td>Integer</td>
+<td>Gibt den Schwierigkeitsgrad des Szenarios an.</td>
+</tr>
+<tr class="dark">
+<td>RoundOptions</td>
+<td>Integer</td>
+<td>0 oder 1. Freigabe der Szenarioeigenschaften im Menüsystem für andere Spieler.</td>
+</tr>
+<tr>
+<td>MaxPlayer</td>
+<td>Integer</td>
+<td>Maximale Anzahl der Spieler.</td>
+</tr>
+<tr class="dark">
+<td>MaxPlayerLeague</td>
+<td>Integer</td>
+<td>Maximale Anzahl der Spieler in der Liga.</td>
+</tr>
+<tr>
+<td>MinPlayer</td>
+<td>Integer</td>
+<td>Minimale Anzahl der Spieler. Wird für "(Netzwerk-) Spiel starten" und von dedizierten Servern verwendet.</td>
+</tr>
+<tr class="dark">
+<td>NoInitialize</td>
+<td>Integer</td>
+<td>0 oder 1. Bei 1 werden alle Objekte, die genau einmal erzeugt werden sollten, nicht platziert. Automatisch für Spielstände und gespeicherte Szenarien gesetzt, um eine erneute Erzeugung von Vegetation, Spielzielen und ähnlichem zu vermeiden. Es werden unter anderem die Werte Buildings, Vehicles, Material, Vegetation, InEarth und Animals ignoriert.</td>
+</tr>
+<tr>
+<td>MissionAccess</td>
+<td>Zeichenfolge</td>
+<td>Szenario kann nur gestartet werden, wenn ein Spieler zuvor dieses Zugangspasswort in einem anderen Szenario erspielt hat. Siehe Scriptfunktion <a href="../../sdk/script/fn/GainMissionAccess.html">GainMissionAccess</a>().</td>
+</tr>
+<tr class="dark">
+<td>Replay</td>
+<td>Integer</td>
+<td>Wird von der Engine automatisch gesetzt, und markiert eine Aufnahme.</td>
+</tr>
+<tr>
+<td>Film</td>
+<td>Integer</td>
+<td>0 oder 1 und nur bei Aufnahmen. Bei 1 folgt die Sicht nur dem ersten Spieler und alle Spielerkontrollen werden ausgeblendet.</td>
+</tr>
+<tr class="dark">
+<td>ForcedGfxMode</td>
+<td>Integer</td>
+<td>0-2. 0: Jede Engine möglich; 1: Nur NewGfx (OpenGL/D3D); 2: Nur OldGfx (8Bit-DDraw).</td>
+</tr>
+<tr>
+<td>DisableMouse</td>
+<td>Integer</td>
+<td>0 oder 1. Bei 1 kann man keine Maus verwenden.</td>
+</tr>
+<tr class="dark">
+<td>FairCrewStrength</td>
+<td>Integer</td>
+<td>Stärke der fairen Crew.</td>
+</tr>
+<tr>
+<td>Font</td>
+<td>Zeichenfolge</td>
+<td>Schriftart, die das Szenario verwendet. Angegeben wird der Name des Fonts, nicht der Name der Datei. Dateitypen: fon, fnt, ttf, ttc, fot, otf </td>
+</tr>
+<tr class="dark">
+<td>ForcedAutoContextMenu</td>
+<td>Integer</td>
+<td>-1 - 1. -1: Keine Einstellung. 0: Menü öffnet sich nicht automatisch, wenn man ein Gebäude betritt. 1: Menü öffnet sich automatisch, wenn man ein Gebäude betritt.</td>
+</tr>
+<tr>
+<td>ForcedAutoStopControl</td>
+<td>Integer</td>
+<td>-1 - 1. -1: Keine Einstellung. 0: Erzwingt Klassische Steuerung. 1: Erzwingt Jump'n'Run-Steuerung.</td>
+</tr>
+<tr class="dark">
+<td>ForcedFairCrew</td>
+<td>Integer</td>
+<td>0 - 2. 0: Freie Einstellung. 1: Erzwingt faire Crew. 2: Erzwingt trainierte Crew.</td>
+</tr>
+<tr>
+<td>Loader</td>
+<td>Zeichenfolge</td>
+<td>Dateiname einer Grafik, die beim Start der Runde angezeigt wird. * darf verwendet werden.</td>
+</tr>
+<tr class="dark">
+<td>Origin</td>
+<td>Zeichenfolge</td>
+<td>Pfadangabe. Definitionen werden vom angegebenen Ort geladen, auch wenn sich das Szenario nicht dort befindet.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionGame">Sektion [Game]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Rules</td>
+<td>ID-Liste</td>
+<td>Spielregeln.</td>
+</tr>
+<tr class="dark">
+<td>Goals</td>
+<td>ID-Liste</td>
+<td>Spielziele.</td>
+</tr>
+<tr>
+<td>ValueOverloads</td>
+<td>ID-Liste</td>
+<td>Liste der Definitionen, dessen Wert für diese Runde geändert sein soll. Die Menge gibt den neuen Wert an.</td>
+</tr>
+<tr class="dark">
+<td>FoWColor</td>
+<td>DWORD</td>
+<td>Farbe des Fog of War.</td>
+</tr>
+<tr>
+<td>Mode</td>
+<td>Integer</td>
+<td>Veraltet. 0 Kooperativ, 1 Melee, 2 Teamwork-Melee.</td>
+</tr>
+<tr class="dark">
+<td>Elimination</td>
+<td>Integer</td>
+<td>Veraltet. Spielereliminierung durch 0 Verlust Captain, 1 Verlust Crew, 2 Verlust Flagge.</td>
+</tr>
+<tr>
+<td>CooperativeGoal</td>
+<td>Integer</td>
+<td>Veraltet. Wert der Auswahl Spielziel im Menüsystem (0-4).</td>
+</tr>
+<tr class="dark">
+<td>CreateObjects</td>
+<td>ID-Liste</td>
+<td>Veraltet. Spielziel: Diese Objekte müssen mindestens vorhanden sein.</td>
+</tr>
+<tr>
+<td>ClearObjects</td>
+<td>ID-Liste</td>
+<td>Veraltet. Spielziel: Diese Objekte müssen auf x reduziert werden.</td>
+</tr>
+<tr class="dark">
+<td>ClearMaterials</td>
+<td>Material-Liste</td>
+<td>Veraltet. Spielziel: Diese Materialien müssen auf x reduziert werden.</td>
+</tr>
+<tr>
+<td>BaseFunctionality</td>
+<td>Integer</td>
+<td>Bitmaske, die angibt, welche Funktionen eine Basis erfüllt. Siehe <a href="../../sdk/scenario/basefunc.html">Basisfunktionalitäten</a>. Ab CR.</td>
+</tr>
+<tr class="dark">
+<td>BaseRegenerateEnergyPrice</td>
+<td>Integer</td>
+<td>Kosten, die aufgewendet werden, um einen Clonk in einer Basis um 100 Energiepunkte zu heilen. Standard ist 5; bei 0 ist die Heilung kostenlos. Ab CR.</td>
+</tr>
+<tr>
+<td>LandscapeInsertThrust</td>
+<td>Integer</td>
+<td>0 oder 1. Betrifft die Verdrängung von Flüssigkeiten durch Material. Vor Clonk Rage wurde beispielsweise Wasser einfach ersetzt, wenn man einen Erdklumpen hinein warf. In Clonk Rage steigt dagegen der Wasserspiegel. 0 aktiviert das alte Verhalten.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionenPlayer1Player2Player3Player4">Sektionen [Player1] [Player2] [Player3] [Player4] (5. Spieler hat [Player1] usw.)</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Wealth</td>
+<td>4 Integer</td>
+<td>Startkapital.</td>
+</tr>
+<tr class="dark">
+<td>Position</td>
+<td>2 Integer</td>
+<td>Startposition in Koordinaten der ungezoomten Landkarte. Beide -1 für Zufall.</td>
+</tr>
+<tr>
+<td>Crew</td>
+<td>ID-Liste</td>
+<td>Art und Anzahl der Mannschaftsmitglieder.</td>
+</tr>
+<tr class="dark">
+<td>Buildings</td>
+<td>ID-Liste</td>
+<td>Zu Spielbeginn vorhandene Gebäude.</td>
+</tr>
+<tr>
+<td>Vehicles</td>
+<td>ID-Liste</td>
+<td>Zu Spielbeginn vorhandene Fahrzeuge.</td>
+</tr>
+<tr class="dark">
+<td>Material</td>
+<td>ID-Liste</td>
+<td>Zu Spielbeginn vorhandenes Material.</td>
+</tr>
+<tr>
+<td>Knowledge</td>
+<td>ID-Liste</td>
+<td>Vom Spieler erzeugbare Objekte.</td>
+</tr>
+<tr class="dark">
+<td>HomeBaseMaterial</td>
+<td>ID-Liste</td>
+<td>Zu Spielbeginn in der Heimatbasis kaufbares Material.</td>
+</tr>
+<tr>
+<td>HomeBaseProduction</td>
+<td>ID-Liste</td>
+<td>Nachproduktion von Material für die Heimatbasis.</td>
+</tr>
+<tr class="dark">
+<td>Magic</td>
+<td>ID-Liste</td>
+<td>Zur Verfügung stehende Zauber. Sind keine Zauber angegeben, werden alle verfügbaren Zauber geladen (Abwärtskompatibilität zu älteren Szenarien).</td>
+</tr>
+<tr>
+<td>EnforcePosition</td>
+<td>Integer</td>
+<td>0 oder 1. 1  verhindert, dass eine freie Fläche für den Spieler gesucht wird.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionLandscape">Sektion [Landscape]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Vegetation</td>
+<td>ID-Liste</td>
+<td>Vegetationstypen und relative Anteile.</td>
+</tr>
+<tr class="dark">
+<td>VegetationLevel</td>
+<td>4 Integer</td>
+<td>0-100. Menge Vegetation.</td>
+</tr>
+<tr>
+<td>InEarth</td>
+<td>ID-Liste</td>
+<td>Typen und relative Anteile der Objekte im Erdreich.</td>
+</tr>
+<tr class="dark">
+<td>InEarthLevel</td>
+<td>4 Integer</td>
+<td>0-100. Menge Erdreich-Objekte.</td>
+</tr>
+<tr>
+<td>Sky</td>
+<td>Zeichenfolge</td>
+<td>Himmeltextur wie in der Graphics.c4g vorhanden (ohne Dateierweiterung).</td>
+</tr>
+<tr class="dark">
+<td>SkyFade</td>
+<td>6 Integer</td>
+<td>Himmelfarbverlauf von RGB nach RGB. Werte von 0-255. Sind alle Werte 0, wird das Vorgabe-Blau der Clonk-Farbpalette verwendet.</td>
+</tr>
+<tr>
+<td>BottomOpen</td>
+<td>Integer</td>
+<td>0 oder 1. Legt fest, ob die Spielwelt unten offen ist.</td>
+</tr>
+<tr class="dark">
+<td>TopOpen</td>
+<td>Integer</td>
+<td>0 oder 1. Legt fest, ob die Spielwelt oben offen ist.</td>
+</tr>
+<tr>
+<td>LeftOpen</td>
+<td>Integer</td>
+<td>Öffnung des linken Randes bis zum Abstand in Pixel von der Oberkante.</td>
+</tr>
+<tr class="dark">
+<td>RightOpen</td>
+<td>Integer</td>
+<td>Öffnung des rechten Randes bis zum Abstand in Pixel von der Oberkante.</td>
+</tr>
+<tr>
+<td>AutoScanSideOpen</td>
+<td>Integer</td>
+<td>0 oder 1. Bei 1 werden LeftOpen und RightOpen automatisch angepasst.</td>
+</tr>
+<tr class="dark">
+<td>MapWidth</td>
+<td>4 Integer</td>
+<td>Ausgangsbreite der dynamischen Karte.</td>
+</tr>
+<tr>
+<td>MapHeight</td>
+<td>4 Integer</td>
+<td>Ausgangshöhe der dynamischen Karte.</td>
+</tr>
+<tr class="dark">
+<td>MapZoom</td>
+<td>4 Integer</td>
+<td>Vergrößerungsfaktor der Karte auf die tatsächliche Spiellandschaft. Wert 10.</td>
+</tr>
+<tr>
+<td>Amplitude</td>
+<td>4 Integer</td>
+<td>0-100 und Abweichung. Hügelhöhe bei dynamischen Karten.</td>
+</tr>
+<tr class="dark">
+<td>Phase</td>
+<td>4 Integer</td>
+<td>0-100 und Abweichung. Hügelverschiebung bei dynamischen Karten.</td>
+</tr>
+<tr>
+<td>Period</td>
+<td>4 Integer</td>
+<td>0-100 und Abweichung. Hügelabstand bei dynamischen Karten.</td>
+</tr>
+<tr class="dark">
+<td>Random</td>
+<td>4 Integer</td>
+<td>0-100 und Abweichung. Zufallsabweichung bei dynamischen Karten.</td>
+</tr>
+<tr>
+<td>Material</td>
+<td>Zeichenfolge</td>
+<td>Material-Textur-Definition des Basismaterials (Erdreich) bei dynamischen Karten.</td>
+</tr>
+<tr class="dark">
+<td>Liquid</td>
+<td>Zeichenfolge</td>
+<td>Material-Textur-Definition der Flüssigkeit in dynamischen Karten.</td>
+</tr>
+<tr>
+<td>LiquidLevel</td>
+<td>4 Integer</td>
+<td>0-100 und Abweichung. Flüssigkeitsstand in dynamischen Karten.</td>
+</tr>
+<tr class="dark">
+<td>MapPlayerExtend</td>
+<td>Integer</td>
+<td>0 oder 1. Legt fest, ob die dynamische Karte in der Breite angepasst wird.</td>
+</tr>
+<tr>
+<td>Layers</td>
+<td>Material-Liste</td>
+<td>Materialschichten im Erdreich bei dynamischen Karten.</td>
+</tr>
+<tr class="dark">
+<td>ExactLandscape</td>
+<td>1 Integer</td>
+<td>0 oder 1. Gibt an, ob Landscape.bmp eine tatsächliche Spiellandschaft ist.</td>
+</tr>
+<tr>
+<td>Gravity</td>
+<td>4 Integer</td>
+<td>10-200: Gravitation. 100 ist Standard.</td>
+</tr>
+<tr class="dark">
+<td>NoScan</td>
+<td>Integer</td>
+<td>0 oder 1. Bei 1 werden keine Überprüfungen innerhalb der Landschaft durchgeführt, wie beispielsweise Schneeschmelze oder Festwerden von Lava in Vulkanen.</td>
+</tr>
+<tr>
+<td>KeepMapCreator</td>
+<td>Integer</td>
+<td>0 oder 1. Bei 1 wird der interne MapCreator nicht nach dem Start entladen, so dass Befehle wie <a href="../../sdk/script/fn/DrawDefMap.html">DrawDefMap</a> zur Verfügung stehen.</td>
+</tr>
+<tr class="dark">
+<td>SkyScrollMode</td>
+<td>Integer</td>
+<td>0 bis 2. Bei 1 bewegt sich der Himmel mit dem Wind, bei 2 ist er halbparallax.</td>
+</tr>
+<tr>
+<td>FoWRes</td>
+<td>Integer</td>
+<td>Größe der Blöcke, in denen der Kriegsnebel (Fog of War) berechnet wird. Standardwert 64. Achtung: Kleinere Werte verbessern zwar die Darstellung des Kriegsnebels, erhöhen aber auch die benötigte Rechenleistung bei hohen Bildschirmauflösungen. Ab CR.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionAnimals">Sektion [Animals]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Animals</td>
+<td>ID-Liste</td>
+<td>Freilaufende Lebewesen.</td>
+</tr>
+<tr class="dark">
+<td>Nest</td>
+<td>ID-Liste</td>
+<td>Nester im Erdreich.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionWeather">Sektion [Weather]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Climate</td>
+<td>4 Integer</td>
+<td>0-100 und Abweichung. Durchschnittstemperatur. 0 warm, 100 kalt.</td>
+</tr>
+<tr class="dark">
+<td>StartSeason</td>
+<td>4 Integer</td>
+<td>0-100 und Abweichung. Startjahreszeit.</td>
+</tr>
+<tr>
+<td>YearSpeed</td>
+<td>4 Integer</td>
+<td>0-100 und Abweichung. Geschwindigkeit des Jahreszeitenwechsels.</td>
+</tr>
+<tr class="dark">
+<td>Rain</td>
+<td>4 Integer</td>
+<td>0-100 und Abweichung. Regenwahrscheinlichkeit.</td>
+</tr>
+<tr>
+<td>Wind</td>
+<td>4 Integer</td>
+<td>-100-100 und Abweichung. Windrichtung und -stärke.</td>
+</tr>
+<tr class="dark">
+<td>Lightning</td>
+<td>4 Integer</td>
+<td>0-100 und Abweichung. Blitzwahrscheinlichkeit.</td>
+</tr>
+<tr>
+<td>Precipitation</td>
+<td>Zeichenfolge</td>
+<td>Einfache Materialdefinition Niederschlag.</td>
+</tr>
+<tr class="dark">
+<td>NoGamma</td>
+<td>Integer</td>
+<td>0 oder 1. Bei 1 wirken sich die Jahreszeiten nicht auf die Bildschirmfärbung aus.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionDisasters">Sektion [Disasters]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Meteorite</td>
+<td>4 Integer</td>
+<td>0-100 und Abweichung. Meteoritenwahrscheinlichkeit.</td>
+</tr>
+<tr class="dark">
+<td>Volcano</td>
+<td>4 Integer</td>
+<td>0-100 und Abweichung. Vulkanwahrscheinlichkeit.</td>
+</tr>
+<tr>
+<td>Earthquake</td>
+<td>4 Integer</td>
+<td>0-100 und Abweichung. Erdbebenwahrscheinlichkeit.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionEnvironment">Sektion [Environment]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody><tr>
+<td>Objects</td>
+<td>ID-Liste</td>
+<td>Umweltsteuerungsobjekte, die am Anfang der Runde platziert werden.</td>
+</tr></tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionDefinitions">Sektion [Definitions]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>LocalOnly</td>
+<td>Integer</td>
+<td>Wenn LocalOnly den Wert 1 hat, werden alle angegebenen Objektdefinitions-pakete ignoriert und nur lokale Objektdefinitionen geladen.</td>
+</tr>
+<tr class="dark">
+<td>Definitions</td>
+<td>Liste von Zeichenfolgen</td>
+<td>Über Definitions (etwa Definitions="Objects.c4d", "Knights.c4d") kann vorgegeben werden, welche Objektdefinitionspakete (c4d) das Szenario benutzen soll. Die Pakete müssen im Clonk-Verzeichnis vorhanden sein und in Anführungszeichen eingeschlossen angegeben werden. Sind Pakete im Szenario angegeben, wird die vom Menüsystem bestimmte Auswahl ignoriert.</td>
+</tr>
+<tr>
+<td>Definition1 (bis 9)</td>
+<td>Zeichenfolge(n)</td>
+<td>Über Definition<em>x</em>-Einträge kann vorgegeben werden, welche Objektdefinitionspakete (c4d) das Szenario benutzen soll. Die Pakete müssen im Clonk-Verzeichnis vorhanden sein. Sind Pakete im Szenario angegeben, wird die vom Menüsystem bestimmte Auswahl ignoriert.</td>
+</tr>
+<tr class="dark">
+<td>SkipDefs</td>
+<td>ID-Liste</td>
+<td>Liste der Definitionen, die im Spiel nicht geladen werden sollen. So lässt sich beispielsweise die Erforschung bestimmter Objekte verhindern.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="author">Sven2, Fulgen, Oktober 2019</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

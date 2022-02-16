@@ -1,0 +1,503 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Materialdefinitionen (C4M)</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1 id="c4m">Materialdefinitionen (C4M)</h1>
+
+	<div class="text">In Materialdefinitionen wird Aussehen und Verhalten von Materialien festgelegt.</div>
+
+	<div class="text"><table>
+<caption id="SektionMaterial">Sektion [Material]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>Zeichenfolge (max. 15)</td>
+<td>Name des Materials.</td>
+</tr>
+<tr class="dark">
+<td>Color</td>
+<td>3 x 3 Integer</td>
+<td>Die drei Farben des Materials als R,G,B, R,G,B, R,G,B (jeweils 0-255).</td>
+</tr>
+<tr>
+<td>ColorAnimation</td>
+<td>Integer</td>
+<td>0 oder 1. Farbanimation.</td>
+</tr>
+<tr class="dark">
+<td>Shape</td>
+<td>Integer</td>
+<td>Landschaftsform: 0 glatt, 1 oben glatt, 2 halbrauh, 3 komplett rauh.</td>
+</tr>
+<tr>
+<td>Density</td>
+<td>Integer</td>
+<td>Dichte: 50 fest, 25 flüssig (andere Werte nicht zulässig).</td>
+</tr>
+<tr class="dark">
+<td>Friction</td>
+<td>Integer</td>
+<td>0-100. Reibung.</td>
+</tr>
+<tr>
+<td>MinHeightCount</td>
+<td>Integer</td>
+<td>
+<a href="../../sdk/script/fn/GetMaterialCount.html">GetMaterialCount</a> zählt die Materialpixel erst ab der angegebenen Höhe.</td>
+</tr>
+<tr class="dark">
+<td>SplashRate</td>
+<td>Integer</td>
+<td>Zufallswert im Sinne von !Random(&lt;Wert&gt;) : In 1 von &lt;Wert&gt; Fällen wird der Materialpixel (PXS) nach Aufprall mit dem Boden (Boden hat höhere Density als PXS) aufspringen. Standardwert 10.</td>
+</tr>
+<tr>
+<td>DigFree</td>
+<td>Integer</td>
+<td>0 oder 1. Bestimmt, ob das Material freigegraben werden kann.</td>
+</tr>
+<tr class="dark">
+<td>BlastFree</td>
+<td>Integer</td>
+<td>0 oder 1. Bestimmt, ob das Material freigesprengt werden kann.</td>
+</tr>
+<tr>
+<td>Blast2Object</td>
+<td>Definitions-ID</td>
+<td>Freigesprengte Objekte.</td>
+</tr>
+<tr class="dark">
+<td>Dig2Object</td>
+<td>Definitions-ID</td>
+<td>Freigegrabene Objekte.</td>
+</tr>
+<tr>
+<td>Dig2ObjectRatio</td>
+<td>Integer</td>
+<td>ca. 100-500. Massenverhältnis beim Freigraben.</td>
+</tr>
+<tr class="dark">
+<td>Dig2ObjectRequest</td>
+<td>Integer</td>
+<td>0 oder 1. Wenn 1, werden Objekte nur auf Wunsch freigegraben.</td>
+</tr>
+<tr>
+<td>Blast2ObjectRatio</td>
+<td>Integer</td>
+<td>ca. 100-500. Massenverhältnis beim Freisprengen.</td>
+</tr>
+<tr class="dark">
+<td>Blast2PXSRatio</td>
+<td>Integer</td>
+<td>Massenverhältnis beim Freisprengen von Kleinmaterial.</td>
+</tr>
+<tr>
+<td>Instable</td>
+<td>Integer</td>
+<td>0 oder 1. Stabilität.</td>
+</tr>
+<tr class="dark">
+<td>MaxAirSpeed</td>
+<td>Integer</td>
+<td>ca. 10-100. Fallgeschwindigkeit.</td>
+</tr>
+<tr>
+<td>MaxSlide</td>
+<td>Integer</td>
+<td>Rutschreichweite.</td>
+</tr>
+<tr class="dark">
+<td>WindDrift</td>
+<td>Integer</td>
+<td>Abtrieb durch Wind.</td>
+</tr>
+<tr>
+<td>Inflammable</td>
+<td>Integer</td>
+<td>Entzündbarkeit.</td>
+</tr>
+<tr class="dark">
+<td>Incindiary</td>
+<td>Integer</td>
+<td>Entzündung durch dieses Material.</td>
+</tr>
+<tr>
+<td>Corrode</td>
+<td>Integer</td>
+<td>Verätzung durch dieses Material.</td>
+</tr>
+<tr class="dark">
+<td>Corrosive</td>
+<td>Integer</td>
+<td>Ätzbarkeit.</td>
+</tr>
+<tr>
+<td>Extinguisher</td>
+<td>Integer</td>
+<td>Feuerlöschkraft.</td>
+</tr>
+<tr class="dark">
+<td>Soil</td>
+<td>Integer</td>
+<td>Nährboden für Pflanzen.</td>
+</tr>
+<tr>
+<td>TempConvStrength</td>
+<td>Integer</td>
+<td>Stärke der Temperaturumwandlung.</td>
+</tr>
+<tr class="dark">
+<td>BlastShiftTo</td>
+<td>Zeichenfolge (max. 15)</td>
+<td>Materialverwandlung bei Sprengung.</td>
+</tr>
+<tr>
+<td>InMatConvert</td>
+<td>Zeichenfolge (max. 15)</td>
+<td>In diesem Material verwandelt sich das Material...</td>
+</tr>
+<tr class="dark">
+<td>InMatConvertTo</td>
+<td>Zeichenfolge (max. 15)</td>
+<td>...in dieses Material...</td>
+</tr>
+<tr>
+<td>InMatConvertDepth</td>
+<td>Integer</td>
+<td>...wenn das Materialpixel zur angegebenen Tiefe im angegebenen Material ist. Ab CE.</td>
+</tr>
+<tr class="dark">
+<td>AboveTempConvert</td>
+<td>Integer</td>
+<td>Oberhalb dieser Temperatur verwandelt sich das Material...</td>
+</tr>
+<tr>
+<td>AboveTempConvertTo</td>
+<td>Zeichenfolge (max. 15)</td>
+<td>...in dieses Material.</td>
+</tr>
+<tr class="dark">
+<td>AboveTempConvertDir</td>
+<td>Integer</td>
+<td>Richtung der Umwandlung: von oben nach unten (0), von unten nach oben (1)</td>
+</tr>
+<tr>
+<td>BelowTempConvert</td>
+<td>Integer</td>
+<td>Unterhalb dieser Temperatur verwandelt sich das Material...</td>
+</tr>
+<tr class="dark">
+<td>BelowTempConvertTo</td>
+<td>Zeichenfolge (max. 15)</td>
+<td>...in dieses Material.</td>
+</tr>
+<tr>
+<td>BelowTempConvertDir</td>
+<td>Integer</td>
+<td>Richtung der Umwandlung: von oben nach unten (0), von unten nach oben (1)</td>
+</tr>
+<tr class="dark">
+<td>Alpha</td>
+<td>6 Integer</td>
+<td>Durchsichtigkeit für die drei Materialfarben ober- und unterirdisch.</td>
+</tr>
+<tr>
+<td>Placement</td>
+<td>Integer</td>
+<td>0-100. Dieser Wert wird für die Nachbeleuchtung der Landschaft verwendet, und wird normalerweise automatisch aus den anderen Materialwerten berechnet.</td>
+</tr>
+<tr class="dark">
+<td>TextureOverlay</td>
+<td>Zeichenfolge (max. 15)</td>
+<td>Standardtextur für dieses Material, die vom Landschaftsgenerator zusätzlich benutzt wird.</td>
+</tr>
+<tr>
+<td>OverlayType</td>
+<td>Integer</td>
+<td>Bitmaske für die Berechnung der Textur auf dem Material. Bit 0 (1): Exakt (kein Zoom), Bit 1 (2): Keine Textur, Bit 2 (4): Extragroß gezoomt, Bit 3 (8): Textur auf Graustufen aufrechnen.</td>
+</tr>
+<tr class="dark">
+<td>PXSGfx</td>
+<td>Zeichenfolge (max. 30)</td>
+<td>Grafik für lose Materialpixel. Die Grafik sollte als Materialtextur geladen sein.</td>
+</tr>
+<tr>
+<td>PXSGfxRt</td>
+<td>4 Integer</td>
+<td>Zielrechteck auf die Grafik für lose Materialpixel. Es werden weitere Phasen rechts und unterhalb der angegebenen Grafik benutzt. Die Grafik sollte immer oben links beginnen, und die gesamte Texturgröße einnehmen.</td>
+</tr>
+</tbody>
+</table></div>
+	<h2>Benutzerdefinierte Reaktionen</h2>
+	<div class="text">Zusätzlich zu den Standardroutinen kann jedes Material ab CR weitere Reaktionen definieren, die ausgeführt werden, wenn das Material durch lose Pixel (z.B. Regen oder Explosionsstreuung) oder Materialbewegung (z.B. beim Angraben eines Sees) auf ein anderes Material trifft:</div>
+	<div class="text"><table>
+<caption id="SektionReaction">In der .c4m-Datei: Beliebig viele Sektionen [Reaction]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Type</td>
+<td>Zeichenfolge</td>
+<td>Art der Reaktion, die stattfinden soll. Siehe <a href="../../sdk/material/c4m.html#ReactTypes">Tabelle</a>.</td>
+</tr>
+<tr class="dark">
+<td>TargetSpec</td>
+<td>Zeichenfolge</td>
+<td>Zielmaterial, mit dem das lose Material reagiert. Siehe <a href="../../sdk/material/c4m.html#TargetSpecs">Materialspezifikationen</a>.</td>
+</tr>
+<tr>
+<td>ScriptFunc</td>
+<td>Zeichenfolge</td>
+<td>Nur für Reaktionstyp Script: Name der Scriptfunktion, die das Verhalten bestimmt.</td>
+</tr>
+<tr class="dark">
+<td>ExecMask</td>
+<td>Integer</td>
+<td>Bitmaske, die angibt, in welcher Situation die Reaktion stattfindet. Bitindizes sind die <a href="../../sdk/material/c4m.html#ReactEvents">Reaktionsereignisse</a>. Standardwert -1 für alle Ereignisse.</td>
+</tr>
+<tr>
+<td>Reverse</td>
+<td>Boolean</td>
+<td>Normalerweise gibt die Reaktion an, was mit losem Material der Definition, in der die Reaktion definiert ist, passiert, wenn es auf festes Material vom in TargetSpec angegebenen Typ trifft. Ist Reverse gesetzt, so wird die Definition umgekehrt.</td>
+</tr>
+<tr class="dark">
+<td>InverseSpec</td>
+<td>Boolean</td>
+<td>Wenn wahr, wird die Reaktion für alle anderen Materialien (inklusive "Sky"), die die Bedingung in TargetSpec nicht erfüllen, verwendet.</td>
+</tr>
+<tr>
+<td>CheckSlide</td>
+<td>Boolean</td>
+<td>Wenn wahr, wird vor dem Aufruf der Reaktion das Standardverhalten (Sprenkeln am Boden und Abrutschen nach MaxSlide) ausgeführt.</td>
+</tr>
+<tr class="dark">
+<td>Depth</td>
+<td>Integer</td>
+<td>Nur für Reaktionstyp Convert: Tiefe im Zielmaterial, ab der Material umgewandelt wird.</td>
+</tr>
+<tr>
+<td>ConvertMat</td>
+<td>String</td>
+<td>Nur für Reaktionstyp Convert: Material, in das umgewandelt wird. Bei Angabe von Sky wird das Material vernichtet.</td>
+</tr>
+<tr class="dark">
+<td>CorrosionRate</td>
+<td>Integer</td>
+<td>Nur für Reaktionstyp Corrode: Chance darauf, dass verätzt wird.</td>
+</tr>
+</tbody>
+</table></div>
+	<div class="text"><table>
+<caption id="ReactEvents">Reaktionsereignisse</caption>
+<thead><tr>
+<th>Name</th>
+<th>Wert</th>
+<th>Ereignis</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>MEE_PXSPos</td>
+<td>0</td>
+<td>Check vor jedem Bewegungsframe eines losen Materialpixels gegen das Hintergrundmaterial</td>
+</tr>
+<tr class="dark">
+<td>MEE_PXSMove</td>
+<td>1</td>
+<td>Check gegen jedes Pixel, das ein loses Materialpixel in seiner Bewegung berührt</td>
+</tr>
+<tr>
+<td>MEE_MassMove</td>
+<td>2</td>
+<td>Bei größeren Materialbewegungen (z.B. angegrabener See):Check des bewegten Materials gegen das Material, über das es sich bewegt</td>
+</tr>
+</tbody>
+</table></div>
+	<div class="text"><table>
+<caption id="ReactTypes">Reaktionstypen</caption>
+<thead><tr>
+<th>Name</th>
+<th>Verhalten</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Script</td>
+<td>Für jedes Aufeinandertreffen wird die in ScriptFunc angegebene Scriptfunktion aufgerufen.
+			</td>
+</tr>
+<tr class="dark">
+<td>Convert</td>
+<td>Das Material wird in ein anderes umgewandelt. Vergleichbar mit dem Verhalten von Schnee in Wasser.</td>
+</tr>
+<tr>
+<td>Poof</td>
+<td>Sowohl das lose als auch das feste Material werden entfernt. Außerdem werden wird mit Chance 1:3 eine kleine Rauchwolke erzeugt und mit Chance 1:3 der Sound "Pshshsh" abgespielt. Vergleichbar mit dem Verhalten von Wasser in Lava.</td>
+</tr>
+<tr class="dark">
+<td>Corrode</td>
+<td>Das lose Material ätzt das Zielmaterial mit Chance CorrosionRate weg und entfernt sich dabei selber. Wenn geätzt wird, wird mit Chance 1:5 eine kleine Rauchwolke erzeugt und mit Chance 1:20 der Sound "Corrode" abgespielt. Vergleichbar mit dem Verhalten von Säure auf Erde.</td>
+</tr>
+<tr>
+<td>Insert</td>
+<td>Das lose Material wird als festes Material eingefügt. Vergleichbar mit dem Verhalten aller Materialien, wenn sie auf ein Material gleicher oder höherer Dichte treffen.</td>
+</tr>
+</tbody>
+</table></div>
+	<div class="text"><table>
+<caption id="TargetSpecs">Materialspezifikationen</caption>
+<thead><tr>
+<th>Name</th>
+<th>Materialien</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Materialname</td>
+<td>Entsprcht die Spezifikation direkt dem Namen eines anderen Materials, wird dieses benutzt.</td>
+</tr>
+<tr class="dark">
+<td>All</td>
+<td>Alle Materialien inklusive "Sky"</td>
+</tr>
+<tr>
+<td>Solid</td>
+<td>Alle festen Materialien</td>
+</tr>
+<tr class="dark">
+<td>SemiSolid</td>
+<td>Alle festen und flüssigen Materialien</td>
+</tr>
+<tr>
+<td>Background</td>
+<td>Alle Hintergrundmaterialien, inklusive "Sky"</td>
+</tr>
+<tr class="dark">
+<td>Sky</td>
+<td>Das Hintergrundmaterial.</td>
+</tr>
+<tr>
+<td>Incindiary</td>
+<td>Alle anzündenden Materialien.</td>
+</tr>
+<tr class="dark">
+<td>Extinguisher</td>
+<td>Alle feuerlöschenden Materialien.</td>
+</tr>
+<tr>
+<td>Inflammable</td>
+<td>Alle entzündbaren Materialien.</td>
+</tr>
+<tr class="dark">
+<td>Corrosive</td>
+<td>Alle verätzbaren Materialien.</td>
+</tr>
+<tr>
+<td>Corrode</td>
+<td>Alle ätzenden Materialien.</td>
+</tr>
+</tbody>
+</table></div>
+	<h2>Reaktionstyp 'Script'</h2>
+<div class="text">
+	Mit dieser sehr rechenintensiven Methode kann das Materialveralten frei bestimmt werden. Die Scriptfunktion sollte global deklariert haben und folgende Parameter besitzen:
+	<table>
+<thead><tr>
+<th>Parameternummer(n)</th>
+<th>Name(n)</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1,2</td>
+<td>iX, iY</td>
+<td>Integer</td>
+<td>Position des losen Materials. Die Parameter können verändert werden, um das Materialpixel zu verschieben.</td>
+</tr>
+<tr class="dark">
+<td>3,4</td>
+<td>iLSPosX, iLSPosY</td>
+<td>Integer</td>
+<td>Position in der Landschaft, auf die das Material trifft.</td>
+</tr>
+<tr>
+<td>5,6</td>
+<td>iXDir, iYDir</td>
+<td>Integer</td>
+<td>Geschwindigkeit (in 1/100px) der Bewegung des Materials. Kann geändert werden, um die Geschwindigkeit des Materialpixels zu beeinflussen. Nicht für MassMover.</td>
+</tr>
+<tr class="dark">
+<td>7</td>
+<td>iPxsMat</td>
+<td>Integer</td>
+<td>Materialnummer des losen Materials. Nützlich, wenn die gleiche Funktion für Reaktionen mehrerer Materialen verwendet wird</td>
+</tr>
+<tr>
+<td>8</td>
+<td>iLsMat</td>
+<td>Integer</td>
+<td>Materialnummer des festen Materials.</td>
+</tr>
+<tr class="dark">
+<td>9</td>
+<td>iEvent</td>
+<td>Integer</td>
+<td>Siehe <a href="../../sdk/material/c4m.html#ReactEvents">Reaktionsereignisse</a>.</td>
+</tr>
+</tbody>
+</table>
+	Der Rückgabewert der Funktion sollte entweder 1 für Entfernen oder 0 für Erhalten des losen Materials sein.
+	</div>
+
+
+<div class="author">Sven2, Dezember 2006</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

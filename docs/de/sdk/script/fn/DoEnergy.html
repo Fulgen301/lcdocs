@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>DoEnergy</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="DoEnergy">DoEnergy</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Status<br><b>Ab Engineversion: </b>4.6.5.0 CP
+        (erweitert ab 4.9.6.0 CR)
+      </div>
+<h2>Beschreibung</h2>
+<div class="text">Verändert die Energie eines Objekts. Die Energie entspricht bei Gebäuden der elektrischen Energie, und bei Lebewesen der Lebensenergie.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> DoEnergy
+      (<span class="type">int</span> iChange, <span class="type">object</span> pObj, <span class="type">bool</span> fExakt, <span class="type">int</span> iEngType, <span class="type">int</span> iCausedBy);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iChange: </dt>
+<dd><div class="text">Veränderung des Energiewertes; positiv oder negativ in Prozent zum Maximalwert. 100% entsprechen hierbei dem maximalen Physical-Wert von 100000.</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Objekt, dessen Energiewert verändert wird. 0 bei lokalem Aufruf.</div></dd>
+<dt>fExakt: </dt>
+<dd><div class="text">
+    [opt]
+  Wenn WAHR, wird iChange auf den exakten Energiewert angewendet (0 bis Wert von Physical "Energy").</div></dd>
+<dt>iEngType: </dt>
+<dd><div class="text">
+    [opt]
+  Schadensursache, die an Fx*Damage-Callbacks von Effekten übergeben wird (siehe <a href="../../../sdk/script/Effects.html">Effekte-Dokumentation</a>). Standard ist FX_Call_EngScript.</div></dd>
+<dt>iCausedBy: </dt>
+<dd><div class="text">
+    [opt]
+  Spielernummer des Spielers, der den Schaden verursacht hat, plus eins.</div></dd>
+</dl>
+<h2>Beispiel</h2>
+			<div class="example">
+				<pre class="code">DoEnergy(<a href="../../../sdk/script/fn/GetPhysical.html">GetPhysical</a>(<i class="string">"Energy"</i>, 0, <a href="../../../sdk/script/fn/GetCursor.html">GetCursor</a>(0))*50/100000, <a href="../../../sdk/script/fn/GetCursor.html">GetCursor</a>(0));</pre>
+				<div class="text">Gibt den ausgewählten Clonk des ersten Spielers 50% mehr Energie.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/EnergyCheck.html">EnergyCheck</a>, <a href="../../../sdk/script/fn/GetEnergy.html">GetEnergy</a>
+</div>
+<div class="author">Sven2, November 2001</div>
+<div class="author">Clonkonaut, April 2008</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

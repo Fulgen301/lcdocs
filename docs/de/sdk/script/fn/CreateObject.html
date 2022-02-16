@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>CreateObject</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="CreateObject">CreateObject</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Erzeugung<br><b>Ab Engineversion: </b>4.6.5.0 CP</div>
+<h2>Beschreibung</h2>
+<div class="text">Erzeugt ein Objekt des angegebenen Typs an der angegebenen Position. iXOffset und iYOffset bestimmen die Position in absoluten Pixel-Koordinaten der Landschaft (Mitte Unterkante des Objekts). Bei lokalen Aufrufen dieser Funktion wird die angegebene Position zu Offset-Koordinaten zum aufrufenden Objekt.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">object</span> CreateObject
+      (<span class="type">id</span> id, <span class="type">int</span> iXOffset, <span class="type">int</span> iYOffset, <span class="type">int</span> iOwner);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>id: </dt>
+<dd><div class="text">Typ des zu erstellenden Objekts</div></dd>
+<dt>iXOffset: </dt>
+<dd><div class="text">X-Koordinate</div></dd>
+<dt>iYOffset: </dt>
+<dd><div class="text">Y-Koordinate</div></dd>
+<dt>iOwner: </dt>
+<dd><div class="text">Besitzer des zu erstellenden Objekts (Index eines Spielers oder <a href="../../../sdk/script/fn/NO_OWNER.html">NO_OWNER</a> für keinen Besitzer)</div></dd>
+</dl>
+<h2>Beispiel</h2>
+      <div class="example">
+        <pre class="code">CreateObject(WIPF, 100,100, <a href="../../../sdk/script/fn/NO_OWNER.html">NO_OWNER</a>);</pre>
+        <div class="text">Erschafft einen Wipf bei den Koordinaten 100/100 ohne Besitzer.</div>
+      </div>
+    <div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/CreateConstruction.html">CreateConstruction</a>, <a href="../../../sdk/script/fn/CreateContents.html">CreateContents</a>, <a href="../../../sdk/script/fn/RemoveObject.html">RemoveObject</a>
+</div>
+<div class="author">springer, April 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

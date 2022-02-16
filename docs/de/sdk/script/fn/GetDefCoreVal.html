@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetDefCoreVal</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetDefCoreVal">GetDefCoreVal</h1>
+<div class="text">
+<b>Kategorie: </b>Get*Val<br><b>Ab Engineversion: </b>4.9.1.0 GWE</div>
+<h2>Beschreibung</h2>
+<div class="text">Gibt einen Eigenschaftswert einer Objektdefinition nach seinem Namen in der <a href="../../../sdk/definition/defcore.html">DefCore.txt</a>
+          zurück.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">any</span> GetDefCoreVal
+      (<span class="type">string</span> strEntry, <span class="type">string</span> strSection, <span class="type">id</span> idDef, <span class="type">int</span> iEntryNr);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>strEntry: </dt>
+<dd><div class="text">Name des abzufragenden Eintrags</div></dd>
+<dt>strSection: </dt>
+<dd><div class="text">
+    [opt]
+  Sektion des abzufragenden Eintrags. Wird 0 übergeben, werden alle Sektionen nach einem Eintrag mit dem entspr. Namen durchsucht.</div></dd>
+<dt>idDef: </dt>
+<dd><div class="text">
+    [opt]
+  Objektdefinition, von der der Eintrag abgefragt werden soll. Bei Übergabe von 0 wird die Definition des aufrufenden Objekts angenommen.</div></dd>
+<dt>iEntryNr: </dt>
+<dd><div class="text">
+    [opt]
+  Nummer des abzufragenden Wertes, wenn der Eintrag mehrere Werte enthält.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Ist der abzufragende Eintrag eine ID-Liste (z.B. "Components" in der DefCore.txt), so wird bei
+            geradem iEntryNr die ID, bei ungeradem iEntryNr die Anzahl zurückgegeben (siehe Beispiel)</div>
+<h2>Beispiele</h2>
+      <div class="example">
+        <pre class="code"><b>var</b> wdt = GetDefCoreVal(<i class="string">"Width"</i>, <i class="string">"DefCore"</i>, GetID());</pre>
+        <div class="text">Ermittelt die Breite des Objekts. Die beiden letzten Parameter könnten in diesem Fall weggelassen werden.</div>
+      </div>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/Log.html">Log</a>(<i class="string">" Eine Werkstatt benötigt folgendes Material:"</i>);
+
+<b>for</b>(<b>var</b> i = 0;; i++)
+{
+  <b>var</b> <b>id</b> = GetDefCoreVal(<i class="string">"Components"</i>, <i class="string">"DefCore"</i>, WRKS, i*2);
+  <b>if</b>(!<b>id</b>) <b>break</b>;
+  <b>var</b> cnt = GetDefCoreVal(<i class="string">"Components"</i>, <i class="string">"DefCore"</i>, WRKS, i*2+1);
+
+  <a href="../../../sdk/script/fn/Log.html">Log</a>(<i class="string">"%d x %s"</i>, cnt, <a href="../../../sdk/script/fn/GetName.html">GetName</a>(0, <b>id</b>));
+}</pre>
+        <div class="text">Fragt den Materialbedarf für den Bau einer Werkstatt ab. <br> Die Schleife läuft solange, bis GetDefCoreVal für
+              die ID 0 zurückgibt, was das Ende der Liste markiert</div>
+      </div>
+    <div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/GetActMapVal.html">GetActMapVal</a>, <a href="../../../sdk/script/fn/GetObjectInfoCoreVal.html">GetObjectInfoCoreVal</a>, <a href="../../../sdk/script/fn/GetObjectVal.html">GetObjectVal</a>, <a href="../../../sdk/script/fn/GetPlayerInfoCoreVal.html">GetPlayerInfoCoreVal</a>, <a href="../../../sdk/script/fn/GetPlayerVal.html">GetPlayerVal</a>, <a href="../../../sdk/script/fn/GetScenarioVal.html">GetScenarioVal</a>
+</div>
+<div class="author">PeterW, April 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>EffectVar</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="EffectVar">EffectVar</h1>
+<div class="text">
+<b>Kategorie: </b>Effekte<br><b>Ab Engineversion: </b>4.9.5.0 CE</div>
+<h2>Beschreibung</h2>
+<div class="text">Liefert eine Referenz auf eine effektlokale Variable. Diese kann zum Lesen und schreiben verwendet werden.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">&amp;</span>EffectVar
+      (<span class="type">int</span> iVarIndex, <span class="type">object</span> pTarget, <span class="type">int</span> iNumber);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iVarIndex: </dt>
+<dd><div class="text">Index der Variable. Es sind theoretisch beliebig viele Variablen möglich; da aber die Liste beim Abfragen von Variablen außerhalb des erzeugten Bereiches neu erstellt werden muss, sollten hier nicht größere Werte als nötig genommen werden.</div></dd>
+<dt>pTarget: </dt>
+<dd><div class="text">
+    [opt]
+  Zielobjekt des Effektes, auf dessen Variablenspeicher zugegriffen wird. 0 für globale Effekte.</div></dd>
+<dt>iNumber: </dt>
+<dd><div class="text">Effektnummer. Effektnummern werden an Effekt-Callbackfunktionen übergeben, sind Rückgabewert von <a href="../../../sdk/script/fn/AddEffect.html">AddEffect</a> und lassen sich über <a href="../../../sdk/script/fn/GetEffect.html">GetEffect</a> aus dem Effektnamen herausfinden.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Für Beispiele und weitere Hinweise siehe <a href="../../../sdk/script/Effects.html">Effekte-Dokumentation</a>.</div>
+<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/AddEffect.html">AddEffect</a>, <a href="../../../sdk/script/fn/ChangeEffect.html">ChangeEffect</a>, <a href="../../../sdk/script/fn/CheckEffect.html">CheckEffect</a>, <a href="../../../sdk/script/fn/EffectCall.html">EffectCall</a>, <a href="../../../sdk/script/Effects.html">Effekte-Dokumentation</a>, <a href="../../../sdk/script/fn/GetEffect.html">GetEffect</a>, <a href="../../../sdk/script/fn/GetEffectCount.html">GetEffectCount</a>, <a href="../../../sdk/script/fn/RemoveEffect.html">RemoveEffect</a>
+</div>
+<div class="author">Sven2, März 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

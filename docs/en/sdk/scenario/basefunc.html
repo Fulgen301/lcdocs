@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Homebase Functionality</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="BaseFunc">Homebase Functionality</h1>
+<div class="text">This option (a DWord bit mask) determines the functionality of base buildings in a scenario. The base building is the one with the flag.</div>
+<div class="text">
+<table>
+<thead><tr>
+<th>Bit</th>
+<th>Value</th>
+<th>BaseFunctionality</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>BASEFUNC_AutoSellContents</td>
+<td>Lorries are automatically emptied and any gold in the base building or in contained objects is automatically sold.</td>
+</tr>
+<tr class="dark">
+<td>1</td>
+<td>2</td>
+<td>BASEFUNC_RegenerateEnergy</td>
+<td>Allied clonks can recharge life energy at the base.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4</td>
+<td>BASEFUNC_Buy</td>
+<td>Objects can be bought in the base.</td>
+</tr>
+<tr class="dark">
+<td>3</td>
+<td>8</td>
+<td>BASEFUNC_Sell</td>
+<td>Objects can be sold at the base.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>BASEFUNC_RejectEntrance</td>
+<td>The entrance is blocked for hostile clonks.</td>
+</tr>
+<tr class="dark">
+<td>5</td>
+<td>32</td>
+<td>BASEFUNC_Extinguish</td>
+<td>Clonks are extinguished in the base building.</td>
+</tr>
+<tr>
+<td>1-16</td>
+<td>65536</td>
+<td>BASEFUNC_Default</td>
+<td>All bits set: the default behaviour.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="author">Sven2, März 2006</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

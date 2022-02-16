@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>CreateScriptPlayer</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="CreateScriptPlayer">CreateScriptPlayer</h1>
+<div class="text">
+<b>Kategorie: </b>Spieler<br><b>Ab Engineversion: </b>4.9.6.0 CR</div>
+<h2>Beschreibung</h2>
+<div class="text">Initiiert den Beitritt eines Scriptspielers. Scriptspieler berhalten sich von der Scriptseite wie reguläre Spieler. Sie haben eine Stammcrew, ein Konto, Baupläne, Heimatbasismaterial, Verfeindungen, Teams, etc. Für diese Spieler wird jedoch regulär kein Sichtfenster geöffnet und sie lassen sich nicht von menschlichen Spielern steuern.<br>Scriptspieler können zum Beispiel verwendet werden, um KI-Gegner wie z.B. Bots in Hazard zu realisieren.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> CreateScriptPlayer
+      (<span class="type">string</span> szName, <span class="type">int</span> dwClr, <span class="type">int</span> idTeam, <span class="type">int</span> dwFlags, <span class="type">id</span> idExtraData);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>szName: </dt>
+<dd><div class="text">Name für den Scriptspieler. Muss angegeben werden.</div></dd>
+<dt>dwClr: </dt>
+<dd><div class="text">Spielerfarbe</div></dd>
+<dt>idTeam: </dt>
+<dd><div class="text">
+    [opt]
+  Team-ID. Wird 0 angegeben, so wird ein Team nach denselben Regeln ausgewählt wie bei einem normal beitretenden Spieler.</div></dd>
+<dt>dwFlags: </dt>
+<dd><div class="text">
+    [opt]
+  Bitmaske aus folgenden Werten:
+				<table>
+<thead><tr>
+<th>Bit</th>
+<th>Konstante</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>CSPF_FixedAttributes</td>
+<td>Wenn gesetzt, tritt der Spieler garantiert mit den in den Parameter angegebenen Namen und Farbe bei. Ansonsten werden die Attribute bei Kollisionen geändert.</td>
+</tr>
+<tr class="dark">
+<td>1</td>
+<td>CSPF_NoScenarioInit</td>
+<td>Wenn wahr, wird die Szenarieninitialisierung, also das Erzeugen von Heimatbasismaterial und Clonks, das Setzen der Baupläne nach Szenarienvorgaben, etc., nicht durchgeführt. Außerdem werden die globalen PreInitializePlayer- und InitializePlayer-Callbacks ans Szenarienscript und die Spielziel-, Regel- und Umweltobjekte nicht ausgeführt. Stattdessen wird ein InitializeScriptPlayer(Spielernummer, Team)-Callback als DefinitionCall (d.h. ohne <a href="../../../sdk/script/fn/this.html">this</a>()-Objekt) auf der in idExtraData angegebenen Definition ausgeführt. Mit diesem Parameter lassen sich also spezialisierte Scriptspieler realisieren, die nicht gleichberechtigt mit menschlichen Spielern agieren.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>CSPF_NoEliminationCheck</td>
+<td>Wenn gesetzt, wird der Spieler nicht automatisch eliminiert, wenn er keine Crew mehr hat.</td>
+</tr>
+<tr class="dark">
+<td>3</td>
+<td>CSPF_Invisible</td>
+<td>Wenn gesetzt, ist der Spieler nicht in Spielerlisten wie zum Beispiel in der Lobby und im Verfeindungsmenü sichtbar.</td>
+</tr>
+</tbody>
+</table>
+</div></dd>
+<dt>idExtraData: </dt>
+<dd><div class="text">
+    [opt]
+  ID, die durchgereicht und an den InitializePlayer-Aufruf weitergegeben wird. Durch Angabe einer ID lassen sich Scriptspieler-Typen unterscheiden. Beispielsweise könnte ein Szenario dynamisch Alien- oder Clonkgegner anbieten.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Scriptspieler treten in Netzwerkspielen genau wie reguläre Spieler verzögert bei. Das bedeutet, dass nach dem Aufruf von CreateScriptPlayer nicht sofort der Spieler zur Verfügung steht.<br>Wenn ein Script beispielsweise einen KI-Spieler ereugen will, so sollte die tatsächliche KI-Initialisierung erst im entsprechenden InitializePlayer-Callback erfolgen, wobei mit <a href="../../../sdk/script/fn/GetPlayerType.html">GetPlayerType</a>() geprüft werden kann, ob es sich um einen Scriptspieler handelt.<br>Wird der Spieler schon zu Beginn des Szenarios gebraucht - also zum Beispiel als Gegner in einer Mission - so sollte stattdessen ein Spieler in den SavePlayerInfos.txt angelegt werden.</div>
+<h2>Beispiel</h2>
+			<div class="example">
+				<div class="text">Für Beispiele siehe <a href="../../../sdk/script/ScriptPlayers.html">Scriptspieler</a>.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/GetPlayerType.html">GetPlayerType</a>, <a href="../../../sdk/script/ScriptPlayers.html">Scriptspieler</a>
+</div>
+<div class="author">Sven2, Dezember 2007</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

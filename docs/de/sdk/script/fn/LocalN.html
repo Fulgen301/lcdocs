@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>LocalN (veraltet)</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="LocalN (veraltet)">LocalN (veraltet)</h1>
+<div class="text">
+<b>Kategorie: </b>Variablen<br><b>Ab Engineversion: </b>4.9.1.0 GWE</div>
+<h2>Beschreibung</h2>
+<div class="text">Gibt eine Referenz auf eine Objektlokale Variable zurück. Diese Referenz kann zum Lesen und Schreiben benutzt werden.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">&amp;</span>LocalN (veraltet)
+      (<span class="type">string</span> szName, <span class="type">object</span> pObj);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>szName: </dt>
+<dd><div class="text">Name der Variablen, zu der eine Referenz zurückgegeben werden soll</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Objekt, dessen Variable abgefragt werden soll. 0 bei lokalem Aufruf.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Diese Funktion dient der Kompatibilität zu älteren Spielinhalten. In neueren Scripts sollte <code>obj[<i class="string">"name"</i>]</code> oder <code>obj.name</code>, letzteres bei aktiviertem <code><b>#strict</b> 3</code>, verwendet werden.</div>
+<h2>Beispiele</h2>
+			<div class="example">
+				<pre class="code"><a href="../../../sdk/script/NamedVar.html">var</a> obj;
+<b>if</b> (obj <a href="../../../sdk/script/operatoren.html">=</a> LocalN (<i class="string">"basement"</i>, <a href="../../../sdk/script/fn/FindObject.html">FindObject</a> (WTWR))) <a href="../../../sdk/script/fn/Explode.html">Explode</a> (20, obj);</pre>
+				<div class="text">Lässt ein Fundament eines Zauberturms explodieren. Funktioniert nur bei einem Zauberturm, alle anderen Objekte benutzen <a href="../../../sdk/script/fn/Local.html">Local</a> (9) zum Speichern des Fundamentobjektes.</div>
+			</div>
+			<div class="example">
+				<pre class="code"><b>func</b> <a href="../../../sdk/definition/script.html#ObjektCallsderEngine">Initialize</a> () {
+  <a href="../../../sdk/script/NamedVar.html">local</a> Baum <a href="../../../sdk/script/operatoren.html">=</a> <a href="../../../sdk/script/fn/CreateObject.html">CreateObject</a> (<a href="../../../sdk/script/Typechecks.html">TRE1</a>);
+}
+//Mit Timer=1 in der <a href="../../../sdk/definition/defcore.html">DefCore.txt</a> jeden Frame aufgerufen
+<b>func</b> TimerCall () {
+  <a href="../../../sdk/script/fn/SetPosition.html">SetPosition</a> (<a href="../../../sdk/script/fn/GetX.html">GetX</a> (), <a href="../../../sdk/script/fn/GetY.html">GetY</a> (), LocalN(<i class="string">"Baum"</i>));
+}
+</pre>
+				<div class="text">Das Objekt trägt einen Baum mit sich herum.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/GlobalN.html">GlobalN</a>, <a href="../../../sdk/script/fn/IsRef.html">IsRef</a>, <a href="../../../sdk/script/fn/Local.html">Local</a>, <a href="../../../sdk/script/fn/VarN.html">VarN</a>, <a href="../../../sdk/script/NamedVar.html">benannte Variablen</a>
+</div>
+<div class="author">Günther, November 2002</div>
+<div class="author">Der Tod, Oktober 2019</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

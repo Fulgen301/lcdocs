@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>PlayerObjectCommand</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="PlayerObjectCommand">PlayerObjectCommand</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Commands<br><b>Since engine version: </b>4.9.6.0 CR</div>
+<h2>Description</h2>
+<div class="text">Executes the command szCommand for the currently selected clonk of player iPlr. See <a href="../../../sdk/script/fn/SetCommand.html">SetCommand</a> for defined commands.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> PlayerObjectCommand
+      (<span class="type">int</span> iPlr, <span class="type">string</span> szCommand, <span class="type">object</span> pTarget, <span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">object</span> pTarget2, <span class="type">int</span> iInterval, <span class="type">any</span> Data, <span class="type">int</span> iRetries, <span class="type">int</span> iBaseMode);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>iPlr: </dt>
+<dd><div class="text">Player number</div></dd>
+<dt>szCommand: </dt>
+<dd><div class="text">Command name (as string). See the table below</div></dd>
+<dt>pTarget: </dt>
+<dd><div class="text">
+    [opt]
+  target object for the command</div></dd>
+<dt>iX: </dt>
+<dd><div class="text">
+    [opt]
+  X target coordinate</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">
+    [opt]
+  Y target coordinate</div></dd>
+<dt>pTarget2: </dt>
+<dd><div class="text">
+    [opt]
+  secondary target object</div></dd>
+<dt>iInterval: </dt>
+<dd><div class="text">
+    [opt]
+  Time (in ticks or frames) until the command is terminated</div></dd>
+<dt>Data: </dt>
+<dd><div class="text">
+    [opt]
+  additional data for the command</div></dd>
+<dt>iRetries: </dt>
+<dd><div class="text">
+    [opt]
+  Number of retries if the command fails, until the command fails completely.</div></dd>
+<dt>iBaseMode: </dt>
+<dd><div class="text">
+    [opt]
+  Command stack mode. See <a href="../../../sdk/script/fn/AddCommand.html">AddCommand</a> for values.</div></dd>
+</dl>
+<h2>Example</h2>
+	<div class="example">
+		<pre class="code">PlayerObjectCommand(0, <i class="string">"Throw"</i>);</pre>
+		<div class="text">Gives the selected clonk the command to throw the first inventory object.</div>
+	</div>
+	<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/AddCommand.html">AddCommand</a>, <a href="../../../sdk/script/fn/FinishCommand.html">FinishCommand</a>, <a href="../../../sdk/script/fn/GetCommand.html">GetCommand</a>, <a href="../../../sdk/script/fn/SetCommand.html">SetCommand</a>
+</div>
+<div class="author">Fulgen, August 2016</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

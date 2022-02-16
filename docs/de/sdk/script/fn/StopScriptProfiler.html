@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>StopScriptProfiler</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="StopScriptProfiler">StopScriptProfiler</h1>
+<div class="text">
+<b>Kategorie: </b>Entwickler<br><b>Ab Engineversion: </b>4.9.6.0 CR</div>
+<h2>Beschreibung</h2>
+<div class="text">Stoppt den Scriptprofiler, und gibt das Ergebnis im Log aus.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">void</span> StopScriptProfiler
+      ();
+    </div>
+<h2>Anmerkung</h2>
+<div class="text">Mit dem Scriptprofiler lässt sich messen, wie viel Rechenzeit die Scriptengine in welchen Scriptfunktionen aufwendet. Dies kann nützlich sein, um in langsam laufenden Szenarien zu prüfen, ob und wo sich Flaschenhälse in der Ausführung von Scripten befinden. Gemessen werden immer jeweils die Scriptausführungen zwischen einem StartScriptProfiler und einem StopScriptProfiler-Aufruf.</div>
+<h2>Beispiel</h2>
+			<div class="example">
+				<div class="text">Zunächst wird der Profiler gestartet, indem man irgendwo <a href="../../../sdk/script/fn/StartScriptProfiler.html">StartScriptProfiler</a> ausführt - zum Beispiel im Konsolenfenster, wenn die Engine im Entwicklermodus gestartet wird. Nach einer Weile Spiel führt man dann <a href="../../../sdk/script/fn/StopScriptProfiler.html">StopScriptProfiler</a> aus, und erhält zum Beispiel folgende Ausgabe im Log:</div>
+				<pre class="code">Profiler statistics:
+==============================
+00037ms	globa<b></b>l Explode
+00035ms	SFLN::Hit
+00020ms	TRB1::Damage
+00020ms	TRB1::ChopDown
+00020ms	TRB2::Damage
+00020ms	TRB2::ChopDown
+00018ms	game DeployPlayer
+00018ms	LOAM::Hit
+00018ms	BIRD::ControlDigDouble
+00012ms	_QSF::Active
+00012ms	Direct exec
+00011ms	_SPK::CastObject
+00002ms	FXL1::Advance
+00002ms	TFLN::Hit
+00002ms	_QSF::Hit
+00002ms	_QSF::Detonate
+==============================</pre>
+				<div class="text">In dieser Ausgabe sieht man, dass die größte Scriptbremse Explosionen sind. "global Explode" ist die Funktion Explode, die irgendwo global im Script definiert ist. Auf Platz zwei steht die Auftrefffunktion vom Superflint (SFLN::Hit). Hierbei ist zu beachten, dass alle Unteraufrufe von Scriptfunktionen auch immer mit einbezogen werden. Die rechenintesiven Explode-Aufrufe schlagen also sowohl in "global Explode", als auch in "SFLN::Hit" zu Buche. Rekursiv sich selbst aufrufende Funktionen zählen sich entsprechend auch für jede Rekursion doppelt.</div>
+				<div class="text">"game DeployPlayer" ist ein Aufruf im Szenarienscript. "Direct exec" ist die Summe aller zur Laufzeit kompiliierten und ausgeführten Scripte. Das sind zum Beispiel <a href="../../../sdk/script/fn/eval.html">eval</a> oder Menü-Callbacks.</div>
+				<div class="text">Es ist zu beachten, dass rechenintensive Scripte nicht die einzigen Bremsen im Spiel sind. Wenn ein Objekt zum Beispiel sehr viele Partikel erzeugt, kann dies das Spiel bremsen, ohne in der Scriptengine aufzutauchen. Ein anderes Beispiel wäre das Erzeugen von sehr vielen Objekten.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/StartScriptProfiler.html">StartScriptProfiler</a>
+</div>
+<div class="author">Sven2, März 2007</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

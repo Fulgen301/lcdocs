@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../doku.css">
+<title>Localization</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../sdk/index.html">Introduction</a></li>
+<li><a href="../content.html">Contents</a></li>
+<li><a href="../search.php">Search</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../sdk/files.html">Game Data</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1>Localization</h1>
+
+<div class="text">It is possible to support multiple languages in Clonk objects and scenarios. To do this, certain components can be loaded language dependantly.</div>
+<h2>Adaptable Elements</h2>
+
+<dl>
+<dt id="Titletxt">
+<img src="../images/icon_text.gif" width="16" height="16">Title.txt</dt>
+<dd>
+<div class="text">The <a href="../sdk/scenario/index.html#Titletxt">Title.txt</a> component can be used in scenarios and object folders to define the title for each language.</div>
+<div class="text">Each line has a language abbreviation bevore the title. For example:</div>
+<pre class="code">DE:Angriff der Killerwipfe
+US:Attack of the Killer Wipfs
+</pre>
+<div class="text">In external language packs the Title*.txt should be at the corresponding directory position (whereas * is replaced with the used language abbreviation), which can contain the title for that language. Here is an example for a TitleFR.txt:</div>
+<pre class="code">FR:Les wipfes moerderesque attaquent</pre>
+<div class="text">If an entry for the choosen language is present, the Title entry from the <a href="../sdk/scenario/scenario.html#SektionHead">Scenario.txt</a> is replaced by the corresponding name.</div>
+<div class="text">Important: No quotation marks and special characters should be used.</div>
+</dd>
+<dt id="Namestxt">
+<img src="../images/icon_text.gif" width="16" height="16">Names.txt</dt>
+<dd>
+<div class="text">With the <a href="../sdk/definition/index.html#Namestxt">Names.txt</a> component the name of an object can be translated. It works the same way as a Title.txt.</div>
+<div class="text">If there is an entry for the chosen language, the Name entry from the <a href="../sdk/definition/defcore.html#SektionDefCore">DefCore.txt</a> is overwritten.</div>
+</dd>
+<dt id="Desctxt">
+<img src="../images/icon_text.gif" width="16" height="16">Desc*.txt / Desc*.rtf</dt>
+<dd>
+<div class="text">To customize the description of an <a href="../sdk/definition/index.html#Desc__txt">object definition</a> or a <a href="../sdk/scenario/index.html#Desc__rtf">scenario</a> language dependant, a Desc*.txt/.rtf in the definition and scenario respectively has to be present. (The * is a placeholder for the language abbreviation)</div>
+</dd>
+<dt id="Sciptc">
+<img src="../images/icon_text.gif" width="16" height="16">Script.c, Teams.txt</dt>
+<dd>
+<div class="text">In order to insert language-dependant tests into scripts, so-called string tables are used. Instead of the text, only references to it should be inserted into the script. The references are searched in the string table, which should be placed in the same folder as the referencing script and named StringTbl*.txt (where * must be substituted by the language code).</div>
+<div class="text">The reference in the script is composed of a name for the string (string-ID), surrounded by dollar signs ("$"). <br> For example:</div>
+<pre class="code"><b>protected</b> <b>func</b> Activate(pCaller)
+{
+  [$DescActivate$]
+  <a href="../sdk/script/fn/Message.html">Message</a>(<i class="string">"$MsgYourPosition$ %d / %d"</i>, <a href="../sdk/script/fn/GetX.html">GetX</a>(pCaller), <a href="../sdk/script/fn/GetX.html">GetY</a>(pCaller));
+}</pre>
+<div class="text">In this case, two strings with the names "DescActivate" and "MsgYourPosition" are being inserted.</div>
+<div class="text">An appropriate StringTblDE.txt (for German language) could look like the following:</div>
+<pre class="code"># Beschreibungstexte
+DescActivate=Position bestimmen
+# Nachrichten
+MsgYourPosition=Deine Position ist:</pre>
+<div class="text">In this object the Activate function has the description "Position bestimmen". Executing it yields a message "Deine Position ist: 252 / 352". The string table also contains two comments starting with a '#'-sign. Those are ignored. </div>
+<div class="text">For the sake of completeness, here is a suitable StringTblUS.txt:</div>
+<pre class="code"># Description texts
+DescActivate=Tell position
+# Messages
+MsgYourPosition=Your position is:</pre>
+<div class="text">This would yield the message "Your position is: 252 / 352", if English language were selected.</div>
+</dd>
+</dl>
+
+
+
+<div class="author">PeterW, April 2002</div>
+<div class="author">matthes, April 2004</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../sdk/index.html">Introduction</a></li>
+<li><a href="../content.html">Contents</a></li>
+<li><a href="../search.php">Search</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../sdk/files.html">Game Data</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

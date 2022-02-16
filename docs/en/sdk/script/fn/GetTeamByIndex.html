@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetTeamByIndex</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetTeamByIndex">GetTeamByIndex</h1>
+<div class="text">
+<b>Category: </b>Teams<br><b>Since engine version: </b>4.9.6.0 CR</div>
+<h2>Description</h2>
+<div class="text">Returns the indicated team number. This function guarantees that for values from 0 to GetTeamCount()-1 a valid team number will be returned (notice that there may be "gaps" between team numbers in case some team have been removed from the game). This makes it easier to process all teams in a loop.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> GetTeamByIndex
+      (<span class="type">int</span> iIndex);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iIndex: </dt>
+<dd><div class="text">Index into the list of teams</div></dd>
+</dl>
+<h2>Example</h2>
+                        <div class="example">
+<pre class="code"><a href="../../../sdk/script/fn/for.html">for</a>(<b>var</b> i = 0; i &lt; <a href="../../../sdk/script/fn/GetTeamCount.html">GetTeamCount</a>(); i++)
+  <a href="../../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Willkommen im Spiel, Spieler von %s"</i>, <a href="../../../sdk/script/fn/GetTeamName.html">GetTeamName</a>(GetTeamByIndex(i)));</pre>
+                                <div class="text">Welcomes all players in the log file.</div>
+                        </div>
+                <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GetPlayerTeam.html">GetPlayerTeam</a>, <a href="../../../sdk/script/fn/GetTeamColor.html">GetTeamColor</a>, <a href="../../../sdk/script/fn/GetTeamConfig.html">GetTeamConfig</a>, <a href="../../../sdk/script/fn/GetTeamCount.html">GetTeamCount</a>, <a href="../../../sdk/script/fn/GetTeamName.html">GetTeamName</a>, <a href="../../../sdk/scenario/Teams.html">Teams</a>
+</div>
+<div class="author">Clonkonaut, April 2008</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

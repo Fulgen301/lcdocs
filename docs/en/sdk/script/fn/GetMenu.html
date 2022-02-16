@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetMenu</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetMenu">GetMenu</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Menu<br><b>Since engine version: </b>4.9.1.0 GWE</div>
+<h2>Description</h2>
+<div class="text">Returns the id of the menu if the object has an open menu. This is usually the id of the menu symbol (idSymbol) unless <a href="../../../sdk/script/fn/CreateMenu.html">CreateMenu</a> was used to explicitly use a differing menu id in idMenuID. Returns 0 if there is no menu or no menu symbol.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">id</span> GetMenu
+      (<span class="type">object</span> pObj);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">Menu object</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">A return value of -1 means that no valid symbol could be determined. This may happen e.g. if no object pointer was passed during a global call to the function. Engine defined menus such as Buy, Sell, etc. never return valid ids.</div>
+<h2>Example</h2>
+      <div class="example">
+        <pre class="code"><i>/* Wird bei klick auf Spezial aufgerufen */</i>
+<b>protected</b> <b>func</b> ControlSpecial()
+{
+  <i>/* überhaupt ein Menü offen und ein Symbol angegeben? */</i>
+  <b>if</b>(GetMenu())
+    <i>/* Mutieren */</i>
+    <a href="../../../sdk/script/fn/ChangeDef.html">ChangeDef</a>(GetMenu());
+  <b>return</b>(1);
+}
+        </pre>
+        <div class="text">Mutate into the object represented by the symbol.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/CloseMenu.html">CloseMenu</a>, <a href="../../../sdk/script/fn/CreateMenu.html">CreateMenu</a>, <a href="../../../sdk/script/fn/SetMenuDecoration.html">SetMenuDecoration</a>, <a href="../../../sdk/script/fn/SetMenuTextProgress.html">SetMenuTextProgress</a>
+</div>
+<div class="author">wipfmetz, August 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

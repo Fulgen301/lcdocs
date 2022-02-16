@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>RGB2HSL</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="RGB2HSL">RGB2HSL</h1>
+<div class="text">
+<b>Kategorie: </b>Arithmetik<br><b>Ab Engineversion: </b>4.9.1.0 GWE</div>
+<h2>Beschreibung</h2>
+<div class="text">
+		Wandelt einen 32Bit-Farbwert in die entsprechenden Hue-, Saturation- und Lightness-Werte um wie bereits von Malprogrammen bekannt.<br>
+		Die HSL Werte werden ebenfalls als int zurückgegeben und können mit <a href="../../../sdk/script/fn/GetRGBaValue.html">GetRGBaValue</a>() oder <a href="../../../sdk/script/fn/SplitRGBaValue.html">SplitRGBaValue</a>() weiter verwendet werden.<br>
+		Alle Werte sind von 0 bis 255 skaliert.
+		</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> RGB2HSL
+      (<span class="type">int</span> Val);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>Val: </dt>
+<dd><div class="text">32Bit-Farbwert</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">
+		Da es in Clonk keinen Float-Datentyp gibt können die umgerechneten Werte einen geringen Fehler enthalten. (Im Regelfall nicht mehr als +1 bzw. -1) 
+		</div>
+<h2>Beispiel</h2>
+			<div class="example">
+				<pre class="code"><b>#strict</b>
+<b>#appendto</b> CLNK
+
+<b>func</b> Initialize() {
+  <a href="../../../sdk/script/fn/AddEffect.html">AddEffect</a>(<i class="string">"VariateHue"</i>,<a href="../../../sdk/script/fn/this.html">this</a>(),200,1,<a href="../../../sdk/script/fn/this.html">this</a>());
+  <a href="../../../sdk/script/fn/return.html">return</a>(<a href="../../../sdk/script/fn/_inherited.html">_inherited</a>());
+}
+
+<b>func</b> FxVariateHueTimer() {
+  <b>var</b> rgb, hsl=RGB2HSL(<a href="../../../sdk/script/fn/GetColorDw.html">GetColorDw</a>());
+  <b>var</b> hue, sat, light;
+  <a href="../../../sdk/script/fn/SplitRGBaValue.html">SplitRGBaValue</a>(hsl, hue, sat, light);
+  hue+=2;
+  <b>if</b>(hue&gt;255) hue=0;
+  rgb=<a href="../../../sdk/script/fn/HSL2RGB.html">HSL2RGB</a>(<a href="../../../sdk/script/fn/RGB.html">RGB</a>(hue,sat,light));
+  <a href="../../../sdk/script/fn/SetColorDw.html">SetColorDw</a>(rgb);
+}
+</pre>
+				<div class="text">Erzeugt in jedem Clonk einen Effekt der die Farbe der Clonks Regenbogenartig variieren lässt.<br>Zum ausprobieren den Script am besten in einen Szenarienlokale System.c4g Ordner kopieren<br>Der Hue-Wert wird hier mit Absicht mit jeweils um 2 erhöht, da der geringe Fehler bei der Umrechnung sonst wirksam wird und gar nichts geschieht.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/HSL2RGB.html">HSL2RGB</a>, <a href="../../../sdk/script/fn/RGB.html">RGB</a>, <a href="../../../sdk/script/fn/SetRGBaValue.html">SetRGBaValue</a>
+</div>
+<div class="author">Tyron, September 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>Sound</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="Sound">Sound</h1>
+<div class="text">
+<b>Category: </b>Effects<br><b>Since engine version: </b>4.6.5.0 CP
+        (extended in 4.9.5.0 CE)
+      </div>
+<h2>Description</h2>
+<div class="text">Plays a sound. The specified sound file has to be available in the group Sound.c4g, in the active scenario file, or in any loaded object definition. The audibility of object local sounds will depend on the position of the object relative to the visible viewports.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> Sound
+      (<span class="type">string</span> szSound, <span class="type">bool</span> fGlobal, <span class="type">object</span> pObj, <span class="type">int</span> iVolume, <span class="type">int</span> iPlayer, <span class="type">int</span> iLoopCount, <span class="type">bool</span> fMultiple, <span class="type">int</span> iCustomFalloffDistance);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szSound: </dt>
+<dd><div class="text">Name of the sound effect (without .wav ending)</div></dd>
+<dt>fGlobal: </dt>
+<dd><div class="text">
+    [opt]
+  Specifies wether the sound is played globally, i.e. independently of the object position always with the same loudness.</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Object which is to play back the specified sound. Can be 0 in local calls. The object's visible position relative to a player's viewport is responsible for audible volume.</div></dd>
+<dt>iVolume: </dt>
+<dd><div class="text">
+    [opt]
+  0-100: volume for playback of the sound. A volume value of 0 means playback at full volume (default).</div></dd>
+<dt>iPlayer: </dt>
+<dd><div class="text">
+    [opt]
+  Player number of the player for which the sound is to be played, increased by 1. In network games, the sound will thus no be audible for the other players. Notice: the player number to be specified has to be increased by 1 since the number 0 is already used for the default (audible for all players)!</div></dd>
+<dt>iLoopCount: </dt>
+<dd><div class="text">
+    [opt]
+  Increases or decreases the number of sounds running in a continuous loop. Value +1 will play this sound indefinitely until it is stopped by calling this function again with value -1. Value 0 will play the sound once normally.</div></dd>
+<dt>fMultiple: </dt>
+<dd><div class="text">If true, the same sound may be played multiple times at the same time.</div></dd>
+<dt>iCustomFalloffDistance: </dt>
+<dd><div class="text">Determines how fast the volume decreases depending on the distance.</div></dd>
+</dl>
+<h2>Example</h2>
+    <div class="example">
+
+<pre class="code">Sound(<i class="string">"Applause"</i>, 0, <a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(HUT2), 50);</pre>
+
+        <div class="text">Plays an 'applause' sound next to the first found wooden hut at half volume.</div>
+    </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/Music.html">Music</a>, <a href="../../../sdk/script/fn/SoundLevel.html">SoundLevel</a>
+</div>
+<div class="author">Sven2, August 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../doku.css">
+<title>Sprachanpassung</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../sdk/index.html">Einleitung</a></li>
+<li><a href="../content.html">Inhalt</a></li>
+<li><a href="../search.php">Suche</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../sdk/files.html">Spieldaten</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1>Sprachanpassung</h1>
+
+<div class="text">Clonk ermöglicht es, Unterstützung für mehrere Sprachen in Objekte und Szenarien zu integrieren. 
+Dazu können jeweils bestimmte Elemente sprachabhängig überladen werden.</div>
+<h2>Anpassbare Elemente</h2>
+
+<dl>
+<dt id="Titletxt">
+<img src="../images/icon_text.gif" width="16" height="16">Title.txt</dt>
+<dd>
+<div class="text">
+ Die Komponente <a href="../sdk/scenario/index.html#Titletxt">Title.txt</a> kann in Szenarien und Objektordnern verwendet 
+ werden, um den Titel für verschiedene Sprachen zu definieren.
+</div>
+<div class="text">
+ In jeder Zeile wird dabei ein Sprachkürzel dem gewünschten Titel vorangestellt. Beispiel:
+</div>
+<pre class="code">DE:Angriff der Killerwipfe
+US:Attack of the Killer Wipfs
+</pre>
+<div class="text">
+ In externen Sprachpaketen sollte an der entsprechenden Verzeichnis-Position eine Komponente Title*.txt stehen (wobei * durch das entsprechende Sprachkürzel ersetzt wird), die dann den Titel für die jeweilige zusätzliche Sprache enthalten kann. Beispiel für den Inhalt einer TitleFR.txt:
+</div>
+<pre class="code">FR:Les wipfes moerderesque attaquent</pre>
+<div class="text">Ist ein Eintrag für die gewählte Sprache vorhanden, so wird der Title-Eintrag aus der <a href="../sdk/scenario/scenario.html#SektionHead">Scenario.txt</a> durch den entsprechenden Namen überschrieben.</div>
+<div class="text">Wichtig: es sollten keine Anführungszeichen oder Sonderzeichen verwendet werden.</div>
+</dd>
+<dt id="Namestxt">
+<img src="../images/icon_text.gif" width="16" height="16">Names.txt</dt>
+<dd>
+<div class="text">
+ Mit der Komponente <a href="../sdk/definition/index.html#Namestxt">Names.txt</a> kann der Name eines Objekts für verschiedene
+ Sprachen definiert werden. Die Funktionsweise der Names.txt gleicht Funktionsweise der der Title.txt.
+</div>
+<div class="text">
+ Existiert ein Eintrag für die gewählte Sprache, so wird die Name-Angabe aus der
+ <a href="../sdk/definition/defcore.html#SektionDefCore">DefCore.txt</a> überschrieben.
+</div>
+</dd>
+<dt id="Desctxt">
+<img src="../images/icon_text.gif" width="16" height="16">Desc*.txt / Desc*.rtf</dt>
+<dd>
+<div class="text">
+ Um die Beschreibung einer <a href="../sdk/definition/index.html#Desc__txt">Objektdefinition</a> oder eines 
+ <a href="../sdk/scenario/index.html#Desc__rtf">Szenarios</a>
+ sprachabhängig anzupassen, muss eine Datei Desc*.txt/.rtf im Definitions- bzw. Szenarioverzeichnis vorhanden sein
+ (* steht dabei wieder für das entsprechende Sprachkürzel, die Komponenten sollte also z.B. DescUS.rtf heißen).
+</div>
+</dd>
+<dt id="Sciptc">
+<img src="../images/icon_text.gif" width="16" height="16">Script.c, Teams.txt</dt>
+<dd>
+<div class="text">
+ Um sprachabhängig Texte in Scripts einzufügen, kommen sogenannte String Tables
+ zum Einsatz. Im Script wird dazu, anstatt des Textes ein Verweis auf einen Eintrag einer
+ solchen String-Tabelle eingefügt. Die Tabelle muss sich im selben Verzeichnis wie das
+ darauf verweisende Script befinden und den Namen StringTbl*.txt haben (wobei * für den
+ Sprachcode steht).
+</div>
+<div class="text">
+ Der Verweis im Script besteht aus einem Namen für den zu verwendenden String (String-ID),
+ der mit Dollarzeichen ("$") als ein solcher Stringtabellenverweis gekennzeichnet ist. <br> Beispiel:
+</div>
+<pre class="code"><b>protected</b> <b>func</b> Activate(pCaller)
+{
+  [$DescActivate$]
+  <a href="../sdk/script/fn/Message.html">Message</a>(<i class="string">"$MsgYourPosition$ %d / %d"</i>, <a href="../sdk/script/fn/GetX.html">GetX</a>(pCaller), <a href="../sdk/script/fn/GetX.html">GetY</a>(pCaller));
+}</pre>
+<div class="text">
+ Hier werden zwei Strings mit den Namen "DescActivate" und "MsgYourPosition" eingebunden.
+</div>
+<div class="text">
+ Eine passende StringTblDE.txt (für deutsche Sprache) könnte folgendermaßen aussehen:
+</div>
+<pre class="code"># Beschreibungstexte
+DescActivate=Position bestimmen
+# Nachrichten
+MsgYourPosition=Deine Position ist:</pre>
+<div class="text">
+ Im Objekt hätte also Activate den Beschreibungstext "Position bestimmen" und würde z.B.
+ die Nachricht "Deine Position ist: 252 / 352" ausgeben. In der Stringtabelle wurden hier zwei
+ Kommentare eingefügt. Sie beginnen mit einem '#'-Zeichen und werden ignoriert.
+</div>
+<div class="text">
+ Zur Vollständigkeit - eine passende StringTblUS.txt:
+</div>
+<pre class="code"># Description texts
+DescActivate=Tell position
+# Messages
+MsgYourPosition=Your position is:</pre>
+<div class="text">
+ Hier würden also z.B. die Nachricht "Your position is: 252 / 352" erzeugt, wenn Englisch
+ als Sprache eingestellt ist.
+</div>
+</dd>
+</dl>
+
+
+
+<div class="author">PeterW, April 2002</div>
+<div class="author">matthes, April 2004</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../sdk/index.html">Einleitung</a></li>
+<li><a href="../content.html">Inhalt</a></li>
+<li><a href="../search.php">Suche</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../sdk/files.html">Spieldaten</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

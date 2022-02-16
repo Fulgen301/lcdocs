@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>PlaceObjects</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="PlaceObjects">PlaceObjects</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Erzeugung<br><b>Ab Engineversion: </b>4.9.5.0 CE</div>
+<h2>Beschreibung</h2>
+<div class="text">
+Erzeugt iAmount viele Objekte im angegebenen Zielrechteck (optional) im angegebenen Material.
+Gibt die Anzahl der Iterationen zurück, oder -1 wenn die Erzeugung fehlschlägt.
+		</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> PlaceObjects
+      (<span class="type">C4ID</span> id, <span class="type">int</span> iAmount, <span class="type">string</span> Mat, <span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">int</span> iWdt, <span class="type">int</span> iHgt, <span class="type">bool</span> fOnSurface, <span class="type">bool</span> fNoStuck);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>id: </dt>
+<dd><div class="text">ID des zu platzierenden Objekts</div></dd>
+<dt>iAmount: </dt>
+<dd><div class="text">Menge der zu erzeugenden Objekte</div></dd>
+<dt>Mat: </dt>
+<dd><div class="text">Material in die Objekte erzeugt werden soll. Hier kann entweder der Materialname angegeben werden oder folgende Zeichenketten:
+<table>
+<thead><tr>
+<th>iMat</th>
+<th>Erzeugung in</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>"GBackSolid"</td>
+<td>Objekte werden in festem Material erzeugt. Siehe auch <a href="../../../sdk/script/fn/GBackSolid.html">GBackSolid</a>()</td>
+</tr>
+<tr class="dark">
+<td>"GBackSemiSolid"</td>
+<td>Objekte werden in festem oder flüssigem Material erzeugt. Siehe auch <a href="../../../sdk/script/fn/GBackSemiSolid.html">GBackSemiSolid</a>()</td>
+</tr>
+<tr>
+<td>"GBackLiquid"</td>
+<td>Objekte werden in flüssigem Material erzeugt. Siehe auch <a href="../../../sdk/script/fn/GBackLiquid.html">GBackLiquid</a>()</td>
+</tr>
+<tr class="dark">
+<td>"GBackSky"</td>
+<td>Objekte werden im freien Himmel erzeugt. Siehe auch <a href="../../../sdk/script/fn/GBackSky.html">GBackSky</a>()</td>
+</tr>
+</tbody>
+</table>
+</div></dd>
+<dt>iX: </dt>
+<dd><div class="text">
+    [opt]
+  Linke Kante der Position. Bei lokalem Aufruf Offset zum aufrufenden Objekt.</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">
+    [opt]
+  Obere Kante der Position. Bei lokalem Aufruf Offset zum aufrufenden Objekt.</div></dd>
+<dt>iWdt: </dt>
+<dd><div class="text">
+    [opt]
+  Platzierrechteck Breite. Wenn nicht angegeben wird das Ende der Landschaft angenommen</div></dd>
+<dt>iHgt: </dt>
+<dd><div class="text">
+    [opt]
+  Platzierrechteck Höhe. Wenn nicht angegeben wird das Ende der Landschaft angenommen</div></dd>
+<dt>fOnSurface: </dt>
+<dd><div class="text">
+    [opt]
+  Wenn true, werden alle Objekte oberhalb des angegeben Materials erzeugt. (Ohne Berücksichtigung des Zielrechtecks)</div></dd>
+<dt>fNoStuck: </dt>
+<dd><div class="text">
+    [opt]
+  Wenn true, wird nicht sichergestellt dass des Objekt fest in der Erde ist. Dies ist z.B.: nötig wenn man Objekte im Flüssigkeiten erstellen will.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">
+Je weniger vom angegeben Material vorhanden ist, desto Rechenintensiver ist die Platzierung.<br>
+Es wird sichergestellt, dass keine Endlosschleife entsteht.	
+		</div>
+<h2>Beispiele</h2>
+			<div class="example">
+				<pre class="code">PlaceObjects(LOAM,20,<a href="../../../sdk/script/fn/Material.html">Material</a>(<i class="string">"Earth"</i>),100,0,200)</pre>
+				<div class="text">Erzeugt 20 Lehmklumpen in Erde innherhalb der Koordinaten 100,0 und 200,LandscapeHeight()</div>
+			</div>
+			<div class="example">
+				<pre class="code">PlaceObjects(FISH,10,<i class="string">"GBackLiquid"</i>,0,0,0,<a href="../../../sdk/script/fn/LandscapeHeight.html">LandscapeHeight</a>()/2,0,1);</pre>
+				<div class="text">Erzeugt insgesamt 10 Fische in allen Flüssigkeiten die sich in der oberen Landschaftshälfte befinden</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/CreateObject.html">CreateObject</a>, <a href="../../../sdk/script/fn/PlaceInMaterial.html">PlaceInMaterial</a>
+</div>
+<div class="author">Tyron, August 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

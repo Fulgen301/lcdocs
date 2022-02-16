@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>CreateMenu</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="CreateMenu">CreateMenu</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Menu<br><b>Since engine version: </b>4.6.5.0 CP</div>
+<h2>Description</h2>
+<div class="text">Creates a user defined menu for the specified object. Menu entries are to be added using <a href="../../../sdk/script/fn/AddMenuItem.html">AddMenuItem</a>.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> CreateMenu
+      (<span class="type">id</span> idSymbol, <span class="type">object</span> pMenuObject, <span class="type">object</span> pCommandObject, <span class="type">int</span> iExtra, <span class="type">string</span> szCaption, <span class="type">int</span> iExtraData, <span class="type">int</span> iStyle, <span class="type">bool</span> fPermanent, <span class="type">id</span> idMenuID);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>idSymbol: </dt>
+<dd><div class="text">The picture of this object definition is used as symbol</div></dd>
+<dt>pMenuObject: </dt>
+<dd><div class="text">Object in which to open the menu. Can be 0 in local calls</div></dd>
+<dt>pCommandObject: </dt>
+<dd><div class="text">Object to receive the menu command (see <a href="../../../sdk/script/fn/AddMenuItem.html">AddMenuItem</a>). Can be 0 in local calls</div></dd>
+<dt>iExtra: </dt>
+<dd><div class="text">Additional information to be displayed about the currently selected entry. C4MN_ values are now also defined as constants: <table>
+<thead><tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Effect</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>C4MN_Extra_None</td>
+<td>0</td>
+<td>Nothing</td>
+</tr>
+<tr class="dark">
+<td>C4MN_Extra_Components</td>
+<td>1</td>
+<td>Components</td>
+</tr>
+<tr>
+<td>C4MN_Extra_Value</td>
+<td>2</td>
+<td>Value</td>
+</tr>
+<tr class="dark">
+<td>C4MN_Extra_MagicValue</td>
+<td>3</td>
+<td>Value as magic value. iExtraData is also displayed for comparison, e.g. "50/100".</td>
+</tr>
+<tr>
+<td>C4MN_Extra_Info</td>
+<td>4</td>
+<td>Display object description immediately</td>
+</tr>
+<tr class="dark">
+<td>C4MN_Extra_ComponentsMagic</td>
+<td>5</td>
+<td>Display components and magic value</td>
+</tr>
+<tr>
+<td>C4MN_Extra_LiveMagicValue</td>
+<td>6</td>
+<td>Same as C4MN_Extra_MagicValue but the value is updated continuously.</td>
+</tr>
+<tr class="dark">
+<td>C4MN_Extra_ComponentsLiveMagic</td>
+<td>7</td>
+<td>Same as C4MN_Extra_ComponentsMagic but the value is updated continuously.</td>
+</tr>
+</tbody>
+</table>
+</div></dd>
+<dt>szCaption: </dt>
+<dd><div class="text">Text to be displayed if the menu is empty</div></dd>
+<dt>iExtraData: </dt>
+<dd><div class="text">Comparison value for iExtra 3</div></dd>
+<dt>iStyle: </dt>
+<dd><div class="text">Appearance of the menu. The following constants are defined (from CR): <table>
+<thead><tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Appearance</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>C4MN_Style_Normal</td>
+<td>0</td>
+<td>Normal</td>
+</tr>
+<tr class="dark">
+<td>C4MN_Style_Context</td>
+<td>1</td>
+<td>Context menu</td>
+</tr>
+<tr>
+<td>C4MN_Style_Info</td>
+<td>2</td>
+<td>Info menu</td>
+</tr>
+<tr class="dark">
+<td>C4MN_Style_Dialog</td>
+<td>3</td>
+<td>Dialog</td>
+</tr>
+<tr>
+<td>C4MN_Style_EqualItemHeight</td>
+<td>128</td>
+<td>Can be combined with C4MN_Style_Dialog: all entries with an icon are drawn with the same height.</td>
+</tr>
+</tbody>
+</table>
+</div></dd>
+<dt>fPermanent: </dt>
+<dd><div class="text">The menu stays open after an entry has been selected.</div></dd>
+<dt>idMenuID: </dt>
+<dd><div class="text">
+    [opt]
+  If specified, this id is used as menu id. The current menu id is returned by <a href="../../../sdk/script/fn/GetMenu.html">GetMenu</a>.</div></dd>
+</dl>
+<h2>Example</h2>
+			<div class="example">
+				<div class="text">see <a href="../../../sdk/script/fn/AddMenuItem.html">AddMenuItem</a>
+</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/AddMenuItem.html">AddMenuItem</a>, <a href="../../../sdk/script/fn/CloseMenu.html">CloseMenu</a>, <a href="../../../sdk/script/fn/GetMenu.html">GetMenu</a>, <a href="../../../sdk/script/fn/SelectMenuItem.html">SelectMenuItem</a>, <a href="../../../sdk/script/fn/SetMenuDecoration.html">SetMenuDecoration</a>, <a href="../../../sdk/script/fn/SetMenuTextProgress.html">SetMenuTextProgress</a>
+</div>
+<div class="author">springer, April 2002</div>
+<div class="author">Sven2, März 2007</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

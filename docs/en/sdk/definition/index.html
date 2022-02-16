@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Object Definitions</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="Objektdefinitionen">Object Definitions</h1>
+
+<div class="text">Object definitions are used for all game objects in clonk: fire monsters, the wooden hut, and the clonk himself. An object definition is a group file composed from the following components:</div>
+
+<h2 id="ObjektdefinitionsKomponentenC4D">Object Definition Components (c4d)</h2>
+<dl>
+<dt>
+<img src="../../images/icon_text.gif" width="16" height="16"><a href="../../sdk/definition/defcore.html">DefCore.txt</a>
+</dt>
+<dd><div class="text">Object properties.</div></dd>
+<dt>
+<img src="../../images/icon_text.gif" width="16" height="16"><a href="../../sdk/definition/actmap.html">ActMap.txt</a>
+</dt>
+<dd><div class="text">Table for activities.</div></dd>
+<dt id="Graphicspng">
+<img src="../../images/icon_image.gif" width="16" height="16">Graphics.png</dt>
+<dd><div class="text">Graphics of the object. Base graphics, animation phases and a picture for display in menus are stored in a 32 bit picture with transparency channel (PNG format, 32 bit RGBA color, non interlaced).</div></dd>
+<dt id="Overlaypng">
+<img src="../../images/icon_image.gif" width="16" height="16">Overlay.png</dt>
+<dd><div class="text">The part of the object's graphics which is to be colored in the player color (see ColorByOwner in DefCore.txt) can also be defined using a separate graphics file. In this way you can also use the color blue in the object's graphics for effects other than player color and antialiasing of the player color sections becomes possible. In Overlay.png gray scales should be used instead of blue color. </div></dd>
+<dt id="Graphicsbmp">
+<img src="../../images/icon_image.gif" width="16" height="16">Graphics.png</dt>
+<dd><div class="text">The bmp format for graphics elements is obsolete but still supported. In a 256 color bitmap (8 bit) only the predefined colors 15 through 103 of the fixed Clonk color palette may be used.</div></dd>
+<dt id="Graphicsex">
+<img src="../../images/icon_image.gif" width="16" height="16">Graphics*.png / Overlay*.png / Graphics*.bmp</dt>
+<dd><div class="text">Objects can also contain alternative sets of graphics which can be selected ingame using the script command <a href="../../sdk/script/fn/SetGraphics.html">SetGraphics</a>(). The name corresponds to the file name portion following "Graphics". The matching overlay is automatically selected. For more information see <a href="../../sdk/script/fn/SetGraphics.html">SetGraphics</a>().</div></dd>
+<dt id="Titlepng">
+<img src="../../images/icon_image.gif" width="16" height="16">Title.png / Title.bmp</dt>
+<dd><div class="text">Object definitions can contain an additional title image (as scenarios do). This will be displayed in the menu system instead of the picture section of the object definition. Recommended size: 150x150 pixels, as long as your image is actually worth it.</div></dd>
+<dt id="ScriptcScript__c">
+<img src="../../images/icon_text.gif" width="16" height="16"><a href="../../sdk/definition/script.html">Script.c</a>
+</dt>
+<dd><div class="text">The object script. See <a href="../../sdk/script/index.html">script documentation</a> and <a href="../../sdk/lang.html">localization</a>.</div></dd>
+<dt id="Namestxt">
+<img src="../../images/icon_text.gif" width="16" height="16">Names.txt</dt>
+<dd><div class="text">Multilingual name table (see Title.txt in scenarios).</div></dd>
+<dt id="Desc__txt">
+<img src="../../images/icon_text.gif" width="16" height="16">Desc*.txt</dt>
+<dd><div class="text">Short description. For multilingual descriptions see scenario descriptions.</div></dd>
+<dt id="Ranktxt">
+<img src="../../images/icon_text.gif" width="16" height="16">Rank.txt/Rank*.txt</dt>
+<dd><div class="text">For object definitions defining a clonk type you can specify custom rank names for this clonk type here. The rank names will then also replace rank names of existing crew members of this type. The file should contain a simple text list of names of maximum 30 characters each. For an example see the knight in the Knights pack. By using the approriate language codes you can create language dependent sets of rank names.</div></dd>
+<dt id="Rankbmppng">
+<img src="../../images/icon_image.gif" width="16" height="16">Rank.png / Rank.bmp</dt>
+<dd><div class="text">You can also define custom rank symbols for clonk types which are then displayed in the game instead of the standard symbols from Graphics.c4g. A rank symbol should always be square and there should be enough many symbols for all ranks. For ranks exceeding the last symbol, the list is repeated from the front and a star is added to the symbol.</div></dd>
+<dt id="wav">
+<img src="../../images/icon_sound.gif" width="16" height="16">*.wav</dt>
+<dd><div class="text">Object local sounds. As these are always loaded and not dynamically unloaded as are scenario sounds you should use these sparingly and with small sound files only.</div></dd>
+<dt id="c4d">
+<img src="../../images/icon_object_definition.gif" width="16" height="16">*.c4d</dt>
+<dd><div class="text">The engine will also search all valid c4d subdirectories for additional object definitions. Object definitions should be grouped by category.</div></dd>
+<dt id="Infotxt">
+<img src="../../images/icon_text.gif" width="16" height="16">Info.txt</dt>
+<dd><div class="text">This component is not processed by the engine. Here the author can store additional information he wants to share with other developers.</div></dd>
+<dt id="Authortxt">
+<img src="../../images/icon_text.gif" width="16" height="16">Author.txt</dt>
+<dd><div class="text">Should contain the name of the author in format "Firstname Lastname (Nick)" and is used to maintain the name of the original author, if the group file is edited by another developer at a later point in time. The name stored here is only displayed, however, if the group was edited by RedWolf Design. This feature is mainly used for contest scenarios. </div></dd>
+</dl>
+<h2 id="ObjektundEntwicklerIdentifikation">Object Identification</h2>
+<div class="text">Object definitions are identified by an id which consists of four characters (e.g. C4ID). Original objects use four characters: ABCD or ABC1.</div>
+<div class="text">Local object definitions which are only available in one scenario should use the id format _ABC.</div>
+<div class="text">Object definitions created by community players but publicly released should use the format AB3C of which the first two characters should identify the object and the second two (one digit and one character) should identify the developer. This is to avoid id conflicts with other developers.</div>
+
+<div class="author">Sven2, April 2002</div>
+<div class="author">matthes, Juni 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

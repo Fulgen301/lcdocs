@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetPlayerID</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetPlayerID">GetPlayerID</h1>
+<div class="text">
+<b>Category: </b>Player<br><b>Since engine version: </b>4.9.6.0 CR</div>
+<h2>Description</h2>
+<div class="text">Returns the player-ID of a joined player. Player-IDs are being counted upwards starting at 1. Other than player numbers, they won't be used again after a player has been eliminated. Each newly joined player has a unique ID.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> GetPlayerID
+      (<span class="type">int</span> iPlayerNumber);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iPlayerNumber: </dt>
+<dd><div class="text">Player of which to retrieve the ID.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">In network games, player IDs are being assigned in the lobby phase. Because lobby players might be removed before the game start (either manually or by disconnecting clients), you cannot assume that all player-IDs from 1 to <a href="../../../sdk/script/fn/GetPlayerCount.html">GetPlayerCount</a>() are set.</div>
+<h2>Example</h2>
+      <div class="example">
+        <pre class="code"><b>static</b> num_scores;
+        
+<b>protected</b> <b>func</b> RemovePlayer(<b>int</b> iPlr)
+  {
+  <b>var</b> idPlr = GetPlayerID(iPlr);
+  <a href="../../../sdk/script/fn/Global.html">Global</a>(idPlr*2)   = <a href="../../../sdk/script/fn/GetPlayerName.html">GetPlayerName</a>(iPlr);
+  <a href="../../../sdk/script/fn/Global.html">Global</a>(idPlr*2+1) = <a href="../../../sdk/script/fn/GetScore.html">GetScore</a>(iPlr);
+  ++num_scores;
+  }
+  
+<b>protected</b> <b>func</b> OnGameOver()
+  {
+  <b>var</b> msg = <i class="string">"Scores:"</i>, i, plr_name;
+  <a href="../../../sdk/script/fn/while.html">while</a> (num_scores)
+    <b>if</b> (plr_name = <a href="../../../sdk/script/fn/Global.html">Global</a>(i++*2))
+      {
+      msg = <a href="../../../sdk/script/fn/Format.html">Format</a>(<i class="string">"%s|%s=%d"</i>, msg, plr_name, <a href="../../../sdk/script/fn/Global.html">Global</a>(i*2-1));
+      --num_scores;
+      }
+  <a href="../../../sdk/script/fn/Message.html">Message</a>(msg);
+  }</pre>
+        <div class="text">Saves the scores and names of all players in a list when they are eliminated. Once the round is over, this list is displayed as a message. Using player-IDs instead of player numbers as list indices guarantuees that rejoining players will not overwrite scores of previous players.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GetPlayerTeam.html">GetPlayerTeam</a>
+</div>
+<div class="author">Sven2, März 2006</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

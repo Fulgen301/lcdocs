@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>CastBackParticles</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="CastBackParticles">CastBackParticles</h1>
+<div class="text">
+<b>Category: </b>Particle<br><b>Since engine version: </b>4.9.7.0 CR</div>
+<h2>Description</h2>
+<div class="text">Casts the specified amount of particles of the specified type. The particles are drawn behind the object. The extra parameters are set randomly in the range from a0/b0 to a1/b1.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> CastBackParticles
+      (<span class="type">string</span> szName, <span class="type">int</span> iAmount, <span class="type">int</span> iLevel, <span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">int</span> a0, <span class="type">int</span> a1, <span class="type">int</span> b0, <span class="type">int</span> b1, <span class="type">object</span> pObj);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szName: </dt>
+<dd><div class="text">Name of the particle type</div></dd>
+<dt>iAmount: </dt>
+<dd><div class="text">Amount of particles</div></dd>
+<dt>iLevel: </dt>
+<dd><div class="text">Velocity at which to cast the particles</div></dd>
+<dt>iX: </dt>
+<dd><div class="text">X coordinate of the particle. Offset in local calls.</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">Y coordinate of the particle. Offset in local calls.</div></dd>
+<dt>a0: </dt>
+<dd><div class="text">Lower limit for the first extra parameter. This is usually the size of the particles in 1/5 pixels.</div></dd>
+<dt>a1: </dt>
+<dd><div class="text">Upper limit for the first extra parameter</div></dd>
+<dt>b0: </dt>
+<dd><div class="text">Lower limit for the second extra parameter. This is usually the color modulation of the particles.</div></dd>
+<dt>b1: </dt>
+<dd><div class="text">Upper limit for the second extra parameter</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Target object for object local particles. Object local particles are drawn directly on top of the object and are removed when the object is deleted.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">This function returns 0 if the particle function was not found. There is no return value indicating whether the particle has actually been created. This must be so to prevent synchronization problems in network games, as particles may be handled differently on each computer in the network.</div>
+<h2>Example</h2>
+      <div class="example">
+        <pre class="code">CastBackParticles(<i class="string">"FSpark"</i>, 10,100, 0,0, 100, 200, <a href="../../../sdk/script/fn/RGBa.html">RGBa</a>(128,128,255,0), <a href="../../../sdk/script/fn/RGBa.html">RGBa</a>(255,255,255,127));</pre>
+        <div class="text">Creates some sparks behind the specified object.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/CastObjects.html">CastObjects</a>, <a href="../../../sdk/script/fn/CastObjectsX.html">CastObjectsX</a>, <a href="../../../sdk/script/fn/CastPXS.html">CastPXS</a>, <a href="../../../sdk/script/fn/CastPXSX.html">CastPXSX</a>, <a href="../../../sdk/script/fn/CreateParticle.html">CreateParticle</a>
+</div>
+<div class="author">Sven2, Mai 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GBackSolid</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GBackSolid">GBackSolid</h1>
+<div class="text">
+<b>Category: </b>Landscape
+    / Material<br><b>Since engine version: </b>4.6.5.0 CP</div>
+<h2>Description</h2>
+<div class="text">Checks whether there is solid matter at the specified position in the landscape.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> GBackSolid
+      (<span class="type">int</span> iX, <span class="type">int</span> iY);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>iX: </dt>
+<dd><div class="text">X coordinate. Offset in local calls</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">Y coordinate. Offset in local calls</div></dd>
+</dl>
+<h2>Example</h2>
+			<div class="example">
+				<pre class="code"><b>var</b> obj=<a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(ROCK);
+<b>while</b>(GBackSolid(<a href="../../../sdk/script/fn/GetX.html">GetX</a>(obj)<a href="../../../sdk/script/operatoren.html">-</a><a href="../../../sdk/script/fn/GetX.html">GetX</a>(),<a href="../../../sdk/script/fn/GetY.html">GetY</a>(obj)<a href="../../../sdk/script/operatoren.html">-</a><a href="../../../sdk/script/fn/GetY.html">GetY</a>())) <a href="../../../sdk/script/fn/SetPosition.html">SetPosition</a>(<a href="../../../sdk/script/fn/GetX.html">GetX</a>(obj),<a href="../../../sdk/script/fn/GetY.html">GetY</a>(obj)<a href="../../../sdk/script/operatoren.html">-</a>1,obj);</pre>
+				<div class="text">This snippet of script moves a rock upwards so it rests on top of solid matter.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GBackLiquid.html">GBackLiquid</a>, <a href="../../../sdk/script/fn/GBackSemiSolid.html">GBackSemiSolid</a>, <a href="../../../sdk/script/fn/GBackSky.html">GBackSky</a>, <a href="../../../sdk/script/fn/GetMaterial.html">GetMaterial</a>
+</div>
+<div class="author">Günther, April 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

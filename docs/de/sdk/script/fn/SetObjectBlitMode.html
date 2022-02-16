@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetObjectBlitMode</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetObjectBlitMode">SetObjectBlitMode</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Darstellung<br><b>Ab Engineversion: </b>4.9.5.0 CE
+        (erweitert ab 4.9.6.0 CR)
+      </div>
+<h2>Beschreibung</h2>
+<div class="text">Ändert den Zeichenmodus für eine Objekts. Die möglichen Werte entsprechen denen des DefCore-Flags BlitMode (siehe Anmerkung). Die Funktion gibt jeweils den vorher gesetzten Blitmodus zurück.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> SetObjectBlitMode
+      (<span class="type">int</span> dwNewBlitMod, <span class="type">object</span> pObj, <span class="type">int</span> iOverlayID);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>dwNewBlitMod: </dt>
+<dd><div class="text">
+    [opt]
+  Neuer Zeichenmodus (mögliche Werte siehe unten) - bei 0 wird das Objekt auf seinen Definitions-Blitmodus zurückgesetzt. Ansonsten wird Bit 8 (benutzerdefinierter Farbwert) implizit gesetzt.</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Objekt, dessen Zeichenstil geändert werden soll. 0 bei lokalem Aufruf.</div></dd>
+<dt>iOverlayID: </dt>
+<dd><div class="text">
+    [opt]
+  Wenn angegeben, wird stattdessen der Blitmodus dieses Grafikoverlays gesetzt. Das Overlay muss vorher mit <a href="../../../sdk/script/fn/SetGraphics.html">SetGraphics</a> erstellt worden sein. Ab CR.</div></dd>
+</dl>
+<h2>Anmerkungen</h2>
+<div class="text">Der Blitmodus beeinflusst keine zusätzlichen Overlay-Grafiken. Die Blitmodi dieser müssen jeweils in <a href="../../../sdk/script/fn/SetGraphics.html">SetGraphics</a> gesetzt werden.</div>
+<div class="text"><table>
+<thead><tr>
+<th>Konstante</th>
+<th>Wert</th>
+<th>Bedeutung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>GFX_BLIT_Additive</td>
+<td>1</td>
+<td>Additiv (Immer Basissurface und Overlay)</td>
+</tr>
+<tr class="dark">
+<td>GFX_BLIT_Mod2</td>
+<td>2</td>
+<td>Additive Modulation: Die Farbe des Modulationswertes wird zur jeweiligen Objektfarbe hinzuaddiert, und anschließend RGB(128,128,128) abgezogen. Nur Basisgrafik.</td>
+</tr>
+<tr>
+<td>GFX_BLIT_ClrSfc_OwnClr</td>
+<td>4</td>
+<td>Die über <a href="../../../sdk/script/fn/SetClrModulation.html">SetClrModulation</a>() gesetzte Farbmodulation gilt nur für die Basisgrafik, und das Overlay wird weiterhin nach Besitzerfarbe (siehe <a href="../../../sdk/script/fn/SetColorDw.html">SetColorDw</a>())gefärbt.</td>
+</tr>
+<tr class="dark">
+<td>GFX_BLIT_ClrSfc_Mod2</td>
+<td>8</td>
+<td>Die Besitzergrafik (Overlay) wird mit additiver Modulation gezeichnet. Dieses Flag muss gegebenenfalls unabhängig von Bit 2 gesetzt werden.</td>
+</tr>
+<tr>
+<td>5-7</td>
+<td>16, 32, 64</td>
+<td>reserviert</td>
+</tr>
+<tr class="dark">
+<td>GFX_BLIT_Custom</td>
+<td>128</td>
+<td>Benutzerdefinierter Farbwert. Dieser Wert kann angegeben werden, wenn kein spezieller Farbmodus gewünscht ist, und damit eine DefCore-Einstellung überschrieben werden soll. Außerdem ist dieses Bit im Rückgabewert dieser Funktion und von <a href="../../../sdk/script/fn/GetObjectBlitMode.html">GetObjectBlitMode</a>() gesetzt, wenn der Blitmodus des Objekts nicht dem Definitionswert entspricht.</td>
+</tr>
+<tr>
+<td>GFX_BLIT_Parent</td>
+<td>256</td>
+<td>Nur für Overlays: Es wird der Blitmodus verwendet, den auch das Basisobjekt benutzt, auf das dieses Overlay gezeichnet wird. Ab CR.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Beispiel</h2>
+			<div class="example">
+<pre class="code"><b>static</b> g_pCursor, g_dwPrevBlitMode, g_dwPrevMod;
+
+<b>protected</b> <b>func</b> Script100()
+  {
+  <i>// Ausgewählten Clonk des ersten Spielers ermitteln
+</i>  g_pCursor = <a href="../../../sdk/script/fn/GetCursor.html">GetCursor</a>();
+  <i>// Vorherige Werte speichern
+</i>  g_dwPrevBlitMode = <a href="../../../sdk/script/fn/GetObjectBlitMode.html">GetObjectBlitMode</a>(g_pCursor);
+  g_dwPrevMod = <a href="../../../sdk/script/fn/GetClrModulation.html">GetClrModulation</a>(g_pCursor);
+  <i>// Nicht-ColorByOwner-Teile des Clonks leuchtend grün färben
+</i>  SetObjectBlitMode(6, g_pCursor);
+  <a href="../../../sdk/script/fn/SetClrModulation.html">SetClrModulation</a>(<a href="../../../sdk/script/fn/RGB.html">RGB</a>(100, 255, 110), g_pCursor);
+  <i>// Nachricht
+</i>  <a href="../../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Schau her, ich kann leuchten!"</i>, g_pCursor);
+  <b>return</b>(1);
+  }
+
+<b>protected</b> <b>func</b> Script200()
+  {
+  <i>// Farbe zurücksetzen
+</i>  SetObjectBlitMode(g_dwPrevBlitMode, g_pCursor);
+  <a href="../../../sdk/script/fn/SetClrModulation.html">SetClrModulation</a>(g_dwPrevMod, g_pCursor);
+  <i>// Nachricht
+</i>  <a href="../../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Schon vorbei :\", g_pCursor);
+  "</i><a href="../../../sdk/script/fn/return.html">return</a>(1);
+  }</pre>
+				<div class="text">Teil eines Szenarioscripts: Färbt den ausgewählten Clonk des ersten Spielers für eine Weile teilweise leuchtend grün.<br>
+				Für einen solchen Effekt in aufwändigeren Szenarien oder in allgemein verwendbaren Objekten sollte an solcher Stelle natürlich ein <a href="../../../sdk/script/Effects.html">Effekt</a> verwendet werden, um beispielsweise Komplikationen mit verfärbenden Zaubern zu vermeiden.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/GetObjectBlitMode.html">GetObjectBlitMode</a>, <a href="../../../sdk/script/fn/SetClrModulation.html">SetClrModulation</a>
+</div>
+<div class="author">Sven2, März 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

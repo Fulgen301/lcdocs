@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetGraphics</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetGraphics">SetGraphics</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Display<br><b>Since engine version: </b>4.9.1.0 GWE
+        (extended in 4.9.5.0 CE)
+      </div>
+<h2>Description</h2>
+<div class="text">Changes the graphics of an object. This affects the display of the given object everywhere in the game: in the landscape, in menus, or on control buttons.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetGraphics
+      (<span class="type">string</span> szGfxName, <span class="type">object</span> pObj, <span class="type">id</span> idSrcDef, <span class="type">int</span> iOverlay, <span class="type">int</span> iOverlayMode, <span class="type">string</span> szAction, <span class="type">int</span> dwBlitMode, <span class="type">object</span> pOvelayObject);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szGfxName: </dt>
+<dd><div class="text">
+    [opt]
+  Name of the graphic to be set. If 0, the default graphic (Graphics.png or bmp) is set.</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Object the graphics of which you want to change. Can be 0 in local calls.</div></dd>
+<dt>idSrcDef: </dt>
+<dd><div class="text">
+    [opt]
+  Definition of which the graphics are to be used. If not specified, the definition of the changed object is used. If not specified and iOverlay!=0, the overlay is removed.</div></dd>
+<dt>iOverlay: </dt>
+<dd><div class="text">
+    [opt]
+  Index of the overlay graphics to be set. If specified, must be greater than 0 and will add an overlay of the given index to the object or changes an existing overlay of the given index. Overlays with higher index will be drawn on top of those with a lower index. If an object has only one overlay you can use the symbolic constant GFX_Overlay (=1).</div></dd>
+<dt>iOverlayMode: </dt>
+<dd><div class="text">
+    [opt]
+  Only in conjunction with iOverlay parameter: specifies how the overlay is to be drawn. The following constants are allowed: <table>
+<thead><tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Effect</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>GFXOV_MODE_None</td>
+<td>0</td>
+<td>Invalid: do not use</td>
+</tr>
+<tr class="dark">
+<td>GFXOV_MODE_Base</td>
+<td>1</td>
+<td>The base graphics of the specified definition, meaning the target rectangle (0,0,Width,Height,OffsetX,OffsetY), will be superimposed at the object position.</td>
+</tr>
+<tr>
+<td>GFXOV_MODE_Action</td>
+<td>2</td>
+<td>The actiity of the specified object definition. From CR.</td>
+</tr>
+<tr class="dark">
+<td>GFXOV_MODE_Picture</td>
+<td>3</td>
+<td>Only affects display of the object in inventory or menus (e.g. when activating in a building). The picture rectangle of the specified definition will be superimposed over the representative picture of the object. In this way you can superimpose a clonk image on a rock or a magic spell picture on a scroll.</td>
+</tr>
+<tr>
+<td>GFXOV_MODE_IngamePicture</td>
+<td>4</td>
+<td>Overlays the picture graphics of the source definition over the shape of the target object. From CR.</td>
+</tr>
+<tr class="dark">
+<td>GFXOV_MODE_Object</td>
+<td>5</td>
+<td>Superimposes the current object graphics including all overlays of pOverlayObject onto the object. Warning: never superimpose an object recursively onto itself! From CR.</td>
+</tr>
+<tr>
+<td>GFXOV_MODE_ExtraGraphics</td>
+<td>6</td>
+<td>Draws the target object a second time, using the supplied graphics. The source coordinates are the same as in the original object drawing. Since CR.</td>
+</tr>
+</tbody>
+</table>
+</div></dd>
+<dt>szAction: </dt>
+<dd><div class="text">
+    [opt]
+  Only for iOverlayMode==GFXOV_MODE_Action: the activity in definition idSrcDef, the graphics of which shall be superimposed onto the object. This activity has to be defined as Action in <a href="../../../sdk/definition/actmap.html">ActMap.txt</a> of the source definition. Notice: the length of this animation should be 1; longer animations are not yet possible. From CR.</div></dd>
+<dt>dwBlitMode: </dt>
+<dd><div class="text">
+    [opt]
+  Blit mode of the overlayed graphics (e.g. additive). Siehe <a href="../../../sdk/script/fn/SetObjectBlitMode.html">SetObjectBlitMode</a>
+</div></dd>
+<dt>pOvelayObject: </dt>
+<dd><div class="text">
+    [opt]
+  Only for iOverlayMode==GFXOV_MODE_Object: the object the graphics of which shall be superimposed onto the target object. From CR.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">With iOverlay=0 only the base graphics of an object are changed. The effect corresponds to replacing Graphics.bmp/-.png/Overlay.png in the object <a href="../../../sdk/definition/index.html">definition</a>. Source information from <a href="../../../sdk/definition/actmap.html">ActMap.txt</a> or <a href="../../../sdk/definition/defcore.html">DefCore.txt</a> will not be modified by this command. So the given coordinates should always point to sensible areas in the bitmap (including SolidMask areas).</div>
+<h2>Examples</h2>
+      <div class="example">
+        <pre class="code">SetGraphics(0, <a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(ROCK), GOLD);</pre>
+        <div class="text">Gives a randomly chosen rock in the landscape the appearance of gold.</div>
+      </div>
+      <div class="example">
+        <pre class="code">SetGraphics(<i class="string">"Armored"</i>, <a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(KNIG));</pre>
+        <div class="text">Gives the most recently created knight the appearance of a knight in armor, using the files GraphicsArmored.png and OverlayArmored.png found in the knight definition file.</div>
+      </div>
+      <div class="example">
+        <pre class="code"><b>var</b> obj; <a href="../../../sdk/script/fn/while.html">while</a> (obj = <a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(0, 0,0,0,0, 0, 0,0, 0, obj)) SetGraphics(0, obj);</pre>
+        <div class="text">Restores the original graphics for all objects in the game.</div>
+      </div>
+      
+<div class="example">
+<pre class="code">SetGraphics(0, <a href="../../../sdk/script/fn/this.html">this</a>(), CLNK, GFX_Overlay, GFXOV_MODE_Picture);
+<a href="../../../sdk/script/fn/SetObjDrawTransform.html">SetObjDrawTransform</a>(800,0,0, 0,800,0, <a href="../../../sdk/script/fn/this.html">this</a>(), GFX_Overlay);</pre>
+<div class="text">An object script: the calling object will have a small clonk image superimposed on its picture.</div>
+</div>
+
+<div class="example">
+<pre class="code">SetGraphics(0, <a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(KNIG), SHIA, GFX_Overlay, GFXOV_MODE_Base, 0, GFX_BLIT_Additive);</pre>
+<div class="text">Some knight will be displayed with a shield, additively drawn onto the clonk.</div>
+</div>
+
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/definition/index.html#Graphicsex">Object definitions (c4d)</a>, <a href="../../../sdk/script/fn/SetObjDrawTransform.html">SetObjDrawTransform</a>, <a href="../../../sdk/script/fn/SetObjectBlitMode.html">SetObjectBlitMode</a>, <a href="../../../sdk/script/fn/SetPicture.html">SetPicture</a>
+</div>
+<div class="author">Sven2, Juni 2003, März 2005</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

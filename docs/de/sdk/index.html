@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../doku.css">
+<title>Entwicklermodus</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../sdk/index.html">Einleitung</a></li>
+<li><a href="../content.html">Inhalt</a></li>
+<li><a href="../search.php">Suche</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../sdk/files.html">Spieldaten</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1>Clonk Entwicklermodus</h1>
+
+<img src="../images/cpem.gif" id="cpem" width="52" height="52">
+<div class="text">Der Clonk Entwicklermodus gibt vollen Zugriff auf alle Spieldaten von Clonk: Szenarien, Objektdefinitionen, Spielerdateien und zusätzliche Gruppendateien. Bestehende Daten können modifiziert werden, um so neue Spielelemente zu schaffen.</div>
+<div class="text">Der Entwicklermodus ist über den Editor erreichbar.</div>
+<div class="text">Im Editor können per Drag &amp; Drop alle Einzelkomponenten der Spieldaten bearbeitet werden. In der Engine können Objekte per Mausklick in der Landschaft platziert und Landkarten pixelgenau bearbeitet und abgespeichert werden.</div>
+<div class="text">Selbsterstellte Spielelemente können veröffentlicht und somit anderen Clonk-Spielern zugänglich gemacht werden. Sie sollten jedoch vorher unbedingt ausgiebig getestet werden und keine Fehler enthalten.</div>
+
+<h1 id="Nutzungsbedingungen">Nutzungsbedingungen</h1>
+
+<div class="text">Die Benutzung der erweiterten Funktionen von Clonk geschieht grundsätzlich auf eigene Gefahr und Verantwortung. Es gibt keinerlei Support. Der Entwicklermodus ist nur registrierten Spielern zugänglich.</div>
+<div class="text">Durch unsachgemäße Anwendung kann nicht nur der Spielspaß zunichte, sondern das komplette Spiel unspielbar gemacht werden. Für den erfolgreichen Einsatz des Entwicklermodus sind grundlegende Programmierkenntnisse, Fähigkeiten bei der Bearbeitung von Grafiken und allgemeiner Sachverstand absolute Voraussetzung. Wer sich dessen nicht sicher ist, sollte die Finger davon lassen.</div>
+<div class="text">Jeder, der die in dieser Dokumentation enthaltenen Informationen nutzt, sollte verantwortungsvoll mit den gegebenen Möglichkeiten umgehen und eigenverantwortlich das Ziel anstreben, sinnvoll spielbare Erweiterungen zum Gesamtspiel zu erstellen, die der Gemeinschaft nützen.</div>
+<div class="text">Von Spielern erstelltes Material für Clonk darf in keinem Fall kommerziell genutzt werden. Für Szenarien, Objekte oder andere Spieldaten darf kein Entgelt verlangt werden.</div>
+<div class="text">Im Rahmen des Entwicklermodus zur Bearbeitung freigegebene Daten dürfen bei der Entwicklung neuer Spielerweiterungen für Clonk (und ausschließlich zu diesem Zweck) verwendet werden. Alle Rechte an den verwendeten Daten verbleiben jedoch beim Hersteller.</div>
+<div class="text">Das Passwort für die Aktivierung des Entwicklermodus lautet: Siedlerclonk</div>
+<div class="author">matthes, 2000 - 2007</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../sdk/index.html">Einleitung</a></li>
+<li><a href="../content.html">Inhalt</a></li>
+<li><a href="../search.php">Suche</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../sdk/files.html">Spieldaten</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

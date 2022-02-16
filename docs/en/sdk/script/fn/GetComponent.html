@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetComponent</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetComponent">GetComponent</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Components<br><b>Since engine version: </b>4.6.5.0 CP</div>
+<h2>Description</h2>
+<div class="text">Used to determine object components.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int / id</span> GetComponent
+      (<span class="type">id</span> idComponent, <span class="type">int</span> iIndex, <span class="type">object</span> pObj, <span class="type">id</span> idDef);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>idComponent: </dt>
+<dd><div class="text">
+    [opt]
+  Object component of which to determine the count. If not specified, iIndex is used and the id of the component is returned.</div></dd>
+<dt>iIndex: </dt>
+<dd><div class="text">
+    [opt]
+  Index of the component to be returned. This parameter is ignored if idComponent is specified. Returns the id of the indicated component which can then be used to determine the count in a subsequent call to GetComponent.</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Object of which to determine components. Can be 0 in local calls. If idDef is specified, this parameter is ignored.</div></dd>
+<dt>idDef: </dt>
+<dd><div class="text">
+    [opt]
+  Definition of which to determine components. If 0, the specified object is checked instead.</div></dd>
+</dl>
+<h2>Example</h2>
+			<div class="example">
+<pre class="code"><b>var</b> i,cid,num;
+<a href="../../../sdk/script/fn/while.html">while</a> (<b>id</b> = GetComponent(0, i++, 0, <a href="../../../sdk/script/fn/GetID.html">GetID</a>()))
+	<b>if</b> ((num = GetComponent(<b>id</b>) - GetComponent(<b>id</b>, 0, 0, <a href="../../../sdk/script/fn/GetID.html">GetID</a>())) &gt; 0)
+		<a href="../../../sdk/script/fn/while.html">while</a> (num--) <a href="../../../sdk/script/fn/CreateObject.html">CreateObject</a>(<b>id</b>, 0, 0, <a href="../../../sdk/script/fn/GetOwner.html">GetOwner</a>());</pre>
+				<div class="text">Creates all components which are still missing in the calling object (e.g. in a construction site) in front of the object.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/SetComponent.html">SetComponent</a>, <a href="../../../sdk/script/fn/Split2Components.html">Split2Components</a>
+</div>
+<div class="author">Cucaracha, Mai 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

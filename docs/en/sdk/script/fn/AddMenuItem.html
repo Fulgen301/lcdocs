@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>AddMenuItem</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="AddMenuItem">AddMenuItem</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Menu<br><b>Since engine version: </b>4.6.5.0 CP
+        (extended in 4.9.5.0 CE)
+      </div>
+<h2>Description</h2>
+<div class="text">Adds a menu entry.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> AddMenuItem
+      (<span class="type">string</span> szCaption, <span class="type">string</span> szCommand, <span class="type">id</span> idItem, <span class="type">object</span> pMenuObject, <span class="type">int</span> iCount, <span class="type">int</span> iParameter, <span class="type">string</span> szInfoCaption, <span class="type">int</span> iExtra, <span class="type">any</span> XPar1, <span class="type">any</span> XPar2);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szCaption: </dt>
+<dd><div class="text">Text of the new menu entry</div></dd>
+<dt>szCommand: </dt>
+<dd><div class="text">Script to be executed. Can be a function name or other statement. If a function name is specified, it will be called in pCommandObject specified with <a href="../../../sdk/script/fn/CreateMenu.html">CreateMenu</a>.</div></dd>
+<dt>idItem: </dt>
+<dd><div class="text">The ID is used as a picture for the menu entry. The name of the definition can be used in szCaption via %s. Furthermore the ID is passed as first argument to the function specified in szCommand, if it is a function name.</div></dd>
+<dt>pMenuObject: </dt>
+<dd><div class="text">Object holding the menu to which to add the entry. Can be 0 in local calls.</div></dd>
+<dt>iCount: </dt>
+<dd><div class="text">Numeric value to be displayed next to the menu entry (such as counts and amounts).</div></dd>
+<dt>iParameter: </dt>
+<dd><div class="text">Second parameter to the function specified in szCommand (see remark).</div></dd>
+<dt>szInfoCaption: </dt>
+<dd><div class="text">Description text of the new menu entry</div></dd>
+<dt>iExtra: </dt>
+<dd><div class="text">
+    [opt]
+  Additional parameter determining the behavior of the menu entry.<br>Lower 7 bits (0-127): Menu entry icon. Can't be combined.<br>0: Normal<br> C4MN_Add_ImgRank = 1; Rank icon. With a specified idItem the Rank.png of the definition will be used if applicable. iCount determines the rank level.<br> C4MN_Add_ImgIndexed = 2; The picture facet XPar1 times the picture width shifted to the right will be used. This may be used to store multiple icons in a single definition.<br> C4MN_Add_ImgObjRank = 3: XPar1 is an object of which the picture including its rank will be used as icon. If the object doesn't have any info section (thus also no rank) in context menus a space for the rank symbol will be left out anyway. Since CE.<br> C4MN_Add_ImgObject = 4: XPar1 is an object of which the picture is used as icon. Since CE.<br> C4MN_Add_ImgTextSpec = 5: The symbol is defined in szCaption and can be either a normal ID, a portrait specification of the format "Portrait:CLNK::00ff00::1" or one of the following icons:<br><table>
+<thead><tr>
+<th>Name</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Ico:Locked</td>
+<td>Password icon</td>
+</tr>
+<tr class="dark">
+<td>Ico:League</td>
+<td>League icon</td>
+</tr>
+<tr>
+<td>Ico:GameRunning</td>
+<td>Game running icon</td>
+</tr>
+<tr class="dark">
+<td>Ico:Lobby</td>
+<td>Lobby icon</td>
+</tr>
+<tr>
+<td>Ico:RuntimeJoin</td>
+<td>Runtime join allowed icon</td>
+</tr>
+<tr class="dark">
+<td>Ico:FairCrew</td>
+<td>Fair crew icon</td>
+</tr>
+<tr>
+<td>Ico:Settlement</td>
+<td>Settlement score icon</td>
+</tr>
+</tbody>
+</table>
+<br> C4MN_Add_ImgColor = 6: The owner color area of the icon will be colorized with the color specified in XPar1. <br><br> Additional flags (can be combined with those mentioned before):<br> C4MN_Add_PassValue = 128: XPar2 is used as value and overrides the default value found (in the definition idItem). See also iExtra of <a href="../../../sdk/script/fn/CreateMenu.html">CreateMenu</a>.<br> C4MN_Add_ForceCount = 256: If this flag is specified, also an iCount of 0 will be shown (like it is the case in the buying menu, for example).<br> It should also be mentioned that internally the value C4MN_Item_NoCount = 12345678 is used if this flag isn't specified but iCount is 0. This means that in the special case where iCount is passed as 12345678 the count won't be shown. <br> C4MN_Add_ForceNoDesc = 512: If this flag is specified the description (set with szInfoCaption and shown as a tooltip) of the menu entry is suppressed completely, whereas in contrast passing 0 as szInfoCaption will show the description of idItem.</div></dd>
+<dt>XPar1: </dt>
+<dd><div class="text">
+    [opt]
+  First additional parameter for iExtra.</div></dd>
+<dt>XPar2: </dt>
+<dd><div class="text">
+    [opt]
+  Second additional parameter for iExtra.</div></dd>
+</dl>
+<h2>Remarks</h2>
+<div class="text">Custom menu symbols should best have square aspect ratio.</div>
+<div class="text">If a function name is specified for szCommand, the following parameters are passed: <code>idItem, iParameter, bRight[, iValue]</code> with bRight indicating whether the menu entry was selected with [Special2] or the right mouse button. iValue is passed only if bit 8 is set in iExtra and specifies the displayed (overridden) object value of the menu entry.</div>
+<h2>Examples</h2>
+			<div class="example">
+				<pre class="code"><i>/* Wird bei Doppelklick auf Graben aufgerufen */</i>
+<b>func</b> Activate()
+{
+	<i>// Lokales Menü mit lokalen Kommandos erzeugen
+</i>	CreateMenu(GetID());
+	<i>// Menüeinträge erzeugen
+</i>	AddMenuItem(<i class="string">"Hallo sagen"</i>, <i class="string">"SayHello"</i>, 0);
+	AddMenuItem(<i class="string">"Zaubern"</i>, <i class="string">"DoMagic"</i>, 0);
+	AddMenuItem(<i class="string">"Objekt erzeugen: %s"</i>, <i class="string">"CreateItem"</i>, ROCK);
+	AddMenuItem(<i class="string">"Objekt erzeugen: %s"</i>, <i class="string">"CreateItem"</i>, FLNT);
+}
+
+<i>/* Diese Kommados werden vom Menü aufgerufen */</i>
+<b>func</b> SayHello()
+{
+	Message(<i class="string">"Hallo"</i>,this());
+}
+
+<b>func</b> DoMagic()
+{
+	Sound(<i class="string">"Magic*"</i>);
+	ObjectCall(CreateObject(MLGT,0,0),<i class="string">"Activate"</i>,this());
+}
+
+<b>func</b> CreateItem(<b>id</b> item)
+{
+	Sound(<i class="string">"Magic*"</i>);
+	CreateContents(item);
+}</pre>
+				<div class="text">Menu for a special clonk.</div>
+			</div>
+			<div class="example">
+				<pre class="code"><b>func</b> Activate(<b>object</b> clonk)
+{
+	<i>// Menü im Clonk mit lokalen Kommandos erzeugen
+</i>	CreateMenu(GetID(), clonk, this());
+	<i>// Menüeinträge erzeugen
+</i>	AddMenuItem(Format(<i class="string">"%s Schrumpfen"</i>, GetName(clonk)), Format(<i class="string">"DoCon(-10,Object(%d))"</i>, ObjectNumber(%d)), 0, this(), 0, 0, <i class="string">"Eine Art Jungbrunnen."</i>, 4, clonk);
+}</pre>
+				<div class="text">Menu for a shrinking object.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/CloseMenu.html">CloseMenu</a>, <a href="../../../sdk/script/fn/CreateMenu.html">CreateMenu</a>, <a href="../../../sdk/script/fn/SelectMenuItem.html">SelectMenuItem</a>, <a href="../../../sdk/script/fn/SetMenuDecoration.html">SetMenuDecoration</a>, <a href="../../../sdk/script/fn/SetMenuTextProgress.html">SetMenuTextProgress</a>
+</div>
+<div class="author">jwk, April 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

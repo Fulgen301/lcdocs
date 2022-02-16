@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>Fling</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="Fling">Fling</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Movement<br><b>Since engine version: </b>4.6.5.0 CP</div>
+<h2>Description</h2>
+<div class="text">Flings an object into the specified direction. This function is designed for living beings as it will also set the tumbling activity. Additionally it deletes the object's killer.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> Fling
+      (<span class="type">object</span> pObj, <span class="type">int</span> iXDir, <span class="type">int</span> iYDir, <span class="type">int</span> iPrec, <span class="type">bool</span> fAddSpeed);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">Object to be flung. This parameter must be specified.</div></dd>
+<dt>iXDir: </dt>
+<dd><div class="text">X flinging speed</div></dd>
+<dt>iYDir: </dt>
+<dd><div class="text">Y flinging speed</div></dd>
+<dt>iPrec: </dt>
+<dd><div class="text">
+    [opt]
+  Precision. Default 1 if not specified or 0.</div></dd>
+<dt>fAddSpeed: </dt>
+<dd><div class="text">
+    [opt]
+  Wether to add the speed instead of overwriting it.</div></dd>
+</dl>
+<h2>Example</h2>
+			<div class="example">
+				<pre class="code">Fling(<a href="../../../sdk/script/fn/GetCursor.html">GetCursor</a>(0), 10, -15);</pre>
+				<div class="text">Throws the selected clonk up and to the right.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/Jump.html">Jump</a>, <a href="../../../sdk/script/fn/SetXDir.html">SetXDir</a>, <a href="../../../sdk/script/fn/SetYDir.html">SetYDir</a>
+</div>
+<div class="author">Sven2, November 2001</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

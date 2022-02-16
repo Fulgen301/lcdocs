@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Teams.txt</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1 id="Scenariotxt">Teams.txt</h1>
+<div class="text">Über die Teams.txt kann für Mehrspielerszenarien definiert werden, in welchen Fraktionen die Spieler zusammen oder gegeneinander spielen. Ab 4.9.6.0 CR.</div>
+
+<div class="text"><table>
+<caption id="SektionTeams">Sektion [Teams]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+<th>Standardwert</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Active</td>
+<td>Integer</td>
+<td>0 oder 1. Wenn 0, existieren keine Teams und es wird davon ausgegangen, dass auch keine zur Laufzeit gebildet werden können. Das heißt zum Beispiel, dass den Spielern kein Verfeindungsmenü zur Verfügung steht.</td>
+<td>1</td>
+</tr>
+<tr class="dark">
+<td>AllowHostilityChange</td>
+<td>Integer</td>
+<td>0 oder 1. Wenn 1, können sich Spieler zur Laufzeit verbünden und verfeinden.</td>
+<td>0 bei vorhandener und 1 bei nicht vorhandener Teams.txt und aktivierter Meleespielregel.</td>
+</tr>
+<tr>
+<td>AllowTeamSwitch</td>
+<td>Integer</td>
+<td>0 oder 1. Wenn 1, können Spieler zur Laufzeit ein anderes Team wählen.</td>
+<td>0</td>
+</tr>
+<tr class="dark">
+<td>AutoGenerateTeams</td>
+<td>Integer</td>
+<td>0 oder 1. Wenn 1, können sich Spieler zur Laufzeit verbünden und verfeinden.</td>
+<td>0 bei vorhandenen Teams. 1 wenn keine [Team]-Sektionen existieren.</td>
+</tr>
+<tr>
+<td>TeamDistribution</td>
+<td>Identifikator</td>
+<td>Verteilung der Spieler auf die Teams. Mögliche Werte sind Free (Freie Auswahl), Host (Der Host wählt in der Lobby), Random (Zufällige Verteilung) oder RandomInv (Zufällige, für die Spieler in der Lobby unsichtbare Verteilung).</td>
+<td>Free</td>
+</tr>
+<tr class="dark">
+<td>TeamColors</td>
+<td>Integer</td>
+<td>0 oder 1. Bei 1 haben alle Spieler eines Teams die gleiche Farbe.</td>
+<td>0</td>
+</tr>
+<tr>
+<td>MaxScriptPlayers</td>
+<td>Integer</td>
+<td>Maximale Zahl der Scriptspieler, die der Host in Netzwerkspielen in der Lobby aktivieren kann. Dabei zählen schon beigetretene Scriptspieler mit.</td>
+<td>0</td>
+</tr>
+<tr class="dark">
+<td>ScriptPlayerNames</td>
+<td>String</td>
+<td>Durch "|" getrennte Liste von Namen, die an in der Lobby beitretende Scriptspieler vergeben werden. Sind keine Namen angegeben, heißen alle Scriptspieler "Computer".</td>
+<td>Computer</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionTeam">Beliebig viele Sektionen [Team]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+<th>Standardwert</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Integer</td>
+<td>Identifikator: Eine eindeutige Zahl größer als 0, die im Szenarienscript zur Identifikation des Teams benutzt werden kann. Normalerweise kann man die Team-IDs einfach mit sequentiell von 1 aufsteigend durchnummerieren.</td>
+<td>Muss angegeben werden!</td>
+</tr>
+<tr class="dark">
+<td>Name</td>
+<td>Zeichenfole (max 30)</td>
+<td>Name für das Team. Es können wie in Scripten auch lokalisierte Zeichenketten wie $TeamRight$ benutzt werden. Siehe <a href="../../sdk/lang.html#Teamstxt">Sprachanpassung</a>.</td>
+<td></td>
+</tr>
+<tr>
+<td>PlrStartIndex</td>
+<td>Integer</td>
+<td>Wenn ungleich 0, wird für alle Mitglieder dieses Teams die entsprechende [PlayerX]-Sektion der <a href="../../sdk/scenario/scenario.html#SektionenPlayer1Player2Player3Player4">Scenario.txt</a> für die Startparameter verwendet. 0 für automatische Vergabe unabhängig von den Teams.</td>
+<td>0</td>
+</tr>
+<tr class="dark">
+<td>Color</td>
+<td>Integer</td>
+<td>32 Bit RGB-Wert, der die Teamfarbe angibt. Die Teamfarbe wird statt der Spielerfarbe benutzt, wenn TeamColors angegeben ist.</td>
+<td>0</td>
+</tr>
+<tr>
+<td>IconSpec</td>
+<td>String</td>
+<td>Spezifikation für das Teamicon für Beitritt im nicht-Netzwerk oder zur Laufzeit.</td>
+<td></td>
+</tr>
+<tr class="dark">
+<td>MaxPlayer</td>
+<td>Integer</td>
+<td>Maximale Anzahl der Spieler, die diesem Team beitreten dürfen. 0 für endlos.</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="author">Sven2, Juni 2006</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

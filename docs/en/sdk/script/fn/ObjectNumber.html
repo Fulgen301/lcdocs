@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>ObjectNumber</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="ObjectNumber">ObjectNumber</h1>
+<div class="text">
+<b>Category: </b>Objects<br><b>Since engine version: </b>4.9.1.0 GWE</div>
+<h2>Description</h2>
+<div class="text">Returns the object number of an object. This number always uniquely identifies an object, even in subsequent savegame runs. Using <a href="../../../sdk/script/fn/Object.html">Object</a> it can be converted back to an object pointer.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> ObjectNumber
+      (<span class="type">object</span> pObj);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">Object of which you want to determine the object number.</div></dd>
+</dl>
+<h2>Example</h2>
+      <div class="example">
+        <pre class="code"><b>func</b> Activate(pCaller)
+{
+  <a href="../../../sdk/script/fn/CreateMenu.html">CreateMenu</a>(<a href="../../../sdk/script/fn/GetID.html">GetID</a>(), pCaller, pCaller, 0, <i class="string">"Kein geeignetes Objekte in Reichweite!"</i>);
+  <b>var</b> obj;
+  <a href="../../../sdk/script/fn/while.html">while</a>(obj = <a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(0, -50, -50, 100, 100, <a href="../../../sdk/script/fn/OCF_Chop.html">OCF_Chop</a>(), 0, 0, <a href="../../../sdk/script/fn/NoContainer.html">NoContainer</a>(), obj))
+    <a href="../../../sdk/script/fn/AddMenuItem.html">AddMenuItem</a>(<i class="string">"%s fällen"</i>, <a href="../../../sdk/script/fn/Format.html">Format</a>(<i class="string">"SetCommand(this(), \"Chop\", Object(%d))"</i>, ObjectNumber(obj)), <a href="../../../sdk/script/fn/GetID.html">GetID</a>(obj), pCaller);
+}</pre>
+        <div class="text">This function opens a menu in the calling object (pCaller) which contains all chopable objects (<a href="../../../sdk/script/fn/OCF_Chop.html">OCF_Chop</a>()) in the object's vicinity. Selecting a menu entry then uses <a href="../../../sdk/script/fn/SetCommand.html">SetCommand</a> to set the command "Chop" in the object. Since this requires storage of the object pointer, the pointer is first converted into the object number.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/Object.html">Object</a>
+</div>
+<div class="author">PeterW, Februar 2003</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

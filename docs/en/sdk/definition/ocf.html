@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Object character flags</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="ocf">Object Character Flags</h1>
+<div class="text">Object Character Flags are attributes of an object, which are computed from some <a href="../../sdk/definition/defcore.html">DefCore</a> entries and the current state of the object in the landscape. They are automatically updated by the engine.</div>
+<div class="text">All OCF are stored in a 32 bit wide bitmask. They can be tested with a simple bitwise "and". For example:</div>
+
+<pre class="code"><b>if</b> (<a href="../../sdk/script/fn/GetOCF.html">GetOCF</a>(objekt) &amp; <a href="../../sdk/script/fn/OCF_Living.html">OCF_Living</a>)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Das Objekt ist ein Lebewesen."</i>);</pre>
+
+<div class="text">The most common application for OCF are FindObject loops:</div>
+
+<pre class="code"><b>var</b> obj;
+<b>while</b> (obj = <a href="../../sdk/script/fn/FindObject.html">FindObject</a>(0, -100,-100,200,200, <a href="../../sdk/script/fn/OCF_Rotate.html">OCF_Rotate</a>, 0,0, <a href="../../sdk/script/fn/NoContainer.html">NoContainer</a>(), obj)
+  <a href="../../sdk/script/fn/SetR.html">SetR</a>(180, obj);</pre>
+<div class="text">This script turns all rotatable objects upside down.</div>
+<h1 id="ocf_fns">OCF Constants</h1>
+<div class="text">The following OCFs are defined in C4Script:</div>
+
+<div class="text">
+<a href="../../sdk/script/fn/OCF_Alive.html">OCF_Alive</a>, <a href="../../sdk/script/fn/OCF_AttractLightning.html">OCF_AttractLightning</a>, <a href="../../sdk/script/fn/OCF_Available.html">OCF_Available</a>, <a href="../../sdk/script/fn/OCF_Chop.html">OCF_Chop</a>, <a href="../../sdk/script/fn/OCF_Collectible.html">OCF_Collectible</a>, <a href="../../sdk/script/fn/OCF_Collection.html">OCF_Collection</a>, <a href="../../sdk/script/fn/OCF_Construct.html">OCF_Construct</a>, <a href="../../sdk/script/fn/OCF_Container.html">OCF_Container</a>, <a href="../../sdk/script/fn/OCF_CrewMember.html">OCF_CrewMember</a>, <a href="../../sdk/script/fn/OCF_Edible.html">OCF_Edible</a>, <a href="../../sdk/script/fn/OCF_Entrance.html">OCF_Entrance</a>, <a href="../../sdk/script/fn/OCF_Exclusive.html">OCF_Exclusive</a>, <a href="../../sdk/script/fn/OCF_FightReady.html">OCF_FightReady</a>, <a href="../../sdk/script/fn/OCF_Fullcon.html">OCF_Fullcon</a>, <a href="../../sdk/script/fn/OCF_Grab.html">OCF_Grab</a>, <a href="../../sdk/script/fn/OCF_HitSpeed1.html">OCF_HitSpeed1</a>, <a href="../../sdk/script/fn/OCF_HitSpeed2.html">OCF_HitSpeed2</a>, <a href="../../sdk/script/fn/OCF_HitSpeed3.html">OCF_HitSpeed3</a>, <a href="../../sdk/script/fn/OCF_HitSpeed4.html">OCF_HitSpeed4</a>, <a href="../../sdk/script/fn/OCF_Inflammable.html">OCF_Inflammable</a>, <a href="../../sdk/script/fn/OCF_InFree.html">OCF_InFree</a>, <a href="../../sdk/script/fn/OCF_InLiquid.html">OCF_InLiquid</a>, <a href="../../sdk/script/fn/OCF_InSolid.html">OCF_InSolid</a>, <a href="../../sdk/script/fn/OCF_LineConstruct.html">OCF_LineConstruct</a>, <a href="../../sdk/script/fn/OCF_Living.html">OCF_Living</a>, <a href="../../sdk/script/fn/OCF_NotContained.html">OCF_NotContained</a>, <a href="../../sdk/script/fn/OCF_OnFire.html">OCF_OnFire</a>, <a href="../../sdk/script/fn/OCF_Powerconsumer.html">OCF_Powerconsumer</a>, <a href="../../sdk/script/fn/OCF_PowerSupply.html">OCF_PowerSupply</a>, <a href="../../sdk/script/fn/OCF_Prey.html">OCF_Prey</a>, <a href="../../sdk/script/fn/OCF_Rotate.html">OCF_Rotate</a>
+</div>
+
+<div class="author">Sven2, Mai 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

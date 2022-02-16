@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetCrewExtraData</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetCrewExtraData">SetCrewExtraData</h1>
+<div class="text">
+<b>Kategorie: </b>Spieler<br><b>Ab Engineversion: </b>4.9.6.0 CR</div>
+<h2>Beschreibung</h2>
+<div class="text">Mithilfe dieses Befehls können beliebige, scriptdefinierte Werte unter einem gegebenen Namen im Clonk in der Spielerdatei gespeichert werden.
+        Auf diese Weise kann man Daten über einen Clonk in einer Spielerdatei über Szenariogrenzen hinweg erhalten (z.B. für RPGs)
+        Zurückgegeben wird (wenn erfolgreich) der gesetzte Wert.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">any</span> SetCrewExtraData
+      (<span class="type">object</span> pCrew, <span class="type">string</span> strDataName, <span class="type">any</span> Data);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pCrew: </dt>
+<dd><div class="text">Crewobjekt, für dessen Infosektion zusätzliche Daten gespeichert werden sollen. 0 für lokalen Aufruf.</div></dd>
+<dt>strDataName: </dt>
+<dd><div class="text">Name, der den Daten zugeordnet werden soll</div></dd>
+<dt>Data: </dt>
+<dd><div class="text">Daten, die gesetzt werden sollen.</div></dd>
+</dl>
+<h2>Anmerkungen</h2>
+<div class="text">Es dürfen keine Objektpointer oder Zeichenfolgen (Strings) gespeichert werden.</div>
+<div class="text">Da die Namen des ExtraData über Szenariogrenzen hinweg gültig sind, sollte man dem Namen einen Prefix hinzufügen, um Doppelbenutzungen zu vermeiden ("MySzen_MyName" or "MYID_MyName" für Objektpakete).</div>
+<h2>Beispiel</h2>
+   <div class="example">
+    <pre class="code"><b>#include</b> CLNK
+
+<b>local</b> fInvisible;
+    
+<b>protected</b> <b>func</b> Recruitment(a,b,c,d,e,f,g,h,i,j)
+  {
+  <b>var</b> rVal = <a href="../../../sdk/script/fn/_inherited.html">_inherited</a>(a,b,c,d,e,f,g,h,i,j);
+  <b>if</b> (<a href="../../../sdk/script/fn/GetCrewExtraData.html">GetCrewExtraData</a>(0, <i class="string">"C4ID_Invisible"</i>)) <a href="../../../sdk/script/fn/SetVisibility.html">SetVisibility</a>(<a href="../../../sdk/script/fn/VIS_Owner.html">VIS_Owner</a>);
+  <a href="../../../sdk/script/fn/return.html">return</a>(rVal);
+  }
+    
+<b>protected</b> <b>func</b> ControlSpecial()
+  {
+  <b>if</b> (fInvisible = !fInvisible)
+    <a href="../../../sdk/script/fn/SetVisibility.html">SetVisibility</a>();
+  <b>else</b>
+    <a href="../../../sdk/script/fn/SetVisibility.html">SetVisibility</a>(<a href="../../../sdk/script/fn/VIS_Owner.html">VIS_Owner</a>);
+  SetCrewExtraData(0, <i class="string">"C4ID_Invisible"</i>, fInvisible);
+  }</pre>
+    <div class="text">Script für einen Spezialclonk: Der Clonk kann sich auf Taste Spezial unsichtbar und wieder sichtbar machen. Diese Unsichtbarkeit bleibt auch erhalten, wenn man das Szenario beendet und ein anderes Szenario mit diesem Clonk startet.</div>
+   </div>
+  <div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/GetCrewExtraData.html">GetCrewExtraData</a>, <a href="../../../sdk/script/fn/SetPlrExtraData.html">SetPlrExtraData</a>
+</div>
+<div class="author">Sven2, Februar 2006</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

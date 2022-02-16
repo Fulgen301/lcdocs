@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Named Variables</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1>Named Variables</h1>
+
+	<div class="text">Variables are placeholders for values stored in a script. A variable stores a value in one of several <a href="../../sdk/script/Typechecks.html">data types</a>.</div>
+
+	<div class="text">There are three different scopes in which a variable can be declared. Variables are not visible outside their declared scope.</div>
+
+	<div class="text"><table><tbody>
+<tr>
+<td>Keyword</td>
+<td>Scope</td>
+<td>Location</td>
+</tr>
+<tr class="dark">
+<td><code>var</code></td>
+<td>function local</td>
+<td>Function</td>
+</tr>
+<tr>
+<td><code>local</code></td>
+<td>object local</td>
+<td>Object Script</td>
+</tr>
+<tr class="dark">
+<td><code>static</code></td>
+<td>global</td>
+<td>any script</td>
+</tr>
+</tbody></table></div>
+	
+	<div class="text">Variables are declared using the following syntax:</div>
+	
+	<pre class="code">{ <b>var</b> / <b>local</b> / <b>static</b> } name [= expr] [, name [= expr] ... ];</pre>
+	
+	<div class="text">The variable's scope, followed by the variable's name.</div>
+	<div class="text">Optionally, you can assign a value to the variable directly at declaration time. However, this is possible for function local (<code>var</code>) variables only. Without initialization variables always start with value 0.</div>
+	<div class="text">Additional variable declarations may follow, separated by comma. The declaration must always be ended with a semicolon.</div>
+	
+	<h2>Example:</h2>
+	
+	<pre class="code"><b>static</b> iObjectCount;
+<b>local</b>  iTimeToLive;
+
+<b>protected</b> <b>func</b> Initialize()
+{
+  iObjectCount++;
+  iTimeToLive = 100;
+}
+
+<b>protected</b> <b>func</b> Destruction()
+{
+  iObjectCount--;
+}
+
+<b>protected</b> <b>func</b> Timer()
+{
+  <b>if</b>(!--iTimeToLive)
+  {
+    <a href="../../sdk/script/fn/RemoveObject.html">RemoveObject</a>();
+    <a href="../../sdk/script/fn/return.html">return</a>();
+  }
+
+  <b>var</b> obj = <a href="../../sdk/script/fn/FindObject.html">FindObject</a>(CLNK, 0, 0, -1, -1);
+
+  <b>if</b>(<a href="../../sdk/script/fn/ObjectDistance.html">ObjectDistance</a>(obj) &lt; 20)
+    <a href="../../sdk/script/fn/DoDamage.html">DoDamage</a>(-10, obj);
+
+  <a href="../../sdk/script/fn/return.html">return</a>();
+}</pre>
+	
+	<h2>Addendum:</h2>
+	
+	<div class="text"><ul>
+		<li>Object local variable declarations are also valid in #appendto or #include script extensions.</li>
+		<li>Using the functions <a href="../../sdk/script/fn/VarN.html">VarN</a>(), <a href="../../sdk/script/fn/LocalN.html">LocalN</a>(), and <a href="../../sdk/script/fn/GlobalN.html">GlobalN</a>() you can access variables indirectly. Using <a href="../../sdk/script/fn/LocalN.html">LocalN</a>() you can specifically access local variables in other objects.</li>
+		<li>If two variables of the same name but differing scope are valid at the same time, then the variable of the smaller scope will be used, meaning for example an object local variable will "cover up" a global variable within its own scope.</li>
+		<li>If the same variable is declared multiply, then still the variable will exist only once and no error is thrown. Multiple initializations are considered regular assignments and executed in order, respectively.</li>
+		<li>A <code>static</code> variable may also be used in object scripts (see example). If a <code>static</code> variable of the same name is defined in another script, the name will refer to the same variable.</li>
+	</ul></div>
+
+
+<div class="author">PeterW, ewig her</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

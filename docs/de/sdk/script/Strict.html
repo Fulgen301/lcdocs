@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>#strict</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1>#strict</h1>
+
+<div class="text">Bei aktiviertem <code>#strict</code> werden einige
+Altlasten der Engine ignoriert und es können unter anderem strengere Typüberprüfungen angesetzt
+werden.</div>
+
+<h2 id="Syntax">Deklaration</h2>
+<div class="text">#strict muss als Direktive an den Anfang des Scriptes geschrieben werden. Bei #include und
+#appendto gilt jeweils der Modus des Scriptes, zu dem includet/angehängt wird.</div>
+
+<h2>Auswirkungen</h2>
+<div class="text"><ul>
+<li>Ein Funktionsaufruf auf denselben Funktionsnamen bedeutet immer einen rekursiven Aufruf</li>
+<li>
+<a href="../../sdk/script/fn/inherited.html">inherited</a>() und <a href="../../sdk/script/fn/_inherited.html">_inherited</a>() werden verfügbar</li>
+<li>
+<a href="../../sdk/script/fn/goto.html">goto</a>() impliziert kein <a href="../../sdk/script/fn/return.html">return</a>()</li>
+<li><a href="../../sdk/script/Typechecks.html">Strengere Datentyp-Prüfung</a></li>
+<li>
+<a href="../../sdk/script/fn/CreateObject.html">CreateObject</a>() und <a href="../../sdk/script/fn/CreateConstruction.html">CreateConstruction</a>() überschreiben bei objektlokalem Aufruf nicht mehr den Besitzer</li>
+</ul></div>
+
+<h1>#strict 2</h1>
+
+<div class="text">Bei aktiviertem <code><b>#strict</b> 2</code> werden einige
+Altlasten der Engine ignoriert und es können unter anderem strengere Typüberprüfungen angesetzt
+werden.</div>
+
+<h2>Deklaration</h2>
+<div class="text">
+<code><b>#strict</b> 2</code> muss als Direktive an den Anfang des Scriptes geschrieben werden. Bei <code>#include</code> und
+<code>#appendto</code> gilt jeweils der Modus des Scriptes, in dem die Funktion definiert wurde.</div>
+
+<h2>Auswirkungen</h2>
+<div class="text"><ul>
+<li>
+<code>&amp;&amp;</code> und <code>||</code> führen den zweiten Parameter nicht aus, wenn das Ergebnis schon nach Auswertung des ersten feststeht.</li>
+<li>
+<code>return</code>, <code>if</code> und <code>while</code> nehmen nur noch einen Parameter. Auch an anderen Stellen nimmt der Parser Ausdrücke nicht mehr an, vor denen früher nur gewarnt wurde.</li>
+<li>
+<code>==</code> und <code>!=</code> vergleichen nicht mehr die Identität von Werten, sondern ihren Inhalt und Typ. Beispielsweise gilt jetzt [1,2]==[2-1,2], "Hallo"=="Hallo" und CastInt(CLNK)!=CLNK.</li>
+<li>Funktions- und Variablennamen dürfen nur noch die Zeichen a-z, A-Z und _, sowie 0-9 in der Mitte des Namens enthalten.</li>
+<li>
+<code>eq</code>, <code>ne</code>, <code>S=</code> gibt es nicht mehr. Man kann jetzt Funktionen und Variablen <code>eq</code> und <code>ne</code> nennen oder eine Variable namens <code>S</code> mit <code>S=42;</code> ändern.</li>
+</ul></div>
+
+
+	<h1>#strict 3</h1>
+	
+		<div class="text">Neu geschriebene Scripte sollten <code><b>#strict</b> 3</code> sein. Dabei werden einige weitere
+			Altlasten der Engine ignoriert, noch strengere Typüberprüfungen angesetzt und neue Sprachfeatures aktiviert.
+			Scripte ohne <code><b>#strict</b> 3</code> werden nur aus Gründen der Abwärtskompatibilität akzeptiert.</div>
+
+		<h2>Deklaration</h2>
+		<div class="text">
+<code><b>#strict</b> 3</code> muss als Direktive an den Anfang des Scriptes geschrieben werden. Bei <code>#include</code> und
+			<code>#appendto</code> gilt jeweils der Modus des Scriptes, in dem die Funktion definiert wurde.</div>
+
+		<h2>nil</h2>
+		<div class="text">
+			Mit <code><b>#strict</b> 3</code> wird der neue Wert <code>nil</code> eingeführt.
+			<code>nil</code> repräsentiert ungesetzte und undefinierte Werte und hat den Typ <code>any</code>.
+			Weiters wird 0 und <code>false</code> nicht mehr implizit zu <code>any</code> konvertiert, sondern bleiben jetzt <code>int</code> bzw. <code>bool</code>.
+			Dies ermöglicht unter anderem default-Werte für Parameter ungleich 0/<code>false</code> zu definieren, die trotzdem durch 0/<code>false</code> überschrieben werden können.
+			<code>nil</code> ist ungleich jeder Wert anderen Typs inklusive 0 und <code>false</code>, es reicht also aus auf <code>x != <b>nil</b></code> zu überprüfen, um festzustellen ob ein Wert gesetzt ist.
+			<code>!<b>nil</b></code> ist allerdings <code>true</code>.
+		</div>
+		<div class="text">
+			Da 0 und false nicht mehr <code>any</code> sind, können diese Werte nicht mehr zu anderen Typen wie <code>string</code>, <code>object</code>, <code>array</code> oder <code>map</code> konvertiert werden, was zu einem Error führen würde.
+			Deshalb muss bei Funktionsargumenten dieser Typen auch nil statt 0 verwendet werden, um die jeweiligen Parameter als "ungesetzt" zu definieren.
+		</div>
+
+		<h2>Der ?-Modifier</h2>
+		<div class="text">
+			Ebenfalls wird ein neuer Modifier eingeführt, der "sichere" Navigation erlaubt. ? wird dazu vor die Navigationsoperatoren gesetzt um eines der folgenden Konstrukte zu erhalten:
+			<code>?.</code>, <code>?[i]</code>, <code>?-&gt;</code> oder <code>?-&gt;~</code>.
+			Bei Verwendung des ?-Modifiers führen diese Zugriffe nicht zu einem Error, falls der zugrundeliegende Wert nil ist, sondern brechen den ganzen Ausdruck ab und lassen ihn als Ergebnis nil liefern.
+			Da man bei Angabe dieses Modifiers annimmt, dass das Ergebnis des Ausdrucks manchmal nil werden kann, liefert der gesamte Ausdruck nie eine Referenz, sondern immer nur den dereferenzierten Wert. Das hat den Hintergrund, dass sonst bei Verwendung des Ausdruckergebnisses als Referenz unabdingbar Errors entstehen können, wodurch der Sinn des Modifiers zunichte gemacht wird.
+		</div>
+
+		<h2>Weitere Auswirkungen</h2>
+		<div class="text"><ul>
+			<li>Maps und die .-Zugriffssyntax werden verfügbar.</li>
+			<li>
+<a href="../../sdk/script/Funcs.html#Aufrufb">Aufrufberechtigungen</a> werden auch bei Verwendung der <code>-&gt;</code> Syntax überprüft, vorausgesetzt das Ziel-Script ist ebenfalls <code><b>#strict</b> 3</code> oder höher.</li>
+			<li>
+<code><b>global</b>-&gt;</code> und <code><b>global</b>-&gt;~</code> werden verfügbar.</li>
+			<li>
+<code><b>false</b> != 0</code> und <code><b>true</b> != 1</code>
+</li>
+		</ul></div>
+	
+	<div class="author">Sven2, Juli 2001</div>
+	<div class="author">Günther, Dezember 2007</div>
+	<div class="author">Der Tod, Oktober 2019</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

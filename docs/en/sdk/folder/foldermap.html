@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>FolderMap.txt</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1 id="FolderMaptxt">FolderMap.txt</h1>
+<div class="text">From CR, scenario folders can also contain graphical folder maps for the selection of scenarios. These will be displayed only in the fullscreen menu, not in the editor. See the Western pack for samples.</div>
+
+<div class="text"><table>
+<caption id="SektionFolderMap">Section [FolderMap]</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>ScenInfoArea</td>
+<td>4 integers</td>
+<td>Coordinates (x, y, width, height) of the frame displaying the scenario's description.</td>
+</tr>
+<tr class="dark">
+<td>MinResX</td>
+<td>Integer</td>
+<td>If the current screen resolution width is less than this value, the folder map is not displayed and classic scenario selection is used. This is useful if your graphical map is high resolution and might turn out unuseable in lower resolutions.</td>
+</tr>
+<tr>
+<td>MinResY</td>
+<td>Integer</td>
+<td>Minimum screen height (see MinResY).</td>
+</tr>
+<tr class="dark">
+<td>FullscreenBG</td>
+<td>Integer</td>
+<td>If not 0, the background image is stretched to full screen size. Notice that button controls may still only be placed in the inner area of the map.</td>
+</tr>
+<tr>
+<td>HideTitle</td>
+<td>Boolean</td>
+<td>Hides the title "Start game" at the top if true.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionAccessGfx">Any number of sections [AccessGfx]</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Access</td>
+<td>String</td>
+<td>If the player has gained the specified MissionAccess password, the graphical element specified in this section is displayed. This can be used to give access to certain scenarios only after other scenarios have been completed. See <a href="../../sdk/script/fn/GainMissionAccess.html">GainMissionAccess</a>.</td>
+</tr>
+<tr class="dark">
+<td>OverlayImage</td>
+<td>String</td>
+<td>Filename of the image to be displayed. The file should be available in the scenario folder.</td>
+</tr>
+<tr>
+<td>Area</td>
+<td>4 integers</td>
+<td>Screen area in which to display the image. The coordinates are relative to the <a href="../../sdk/#background">background image</a>.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionScenario">Any number of sections [Scenario]</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>File</td>
+<td>String</td>
+<td>Scenario file (including .c4s extension) to be started by this section. You should create a [Scenario] section for each scenario in the scenario folder. Only those scenario sections are displayed for which MissionAccess (see <a href="../../sdk/script/fn/GainMissionAccess.html">GainMissionAccess</a>) is displayed.</td>
+</tr>
+<tr class="dark">
+<td>BaseImage</td>
+<td>String</td>
+<td>Image to be displayed if the scenario is not selected. The image file should be available in the scenario folder.</td>
+</tr>
+<tr>
+<td>OverlayImage</td>
+<td>String</td>
+<td>Image to be displayed if the scenario is selected or hovered over with the mouse. The image file should be available in the scenario folder.</td>
+</tr>
+<tr class="dark">
+<td>Area</td>
+<td>4 integers</td>
+<td>Screen area in which to display the selection button. The coordinates are relative to the <a href="../../sdk/#background">background image</a>.</td>
+</tr>
+<tr>
+<td>Title</td>
+<td>String</td>
+<td>Text to be displayed on the selection button. If no localization is needed, you can also integrate the text directly into the base image or overlay image. If you specify the string TITLE, the localized title is loaded from the corresponding scenario.</td>
+</tr>
+<tr class="dark">
+<td>TitleFontSize</td>
+<td>Integer</td>
+<td>Font size of the title. Relative to the unstretched background image.</td>
+</tr>
+<tr>
+<td>TitleColorInactive</td>
+<td>Integer</td>
+<td>DWORD color value of the unselect button title.</td>
+</tr>
+<tr class="dark">
+<td>TitleColorActive</td>
+<td>Integer</td>
+<td>DWORD color value of the unselect button title.</td>
+</tr>
+<tr>
+<td>TitleOffX</td>
+<td>Integer</td>
+<td>Horizontal offset of the left aligned or centered position of the title from the left edge of the selection button.</td>
+</tr>
+<tr class="dark">
+<td>TitleOffY</td>
+<td>Integer</td>
+<td>Vertical offset of the title from the upper edge of the selection button.</td>
+</tr>
+<tr>
+<td>TitleAlign</td>
+<td>Integer</td>
+<td>Text alignment: 0 left, 1 centered, 2 right aligned.</td>
+</tr>
+<tr class="dark">
+<td>TitleUseBookFont</td>
+<td>Boolean</td>
+<td>0 or 1. If 0, the regular in-game font is used. If 1, the shadow-less font of the fullscreen menu is used.</td>
+</tr>
+<tr>
+<td>SingleClick</td>
+<td>Boolean</td>
+<td>If true the entry is started/opened using a single click instead of double click.</td>
+</tr>
+</tbody>
+</table></div>
+
+<h2 id="order">Element Order</h2>
+<div class="text">AccessGfx images drawn under the scenario selection buttons. Selection buttons appear in the order in which they are specified in the file. Thus you should specifiy sections in a meaningful order, from left to right and top to bottom as this will affect the tab stepping sequence when controlling the dialog with the keyboard or gamepad. Also, you should take care not to overlap any buttons.</div>
+
+<h2 id="background">Background image</h2>
+<div class="text">If the scenario folder contains a folder map, an image file of name FolderMap.png/.jpg/.jpeg/.bmp is expected. The recommended size of this image depends on the screen resolution of the end user:</div>
+<div class="text"><table>
+<thead><tr>
+<th>Resolution</th>
+<th>Size of the folder map.</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>640x480</td>
+<td>616x385</td>
+</tr>
+<tr class="dark">
+<td>800x600</td>
+<td>768x480</td>
+</tr>
+<tr>
+<td>1024x768</td>
+<td>984x616</td>
+</tr>
+</tbody>
+</table></div>
+<div class="text">The image is always stretched to the full available screen area. All coordinates given for section elements are relative to the unstretched background image.</div>
+
+<h2 id="devel">Useful Hints</h2>
+<div class="text">For testing purposes a folder map can be loaded from an unpacked scenario folder and reloaded an runtime using F5. If the classic scenario selection appears instead of the folder map, an error has occured in the folder map declaration, such as missing image files. With debug mode activated, there will also be an error message in Clonk.log.</div>
+
+
+
+<div class="author">Sven2, September 2006</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

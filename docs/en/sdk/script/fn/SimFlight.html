@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SimFlight</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SimFlight">SimFlight</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Movement<br><b>Since engine version: </b>4.9.5.0 CE</div>
+<h2>Description</h2>
+<div class="text">Simulates the motion of a falling object with a given starting position and initial speed. If the projected trajectory encounters a material of the specified density, the simulation will stop and the function will return 'true'. Otherwise the function will return 'false'. <br> If the return value is 'true', the x and y coordinates of the point of interception will be stored in the specified variables for iX and iY, the horizontal and vertical speed at the time of interception in iXDir and iYDir respectively. See <a href="../../../sdk/script/Funcs.html#referenzen">references</a> for details.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SimFlight
+      (<span class="type">int &amp;</span>iX, <span class="type">int &amp;</span>iY, <span class="type">int &amp;</span>iXDir, <span class="type">int &amp;</span>iYDir, <span class="type">int</span> iMinDensity, <span class="type">int</span> iMaxDensity, <span class="type">int</span> iIteration, <span class="type">int</span> iPrecision);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>iX: </dt>
+<dd><div class="text">X coordinate of the starting position. Always global.</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">Y coordinate of the starting position. Always global.</div></dd>
+<dt>iXDir: </dt>
+<dd><div class="text">Initial horizontal speed.</div></dd>
+<dt>iYDir: </dt>
+<dd><div class="text">Initial vertical speed.</div></dd>
+<dt>iMinDensity: </dt>
+<dd><div class="text">
+    [opt]
+  Mininum density of the material which will stop the projected trajectory. If not specified or 0 this will default to value 50 (solid material).</div></dd>
+<dt>iMaxDensity: </dt>
+<dd><div class="text">
+    [opt]
+  Maximum density of the material which will stop the projected trajectory. If not specified or 0 this will default to value 100 (Vehicle).</div></dd>
+<dt>iIteration: </dt>
+<dd><div class="text">
+    [opt]
+  Number of simulated frames for which the projection runs. If not specified or 0 the simultion will run indefinitely until material or the limits of the landscape are encountered.</div></dd>
+<dt>iPrecision: </dt>
+<dd><div class="text">
+    [opt]
+  Precision. Default 10 if not specified or 0.</div></dd>
+</dl>
+<h2>Example</h2>
+			<div class="example">
+<pre class="code"><b>var</b> iX = <a href="../../../sdk/script/fn/GetX.html">GetX</a>(), iY = <a href="../../../sdk/script/fn/GetY.html">GetY</a>(), iXDir = <a href="../../../sdk/script/fn/GetXDir.html">GetXDir</a>(), iYDir = <a href="../../../sdk/script/fn/GetYDir.html">GetYDir</a>();
+<b>if</b> (<a href="../../../sdk/script/fn/GetAction.html">GetAction</a>()eq<i class="string">"Jump"</i>)
+  <b>if</b> (SimFlight(iX, iY, iXDir, iYDir))
+    <b>if</b> (iYDir &gt;= 80)
+      <a href="../../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Oh oh, das wird ein harter Aufprall!"</i>, <a href="../../../sdk/script/fn/this.html">this</a>());</pre>
+				<div class="text">If the calling clonk is situated in mid-air and it appears that he will hit the ground at high speed, he will call out.</div>
+			</div>
+		<div class="author">Newton, März 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

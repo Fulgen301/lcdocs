@@ -1,0 +1,842 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Operatoren</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1>Operatoren</h1>
+
+	<div class="text">Mittlerweile sind Operatoren in C4Script auf die gleiche Weise benutzbar wie aus diversen Programmiersprachen bzw. der Mathematik bekannt.</div>
+	<div class="text">Es gelten also insbesondere die üblichen Prioritätsregeln (Punkt-Vor-Strich und Verwandte). Genaueres kann der unten aufgeführten Operatorenliste entnommen werden.</div>
+	<div class="text">Um die aufeinanderfolgende Berechnung bestimmter Ausdrücke zu erzwingen, können auch Klammern gesetzt werden.</div>
+	<div class="text">Folgende Operatoren werden unterstützt:</div>
+
+	<div class="text"><table>
+<thead><tr>
+<th>Priorität</th>
+<th>Operator</th>
+<th>Beschreibung</th>
+<th>Standort</th>
+<th>Typen (Rückgabe, erwartet)</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>17</td>
+<td>++</td>
+<td>Erhöht den Wert der <strong>vorangestellten</strong> Variable um 1.</td>
+<td>postfix (nur 1 Parameter)</td>
+<td>int, Referenz</td>
+</tr>
+<tr class="dark">
+<td>17</td>
+<td>--</td>
+<td>Vermindert den Wert der <strong>vorangestellten</strong> Variable um 1.</td>
+<td>postfix (nur 1 Parameter)</td>
+<td>int, Referenz</td>
+</tr>
+<tr>
+<td>16</td>
+<td>++</td>
+<td>Erhöht den Wert der <strong>nachgestellten</strong> Variable um 1.</td>
+<td>prefix</td>
+<td>Referenz, Referenz</td>
+</tr>
+<tr class="dark">
+<td>16</td>
+<td>--</td>
+<td>Vermindert den Wert der <strong>nachgestellten</strong> Variable um 1</td>
+<td>prefix</td>
+<td>Referenz, Referenz</td>
+</tr>
+<tr>
+<td>16</td>
+<td>~</td>
+<td>Negiert den nachgestellten Wert bitweise</td>
+<td>prefix</td>
+<td>int, int</td>
+</tr>
+<tr class="dark">
+<td>16</td>
+<td>!</td>
+<td>Negiert den nachgestellten Wert logisch</td>
+<td>prefix</td>
+<td>bool, bool</td>
+</tr>
+<tr>
+<td>16</td>
+<td>+</td>
+<td>macht nichts (für Abwärtskompatibilität zu Schreibweisen wie "+5")</td>
+<td>prefix</td>
+<td>int, int</td>
+</tr>
+<tr class="dark">
+<td>16</td>
+<td>-</td>
+<td>bildet die Gegenzahl zum nachgestellten Wert</td>
+<td>prefix</td>
+<td>int, int</td>
+</tr>
+<tr>
+<td>15l</td>
+<td>**</td>
+<td>Potenziert zwei Werte</td>
+<td>postfix</td>
+<td>int, int/int</td>
+</tr>
+<tr class="dark">
+<td>14l</td>
+<td>/</td>
+<td>Dividiert zwei Werte durcheinander</td>
+<td>postfix</td>
+<td>int, int/int</td>
+</tr>
+<tr>
+<td>14l</td>
+<td>*</td>
+<td>Multipliziert zwei Werte miteinander</td>
+<td>postfix</td>
+<td>int, int/int</td>
+</tr>
+<tr class="dark">
+<td>14l</td>
+<td>%</td>
+<td>gibt den Divisionrest der Division zweier Werte zurück</td>
+<td>postfix</td>
+<td>int, int/int</td>
+</tr>
+<tr>
+<td>13l</td>
+<td>-</td>
+<td>subtrahiert zwei Werte</td>
+<td>postfix</td>
+<td>int, int/int</td>
+</tr>
+<tr class="dark">
+<td>13l</td>
+<td>+</td>
+<td>addiert zwei Werte</td>
+<td>postfix</td>
+<td>int, int/int</td>
+</tr>
+<tr>
+<td>12l</td>
+<td>&lt;&lt;</td>
+<td>führt eine Links-Bitschiebe-Operation aus</td>
+<td>postfix</td>
+<td>int, int/int</td>
+</tr>
+<tr class="dark">
+<td>12l</td>
+<td>&gt;&gt;</td>
+<td>führt eine Rechts-Bitschiebe-Operation aus</td>
+<td>postfix</td>
+<td>int, int/int</td>
+</tr>
+<tr>
+<td>11l</td>
+<td>&lt;</td>
+<td>gibt zurück, ob der erste Wert kleiner ist als der zweite</td>
+<td>postfix</td>
+<td>bool, int/int</td>
+</tr>
+<tr class="dark">
+<td>11l</td>
+<td>&lt;= </td>
+<td>gibt zurück, ob der erste Wert kleiner oder gleich dem zweiten ist</td>
+<td>postfix</td>
+<td>bool, int/int</td>
+</tr>
+<tr>
+<td>11l</td>
+<td>&gt;</td>
+<td>gibt zurück, ob der erste Wert größer als der zweite ist.</td>
+<td>postfix</td>
+<td>bool, int/int</td>
+</tr>
+<tr class="dark">
+<td>11l</td>
+<td>&gt;=</td>
+<td>gibt zurück, ob der erste Wert größer oder gleich dem zweiten ist.</td>
+<td>postfix</td>
+<td>bool, int/int</td>
+</tr>
+<tr>
+<td>10l</td>
+<td>..</td>
+<td>Hängt die zwei Strings (falls nötig konvertiert) aneinander.</td>
+<td>postfix</td>
+<td>string, string|bool|int|id/string|bool|int|id</td>
+</tr>
+<tr class="dark">
+<td></td>
+<td></td>
+<td>Hängt zwei Arrays aneinander.</td>
+<td></td>
+<td>array, array/array</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Ergänzt die vorangestellte Map mit Werten der nachgestellten Map bzw. überschreibt bestehende Werte.</td>
+<td></td>
+<td>map, map/map</td>
+</tr>
+<tr class="dark">
+<td>9l</td>
+<td>==</td>
+<td>gibt zurück, ob zwei Werte gleich sind</td>
+<td>postfix</td>
+<td>bool, any/any</td>
+</tr>
+<tr>
+<td>9l</td>
+<td>!=</td>
+<td>gibt zurück, ob zwei Werte nicht gleich sind.</td>
+<td>postfix</td>
+<td>bool, any/any</td>
+</tr>
+<tr class="dark">
+<td>9l</td>
+<td>S=</td>
+<td>gibt zurück, ob zwei Strings gleich sind</td>
+<td>postfix</td>
+<td>bool, String/String</td>
+</tr>
+<tr>
+<td>9l</td>
+<td>eq</td>
+<td>gibt ebenfalls zurück, ob zwei Strings gleich sind</td>
+<td>postfix</td>
+<td>bool, String/String</td>
+</tr>
+<tr class="dark">
+<td>9l</td>
+<td>ne</td>
+<td>gibt ebenfalls zurück, ob zwei Strings nicht gleich sind</td>
+<td>postfix</td>
+<td>bool, String/String</td>
+</tr>
+<tr>
+<td>8l</td>
+<td>&amp;</td>
+<td>führt ein bitweises And aus</td>
+<td>postfix</td>
+<td>int, int/int</td>
+</tr>
+<tr class="dark">
+<td>6l</td>
+<td>^</td>
+<td>führt ein bitweises XOr aus</td>
+<td>postfix</td>
+<td>int, int/int</td>
+</tr>
+<tr>
+<td>6l</td>
+<td>|</td>
+<td>führt ein bitweises Or aus</td>
+<td>postfix</td>
+<td>int, int/int</td>
+</tr>
+<tr class="dark">
+<td>5l</td>
+<td>&amp;&amp;</td>
+<td>führt ein logisches And aus</td>
+<td>postfix</td>
+<td>any, any/any</td>
+</tr>
+<tr>
+<td>4l</td>
+<td>||</td>
+<td>führt ein logisches Or aus</td>
+<td>postfix</td>
+<td>any, any/any</td>
+</tr>
+<tr class="dark">
+<td>3l</td>
+<td>??</td>
+<td>Liefert den nachgestellten Wert falls der vorangestellte nil ist, den vorangestellte andernfalls. ab <a href="../../sdk/script/Strict.html">#strict 3</a>
+</td>
+<td>postfix</td>
+<td>any, any/any</td>
+</tr>
+<tr>
+<td>2r</td>
+<td>**=</td>
+<td>potenziert die vorangestellte Variable mit dem nachgestellten Wert</td>
+<td>postfix</td>
+<td>Referenz, Referenz/int</td>
+</tr>
+<tr class="dark">
+<td>2r</td>
+<td>*=</td>
+<td>vervielfacht die vorangestellte Variable mit dem nachgestellten Wert</td>
+<td>postfix</td>
+<td>Referenz, Referenz/int</td>
+</tr>
+<tr>
+<td>2r</td>
+<td>/=</td>
+<td>teilt den Wert der vorangestellten Variable durch den nachgestellten Wert</td>
+<td>postfix</td>
+<td>Referenz, Referenz/int</td>
+</tr>
+<tr class="dark">
+<td>2r</td>
+<td>%=</td>
+<td>Schreibt den Divisionrest der Division des Wertes vorangestellten Variable mit dem nachgestellten Wert in die Variable</td>
+<td>postfix</td>
+<td>Referenz, Referenz/int</td>
+</tr>
+<tr>
+<td>2r</td>
+<td>+=</td>
+<td>erhöht die vorangestellte Variable um den nachgestellten Wert</td>
+<td>postfix</td>
+<td>Referenz, Referenz/int</td>
+</tr>
+<tr class="dark">
+<td>2r</td>
+<td>-=</td>
+<td>vermindert den Wert der vorangestellten Variable um den nachgestellten Wert</td>
+<td>postfix</td>
+<td>Referenz, Referenz/int</td>
+</tr>
+<tr>
+<td>2r</td>
+<td>&lt;&lt;=</td>
+<td>führt eine Links-Bitschiebe-Operation auf der vorangestellten Variable um den nachgestellten Wert aus</td>
+<td>postfix</td>
+<td>Referenz, Referenz/int</td>
+</tr>
+<tr class="dark">
+<td>2r</td>
+<td>&gt;&gt;=</td>
+<td>führt eine Rechts-Bitschiebe-Operation auf der vorangestellten Variable um den nachgestellten Wert aus</td>
+<td>postfix</td>
+<td>Referenz, Referenz/int</td>
+</tr>
+<tr>
+<td>2r</td>
+<td>..=</td>
+<td>Hängt den nachgestellten String an den vorangestellten (beide falls nötig konvertiert).</td>
+<td>postfix</td>
+<td>Referenz, Referenz/string|bool|int|id</td>
+</tr>
+<tr class="dark">
+<td></td>
+<td></td>
+<td>Hängt das nachgestellte Array an das vorangestellte.</td>
+<td></td>
+<td>Referenz, Referenz/array</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Ergänzt die vorangestellte Map mit Werten der nachgestellten Map bzw. überschreibt bestehende Werte. </td>
+<td></td>
+<td>Referenz, Referenz/map</td>
+</tr>
+<tr class="dark">
+<td>2r</td>
+<td>&amp;=</td>
+<td>führt ein bitweises And aus</td>
+<td>postfix</td>
+<td>Referenz, Referenz/int</td>
+</tr>
+<tr>
+<td>2r</td>
+<td>|=</td>
+<td>führt ein bitweises Or aus</td>
+<td>postfix</td>
+<td>Referenz, Referenz/int</td>
+</tr>
+<tr class="dark">
+<td>2r</td>
+<td>^=</td>
+<td>führt ein bitweises XOr aus</td>
+<td>postfix</td>
+<td>Referenz, Referenz/int</td>
+</tr>
+<tr>
+<td>2r</td>
+<td>??=</td>
+<td>Weist der vorangestellten Variable den nachgestellten Wert zu, falls, die vorangestellte Variable nil ist. ab <a href="../../sdk/script/Strict.html">#strict 3</a>
+</td>
+<td>postfix</td>
+<td>Referenz, Referenz/any</td>
+</tr>
+<tr class="dark">
+<td>2r</td>
+<td>=</td>
+<td>weist der vorangestellten Variable den nachgestellten Wert zu</td>
+<td>postfix</td>
+<td>Referenz, Referenz/any</td>
+</tr>
+</tbody>
+</table></div>
+
+	<h2 id="operk">Erklärungen und Beispiele:</h2>
+	
+		<h3>Postfix oder prefix?</h3>
+		
+			<div class="text">Diese Eigenschaft eines Operators gibt an, ob er <em>vor</em>(pre) oder <em>nach</em>(post) seinem ersten Parameter steht.</div>
+			<div class="text">Prefix - Operatoren haben immer nur einen Parameter (nach dem Operator), während Postfix - Operatoren in der Regel 2 Parameter haben, einen vor und einen danach. (siehe auch <a href="#opppmm">Operatoren ++/--</a>)</div>
+
+			<h4>Beispiel 1:</h4>
+
+<pre class="code">Log(<i class="string">" Ergebnis: %d"</i>, 5 + 5);
+Log(<i class="string">" Ergebnis: %d"</i>, 12 - 5);
+Log(<i class="string">" Ergebnis: %d"</i>, 5 * 5);</pre>
+
+			<h4>Ausgabe:</h4>
+
+			<pre class="code"> Ergebnis: 10
+ Ergebnis: 7
+ Ergebnis: 25</pre>
+
+			<div class="text">Plus, Minus, Multiplikation u.ä. Operatoren bilden die Klasse der Postfix - Operatoren. Es werden jeweils zwei Werte (die vor bzw. nach dem Operator stehen) verrechnet.</div>
+
+			<h4>Beispiel 2:</h4>
+
+<pre class="code">Log(<i class="string">" Ergebnis: %d"</i>, -(5 + 5));
+Log(<i class="string">" Ergebnis: %d"</i>, ~7);
+Log(<i class="string">" Ergebnis: %d"</i>, !0);</pre>
+
+			<h4>Ausgabe:</h4>
+
+<pre class="code"> Ergebnis: -10
+ Ergebnis: -8
+ Ergebnis: 1</pre>
+
+			<div class="text">Bei diesen Operatoren handelt es sich um sogenannte Prefix - Operatoren. Sie stehen jeweils vor dem zu verarbeitenden Wert.</div>
+		
+
+		<h3 id="opppmm">Die Operatoren ++ und --</h3>
+		
+			<div class="text">Die Operatoren ++ bzw. -- existierten sowohl als postfix- als auch als prefix-Operatoren. Dabei haben die postfix-Varianten noch die Besonderheit, dass sie keinen nachgestellten Wert benötigen.</div>
+
+			<h4>Beispiel: (postfix)</h4>
+
+			<pre class="code">Var(0) = 0;
+<b>while</b>(<strong>Var(0)++</strong> &lt; 10)
+  Log(<i class="string">"%d"</i>, Var(0) )</pre>
+
+			<h4>Beispiel 2: (prefix)</h4>
+
+			<pre class="code">Var(0) = 0;
+<b>while</b>(<strong>++Var(0)</strong> &lt; 10)
+  Log(<i class="string">"%d"</i>, Var(0) )</pre>
+
+			<div class="text">Diese beiden Beispiele sind fast identisch. In jedem Fall wird bei jeder Schleifenwiederholung Var(0) um 1 erhöht. Das Ergebnis wird jeweils mit 10 verglichen.</div>
+			<div class="text">Doch eine wichtige Feinheit unterscheidet die beiden Operatorenvarianten: wird der postfix-Operator benutzt, so wird jeweils <strong>alte</strong> Wert der Variable zurückgegeben.	D.h. das Ergebnis der Schleife im 1. Beispiel wäre eine Zahlenreihe von 1 bis <strong>10</strong>. Denn bei dem letzten Schleifendurchlauf ist Var(0) am Anfang 9. Dann wird sie um eins erhöht (Var(0) ist dann 10), es wird aber der alte Wert (9) zurückgegeben und mit der 10 verglichen. Die Schleife wird also ein weiteres Mal durchlaufen, und es wird der Wert 10 ausgegeben.</div>
+			<div class="text">Anders beim 2. Beispiel. Hier läuft die Schleife von 1 bis <strong>9</strong>. Denn wenn Var(0) 9 ist und erhöht wird, so wird der neue Wert, eben 10, zurückgegeben. Dieser Wert ist nicht kleiner als 10, deshalb wird die Schleife abgebrochen.</div>
+		
+
+		<h3 id="andor">Die Operatoren &amp;&amp; und ||</h3>
+		
+			<div class="text">Diese beiden Operatoren haben (ab <a href="../../sdk/script/Strict.html">#strict 2</a>) eine Besonderheit. Wenn das Ergebnis bereits nach Auswertung des ersten Parameter feststeht, wird der zweite Parameter gar nicht erst ausgewertet. Beispielsweise explodiert ein Objekt durch dieses Script nicht, weil das Ergebnis 0 wäre, egal was Explode zurücklieferte:</div>
+			<pre class="code">0 &amp;&amp; Explode(20);</pre>
+			<div class="text">Außerdem ist das Ergebnis des Operators der Wert des ersten oder zweiten Parameters, je nachdem ob einer oder beide ausgewertet wurden. Beispielsweise kann man so wenn möglich einen Ritter, und ansonsten einen Clonk erzeugen:</div>
+			<pre class="code">CreateObject(KNIG,0,0,GetOwner()) || CreateObject(CLNK,0,0,GetOwner())</pre>
+		
+
+		<h3 id="nilcoalescing">Die Operatoren ?? und ??=</h3>
+		
+			<div class="text">?? ist in manchen Sprachen als nil-coalescing Operator bekannt.
+				Beide Operatoren prüfen, ob der vorangestellte Wert nil ist. Nur falls dieser nil ist wird der nachgestellte Ausdruck ausgewertet und das Ergebnis davon geliefert bzw. zugewiesen. Andernfalls liefert ?? den vorangestellten Wert bzw. ??= verändert die Variable nicht.
+				Dies wird typischerweise für arbeiten mit Default-Werten oder für Ersatzwerte von möglicherweise nil zurückgebenden Funktionsaufrufen verwendet.
+				Im Gegensatz zu || wird explizit auf nil geprüft ohne den Wert in einen bool zu verwandeln.
+			</div>
+			<div class="text">
+				Die Operatoren sind so wie nil nur ab <a href="../../sdk/script/Strict.html">#strict 3</a> verfügbar.
+			</div>
+				<h4>Beispiele:</h4>
+				<pre class="code">
+1337 ?? 42; <i>// = 1337
+</i><b>nil</b> ?? 42; <i>// = 42
+</i>0 ?? 42; <i>// = 0
+</i>0 || 42; <i>// = 42
+</i>
+<i>// Standardwert für x ist 10, 0 kann aber explizit übergeben werden.
+</i><b>func</b> Foo(<b>int</b> x)
+{
+	x ??= 10;
+}
+				</pre>
+		
+
+		<h3 id="concat">Die Operatoren .. und ..=</h3>
+		
+			<div class="text">Diese beiden Operatoren haben abhängig von den Typen der Parameter unterschiedliche Bedeutung. <code>..</code> und <code>..=</code> funktionieren exakt gleich, außer dass letzterer die links angegebene Variable direkt modifiziert.</div>
+			<h4>String-Konkatenation</h4>
+			<div class="text">Für Parameter der Typen string, bool, int und id wird eine String-Konkatenation durchgeführt.
+			ints und ids werden dabei in ihre normal übliche textuelle Representation umgewandelt, während bools ebenfalls wie ints dargestellt werden. Das folgende Beispiel loggt "Lesefortschritt: 40 %":</div>
+			<pre class="code">Log(<i class="string">"Lesefortschritt: "</i> .. 3 + 1 .. 0 .. <i class="string">" %"</i>);</pre>
+			<h4>Array-Konkatenation</h4>
+			<div class="text">Falls beide Parameter Arrays sind werden sie zusammengehängt. Das folgende Beispiel ergibt [1, 2, 3, 10, 20, 30]:</div>
+			<pre class="code">[1, 2, 3] .. [10, 20, 30]</pre>
+			<h4>Map-Kombination</h4>
+			<div class="text">Falls beide Parameter Maps sind, wird die vorangestellte Map um die nachgestellte ergänzt. Das heißt, dass Schlüssel die in der vorangestellten Map nicht vorhanden sind um die der nachgestellten ergänzt werden, während in beiden Maps existierende Schlüssel auf die Werte der nachgestellten Map gesetzt werden. Damit ist es unter anderem möglich, Default-Werte vorzugeben:</div>
+			<pre class="code"><b>var</b> defaults = { Message = <i class="string">"To lazy to think of my own!"</i>, Color = RGB(255) };
+<b>var</b> settings = defaults .. { Message = <i class="string">"Hello there!"</i>, Italic = <b>true</b> };
+<i>// settings will be { Message = "Hello there!", Color = RGB(255), Italic = true }
+</i></pre>
+		
+
+		<h3 id="prio">Prioritäten und Assoziativität</h3>
+		
+			<div class="text">Dieses Thema ist nicht unbedingt zum Verständnis der Operatoren vonnöten. Es soll nur zeigen, wie die Mechanismen wie Punkt-vor-Strich u.ä. im Detail funktionieren.</div>
+			<div class="text">Um einen längeren Ausdruck mit mehreren Operatoren ausrechnen zu können, muss entschieden werden, in welcher Reinfolge die Operatoren ausgeführt werden und welches Ergebnis welchem anderem Operator zu übergeben ist.</div>
+			<div class="text">Allgemein gilt: Operatoren mit höherer Priorität werden vor Operatoren mit niedriger Priorität ausgeführt. Anmerkung: das gilt <strong>nicht</strong> für die Reihenfolge der Ausführung der Parameter. Diese werden ganz "normal" von links nach rechts ausgeführt.</div>
+
+			<h4>Beispiel:</h4>
+			<pre class="code">Log(<i class="string">"%d"</i>, 5 * 4 + 3 &lt; 6);</pre>
+			<div class="text">entspricht:</div>
+			<pre class="code">Log(<i class="string">"%d"</i>, (((5 * 4) + 3) &lt; 6));</pre>
+
+			<div class="text">Dabei taucht aber noch ein Problem auf: was ist zu tun, wenn "benachbarte" Operatoren dieselbe Priorität haben? Ist dann der linke oder der rechte Ausdruck zu klammern? Über diese Frage entscheidet die sog. Assoziativität. Ist ein Operator links-assoziativ, so hat jeweils der linke Operator Priorität (übrigens auch der Regelfall, denn meistens wird von links nach rechts gerechnet). Anders bei den rechts-assoziativen Operatoren, wo jeweils der rechte Operator Priorität hat.</div>
+
+			<h4>Beispiel:</h4>
+			<pre class="code">Var(0) = Var(1) = 1 + 2 + 3 + 4;</pre>
+			<div class="text">entspricht:</div>
+			<pre class="code">Var(0) = (Var(1) = (((1 + 2) + 3) + 4) );</pre>
+
+			<div class="text">Hier sieht man deutlich, dass der Operator "+" links-assoziativ ist, der Ausdruck "<code>1 + 2 + 3</code>" wird zu "<code>(1 + 2) + 3</code>".</div>
+			<div class="text">Dagegen wird der Ausdruck "<code>Var(0) = Var(1) = x</code>" zu "<code>Var(0) = (Var(1) = x)</code>", da der Operator "=" rechts-assoziativ ist.</div>
+			<div class="text">Die Angaben über Prioritäten bzw. Assoziativitäten finden sich in der obigen Liste.</div>
+		
+
+		<h3 id="Bitweise">Bitweise Operatoren</h3>
+		<div class="text">In der Liste der Operatoren fallen einige Operatoren auf, die bitweise Opererationen oder Bitschieben durchführen.</div>
+		<div class="text">Erst mal eine kurze Beschreibung von Bits: der Computer rechnet intern im sog. binären Zahlensystem. In diesem System gibt es nur zwei Ziffern, nämlich 0 und 1. (wir rechnen üblicherweise im 10er-System, wir haben 10 Ziffern von 0 bis 9). Damit lassen sich die Zahlen folgendermaßen darstellen:</div>
+
+		<h3 id="binary">Das Binärsystem</h3>
+		
+			<div class="text">(jeweils erst im Zehnersystem, dann im Binärsystem)</div>
+
+			<pre class="code">1 = 00000001
+2 = 00000010
+4 = 00000100
+8 = 00001000
+6 = 00000110
+7 = 00000111</pre>
+
+			<div class="text">Dabei wird jede Ziffer als "Bit" bezeichnet. Eine Folge von 8 Bits (s.o.) nennt man ein "Byte".</div>
+			<div class="text">Bitweise Operatoren bearbeiten Zahlen nun bitweise.</div>
+
+			<h4>Beispiel:</h4>
+
+			<pre class="code">~00000000 = 11111111
+~00000100 = 11111011
+~01100000 = 10011111</pre>
+
+			<div class="text">In diesem Beispiel handelt es sich um bitweises Not. D.h. jedes Bit wird einzeln negiert (aus 0 wird 1, aus 1 wird 0).</div>
+			<div class="text">Bitweise Operatoren mit 2 Parametern verrechnen nun jeweils die Bits zweier Zahlen.</div>
+
+			<h4>Beispiele:</h4>
+
+			<div class="text"><table><tbody>
+<tr>
+<td></td>
+<td><code>10010010</code></td>
+</tr>
+<tr class="dark">
+<td><code>&amp;</code></td>
+<td><code>01110111</code></td>
+</tr>
+<tr>
+<td><code>=</code></td>
+<td><code>00010010</code></td>
+</tr>
+</tbody></table></div>
+
+			<div class="text"><table><tbody>
+<tr>
+<td></td>
+<td><code>10010010</code></td>
+</tr>
+<tr class="dark">
+<td><code>|</code></td>
+<td><code>01110111</code></td>
+</tr>
+<tr>
+<td><code>=</code></td>
+<td><code>11110111</code></td>
+</tr>
+</tbody></table></div>
+
+			<div class="text"><table><tbody>
+<tr>
+<td></td>
+<td><code>10010010</code></td>
+</tr>
+<tr class="dark">
+<td><code>^</code></td>
+<td><code>01110111</code></td>
+</tr>
+<tr>
+<td><code>=</code></td>
+<td><code>11100101</code></td>
+</tr>
+</tbody></table></div>
+
+			<div class="text">Diese drei Operatoren sind (der Reihe nach) Und (&amp;), Oder (|) und Exklusiv-Oder (^).</div>
+			<div class="text">Bei dem ersten Operator (Und) steht beim Ergebnis nur dann eine 1, wenn in beiden Eingaben an der entsprechenden Stelle ebenfalls eine 1 steht. "Und" hat also die folgende Wahrheitstabelle (senkrecht bzw. waagerecht sind die beiden möglichen Parameter jeweils gelistet, in der Tabelle selbst das Ergebnis):</div>
+
+			<div class="text"><table><tbody>
+<tr>
+<td><code>&amp;</code></td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="dark">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody></table></div>
+
+			<div class="text">Der Operator "Oder" gibt 1 zurück, wenn eins (oder beide) der Eingaben 1 sind:</div>
+
+			<div class="text"><table><tbody>
+<tr>
+<td><code>|</code></td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="dark">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody></table></div>
+
+			<div class="text">Der Operator "Exklusiv-Oder" (XOr) verhält sich wie das "Oder", doch wird 0 zurückgegeben, wenn beide Parameter 0 sind.</div>
+
+			<div class="text"><table><tbody>
+<tr>
+<td><code>^</code></td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="dark">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody></table></div>
+
+			<h4>Anwendungen</h4>
+			<div class="text">In Clonk werden häufig Bitoperationen benutzt, wenn es darum geht, verschiedene Eigenschaften eines Objekts in einem Wert zu speichern. Das prominenteste Beispiel sind hier wohl die C4D(Category)-Werte. Hier repräsentiert jedes Bit des C4D-Wertes eine bestimmte Eigenschaft (für Einzelheiten siehe Entwickler-Dokumentation).</div>
+			<div class="text">Auf diese Bits kann man recht bequem über die bitweisen Operatoren zugreifen. Ein C4D-Wert kann z.B. folgendermaßen aussehen:</div>
+
+			<h4>Beispiel: (Wipf)</h4>
+			<pre class="code">Category = 69640</pre>
+			<div class="text">Dieser Wert ergibt im Binär-System: (kann mit Windows-Taschenrechner umgerechnet werden)</div>
+			<pre class="code">10001000000001000</pre>
+			<div class="text">Hier sieht man, dass Bit 3, Bit 12 und Bit 16 gesetzt sind (es wird von rechts gezählt und mit 0 begonnen)</div>
+			<div class="text">Dies entspricht der Reihe nach den C4D-Werten <a href="../../sdk/script/fn/C4D_Living.html">C4D_Living</a> (Objekt ist ein Lebewesen), C4D_SelectAnimal (Objekt kann im Menu für Lebewesen hinzugefügt werden) und  C4D_TradeLiving (Objekt ist ein Lebewesen, darf aber trotzdem verkauft werden).</div>
+			<div class="text">Im Script kann nun recht einfach geprüft werden, ob ein bestimmtes Bit gesetzt ist: man benutzt den Operator "Und" (<code>&amp;</code>), dem man den Wert und die "Maske" übergibt. In der Maske ist nur das Bit gesetzt, dass von Interesse ist. Auf diese Weise müssen im Ergebnis alle Bits, die nicht interessieren, 0 sein (denn sie sind es in der Maske). Ist nun das Bit, das interressiert, 1, so wird diese in das Ergebnis übernommen, ist es 0, so wird im Ergebnis dort auch 0 stehen. Im letzteren Fall ist sogar das gesamte Ergebnis 0, da alle anderen Bits ja auch 0 sind. Es genügt also zu überprüfen, ob das Ergebnis von <code>[Val] &amp; [Mask]</code> ungleich null ist, um herauszufinden, ob ein bestimmtes Bit gesetzt ist.</div>
+
+			<h4>Beispiel:</h4>
+
+			<div class="text"><table><tbody>
+<tr>
+<td></td>
+<td><code>10001000000001000</code></td>
+<td>(Wert)</td>
+</tr>
+<tr class="dark">
+<td><code>&amp;</code></td>
+<td><code>00001000000000000</code></td>
+<td>(Maske)</td>
+</tr>
+<tr>
+<td><code>=</code></td>
+<td><code>00001000000000000</code></td>
+<td></td>
+</tr>
+</tbody></table></div>
+
+			<div class="text">Das Ergebnis ist in diesem Fall nicht 0, also ist das Bit, dass in der Maske gesetzt ist, auch im Wert gesetzt.</div>
+
+			<div class="text"><table><tbody>
+<tr>
+<td></td>
+<td><code>10001000000001000</code></td>
+<td>(Wert)</td>
+</tr>
+<tr class="dark">
+<td><code>&amp;</code></td>
+<td><code>00000000010000000</code></td>
+<td>(Maske)</td>
+</tr>
+<tr>
+<td><code>=</code></td>
+<td><code>00000000000000000</code></td>
+<td></td>
+</tr>
+</tbody></table></div>
+
+			<div class="text">Hier ist das Ergebnis 0, denn das Bit in der Maske ist nicht beim Wert gesetzt.</div>
+			<div class="text">Es bleibt noch die Frage zu klären, wo man die entsprechende Maske denn herbekommt. Im Fall der Category-Werte sind diese bereits mit Namen mitgeliefert, sie können über <code>C4D_[XXX]</code> abgerufen werden. Wollte man z.B. herausfinden, ob es sich bei einem Objekt um ein Lebewesen handelt, so sähe der Script folgendermaßen aus:</div>
+
+<pre class="code"><b>if</b> (<a href="../../sdk/script/fn/GetCategory.html">GetCategory</a>() &amp; <a href="../../sdk/script/fn/C4D_Living.html">C4D_Living</a>)
+  ;...;</pre>
+
+			<div class="text">Auf diese Weise kann man also einzelne Bits gezielt prüfen. Doch wie soll man diese nun bearbeiten?	Will man ein einzelnes Bit <strong>setzen</strong>, so wird der Operator "Oder" (<code>|</code>) benutzt. Dieser wird wieder auf Wert und Maske angewendet:</div>
+
+			<div class="text"><table><tbody>
+<tr>
+<td></td>
+<td><code>10001000000001000</code></td>
+<td>(Wert)</td>
+</tr>
+<tr class="dark">
+<td><code>|</code></td>
+<td><code>00000000010000000</code></td>
+<td>(Maske)</td>
+</tr>
+<tr>
+<td><code>=</code></td>
+<td><code>10001000010001000</code></td>
+<td>(neuer Wert)</td>
+</tr>
+</tbody></table></div>
+
+			<div class="text">Auf diese Weise ist es allerdings immer nur möglich, ein bestimmtes Bit auf 1 zu setzen. War dieses bereits gesetzt, so bleibt der Wert unverändert. Will man nun ein bestimmtes Bit auf 0 setzen, so benutzt man wieder den "Und"-Operator und die <strong>inverse</strong>(logisch Not) Maske, also <code>[Wert] &amp; ~[Maske]</code>:</div>
+
+			<div class="text"><table><tbody>
+<tr>
+<td></td>
+<td><code>10001000010001000</code></td>
+<td>(Wert)</td>
+</tr>
+<tr class="dark">
+<td><code>&amp;</code></td>
+<td><code>11111111101111111</code></td>
+<td><code>(= ~00000000010000000)</code></td>
+</tr>
+<tr>
+<td><code>=</code></td>
+<td><code>10001000000001000</code></td>
+<td>(neuer Wert)</td>
+</tr>
+</tbody></table></div>
+
+			<div class="text">Es ist auch möglich, ein bestimmtes Bit gezielt umzuschalten, also von 1 auf 0 und von 0 nach 1. Dies leistet der bitweise "Exklusiv-Oder"-Operator (<code>^</code>):</div>
+
+			<div class="text"><table><tbody>
+<tr>
+<td></td>
+<td><code>10001000000001000</code></td>
+<td>(Wert)</td>
+</tr>
+<tr class="dark">
+<td><code>^</code></td>
+<td><code>00000000010000000</code></td>
+<td>(Maske)</td>
+</tr>
+<tr>
+<td><code>=</code></td>
+<td><code>10001000010001000</code></td>
+<td>(neuer Wert)</td>
+</tr>
+</tbody></table></div>
+
+			<div class="text"><table><tbody>
+<tr>
+<td></td>
+<td><code>10001000010001000</code></td>
+<td>(Wert)</td>
+</tr>
+<tr class="dark">
+<td><code>^</code></td>
+<td><code>00000000010000000</code></td>
+<td>(Maske)</td>
+</tr>
+<tr>
+<td><code>=</code></td>
+<td><code>10001000000001000</code></td>
+<td>(neuer Wert)</td>
+</tr>
+</tbody></table></div>
+		
+
+		<h3 id="bitmove">Bitschiebereien</h3>
+		
+			<div class="text">Außer den Operatoren, die bitweises Manipulieren von Werten erlauben (s.o.) gibt es noch sog. <strong>Bitschiebe-Operatoren</strong>. Die Funktion dieser Operatoren beschränkt sich darauf (anschaulich gesprochen), an einen Bit-Wert Nullen anzuhängen (&lt;&lt;) bzw. Ziffern abzuschneiden (&gt;&gt;).</div>
+
+			<h4>Beispiel:</h4>
+
+			<pre class="code">  00001000000001000 &lt;&lt; 2
+= 00100000000100000
+
+  00001000000001000 &gt;&gt; 2
+= 00000010000000010</pre>
+
+			<div class="text">Mathematisch entspricht der Operator &lt;&lt; der Multiplikation mit <code>2 ^ X</code> (genau wie im Zehnersystem das Anhängen einer Null mit einer Multiplikation mit 10 gleichkommt) und der Operator &gt;&gt; einer Division mit <code>2 ^ X</code> (mit anschließendem Abrunden).</div>
+			<div class="text">Mit den Operatoren können vor allem Masken erstellt (1 &lt;&lt; BitNr), und <a href="../../sdk/script/fn/RGB.html">RGB</a>-Farbwerte zusammengesetzt und auseinandergenommen werden.</div>
+		
+	
+
+
+<div class="author">PeterW, </div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

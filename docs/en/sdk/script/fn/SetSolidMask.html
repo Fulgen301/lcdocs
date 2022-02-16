@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetSolidMask</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetSolidMask">SetSolidMask</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Status<br><b>Since engine version: </b>4.6.5.0 CP</div>
+<h2>Description</h2>
+<div class="text">Sets the solid area of an object. The source rectangle determines which pixels from the definition graphic should be used. All pixels within the rectangle of less than 50% transparency will be solid. Also see the SolidMask entry in <a href="../../../sdk/definition/defcore.html">DefCore.txt</a>.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetSolidMask
+      (<span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">int</span> iWdt, <span class="type">int</span> iHgt, <span class="type">int</span> iTx, <span class="type">int</span> iTx, <span class="type">object</span> pObj);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>iX: </dt>
+<dd><div class="text">X position of the top left corner of the new SolidMask rectangle within the definition graphic</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">Y position of the top left corner of the new SolidMask rectangle within the definition graphic</div></dd>
+<dt>iWdt: </dt>
+<dd><div class="text">Width of the new SolidMask rectangle within the definition graphic</div></dd>
+<dt>iHgt: </dt>
+<dd><div class="text">Height of the new SolidMask rectangle within the definition graphic</div></dd>
+<dt>iTx: </dt>
+<dd><div class="text">X target position of the SolidMask relative to the top left corner of the object graphic</div></dd>
+<dt>iTx: </dt>
+<dd><div class="text">Y target position of the SolidMask relative to the top left corner of the object graphic</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Object the solid area of which you want to change. Can be 0 in local calls.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">Solid areas will internally be drawn in the landscape using the "Vehicle" material.</div>
+<h2>Example</h2>
+      <div class="example">
+        <pre class="code">SetSolidMask();</pre>
+        <div class="text">Removes the SolidMask for the calling object.</div>
+      </div>
+    <div class="author">Sven2, Juni 2003</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

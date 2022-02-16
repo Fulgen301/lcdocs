@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>CreateConstruction</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="CreateConstruction">CreateConstruction</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Creation<br><b>Since engine version: </b>4.6.5.0 CP</div>
+<h2>Description</h2>
+<div class="text">Should be used instead of <a href="../../../sdk/script/fn/CreateObject.html">CreateObject</a> to create a building or construction site. In local calls the specified position will be an offset to the position of the calling object. If fCheckSite is 1, the site is checked for suitability before creating the object. If the site is not suitable (e.g. rough ground or not enough space), a message is displayed above the calling object and the function returns 0.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">object</span> CreateConstruction
+      (<span class="type">id</span> id, <span class="type">int</span> iXOffset, <span class="type">int</span> iYOffset, <span class="type">int</span> iOwner, <span class="type">int</span> iCompletion, <span class="type">bool</span> fTerrain, <span class="type">bool</span> fCheckSite);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>id: </dt>
+<dd><div class="text">Type of object to be created</div></dd>
+<dt>iXOffset: </dt>
+<dd><div class="text">X coordinate</div></dd>
+<dt>iYOffset: </dt>
+<dd><div class="text">Y coordinate</div></dd>
+<dt>iOwner: </dt>
+<dd><div class="text">Owner of the new object (valid player number or <a href="../../../sdk/script/fn/NO_OWNER.html">NO_OWNER</a> for no-owner).</div></dd>
+<dt>iCompletion: </dt>
+<dd><div class="text">Determines the initial completion of the object in percent (minimum 1).</div></dd>
+<dt>fTerrain: </dt>
+<dd><div class="text">Determines whether the landscape at the creation site is to be adjusted.</div></dd>
+<dt>fCheckSite: </dt>
+<dd><div class="text">First checks the specified site for suitability</div></dd>
+</dl>
+<h2>Examples</h2>
+      <div class="example">
+        <pre class="code">CreateConstruction( HUT2, 150,100,  0,100,1 );</pre>
+        <div class="text">Creates a compete hut at position 150/100 for player 1 and adjusts the landscape to the building.</div>
+      </div>
+      <div class="example">
+        <pre class="code">CreateConstruction( HUT3, 200,100, <a href="../../../sdk/script/fn/NO_OWNER.html">NO_OWNER</a>, 30,1 );</pre>
+        <div class="text">Creates a hut construction site at position 200/100 with no owner, also adjusting the landscape.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/CreateContents.html">CreateContents</a>, <a href="../../../sdk/script/fn/CreateObject.html">CreateObject</a>, <a href="../../../sdk/script/fn/RemoveObject.html">RemoveObject</a>
+</div>
+<div class="author">springer, April 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

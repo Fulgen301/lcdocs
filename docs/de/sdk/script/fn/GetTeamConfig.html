@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetTeamConfig</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetTeamConfig">GetTeamConfig</h1>
+<div class="text">
+<b>Kategorie: </b>Teams<br><b>Ab Engineversion: </b>4.9.6.0 CR</div>
+<h2>Beschreibung</h2>
+<div class="text">
+    Gibt Werte aus der Teams.txt oder aus den Lobby-Einstellungen zurück.
+    </div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> GetTeamConfig
+      (<span class="type">int</span> iConfig);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iConfig: </dt>
+<dd><div class="text">Kann einer der folgenden Werte sein:<br>
+		<table>
+<thead><tr>
+<th>Name</th>
+<th>Nummer</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>TEAM_Custom</td>
+<td>1</td>
+</tr>
+<tr class="dark">
+<td>TEAM_Active</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TEAM_AllowHostilityChange</td>
+<td>3</td>
+</tr>
+<tr class="dark">
+<td>TEAM_Dist</td>
+<td>4</td>
+</tr>
+<tr>
+<td>TEAM_AllowTeamSwitch</td>
+<td>5</td>
+</tr>
+<tr class="dark">
+<td>TEAM_AutoGenerateTeams</td>
+<td>6</td>
+</tr>
+<tr>
+<td>TEAM_TeamColors</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+		</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">
+		Bei TEAM_Dist werden die Lobby-Teameinstellungen zurückgegeben. Dort muss jedoch unterschieden werden, ob TEAM_AutoGenerateTeams aktiviert ist, denn je nach Einstellung sind andere Lobby-Einstellungen verfügbar.<br>
+		Für TEAM_AutoGenerateTeams = true werden die Konstanten<br>
+		TEAMDIST_Free (0, freie Teamwahl),<br>
+		TEAMDIST_Host (1, Host stellt ein)<br>oder 2 (keine entspr. Konstante, keine Teams) zurückgegeben.<br>Ohne TEAM_AutoGenerateTeams (also in der Regel bei festen Teams) werden<br>
+		TEAMDIST_Free (0),<br>
+		TEAMDIST_Host (1),<br>
+		TEAMDIST_Random (2, Zufall)<br>
+		oder TEAMDIST_RandomInv (3, zufällig und unsichtbar)<br>
+		zurückgegeben. 
+	</div>
+<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/GetPlayerTeam.html">GetPlayerTeam</a>, <a href="../../../sdk/script/fn/GetTeamByIndex.html">GetTeamByIndex</a>, <a href="../../../sdk/script/fn/GetTeamColor.html">GetTeamColor</a>, <a href="../../../sdk/script/fn/GetTeamName.html">GetTeamName</a>, <a href="../../../sdk/scenario/Teams.html">Teams</a>
+</div>
+<div class="author">Fulgen / Clonk Wiki, Juli 2016</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetDesc</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetDesc">GetDesc</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Status<br><b>Ab Engineversion: </b>4.6.5.0 CP
+        (erweitert ab 4.9.1.0 GWE)
+      </div>
+<h2>Beschreibung</h2>
+<div class="text">Gibt die Beschreibung eines Objekts oder einer Objektdefinition zurück. Die Beschreibung wird in Objektdefinitionen in der Desc**.txt angegeben.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">string</span> GetDesc
+      (<span class="type">object</span> pObj, <span class="type">id</span> idDef);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Objekt, dessen Beschreibung gesucht wird. 0 bei lokalem Aufruf.</div></dd>
+<dt>idDef: </dt>
+<dd><div class="text">
+    [opt]
+  Falls angegeben, wird stattdessen die Beschreibung dieser Definition zurückgegeben.</div></dd>
+</dl>
+<h2>Beispiel</h2>
+			<div class="example">
+				<pre class="code"><a href="../../../sdk/script/fn/Message.html">Message</a>(<i class="string">"%s|&lt;c ff0000&gt;%s&lt;/c&gt;"</i>, 0, <a href="../../../sdk/script/fn/GetName.html">GetName</a>(<a href="../../../sdk/script/fn/GetCursor.html">GetCursor</a>()), GetDesc(<a href="../../../sdk/script/fn/GetCursor.html">GetCursor</a>()));</pre>
+				<div class="text">Gibt eine Meldung auf dem Bildschirm aus, die den Namen des gerade ausgewählten Clonks des ersten Spielers, sowie den Beschreibungstext seines Clonktyps enthält.</div>
+			</div>
+		<div class="author">Sven2, Juni 2003</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

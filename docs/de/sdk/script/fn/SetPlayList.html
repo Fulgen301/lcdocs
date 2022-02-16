@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetPlayList</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetPlayList">SetPlayList</h1>
+<div class="text">
+<b>Kategorie: </b>Musik<br><b>Ab Engineversion: </b>4.9.1.0 GWE</div>
+<h2>Beschreibung</h2>
+<div class="text">Setzt die Liste der Musikstücke, die in zufälliger Reihenfolge abgespielt werden sollen (wenn die Musik aktiviert ist). Zurückgegeben wird die Anzahl der aktivierten Musikstücke (Im Netzwerk wird allerdings immer 0 zurückgegeben).</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> SetPlayList
+      (<span class="type">string</span> szPlayList);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>szPlayList: </dt>
+<dd><div class="text">
+    [opt]
+  Liste der abzuspielenden Musikstücke. Dabei werden die Einzeldateinamen jeweils mit einem Semikolon (";") getrennt. Wildcards dürfen benutzt werden. Wird der Parameter wegelassen, so wird die Standard-Musikliste gespielt.</div></dd>
+</dl>
+<h2>Anmerkungen</h2>
+<div class="text">Durch Aufruf von SetPlayList wird die Musik nicht aktiviert, wenn sie vorher deaktiviert war. Der Aufruf wirkt sich dann erst aus, wenn die Musik wieder aktiviert wird.</div>
+<div class="text">Der Aufruf 'SetPlayList("*.*")' ist nicht identisch mit 'SetPlayList()'. Wird 'SetPlayList("*.*")' aufgerufen, so werden wirklich alle Musikstücke aktiviert, auch diejenigen, die mittels eines "@" im Namen von der Standard-PlayList ausgenommen wurden. 'SetPlayList()' aktiviert diese Musikstücke dagegen nicht.</div>
+<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/Music.html">Music</a>
+</div>
+<div class="author">PeterW, Januar 2003</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

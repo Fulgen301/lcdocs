@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>LineConnect</title>
+<script type="text/javascript" src="../../bitmasks.js"></script><script type="text/javascript">
+  var BIT_COUNT = 9;		// Anzahl der Bits
+  var PREFIX = "bit";		// Prefix für die numerierten IDs
+</script><?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="LineConnect">LineConnect</h1>
+<div class="text">The LineConnect attribute is a bitmask and determines which lines can be connected to an object and what the object conducts.</div>
+<div class="text">
+<table>
+<thead><tr>
+<th>Bit</th>
+<th>Value</th>
+<th>Name</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr style="cursor:pointer;" id="bit0" onClick="Switch(0);">
+<td>0</td>
+<td>1</td>
+<td>C4D_PowerInput</td>
+<td>The end of an energy line can be connected.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit1" onClick="Switch(1);" class="dark">
+<td>1</td>
+<td>2</td>
+<td>C4D_PowerOutput</td>
+<td>The start of an energy line can be connected.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit2" onClick="Switch(2);">
+<td>2</td>
+<td>4</td>
+<td>C4D_LiquidInput</td>
+<td>The end of a pipe can be connected.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit3" onClick="Switch(3);" class="dark">
+<td>3</td>
+<td>8</td>
+<td>C4D_LiquidOutput</td>
+<td>The beginning of a pipe can be connected.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit4" onClick="Switch(4);">
+<td>4</td>
+<td>16</td>
+<td>C4D_PowerGenerator</td>
+<td>The object is a power generator.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit5" onClick="Switch(5);" class="dark">
+<td>5</td>
+<td>32</td>
+<td>C4D_PowerConsumer</td>
+<td>The object is an energy consumer.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit6" onClick="Switch(6);">
+<td>6</td>
+<td>64</td>
+<td>C4D_LiquidPump</td>
+<td>The object is a pump.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit7" onClick="Switch(7);" class="dark">
+<td>7</td>
+<td>128</td>
+<td></td>
+<td>Reserved, unused.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit8" onClick="Switch(8);">
+<td>8</td>
+<td>256</td>
+<td>C4D_EnergyHolder</td>
+<td>The object does not loose energy by itself, even if it is not alive or a base.</td>
+</tr>
+</tbody>
+</table>LineConnect:
+    <input id="input" onKeyUp="Calc();" name="input" type="text" size="4" maxlength="4">
+</div>
+<div class="author">Sven2, April 2002</div>
+<div class="author">Newton, Januar 2005</div>
+<div class="author">Günther, Juli 2006</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

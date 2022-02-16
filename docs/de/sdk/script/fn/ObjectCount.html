@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>ObjectCount</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="ObjectCount">ObjectCount</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Suche<br><b>Ab Engineversion: </b>4.6.5.0 CP</div>
+<h2>Beschreibung</h2>
+<div class="text">Sucht Objekte, und gibt deren Anzahl zurück. Sind iWdt und iHgt beide -1, so wird das nächstliegende Objekt gefunden. Sind sie beide 0, wird nur am Punkt iX/iY gesucht. Sind iX, iY, iWdt und iHgt alle 0, gilt als Suchrechteck die gesamte Karte (auch bei lokalen Aufrufen). Es müssen stets die Bedingungen aller Parameter erfüllt sein, die angegeben und nicht 0 sind.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> ObjectCount
+      (<span class="type">id</span> idDef, <span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">int</span> iWdt, <span class="type">int</span> iHgt, <span class="type">int</span> dwOCF, <span class="type">string</span> szAction, <span class="type">object</span> pActionTarget, <span class="type">any</span> pContainer, <span class="type">int</span> iOwner);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>idDef: </dt>
+<dd><div class="text">
+    [opt]
+  Objekttyp</div></dd>
+<dt>iX: </dt>
+<dd><div class="text">
+    [opt]
+  Linke Kante der Position. Bei lokalem Aufruf Offset zum aufrufenden Objekt.</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">
+    [opt]
+  Obere Kante der Position. Bei lokalem Aufruf Offset zum aufrufenden Objekt.</div></dd>
+<dt>iWdt: </dt>
+<dd><div class="text">
+    [opt]
+  Suchrechteck Breite</div></dd>
+<dt>iHgt: </dt>
+<dd><div class="text">
+    [opt]
+  Suchrechteck Höhe</div></dd>
+<dt>dwOCF: </dt>
+<dd><div class="text">
+    [opt]
+  Objektattribute. Es werden nur Objekte gefunden, die alle angegebenen Objektattribute besitzen. 0 findet alle Objekte.</div></dd>
+<dt>szAction: </dt>
+<dd><div class="text">
+    [opt]
+  Aktivität des zu findenden Objekts</div></dd>
+<dt>pActionTarget: </dt>
+<dd><div class="text">
+    [opt]
+  Aktivitätsziel, das das Objekt besitzen muss. Siehe dazu auch <a href="../../../sdk/script/fn/SetAction.html">SetAction</a>, <a href="../../../sdk/script/fn/GetActionTarget.html">GetActionTarget</a>
+</div></dd>
+<dt>pContainer: </dt>
+<dd><div class="text">
+    [opt]
+  Containerobjekt. Wenn angegeben, wird nur dieser Behälter durchsucht. Möglich sind auch <a href="../../../sdk/script/fn/NoContainer.html">NoContainer</a> (Objekt befindet sich im Freien), und <a href="../../../sdk/script/fn/AnyContainer.html">AnyContainer</a> (Objekt ist in einem beliebigen Behälter enthalten).</div></dd>
+<dt>iOwner: </dt>
+<dd><div class="text">
+    [opt]
+  Besitzer, den die gefundenen Objekte haben sollen.</div></dd>
+</dl>
+<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/AnyContainer.html">AnyContainer</a>, <a href="../../../sdk/script/fn/FindObject.html">FindObject</a>, <a href="../../../sdk/script/fn/FindObjectOwner.html">FindObjectOwner</a>, <a href="../../../sdk/script/fn/NoContainer.html">NoContainer</a>, <a href="../../../sdk/script/fn/ObjectCount2.html">ObjectCount2</a>
+</div>
+<div class="author">jwk, August 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

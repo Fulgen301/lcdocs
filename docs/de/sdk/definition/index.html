@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Objektdefinitionen</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="Objektdefinitionen">Objektdefinitionen</h1>
+
+<div class="text">Mit Objektdefinitionen werden alle in Clonk vorkommenden Spielobjekte - vom Feuermonsterei über Holzhütten bis zum Clonk selber - definiert. Eine Objektdefinition ist eine Gruppendatei, die sich aus folgenden Komponenten zusammen setzt:</div>
+
+<h2 id="ObjektdefinitionsKomponentenC4D">Objektdefinitions-Komponenten (C4D)</h2>
+<dl>
+<dt>
+<img src="../../images/icon_text.gif" width="16" height="16"><a href="../../sdk/definition/defcore.html">DefCore.txt</a>
+</dt>
+<dd><div class="text">Objekteigenschaften.</div></dd>
+<dt>
+<img src="../../images/icon_text.gif" width="16" height="16"><a href="../../sdk/definition/actmap.html">ActMap.txt</a>
+</dt>
+<dd><div class="text">Tabelle für Objektaktivitäten.</div></dd>
+<dt id="Graphicspng">
+<img src="../../images/icon_image.gif" width="16" height="16">Graphics.png</dt>
+<dd><div class="text">Grafikelemente des Objekts. Basisgrafik, Animationsphasen sowie ein Bild zur Anzeige in Menüs werden in einer 32-Bit-Bilddatei mit Transparenz (Alpha-Kanal) abgelegt (Format PNG, Farbtiefe 32 Bit RGBA, nicht interlaced).</div></dd>
+<dt id="Overlaypng">
+<img src="../../images/icon_image.gif" width="16" height="16">Overlay.png</dt>
+<dd><div class="text">Der Teil der Objektgrafik, der mit der Spielerfarbe (ColorByOwner, siehe DefCore.txt) eingefärbt werden soll, kann auch als separate Grafik angelegt werden. Auf diese Weise kann die sonst vergebene Farbe Blau in der Graphics.png frei benutzt werden, und es ist auch Antialiasing an den zu verfärbenden Rändern möglich. In der Overlay.png sollten nur Graustufen verwendet werden.</div></dd>
+<dt id="Graphicsbmp">
+<img src="../../images/icon_image.gif" width="16" height="16">Graphics.bmp</dt>
+<dd><div class="text">Das BMP-Format für Grafikelemente ist veraltet, wird aber weiterhin unterstützt. In einem 256 Farb-Bitmap (8 Bit) dürfen nur die Farben 16 bis 103 der festen Clonk-Palette verwendet werden (siehe Originalobjekte).</div></dd>
+<dt id="Graphicsex">
+<img src="../../images/icon_image.gif" width="16" height="16">Graphics*.png/Overlay*.png/Graphics*.bmp</dt>
+<dd><div class="text">Objekte können auch alternative Grafiksätze bereitstellen, die während des Spiels mit Hilfe des Scriptbefehls <a href="../../sdk/script/fn/SetGraphics.html">SetGraphics</a>() zugewiesen werden können. Der Name der Grafik entspricht dabei dem Dateinamensteil zwischen "Graphics" und der Dateiendung; das entsprechende Overlay wird automatisch mit verwendet. Für Beispiele siehe <a href="../../sdk/script/fn/SetGraphics.html">SetGraphics</a>().</div></dd>
+<dt id="Titlepng">
+<img src="../../images/icon_image.gif" width="16" height="16">Title.png/Title.bmp</dt>
+<dd><div class="text">Objektdefinitionen können ein zusätzliches Titelbild enthalten (ähnlich Szenarien). Dieses wird im Menüsystem anstelle des Pictures der Objektdefinition angezeigt. Empfohlene Größe: 150x150 Pixel, sofern die vorhandene Titelgrafik dies hergibt. Für Titelbilder wird ebenfalls das veraltete BMP-Format mit 256 Farben weiterhin unterstützt.</div></dd>
+<dt id="ScriptcScript__c">
+<img src="../../images/icon_text.gif" width="16" height="16"><a href="../../sdk/definition/script.html">Script.c</a>
+</dt>
+<dd><div class="text">Das Objektscript. Siehe <a href="../../sdk/script/index.html">Script-Dokumentation</a> und <a href="../../sdk/lang.html">Sprachanpassung</a>.</div></dd>
+<dt id="Namestxt">
+<img src="../../images/icon_text.gif" width="16" height="16">Names.txt</dt>
+<dd><div class="text">Mehrsprachige Namenstabelle (siehe Title.txt bei Szenarien).</div></dd>
+<dt id="Desc__txt">
+<img src="../../images/icon_text.gif" width="16" height="16">Desc*.txt</dt>
+<dd><div class="text">Kurzbeschreibung. Für sprachliche Unterscheidung siehe Szenario-Beschreibungstexte.</div></dd>
+<dt id="Ranktxt">
+<img src="../../images/icon_text.gif" width="16" height="16">Rank.txt/Rank*.txt</dt>
+<dd><div class="text">Für Objektdefinitionen, die einen Clonktyp definieren, können hier spezifische Rangnamen für diesen Clonktyp angegeben werden. Die Rangnamen werden dann auch innerhalb schon existierender Mannschaftsmitglieder auf die angegebenen geändert. Die Rangnamen sollten in einer einfachen Liste untereinander stehen, und maximal 30 Zeichen Länge besitzen. Für ein Beispiel siehe zum Beispiel den Ritter in Knights.c4d. Durch Einfügen des entsprechenden Sprachcodes ist es möglich, Rangnamen für verschiedene Sprachen zu definieren.</div></dd>
+<dt id="Rankbmppng">
+<img src="../../images/icon_image.gif" width="16" height="16">Rank.png/Rank.bmp</dt>
+<dd><div class="text">Für Clonktypen können außerdem spezifische Rangsymbole definiert werden, die dann im Spiel anstelle der Standardsymbole benutzt werden. Ein Rangsymbol muss immer so breit wie hoch sein, und es sollten ausreichend Symbole für alle Ränge vorhanden sein. Bei höheren Rängen als der Anzahl vorhandener Rangsymbole wird von vorne begonnen und ein Stern daneben gezeichnet.</div></dd>
+<dt id="wav">
+<img src="../../images/icon_sound.gif" width="16" height="16">*.wav</dt>
+<dd><div class="text">Objektlokale Sounds. Da diese statisch geladen und nicht wie szenariolokale Sounds dynamisch entladen werden, sollten objektlokale Sounds möglichst klein sein.</div></dd>
+<dt id="c4d">
+<img src="../../images/icon_object_definition.gif" width="16" height="16">*.c4d</dt>
+<dd><div class="text">Die Engine durchsucht alle gültigen c4d-Unterverzeichnisse nach weiteren Definitionen. Objektdefinitionen sollten so in sinnvollen Gruppierungen zusammen gefasst werden.</div></dd>
+<dt id="Infotxt">
+<img src="../../images/icon_text.gif" width="16" height="16">Info.txt</dt>
+<dd><div class="text">Diese Komponente wird nicht von der Engine verarbeitet. Hier kann der Autor zusätzliche Informationen über den Entwicklungsstand seines Objekts, seine Kontaktadresse oder sonstige Informationen angeben, die er anderen Entwicklern mitteilen möchte.</div></dd>
+<dt id="Authortxt">
+<img src="../../images/icon_text.gif" width="16" height="16">Author.txt</dt>
+<dd><div class="text">Sollte den Namen des Autors im Format "Vorname Nachname (Nick)" enthalten und ist dafür gedacht, dass der Name des ursprünglichen Autors erhalten bleibt, selbst wenn die Gruppendatei von einem anderen Entwickler verändert wird (Auswertung dieser Komponente zur Zeit nur bei Dateien, die durch RedWolf Design bearbeitet werden). Dies ist insbesondere für Wettbewerbsszenarien gedacht.</div></dd>
+</dl>
+<h2 id="ObjektundEntwicklerIdentifikation">Objekt-Identifikation</h2>
+<div class="text">Objektdefinitionen werden über ein ID identifiziert, das sich aus vier Zeichen zusammen setzt (z.B. C4ID). Nur Originalobjekte von RedWolf Design nutzen hierbei alle vier Zeichen: ABCD oder ABC1.</div>
+<div class="text">Lokale Objektdefinitionen, die nur als Teil eines Szenarios verbreitet werden, erhalten IDs vom Format _ABC.</div>
+<div class="text">Von Spielern erstellte Objektdefinitionen, die auch einzeln veröffentlicht werden, sollten das Format AB3C nutzen, wobei nur die ersten beiden Zeichen frei vergeben werden können und die letzten beiden Zeichen (1 Ziffer und 1 Buchstabe) das Entwickler-ID des Spielers darstellen, welches frei wählbar ist, wobei allerdings Überschneidungen mit bereits von anderen Entwicklern benutzten IDs vermieden werden sollten.</div>
+
+<div class="author">Sven2, April 2002</div>
+<div class="author">matthes, Juni 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

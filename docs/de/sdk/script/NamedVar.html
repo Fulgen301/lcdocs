@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Benannte Variablen</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1>Benannte Variablen</h1>
+
+	<div class="text">Variablen dienen innerhalb von Scripts zur Speicherung von Daten. Es gibt bestimmte <a href="../../sdk/script/Typechecks.html">Datentypen</a>, die Variablen annehmen können.</div>
+
+	<div class="text">Außerdem kann eine Variable einen von drei Gültigkeitsbereichen haben. Die Variable ist außerhalb ihres Gültigkeitsbereiches nicht sichtbar.</div>
+
+	<div class="text"><table><tbody>
+<tr>
+<td>Schlüsselwort</td>
+<td>Gültigkeitsbereich</td>
+<td>Standort</td>
+</tr>
+<tr class="dark">
+<td><code>var</code></td>
+<td>funktions-lokal</td>
+<td>Funktion</td>
+</tr>
+<tr>
+<td><code>local</code></td>
+<td>objekt-lokal</td>
+<td>Objektscript</td>
+</tr>
+<tr class="dark">
+<td><code>static</code></td>
+<td>global</td>
+<td>beliebiger Skript</td>
+</tr>
+</tbody></table></div>
+	
+	<div class="text">Variablen werden mit folgender Syntax definiert:</div>
+	
+	<pre class="code">{ <b>var</b> / <b>local</b> / <b>static</b> } name [= expr] [, name [= expr] ... ];</pre>
+	
+	<div class="text">Als erstes wird der Gültigkeitbereich angegeben. Danach muss der Name einer benannten Variable folgen.</div>
+	<div class="text">Optional kann der Variable auch gleich ein Wert zugewiesen werden. Dies ist aber nur für funktionslokale (<code>var</code>) Variablen erlaubt. Ohne Initialisierung beginnt die Variable mit dem Standard-Wert 0.</div>
+	<div class="text">Weitere Deklarationen können, mit Kommata getrennt, folgen. Die Deklaration muss immer mit einem ";" beendet werden.</div>
+	
+	<h2>Beispiel:</h2>
+	
+	<pre class="code"><b>static</b> iObjectCount;
+<b>local</b>  iTimeToLive;
+
+<b>protected</b> <b>func</b> Initialize()
+{
+  iObjectCount++;
+  iTimeToLive = 100;
+}
+
+<b>protected</b> <b>func</b> Destruction()
+{
+  iObjectCount--;
+}
+
+<b>protected</b> <b>func</b> Timer()
+{
+  <b>if</b>(!--iTimeToLive)
+  {
+    <a href="../../sdk/script/fn/RemoveObject.html">RemoveObject</a>();
+    <a href="../../sdk/script/fn/return.html">return</a>();
+  }
+
+  <b>var</b> obj = <a href="../../sdk/script/fn/FindObject.html">FindObject</a>(CLNK, 0, 0, -1, -1);
+
+  <b>if</b>(<a href="../../sdk/script/fn/ObjectDistance.html">ObjectDistance</a>(obj) &lt; 20)
+    <a href="../../sdk/script/fn/DoDamage.html">DoDamage</a>(-10, obj);
+
+  <a href="../../sdk/script/fn/return.html">return</a>();
+}</pre>
+	
+	<h2>Ergänzungen:</h2>
+	
+	<div class="text"><ul>
+		<li>Definitionen objektlokaler Variablen werden sowohl bei #appendto also auch bei #include mit übernommen.</li>
+		<li>Mittels der Funktionen <a href="../../sdk/script/fn/VarN.html">VarN</a>(), <a href="../../sdk/script/fn/LocalN.html">LocalN</a>(), und <a href="../../sdk/script/fn/GlobalN.html">GlobalN</a>() kann indirekt auf Variablen zugegriffen werden. Mittels <a href="../../sdk/script/fn/LocalN.html">LocalN</a>() kann speziell auch auf lokale Variablen in anderen Objekten zugreifen.</li>
+		<li>Sind an einer Stelle zwei Variablen desselben Namens sichtbar, so bezeichnet der Name im Script jeweils die Variable mit dem kleineren Geltungsbereich. Das heißt z.B., dass eine objektlokale Variable eine globale Variable "verdeckt".</li>
+		<li>Wird eine Variable mehrfach deklariert, so existiert die Variable nachher trotzdem nur einmal und es wird kein Fehler ausgegeben. Initialisierungen gelten als Zuweisungen und werden wie eine entsprechende Anweisung ggf. auch mehrfach ausgeführt.</li>
+		<li>Eine <code>static</code>-Variable darf auch in Objektscripten verwendet werden (siehe Beispiel). Wird eine <code>static</code>-Variable mit gleichem Namen in einem anderen Script definiert, so bezeichnen beide auch dieselbe Variable.</li>
+	</ul></div>
+
+
+<div class="author">PeterW, ewig her</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

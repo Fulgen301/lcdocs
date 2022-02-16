@@ -1,0 +1,616 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Scenario.txt</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1 id="Scenariotxt">Scenario.txt</h1>
+<div class="text">In Scenario.txt you can define basic scenario settings including simple dynamic maps, player presets and starting material, game goals, weather conditions etc. Most of these settings can be adjusted more comfortably in the scenario properties in the editor. For more complex settings, automatic rejoins, mission sequences and more you will have to write a <a href="../../sdk/scenario/script.html">script</a>.</div>
+<div class="text">Some values are specified as 4 numbers. They define average, deviation, minimum and maximum values. The actual value is determined according to the expression <code>BoundBy(average + Random(2 * deviation + 1) - deviation, minimum, maximum);</code>.</div>
+
+<div class="text"><table>
+<caption id="SektionHead">Section [Head]</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Icon</td>
+<td>Integer</td>
+<td>Default icon for the scenario. See the scenario options in the menu system.</td>
+</tr>
+<tr class="dark">
+<td>Title</td>
+<td>String (max 512)</td>
+<td>Title for the scenario. Entries in Title.txt will override this value.</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>4 integers</td>
+<td>Engine version required by the scenario.</td>
+</tr>
+<tr class="dark">
+<td>Access</td>
+<td>Integer</td>
+<td> </td>
+</tr>
+<tr>
+<td>Difficulty</td>
+<td>Integer</td>
+<td>Tells the difficulty of the scenario.</td>
+</tr>
+<tr class="dark">
+<td>RoundOptions</td>
+<td>Integer</td>
+<td>0 or 1. Allow other players to change scenario properties in the menu system.</td>
+</tr>
+<tr>
+<td>MaxPlayer</td>
+<td>Integer</td>
+<td>Maximum player count.</td>
+</tr>
+<tr class="dark">
+<td>MaxPlayerLeague</td>
+<td>Integer</td>
+<td>Maximum player count with league.</td>
+</tr>
+<tr>
+<td>MinPlayer</td>
+<td>Integer</td>
+<td>Minimum player count. Is honored when starting a game via the fullscreen menu and also by dedicated servers.</td>
+</tr>
+<tr class="dark">
+<td>NoInitialize</td>
+<td>Integer</td>
+<td>0 or 1. If 1, basic startup objects as defined in Scenario.txt (player material and buildings, animals, vegetation) are not placed. This flag is automatically set in savegaes and is used to avoid duplication by repeated scenario initialization. The flag ignores among others the values Buildings, Vehicles, Material, Vegetation, InEarth, and Animals.</td>
+</tr>
+<tr>
+<td>MissionAccess</td>
+<td>String</td>
+<td>The scenario will only load if the player gained this password in another scenario. See script function <a href="../../sdk/script/fn/GainMissionAccess.html">GainMissionAccess</a>().</td>
+</tr>
+<tr class="dark">
+<td>Replay</td>
+<td>Integer</td>
+<td>Set automatically be the engine. Marks the scenario as record.</td>
+</tr>
+<tr>
+<td>Film</td>
+<td>Integer</td>
+<td>0 or 1 und only valid for records. If 1, the view always follows the first player and all player controls are invisible.</td>
+</tr>
+<tr class="dark">
+<td>ForcedGfxMode</td>
+<td>Integer</td>
+<td>0-2. 0: All engines possible; 1: NewGfx only (OpenGL/D3D); 2: OldGfx only (8bit-DDraw).</td>
+</tr>
+<tr>
+<td>DisableMouse</td>
+<td>Integer</td>
+<td>0 or 1. If 1 the mouse can't be used.</td>
+</tr>
+<tr class="dark">
+<td>FairCrewStrength</td>
+<td>Integer</td>
+<td>Strength of the fair crew.</td>
+</tr>
+<tr>
+<td>Font</td>
+<td>String</td>
+<td>Font that is used by the scenario. The name of the font needs to be specified, not the filename. Supported filetypes: fon, fnt, ttf, ttc, fot, otf</td>
+</tr>
+<tr class="dark">
+<td>ForcedAutoContextMenu</td>
+<td>Integer</td>
+<td>-1 - 1. -1: No Setting: 0: Menu doesn't open automatically when entering a building. 1: Menu opens automatically when entering a building.</td>
+</tr>
+<tr>
+<td>ForcedAutoStopControl</td>
+<td>Integer</td>
+<td>-1 - 1. -1: No setting. 0: Forced classic control. 1: Forced Jump'n'Run control.</td>
+</tr>
+<tr class="dark">
+<td>ForcedFairCrew</td>
+<td>Integer</td>
+<td>0 - 2. 0: Setting can be change. 1: Forced fair crew. 2: Forced trained crew.</td>
+</tr>
+<tr>
+<td>Loader</td>
+<td>String</td>
+<td>Filename of the image to be displayed in the lobby and while loading the scenario. The wildcard * may be used.</td>
+</tr>
+<tr class="dark">
+<td>Origin</td>
+<td>String</td>
+<td>Path. Definitions are loaded from the specified path, even if the scenario isn't located there.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionGame">Section [Game]</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Rules</td>
+<td>ID list</td>
+<td>Game rules.</td>
+</tr>
+<tr class="dark">
+<td>Goals</td>
+<td>ID list</td>
+<td>Game goals.</td>
+</tr>
+<tr>
+<td>ValueOverloads</td>
+<td>ID list</td>
+<td>List of definitions for which the values should be overridden. The amount will be the new value.</td>
+</tr>
+<tr class="dark">
+<td>FoWColor</td>
+<td>DWORD</td>
+<td>Color of the fog of war</td>
+</tr>
+<tr>
+<td>Mode</td>
+<td>Integer</td>
+<td>Obsolete. 0 Cooperative, 1 Melee, 2 Teamwork-Melee.</td>
+</tr>
+<tr class="dark">
+<td>Elimination</td>
+<td>Integer</td>
+<td>Obsolete. Player elimination by: 0 Loss of captain, 1 Loss of crew, 2 Loss of flag.</td>
+</tr>
+<tr>
+<td>CooperativeGoal</td>
+<td>Integer</td>
+<td>Obsolete. Value for goal in the menu system (0-4)</td>
+</tr>
+<tr class="dark">
+<td>CreateObjects</td>
+<td>ID list</td>
+<td>Obsolete. Game goal: These objects must be created.</td>
+</tr>
+<tr>
+<td>ClearObjects</td>
+<td>ID list</td>
+<td>Obsolete. Game goal: The object counts must be reduced to x.</td>
+</tr>
+<tr class="dark">
+<td>ClearMaterials</td>
+<td>Material list</td>
+<td>Obsolete. Game goal: The material count must be reduced to x.</td>
+</tr>
+<tr>
+<td>BaseFunctionality</td>
+<td>Integer</td>
+<td>A bit mask that defines which functionality a home base object will offer. See <a href="../../sdk/scenario/basefunc.html">Homebase Functionality</a>. From CR.</td>
+</tr>
+<tr class="dark">
+<td>BaseRegenerateEnergyPrice</td>
+<td>Integer</td>
+<td>The cost of recharging a clonk to 100% life energy in the home base. Default is 5. Value 0 will yield free recharging. From CR.</td>
+</tr>
+<tr>
+<td>LandscapeInsertThrust</td>
+<td>Integer</td>
+<td>0 or 1. Affects how liquids are pushed away by material. Before Clonk Rage for example water was just replaced by earth when throwing a chunk of earth into it. Since Clonk Rage the water level increases instead. 0 activates the old behavior.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionenPlayer1Player2Player3Player4">Sections [Player1] [Player2] [Player3] [Player4](5. Player will be the same as [Player1] etc.)</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Wealth</td>
+<td>4 integers</td>
+<td>Seed capital.</td>
+</tr>
+<tr class="dark">
+<td>Position</td>
+<td>2 Integer</td>
+<td>Start position as coordinates for the un-zoomed landscape. Both -1: Random position.</td>
+</tr>
+<tr>
+<td>Crew</td>
+<td>ID list</td>
+<td>Type and count of initial crew members.</td>
+</tr>
+<tr class="dark">
+<td>Buildings</td>
+<td>ID list</td>
+<td>Buildings available at game start.</td>
+</tr>
+<tr>
+<td>Vehicles</td>
+<td>ID list</td>
+<td>Vehicles available at game start.</td>
+</tr>
+<tr class="dark">
+<td>Material</td>
+<td>ID list</td>
+<td>Materials available at game start</td>
+</tr>
+<tr>
+<td>Knowledge</td>
+<td>ID list</td>
+<td>Objects the player should initially be able to create.</td>
+</tr>
+<tr class="dark">
+<td>HomeBaseMaterial</td>
+<td>ID list</td>
+<td>Materials available to buy at game start.</td>
+</tr>
+<tr>
+<td>HomeBaseProduction</td>
+<td>ID list</td>
+<td>Additional supply of materials to buy.</td>
+</tr>
+<tr class="dark">
+<td>Magic</td>
+<td>ID list</td>
+<td>Available spells. If the list is empty, all spells are available (backwards compatibility).</td>
+</tr>
+<tr>
+<td>EnforcePosition</td>
+<td>Integer</td>
+<td>0 or 1. 1 disables searching for a free area for the player.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionLandscape">Section [Landscape]</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Vegetation</td>
+<td>ID list</td>
+<td>Vegetation types and ratio.</td>
+</tr>
+<tr class="dark">
+<td>VegetationLevel</td>
+<td>4 integers</td>
+<td>0-100. Vegetation amount.</td>
+</tr>
+<tr>
+<td>InEarth</td>
+<td>ID list</td>
+<td>Types and proportionate shares of buried objects.</td>
+</tr>
+<tr class="dark">
+<td>InEarthLevel</td>
+<td>4 integers</td>
+<td>0-100. Amount of buried objects.</td>
+</tr>
+<tr>
+<td>Sky</td>
+<td>String</td>
+<td>Sky texture from Graphics.c4g (without filename extension)</td>
+</tr>
+<tr class="dark">
+<td>SkyFade</td>
+<td>6 integers</td>
+<td>Sky color gradient (RGB to RGB). Values 0-255. With all values 0, the default blue background will be used.</td>
+</tr>
+<tr>
+<td>BottomOpen</td>
+<td>Integer</td>
+<td>0 or 1. Determines wether the bottom of the game world should be open.</td>
+</tr>
+<tr class="dark">
+<td>TopOpen</td>
+<td>Integer</td>
+<td>0 or 1. Determines wether the top of the game world should be open.</td>
+</tr>
+<tr>
+<td>LeftOpen</td>
+<td>Integer</td>
+<td>Height until which the left side of the game world is open.</td>
+</tr>
+<tr class="dark">
+<td>RightOpen</td>
+<td>Integer</td>
+<td>Height until which the right side of the game world is open.</td>
+</tr>
+<tr>
+<td>AutoScanSideOpen</td>
+<td>Integer</td>
+<td>0 or 1. If 1, LeftOpen and RightOpen will be set automatically depending on the landscape at game start.</td>
+</tr>
+<tr class="dark">
+<td>MapWidth</td>
+<td>4 integers</td>
+<td>Base width of the dynamic map.</td>
+</tr>
+<tr>
+<td>MapHeight</td>
+<td>4 integers</td>
+<td>Base height of the dynamic map.</td>
+</tr>
+<tr class="dark">
+<td>MapZoom</td>
+<td>4 integers</td>
+<td>Factor for zooming the map to the real game world. Default is 10.</td>
+</tr>
+<tr>
+<td>Amplitude</td>
+<td>4 integers</td>
+<td>0-100 with tolerance. Hill height for dynamic maps.</td>
+</tr>
+<tr class="dark">
+<td>Phase</td>
+<td>4 integers</td>
+<td>0-100 with tolerance. Hill offset for dynamic maps.</td>
+</tr>
+<tr>
+<td>Period</td>
+<td>4 integers</td>
+<td>0-100 with tolerance. Hill interval for dynamic maps.</td>
+</tr>
+<tr class="dark">
+<td>Random</td>
+<td>4 integers</td>
+<td>0-100 with tolerance. Random deviance for dynamic maps.</td>
+</tr>
+<tr>
+<td>Material</td>
+<td>String</td>
+<td>Material-texture definition of the base material for dynamic maps.</td>
+</tr>
+<tr class="dark">
+<td>Liquid</td>
+<td>String</td>
+<td>Material-texture definition of the liquid material for dynamic maps.</td>
+</tr>
+<tr>
+<td>LiquidLevel</td>
+<td>4 integers</td>
+<td>0-100 with tolerance. Liquid level for dynamic maps.</td>
+</tr>
+<tr class="dark">
+<td>MapPlayerExtend</td>
+<td>Integer</td>
+<td>0 or 1. Determines wether the dynamic map will be extended for every player activated at game start.</td>
+</tr>
+<tr>
+<td>Layers</td>
+<td>Material list</td>
+<td>Additional material layers in earth for dynamic maps.</td>
+</tr>
+<tr class="dark">
+<td>ExactLandscape</td>
+<td>1 Integer</td>
+<td>0 or 1. Specifies wether the Landscape.bmp is an actual game landscape.</td>
+</tr>
+<tr>
+<td>Gravity</td>
+<td>4 integers</td>
+<td>10-200: Gravity. Default 100.</td>
+</tr>
+<tr class="dark">
+<td>NoScan</td>
+<td>Integer</td>
+<td>0 or 1. If 1, some ingame landscape checks will be turned of, such as freezing, melting or material counting.</td>
+</tr>
+<tr>
+<td>KeepMapCreator</td>
+<td>Integer</td>
+<td>0 or 1. If 1, the internal MapCreater won't unload after game start, so functions like <a href="../../sdk/script/fn/DrawDefMap.html">DrawDefMap</a> still work.</td>
+</tr>
+<tr class="dark">
+<td>SkyScrollMode</td>
+<td>Integer</td>
+<td>0 to 2. 0: Static sky, 1: The sky moves with the wind, 2: The sky is drawn half-parallax.</td>
+</tr>
+<tr>
+<td>FoWRes</td>
+<td>Integer</td>
+<td>Granularity of the Fog of War. Default: 64. Warning: smaller values will improve the looks of the FoW but will also severely increase processing times.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionAnimals">Section [Animals]</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Animals</td>
+<td>ID list</td>
+<td>Freewheeling creatures.</td>
+</tr>
+<tr class="dark">
+<td>Nest</td>
+<td>ID list</td>
+<td>Buried nests.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionWeather">Section [Weather]</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Climate</td>
+<td>4 integers</td>
+<td>0-100 with tolerance. Average temperature. 0 warm, 100 cold.</td>
+</tr>
+<tr class="dark">
+<td>StartSeason</td>
+<td>4 integers</td>
+<td>0-100 with tolerance. Season at game start.</td>
+</tr>
+<tr>
+<td>YearSpeed</td>
+<td>4 integers</td>
+<td>0-100 with tolerance. Speed of season change.</td>
+</tr>
+<tr class="dark">
+<td>Rain</td>
+<td>4 integers</td>
+<td>0-100 with tolerance. Precipitation amount.</td>
+</tr>
+<tr>
+<td>Wind</td>
+<td>4 integers</td>
+<td>-100-100 with tolerance. Wind direction and strength.</td>
+</tr>
+<tr class="dark">
+<td>Lightning</td>
+<td>4 integers</td>
+<td>0-100 with tolerance. Probability for lightnings.</td>
+</tr>
+<tr>
+<td>Precipitation</td>
+<td>String</td>
+<td>Simple material definition precipitation.</td>
+</tr>
+<tr class="dark">
+<td>NoGamma</td>
+<td>Integer</td>
+<td>0 or 1. If 1, the current season won't cause a small global color change.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionDisasters">Section [Disasters]</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Meteorite</td>
+<td>4 integers</td>
+<td>0-100 with tolerance. Probability for meteorites.</td>
+</tr>
+<tr class="dark">
+<td>Volcano</td>
+<td>4 integers</td>
+<td>0-100 with tolerance. Probability for volcanos.</td>
+</tr>
+<tr>
+<td>Earthquake</td>
+<td>4 integers</td>
+<td>0-100 with tolerance. Probability for earthquakes.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionEnvironment">Section [Environment]</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>Objects</td>
+<td>ID list</td>
+<td>Environment control objects that are placed at game start.</td>
+</tr></tbody>
+</table></div>
+
+<div class="text"><table>
+<caption id="SektionDefinitions">Section [Definitions]</caption>
+<thead><tr>
+<th>Value</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>LocalOnly</td>
+<td>Integer</td>
+<td>If LocalOnly is 1, only definitions local to the scenario file will be load.</td>
+</tr>
+<tr class="dark">
+<td>Definitions</td>
+<td>List of strings</td>
+<td>With the Definitions entry (e.g. Definitions="Objects.c4d", "Knights.c4d") you can specify which object definition packs (c4d) are to be loaded with this scenario. The specified files must be available in the Clonk directory; you must put double quotes around them. If files are specified here, manual pack selection in the menu system is disabled.</td>
+</tr>
+<tr>
+<td>Definition1 to 9</td>
+<td>String(s)</td>
+<td>With Definition<em>x</em> entries you can specify which object definition packs (c4d) are to be loaded with this scenario. The specified files must be available in the Clonk directory. If files are specified here, manual pack selection in the menu system is disabled.</td>
+</tr>
+<tr class="dark">
+<td>SkipDefs</td>
+<td>ID list</td>
+<td>List of object definitions (C4IDs) which are not to be loaded with this scenario. This can be used to prevent researching certain object types in the game.</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="author">Sven2, Fulgen, Oktober 2019</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

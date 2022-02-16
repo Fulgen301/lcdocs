@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetGamma</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetGamma">SetGamma</h1>
+<div class="text">
+<b>Category: </b>Global<br><b>Since engine version: </b>4.9.1.0 GWE</div>
+<h2>Description</h2>
+<div class="text">Sets a gamma ramp. Using gamma ramps, the global light situation of the game can be adjusted by assigning an individual data table to each color channel from which a new brightness value is read. By doing this you can strengthen chosen color ranges, darken or lighten the complete game or even invert light and darkness.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">void</span> SetGamma
+      (<span class="type">int</span> dwClr1, <span class="type">int</span> dwClr2, <span class="type">int</span> dwClr3, <span class="type">int</span> iRampIndex);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>dwClr1: </dt>
+<dd><div class="text">Adjusting darker colors. Default <a href="../../../sdk/script/fn/RGB.html">RGB</a>(0,0,0) for no adjustment.</div></dd>
+<dt>dwClr2: </dt>
+<dd><div class="text">Adjusting medium colors. Default <a href="../../../sdk/script/fn/RGB.html">RGB</a>(128,128,128) for no adjustment.</div></dd>
+<dt>dwClr3: </dt>
+<dd><div class="text">Adjusting brighter colors. Default <a href="../../../sdk/script/fn/RGB.html">RGB</a>(255,255,255) for no adjustment.</div></dd>
+<dt>iRampIndex: </dt>
+<dd><div class="text">0-7: index of the gamma ramp to be changed. There are eight gamma ramps which are applied subsequently. In this way, e.g. global time-of-day objects can modify the global lighting situation without conflicting with secondary lighting effects such as a lightning flash.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">The eight gamma ramps have the following effects:<br><br><table>
+<thead><tr>
+<th>iRampIndex</th>
+<th>Function</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Scenario global value</td>
+</tr>
+<tr class="dark">
+<td>1</td>
+<td>Climate/Seasons (will be used internally if activated in the scenario)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>free</td>
+</tr>
+<tr class="dark">
+<td>3</td>
+<td>Day/Night</td>
+</tr>
+<tr>
+<td>4</td>
+<td>free</td>
+</tr>
+<tr class="dark">
+<td>5</td>
+<td>Lightning</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Magic Effects</td>
+</tr>
+<tr class="dark">
+<td>7</td>
+<td>free</td>
+</tr>
+</tbody>
+</table>
+<br> Generally, lower ramp indices mean longer color changes; higher indices mean shorter effects.</div>
+<h2>Example</h2>
+			<div class="example">
+				<pre class="code">SetGamma(<a href="../../../sdk/script/fn/RGB.html">RGB</a>(50,0,0), <a href="../../../sdk/script/fn/RGB.html">RGB</a>(140,100,100), <a href="../../../sdk/script/fn/RGB.html">RGB</a>(255,220,220));</pre>
+				<div class="text">Adds a light blue hue to the game</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/RGB.html">RGB</a>, <a href="../../../sdk/script/fn/ResetGamma.html">ResetGamma</a>
+</div>
+<div class="author">Sven2, April 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

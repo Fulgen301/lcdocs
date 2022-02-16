@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>Format</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="Format">Format</h1>
+<div class="text">
+<b>Kategorie: </b>Script
+    / Strings<br><b>Ab Engineversion: </b>4.6.5.0 CP</div>
+<h2>Beschreibung</h2>
+<div class="text">
+      Setzt eine Zeichenkette aus verschiedenen Werten zusammen. Dabei wird szStr von vorne bis zum Ende nach mit '%' beginnenden Platzhaltern durchsucht, um diese dann durch die Parameter zu ersetzen.<br>
+      Das allgemeine Syntax für diese Platzhalter lautet:<br>
+      <code>%[Länge][.Präzision]Typ</code>
+      Bis auf den Typ sind also alle Parameter optional. Der Typ gibt den Datentyp an, den der Parameter hat. Möglich sind folgende Werte:
+      <table>
+<thead><tr>
+<th>Typ</th>
+<th>Bedeutung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>d</td>
+<td>Ganzzahl (int)</td>
+</tr>
+<tr class="dark">
+<td>x</td>
+<td>Ganzzahl (int), hexadezimale Ausgabe (0123456789abcdef)</td>
+</tr>
+<tr>
+<td>X</td>
+<td>Ganzzahl (int), hexadezimale Ausgabe (0123456789ABCDEF)</td>
+</tr>
+<tr class="dark">
+<td>i</td>
+<td>id (Bei IDs funktionieren die restlichen Parameter wie Länge und Präzision nicht!)</td>
+</tr>
+<tr>
+<td>s</td>
+<td>Zeichenkette</td>
+</tr>
+<tr class="dark">
+<td>v</td>
+<td>Beliebig. Vor allem nützlich zur Fehlersuche.</td>
+</tr>
+</tbody>
+</table>
+      Länge gibt eine Minimallänge an. Wenn der Wert kürzer ist, wird er rechtsbündig ausgerichtet und mit Leerzeichen aufgefüllt. Wird vor die Länge eine '0' gestellt, wird mit Nullen statt Leerzeichen aufgefüllt.<br>
+      <br>
+      Das Präzisionsfeld verhält sich je nach dem Parametertyp: Bei Ganzzahlen (d) gibt es die Minimalzahl der auszugebenden Zahlen an (der Rest wird mit Nullen aufgefüllt), während es bei Zeichenketten (s) die Maximalzahl der auszugebenden Zeichen angibt.<br>
+    </div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">string</span> Format
+      (<span class="type">string</span> szStr, <span class="type"></span> ...);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>szStr: </dt>
+<dd><div class="text">Zeichenkette, in die die Werte eingesetzt werden</div></dd>
+<dt>...: </dt>
+<dd><div class="text">Werte, die in die Zeichenkette eingesetzt werden</div></dd>
+</dl>
+<h2>Beispiele</h2>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/Message.html">Message</a>(Format(<i class="string">"Hallo, %s. Du hast %d Clonks!"</i>, <a href="../../../sdk/script/fn/GetPlayerName.html">GetPlayerName</a>(0), <a href="../../../sdk/script/fn/GetCrewCount.html">GetCrewCount</a>(0)));</pre>
+        <div class="text">Gibt zum Beispiel "Hallo Twonky, du hast 3 Clonks!" auf dem Bildschirm aus.</div>
+      </div>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/Log.html">Log</a>(Format(<i class="string">"'%3d'"</i>, 1));</pre>
+        <div class="text">Gibt aus: '  1'</div>
+      </div>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/Log.html">Log</a>(Format(<i class="string">"'%i'"</i>, <a href="../../../sdk/script/fn/GetID.html">GetID</a>(<a href="../../../sdk/script/fn/GetCursor.html">GetCursor</a>())));</pre>
+        <div class="text">Gibt z.B. aus: 'CLNK'</div>
+      </div>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/Log.html">Log</a>(Format(<i class="string">"'%3.2d'"</i>, 5));</pre>
+        <div class="text">Gibt aus: ' 05'</div>
+      </div>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/Log.html">Log</a>(Format(<i class="string">"'%.2s'"</i>, <i class="string">"test"</i>));</pre>
+        <div class="text">Gibt aus: 'te'</div>
+      </div>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/Log.html">Log</a>(Format(<i class="string">"'%03d'"</i>, 12));</pre>
+        <div class="text">Gibt aus: '012'</div>
+      </div>
+    <div class="author">Sven2, November 2001</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

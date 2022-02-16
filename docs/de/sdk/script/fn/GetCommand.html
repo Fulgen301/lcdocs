@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetCommand</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetCommand">GetCommand</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Commands<br><b>Ab Engineversion: </b>4.6.5.0 CP
+      
+        (erweitert ab 4.9.1.0 GWE)
+      
+      
+        (erweitert ab 4.9.5.0 CE)
+      
+    </div>
+<h2>Beschreibung</h2>
+<div class="text">Gibt Informationen über ein Kommando eines Objekts zurück. Führt das Objekt momentan keine Aktion aus, so wird (bei jedem Wert von iElement) 0 zurückgegeben.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">any</span> GetCommand
+      (<span class="type">object</span> pObj, <span class="type">int</span> iElement, <span class="type">int</span> iCommandNum);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Objekt, von dem ein Kommando abgefragt wird.</div></dd>
+<dt>iElement: </dt>
+<dd><div class="text">
+    [opt]
+  Information, die zurückgegeben werden soll. 0 oder kA: Name, 1: Target, 2: TargetX, 3: TargetY, 4: Target2, 5: Data</div></dd>
+<dt>iCommandNum: </dt>
+<dd><div class="text">
+    [opt]
+  Nummer des Kommandos. 0 steht für das momentan aktive, 1 für das danach auszuführende usw.</div></dd>
+</dl>
+<h2>Beispiel</h2>
+      <div class="example">
+        <pre class="code"><b>func</b> Timer()
+{
+  <b>if</b>(GetCommand() eq <i class="string">"Enter"</i> &amp;&amp; GetCommand(0, 1) == <a href="../../../sdk/script/fn/FindBase.html">FindBase</a>(<a href="../../../sdk/script/fn/GetOwner.html">GetOwner</a>()))
+    <a href="../../../sdk/script/fn/Enter.html">Enter</a>(<a href="../../../sdk/script/fn/FindBase.html">FindBase</a>(<a href="../../../sdk/script/fn/GetOwner.html">GetOwner</a>()));
+}</pre>
+        <div class="text">
+Dieser Script beamt das Objekt, falls sein Kommando ist, in seine Basis zu gehen (Kommando "Enter"), sofort dorthin. Dies würde z.B. dazu führen, dass man mit der Maussteuerung den Clonk direkt in seine Heimatbasis beamen könnte, indem man den Eingang anklickt.
+        </div>
+      </div>
+    <div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/AddCommand.html">AddCommand</a>, <a href="../../../sdk/script/fn/AppendCommand.html">AppendCommand</a>, <a href="../../../sdk/script/fn/FinishCommand.html">FinishCommand</a>, <a href="../../../sdk/script/fn/PlayerObjectCommand.html">PlayerObjectCommand</a>, <a href="../../../sdk/script/fn/SetCommand.html">SetCommand</a>
+</div>
+<div class="author">PeterW, November 2001</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

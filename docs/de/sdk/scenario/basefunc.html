@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Basisfunktionalitäten</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="BaseFunc">Basisfunktionalitäten</h1>
+<div class="text">Die BaseFunctionality-Option (DWord-Bitmaske) eines Szenarios bestimmt, welche Funktionen eine Basis (Gebäude mit Spielerflagge) in einem Szenario erfüllen kann.</div>
+<div class="text">
+<table>
+<thead><tr>
+<th>Bit</th>
+<th>Wert</th>
+<th>BaseFunctionality</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>BASEFUNC_AutoSellContents</td>
+<td>Loren werden ausgeleert und Gold wird aus der Basis und direkt enthaltenen Objekten verkauft.</td>
+</tr>
+<tr class="dark">
+<td>1</td>
+<td>2</td>
+<td>BASEFUNC_RegenerateEnergy</td>
+<td>Verbündete Clonks regenerieren in der Basis Energie.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4</td>
+<td>BASEFUNC_Buy</td>
+<td>Objekte können in der Basis gekauft werden.</td>
+</tr>
+<tr class="dark">
+<td>3</td>
+<td>8</td>
+<td>BASEFUNC_Sell</td>
+<td>Objekte können in der Basis verkauft werden.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>BASEFUNC_RejectEntrance</td>
+<td>Gegnerischen Clonks wird das Öffnen des Eingangs verwehrt.</td>
+</tr>
+<tr class="dark">
+<td>5</td>
+<td>32</td>
+<td>BASEFUNC_Extinguish</td>
+<td>Clonks werden in der Basis gelöscht.</td>
+</tr>
+<tr>
+<td>1-16</td>
+<td>65536</td>
+<td>BASEFUNC_Default</td>
+<td>Alle Bits gesetzt: Standardverhalten für Basis.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="author">Sven2, März 2006</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

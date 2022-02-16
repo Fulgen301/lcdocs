@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Object Categories</title>
+<script type="text/javascript" src="../../bitmasks.js"></script><script type="text/javascript">
+  var BIT_COUNT = 26;		// Anzahl der Bits
+  var PREFIX = "bit";		// Prefix für die numerierten IDs
+</script><?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="Objektkategorien">Object Categories</h1>
+<div class="text">The category of an object is a DWord bit mask composed of the following values. The first 5 categories must not be combined - of the bits 0-4 only one may be set at a time.</div>
+<div class="text">
+<table>
+<thead><tr>
+<th>Bit</th>
+<th>Value</th>
+<th>Category</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr style="cursor:pointer;" id="bit0" onClick="Switch(0);">
+<td>0</td>
+<td>1</td>
+<td>C4D_StaticBack</td>
+<td>Immovable background object.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit1" onClick="Switch(1);" class="dark">
+<td>1</td>
+<td>2</td>
+<td>C4D_Structure</td>
+<td>Building.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit2" onClick="Switch(2);">
+<td>2</td>
+<td>4</td>
+<td>C4D_Vehicle</td>
+<td>Vehicle.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit3" onClick="Switch(3);" class="dark">
+<td>3</td>
+<td>8</td>
+<td>C4D_Living</td>
+<td>A living being.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit4" onClick="Switch(4);">
+<td>4</td>
+<td>16</td>
+<td>C4D_Object</td>
+<td>A smaller item.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit5" onClick="Switch(5);" class="dark">
+<td>5</td>
+<td>32</td>
+<td>C4D_Goal</td>
+<td>Game goal.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit6" onClick="Switch(6);">
+<td>6</td>
+<td>64</td>
+<td>C4D_Environment</td>
+<td>Environmental control object.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit7" onClick="Switch(7);" class="dark">
+<td>7</td>
+<td>128</td>
+<td>C4D_SelectBuilding</td>
+<td>Scenario options: Object can be selected as a player-owned building at startup.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit8" onClick="Switch(8);">
+<td>8</td>
+<td>256</td>
+<td>C4D_SelectVehicle</td>
+<td>Scenario options: Object can be selected as a player-owned vehicle at startup.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit9" onClick="Switch(9);" class="dark">
+<td>9</td>
+<td>512</td>
+<td>C4D_SelectMaterial</td>
+<td>Scenario options: Object can be selected as a player-owned material at startup.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit10" onClick="Switch(10);">
+<td>10</td>
+<td>1024</td>
+<td>C4D_SelectKnowledge</td>
+<td>Scenario options: Object can be selected as an available construction plan.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit11" onClick="Switch(11);" class="dark">
+<td>11</td>
+<td>2048</td>
+<td>C4D_SelectHomebase</td>
+<td>Scenario options: Object can be selected as home base material.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit12" onClick="Switch(12);">
+<td>12</td>
+<td>4096</td>
+<td>C4D_SelectAnimal</td>
+<td>Scenario options: Object can be selected as placed animal.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit13" onClick="Switch(13);" class="dark">
+<td>13</td>
+<td>8192</td>
+<td>C4D_SelectNest</td>
+<td>Scenario options: Object can be selected as a nest.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit14" onClick="Switch(14);">
+<td>14</td>
+<td>16384</td>
+<td>C4D_SelectInEarth</td>
+<td>Scenario options: Object can be selected for underground placement.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit15" onClick="Switch(15);" class="dark">
+<td>15</td>
+<td>32768</td>
+<td>C4D_SelectVegetation</td>
+<td>Scenario options: Object can be selected as vegetation.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit16" onClick="Switch(16);">
+<td>16</td>
+<td>65536</td>
+<td>C4D_TradeLiving</td>
+<td>A living being that can be sold at the home base.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit17" onClick="Switch(17);" class="dark">
+<td>17</td>
+<td>131072</td>
+<td>C4D_Magic</td>
+<td>A magic spell.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit18" onClick="Switch(18);">
+<td>18</td>
+<td>262144</td>
+<td></td>
+<td>Reserved, used internally.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit19" onClick="Switch(19);" class="dark">
+<td>19</td>
+<td>524288</td>
+<td>C4D_Rule</td>
+<td>Rule control object.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit20" onClick="Switch(20);">
+<td>20</td>
+<td>1048576</td>
+<td>C4D_Background</td>
+<td>Object is behind the landscape.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit21" onClick="Switch(21);" class="dark">
+<td>21</td>
+<td>2097152</td>
+<td>C4D_Parallax</td>
+<td>Object moves parallax according to Local 0 and 1. For more information see <a href="../../sdk/script/fn/C4D_Parallax.html">C4D_Parallax</a>.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit22" onClick="Switch(22);">
+<td>22</td>
+<td>4194304</td>
+<td>C4D_MouseSelect</td>
+<td>Object can be clicked with the mouse, causing a MouseSelection(int iPlr) callback in the object.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit23" onClick="Switch(23);" class="dark">
+<td>23</td>
+<td>8388608</td>
+<td>C4D_Foreground</td>
+<td>Object is always in the foreground, even before global particles.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit24" onClick="Switch(24);">
+<td>24</td>
+<td>16777216</td>
+<td>C4D_MouseIgnore</td>
+<td>Object cannot be selected with the mouse.</td>
+</tr>
+<tr style="cursor:pointer;" id="bit25" onClick="Switch(25);" class="dark">
+<td>25</td>
+<td>33554432</td>
+<td>C4D_IgnoreFoW</td>
+<td>Object is drawn above fog of war. Useful for creating status displays or gui elements using objects. From CR.</td>
+</tr>
+</tbody>
+</table>Category:
+    <input id="input" onKeyUp="Calc();" name="input" type="text" size="9" maxlength="9">
+
+</div>
+
+<div class="author">Sven2, Mai 2006</div>
+<div class="author">Newton &amp; Günther, Januar 2005</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetPath</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetPath">GetPath</h1>
+<div class="text">
+<b>Category: </b>Landscape<br><b>Since engine version: </b>4.9.10.7 [334] LC</div>
+<h2>Description</h2>
+<div class="text">Searches for a path from start point to end point using the pathfinding algorithm as used by clonks and returns a map with its waypoints and length. Returns nil if no path was found. The returned map is structured like this: <table>
+<thead><tr>
+<th>Key</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Length</td>
+<td>int</td>
+<td>Length of the found path, same as returned by<a href="../../../sdk/script/fn/GetPathLength.html">GetPathLength</a>
+</td>
+</tr>
+<tr class="dark">
+<td>Waypoints</td>
+<td>array</td>
+<td>Array containing waypoints</td>
+</tr>
+</tbody>
+</table> The waypoints are structured like this: <table>
+<thead><tr>
+<th>Key</th>
+<th>Data type</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>X</td>
+<td>int</td>
+<td>X coordinate of the waypoint</td>
+</tr>
+<tr class="dark">
+<td>Y</td>
+<td>int</td>
+<td>Y coordinate of the waypoint</td>
+</tr>
+<tr>
+<td>TransferTarget</td>
+<td>object</td>
+<td>Transfer target. only set if present.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">map</span> GetPath
+      (<span class="type">int</span> iFromX, <span class="type">int</span> iFromY, <span class="type">int</span> iToX, <span class="type">int</span> iToY);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>iFromX: </dt>
+<dd><div class="text">X coordinate of the starting position</div></dd>
+<dt>iFromY: </dt>
+<dd><div class="text">Y coordinate of the starting position</div></dd>
+<dt>iToX: </dt>
+<dd><div class="text">X coordinate of the end position</div></dd>
+<dt>iToY: </dt>
+<dd><div class="text">Y coordinate of the end position</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">This function can only be used with #strict 3 or above because of the map syntax. Use <a href="../../../sdk/script/fn/GetPathLength.html">GetPathLength</a> in older versions.</div>
+<h2>Example</h2>
+      <div class="example">
+        <pre class="code"><b>var</b> path = GetPath(<a href="../../../sdk/script/fn/GetX.html">GetX</a>(), <a href="../../../sdk/script/fn/GetY.html">GetY</a>(), <a href="../../../sdk/script/fn/GetX.html">GetX</a>(<a href="../../../sdk/script/fn/FindBase.html">FindBase</a>(<a href="../../../sdk/script/fn/GetOwner.html">GetOwner</a>())), <a href="../../../sdk/script/fn/GetY.html">GetY</a>(<a href="../../../sdk/script/fn/FindBase.html">FindBase</a>(<a href="../../../sdk/script/fn/GetOwner.html">GetOwner</a>())));
+<a href="../../../sdk/script/fn/if.html">if</a> (path)
+{
+    <a href="../../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Anzahl der Wegpunkte: %d, Pfadlänge: %d"</i>, <a href="../../../sdk/script/fn/GetLength.html">GetLength</a>(path.Waypoints), path.Length);
+}
+<b>else</b>
+{
+    <a href="../../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Kein Pfad gefunden!"</i>);
+}
+        </pre>
+        <div class="text">Logs the number of waypoints and the path length to the calling object's owner's first base, if a way has been found.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GetPathLength.html">GetPathLength</a>
+</div>
+<div class="author">Fulgen, Oktober 2019</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

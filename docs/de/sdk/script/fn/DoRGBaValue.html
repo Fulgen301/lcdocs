@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>DoRGBaValue</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="DoRGBaValue">DoRGBaValue</h1>
+<div class="text">
+<b>Kategorie: </b>Arithmetik<br><b>Ab Engineversion: </b>4.9.1.0 GWE</div>
+<h2>Beschreibung</h2>
+<div class="text">
+		Addiert den angegeben Farbwert zum bestehenden des angegebenen 32bit-Farbewerts hinzu.
+		
+     <table>
+<thead><tr>
+<th>iSelect</th>
+<th>Auswahl</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Alpha-Wert</td>
+</tr>
+<tr class="dark">
+<td>1</td>
+<td>Rotanteil</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Grünanteil</td>
+</tr>
+<tr class="dark">
+<td>3</td>
+<td>Blauanteil</td>
+</tr>
+</tbody>
+</table>
+		</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> DoRGBaValue
+      (<span class="type">int</span> Val, <span class="type">int</span> iChange, <span class="type">int</span> iSelect);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>Val: </dt>
+<dd><div class="text">32Bit-Farbwert</div></dd>
+<dt>iChange: </dt>
+<dd><div class="text">Farbwert, der dazuaddiert werden soll.</div></dd>
+<dt>iSelect: </dt>
+<dd><div class="text">0-3: Farbwert, der geändert werden soll</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">
+		Diese Funktion überprüft nicht ob der Farbwert bereits auf maximum/minimum steht.
+		</div>
+<h2>Beispiel</h2>
+			<div class="example">
+				<pre class="code">SetColorDw(DoRGBaValue(<a href="../../../sdk/script/fn/GetColorDw.html">GetColorDw</a>(<a href="../../../sdk/script/fn/GetCursor.html">GetCursor</a>()),-20,1),<a href="../../../sdk/script/fn/GetCursor.html">GetCursor</a>());</pre>
+				<div class="text">Erniedriegt den Rotanteil des aktuell ausgewählten Clonks um 20.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/GetRGBaValue.html">GetRGBaValue</a>, <a href="../../../sdk/script/fn/SetRGBaValue.html">SetRGBaValue</a>
+</div>
+<div class="author">Tyron, August 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

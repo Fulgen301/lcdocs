@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Funktionen</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1>Funktionen</h1>
+
+	<div class="text">Eine Skriptfunktion fasst ein bestimmtes Stück Code zusammen, welches dann von der Engine oder einem anderen Script aufgerufen (also ausgeführt) werden kann. Das gesamte Script eines Szenarios oder Objekts ist in solchen Funktionen untergebracht.</div>
+	
+	<h2>Parameter und Rückgabewerte</h2>
+	<div class="text">An eine Scriptfunktion können beim Aufruf bis zu 10 Parameter übergeben werden. Diese können dann innerhalb der Funktion ausgewertet und verwendet werden. Beim Beenden kann eine Funktion mit dem Befehl <a href="../../sdk/script/fn/return.html">return</a>() einen einzelnen Wert an den Aufrufer zurückgeben.</div>
+	
+	<h2>Syntax</h2>
+	<div class="text">Eine einfache Funktionsdeklaration könnte z.B. folgendermaßen aussehen:</div>
+	
+	<pre class="code"><b>func</b> MeineFunktion()
+{
+  <a href="../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Meine Funktion wurde aufgerufen!"</i>);
+}</pre>	
+
+	<div class="text">Das Script der Funktion steht in einem sogenannten Block (der Bereich zwischen '{' und '}' ). Vor diesem Block steht die <strong>Funktionsdeklaration</strong>. Diese beginnt mit "<code>func</code>", gefolgt von dem <strong>Funktionsnamen</strong> (hier: "MeineFunktion"). In der Klammer nach dem Funktionsnamen können Funktionsparameter definiert werden (s.u.).</div>
+	<div class="text">Beim Aufruf der Funktion wird die Meldung "Meine Funktion wurde aufgerufen!" ausgegeben.</div>
+	
+	<pre class="code"><b>func</b> ZeigeZahl(<b>int</b> zahl)
+{
+  <a href="../../sdk/script/fn/Message.html">Message</a>(<i class="string">"ZeigeZahl wurde mit dem Parameter %d aufgerufen!"</i>, 0, zahl);
+}</pre>
+	
+	<div class="text">Hier wurde ein Parameter mit dem Namen "zahl" vom Typ "int" definiert. Wird beim Aufruf der Funktion ein Parameter angegeben, so erhält "zahl" den übergebenen Wert. Der übergebene Wert wird in diesem Fall in einer entsprechenden Nachricht ausgegeben.</div>
+	<div class="text">Ein Aufruf der Funktion "ZeigeZahl" könnte z.B. folgendermaßen aussehen:</div>
+	
+	<pre class="code">ZeigeZahl(42)</pre>
+	
+	<div class="text">Durch die Ausführung dieses Aufrufes würde die Nachricht "ZeigeZahl wurde mit dem Parameter 42 aufgerufen!" erzeugt.</div>
+	<div class="text">Es ist auch erlaubt, mehrere Parameter zu definieren. Dazu ein Beispiel:</div>
+	
+	<pre class="code"><b>func</b> ZeigeSumme(zahl1, zahl2, zahl3, zahl4)
+{
+  <a href="../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Die Summe der ersten 4 Parameter ist %d."</i>, 0, zahl1 + zahl2 + zahl3 + zahl4);
+}</pre>
+	
+	<div class="text">In diesem Fall wurden vier Parameter benannt. Ihnen wurden die Namen "zahl1" bis "zahl4" zugewiesen (die Parameternamen werden jeweils durch Kommata getrennt).</div>
+	<div class="text">In der Nachricht wird dann jeweils die Summe der vier übergebenen Zahlen ausgegeben. Der Funktionsaufruf</div>
+	
+	<pre class="code">ZeigeSumme(1, 2, 3, 4);</pre>
+	
+	<div class="text">führt also zu der Nachricht "Die Summe der ersten 4 Parameter ist 10.".</div>
+	
+	<h2 id="parametertypen">Parametertypen</h2>
+	<div class="text">Es ist möglich, den Typ der ürgebenen Parameter zu erzwingen. Dazu einfach den Namen des entsprechenden Typs (siehe dazu <a href="../../sdk/script/Typechecks.html">Typechecks</a>) vor den Parameternamen setzen:</div>
+	
+	<pre class="code"><b>func</b> TypParameterFunktion(<b>object</b> clnk, <b>id</b> def, <b>int</b> anzahl, <b>string</b> msg)
+{
+  <a href="../../sdk/for.html">for</a>(<b>var</b> i = 0; i &lt; anzahl; i++)
+    <a href="../../sdk/script/fn/CreateContents.html">CreateContents</a>(def, clnk);
+  <a href="../../sdk/script/fn/Message.html">Message</a>(msg, clnk);
+}</pre>
+	
+	<div class="text">Diese Funktion gibt einem übergebenen Clonk (<code>clnk</code>) eine Anzahl von Objekten (<code>anzahl</code>) vom angegebenen Typ (<code>def</code>) und gibt die Nachricht <code>msg</code> über seinem Kopf aus. Dabei wird bei Funktionsaufruf sichergestellt, dass alle Parameter in den angegebenen Typ konvertiert werden, sofern dies möglich ist (siehe <a href="../../sdk/script/Typechecks.html">Typechecks</a>).</div>
+	<div class="text">Ein Aufruf wie <code>TypParameterFunktion(1, CLNK, <i class="string">"Text"</i>, 5)</code> hier würde also einen Typfehler auslösen.</div>
+	
+	<h2 id="spezial">Vorgabeparameter</h2>
+	<div class="text">Anders als in verschiedenen anderen Programmiersprachen ist es in C4Script immer erlaubt, weniger oder auch mehr Parameter zu übergeben als in der Funktion definiert (maximal jedoch 10).</div>
+	<div class="text">Die folgenden Aufrufe der obigen Funktion sind also völlig legal:</div>
+	
+	<pre class="code">ZeigeSumme(1, 2);
+ZeigeSumme(1, 2, 3, 4, 5, 6);</pre>
+	
+	<div class="text">Beim ersten Aufruf wurden weniger Parameter übergeben, als in ZeigeSumme deklariert wurden. Die "überschüssigen" Parameter in ZeigeSumme erhalten nun einfach den Wert 0, die Meldung lautet entsprechend "Die Summe der ersten 4 Parameter ist 3." (=1+2+0+0).</div>
+	<div class="text">Wird ein Parameter nicht übergeben, so ist das mit der Übergabe von 0 identisch.</div>
+	<div class="text">Umgekehrt wurden beim zweiten Aufruf <em>mehr</em> Parameter übergeben als in ZeigeSumme definiert wurden. Der 5. und 6. Parameter werden nun keinem Parameter in ZeigeSumme zugewiesen. Sie können allerdings noch mittels der Funktion <a href="../../sdk/script/fn/Par.html">Par</a>() abgefragt werden [Par(4) und Par(5)]. Da die letzten beiden Parameter von ZeigeSumme also nicht ausgewertet werden können, wird hier "nur" die Meldung "Die Summe der ersten 4 Parameter ist 10." ausgegeben.</div>
+	
+	<h2>Rückgabewerte</h2>
+	
+		<div class="text">Jede Scriptfunktion gibt einen Rückgabewert an den Aufrufer (die aufrufende Funktion bzw. die Engine) zurück. Dieser Wert wird im Script mittels <a href="../../sdk/script/fn/return.html">return</a>() gesetzt.</div>
+
+		<h3>Beispiel:</h3>
+		
+		<pre class="code"><b>func</b> Differenz(Zahl1, Zahl2)
+{
+  <a href="../../sdk/script/fn/return.html">return</a>(<a href="../../sdk/script/fn/Abs.html">Abs</a>(Zahl1 - Zahl2));
+}</pre>
+	
+		<div class="text">Hier wird die Differenz der ersten beiden Parameter bestimmt und das Ergebnis "zurückgegeben". Eine andere Scriptfunktion könnte nun diese Funktion benutzen, um die Differenz zweier Zahlen zu berechnen:</div>
+		
+		<pre class="code"><b>func</b> ZeigeDifferenz(Zahl1, Zahl2)
+{
+  <a href="../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Die Differenz zwischen %d und %d beträgt %d!"</i>, Zahl1, Zahl2, Differenz(Zahl1, Zahl2));
+}	</pre>
+	
+		<div class="text">Der Aufruf "ZeigeDifferenz(5, 2)" würde also die Meldung "Die Differenz zwischen 5 und 2 beträgt 3!" erzeugen.</div>
+	
+	
+	<h2 id="Aufrufb">Aufrufberechtigungen</h2>
+	
+		<div class="text">Für jede Funktion kann eine "Aufrufberechtigung" festgelegt werden, die bestimmt, von wo die Funktion aufgerufen werden darf. Hier gibt es drei verschiedene Stufen:</div>	
+	
+		<div class="text"><table><tbody>
+<tr>
+<td><code>public</code></td>
+<td>darf von überall aufgerufen werden, auch aus anderen Scripten (Standard)</td>
+</tr>
+<tr class="dark">
+<td><code>protected</code></td>
+<td>darf nur aus dem eigenen Script und von der Engine aufgerufen werden</td>
+</tr>
+<tr>
+<td><code>private</code></td>
+<td>darf nur aus dem eigenen Script aufgerufen werden</td>
+</tr>
+</tbody></table></div>
+		
+		<div class="text">Die Aufrufberechtigung wird jeweils direkt vor "<code>func</code>" geschrieben:</div>
+		
+<pre class="code"><b>private</b> <b>func</b> PrivateFunktion()
+{
+  <i>// Diese Funktion darf nur im selben Script aufgerufen werden!
+</i>}</pre>
+	
+		<div class="text">Wird diese Funktion nun von einem externen Script aufgerufen, so gibt die Engine einen Fehler aus.</div>
+		
+		<h3>Anmerkung</h3> 
+		<div class="text">Da es in manchen Fällen notwendig erscheint, auch eine geschützte Funktion aus einem fremden Script aufzurufen, kann die Aufrufbeschränkung mittels <a href="../../sdk/script/fn/PrivateCall.html">PrivateCall</a> bzw. <a href="../../sdk/script/fn/ProtectedCall.html">ProtectedCall</a> umgangen werden.</div>
+	
+	
+	<h2>Globale Funktionen</h2>
+	
+		<div class="text">Eine Funktion wird <code>global</code> definiert, indem "<code>global</code>" vor "<code>func</code>" gestellt wird.</div>
+		<div class="text">Eine als <code>global</code> definierte Funktion kann aus jedem Script aufgerufen werden. Ihr Gültigkeitsbereich stimmt mit denen der Engine-Funktionen überein. Sie können damit auch verwendet werden, um Engine-Funktionen zu überladen und ihre Funktionsweise zu modifizieren.</div>
+		
+		<h3>Beispiel:</h3>
+
+<pre class="code"><b>global</b> <b>func</b> CreateContents(<b>id</b>, pObj, iCnt)
+{
+  <b>var</b> pObj;
+  <a href="../../sdk/for.html">for</a>(<b>var</b> i = 0; i &lt; iCnt; i++)
+    pObj = <a href="../../sdk/script/fn/inherited.html">inherited</a>(<b>id</b>, pObj);
+  <b>return</b>(pObj);
+}</pre>
+	
+		<div class="text">Definiert die Engine-Funktion <a href="../../sdk/script/fn/CreateContents.html">CreateContents</a> neu. Dabei wird sie um einen neuen Parameter iCnt erweitert, der es erlaubt, mehrere Objekte zu erzeugen. Man beachte, dass <a href="../../sdk/script/fn/inherited.html">inherited</a> innerhalb dieser Funktion der durch sie überladenen Engine-Funktion <a href="../../sdk/script/fn/CreateContents.html">CreateContents</a> entspricht!</div>
+		
+		<h3>Achtung!</h3>
+		<div class="text">Eine globale Skriptfunktion übernimmt den Kontext der aufrufenden Funktion. Das bedeutet insbesondere, dass <a href="../../sdk/script/fn/this.html">this</a>() das aufrufende Objekt ist (natürlich nur, wenn die Funktion auch aus einem Objekt aufgerufen wurde). Deshalb darf in einer globalen Funktion auch keine objektlokale Variable verwendet werden und auch keine andere lokale Funktion aufgerufen oder lokale Variablen verändert werden! Das folgende Objektscript ist also nicht zulässig:</div>
+		
+		<pre class="code"><b>local</b> iNummer;
+<b>func</b> ObjektFunktion()
+{
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"ObjectFunktion: local iNummer hat den Wert %d!"</i>, iNummer);
+}
+
+<b>global</b> <b>func</b> GlobaleFunktion()
+{
+  ObjectFunktion(); <i>// Fehler!
+</i>  iNummer++; <i>// Fehler!
+</i>}</pre>
+		
+		<div class="text">Beide Versuche, auf objektlokale Elemente zuzugreifen, schlagen fehl. Das ist leicht einsichtig, da GlobalFunktion() ja aus jedem beliebigen Script, also auch aus dem Szenarioscript oder aus dem Script eines anderen Objekts aufgerufen werden kann. Dieses Script besitzt dann höchstwahrscheinlich auch keine Variable "iNummer" oder Funktion "ObjectFunktion", die benutzt werden könnte. Da die Engine dies beim Vararbeiten des Scripts nicht sicherstellen kann, wird ein Fehler ausgelöst.</div>
+		<div class="text">Anmerkung: Soll eine lokale Funktion in einem fremden Kontext aufgerufen werden, so sollte "<code>this()-&gt;Funktion(...)</code>" verwendet werden. Dann gibt es nur einen Fehler, wenn die Funktion auch wirklich nicht im Objekt existiert.</div>
+	
+	
+	<h2 id="referenzen">Referenzen</h2>
+	<div class="text">Manchmal ist es nötig, nicht den Wert einer Variable zu übergeben, sondern einen "Verweis" auf die Variable selbst.</div>
+	<div class="text">Nehmen wir an, wir wollen eine Funktion schreiben, die die Position des höchstrangingsten Clonks eines Spielers zurückgibt. Dies ist normalerweise ohne Tricks nicht möglich, da eine Funktion ja nur einen Rückgabewert hat (die Position hat aber zwei Komponeneten: X und Y).</div>
+	<div class="text">Doch durch Verwendung von Referenzübergabe als Parameter kann hier die Information trotzdem zurückgegeben werden:</div>
+	
+	<pre class="code"><b>func</b> GetHiRankPosition(<b>int</b> plr, &amp;x, &amp;y)
+{
+  <b>var</b> oHiRank = <a href="../../sdk/script/fn/GetHiRank.html">GetHiRank</a>(plr);
+  x = <a href="../../sdk/script/fn/GetX.html">GetX</a>(oHiRank);
+  y = <a href="../../sdk/script/fn/GetY.html">GetY</a>(oHiRank);
+}
+
+<b>func</b> Aufruf()
+{
+  <b>var</b> iHiRankX, iHiRankY;
+  GetHiRankPosition(0, iHiRankX, iHiRankY);
+  <a href="../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Die Position des HiRanks von Spieler 1 ist: %d/%d"</i>, 0, iHiRankX, iHiRankY);
+}</pre>
+	
+	<div class="text">
+<code>x</code> und <code>y</code> in <code>GetHiRankPosition</code> sind hier <strong>Referenzen</strong>, d.h. wenn man sie setzt, werden die Variablen gesetzt, die man als Parameter angab (in diesem Fall <code>iHiRankX</code> und <code>iHiRankY</code>). Man beachte, dass ein Aufruf wie "<code>GetHiRankPosition(0, iHiRankX + 1, iHiRankY)</code>" zu einem Typfehler führt, da "<code>iHiRankX + 1</code>" keine Variable, sondern eine Zahl ist!</div>
+	<div class="text">Man beachte, dass "<code>&amp;</code>" ein eigenständiger Typ ist, deshalb darf für einen Referenzparameter kein weiterer Typ angegeben werden, "<code><b>int</b> &amp;x</code>" wäre also ungültig!</div>
+
+
+<div class="author">PeterW, Juli 2002</div>
+<div class="author">matthes, Juni 2004</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

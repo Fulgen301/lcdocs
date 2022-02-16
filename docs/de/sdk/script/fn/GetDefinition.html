@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetDefinition</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetDefinition">GetDefinition</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte<br><b>Ab Engineversion: </b>4.6.5.0 CP</div>
+<h2>Beschreibung</h2>
+<div class="text">Liefert das ID der indizierten von der Engine in dieser Runde geladenen Objektdefinition der angegebenen Kategorie (dwCategory 0 für alle Objektkategorien).</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">id</span> GetDefinition
+      (<span class="type">int</span> iIndex, <span class="type">int</span> dwCategory);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iIndex: </dt>
+<dd><div class="text">Index der gesuchten Definition.</div></dd>
+<dt>dwCategory: </dt>
+<dd><div class="text">
+    [opt]
+  Die Kategory, in der die gesuchte Definition ist.</div></dd>
+</dl>
+<h2>Beispiel</h2>
+			<div class="example">
+				<div class="text">siehe <a href="../../../sdk/script/fn/C4D_Goal.html">C4D_Goal</a>.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/C4D_Goal.html">C4D_Goal</a>, <a href="../../../sdk/script/fn/C4D_Knowledge.html">C4D_Knowledge</a>, <a href="../../../sdk/script/fn/C4D_Living.html">C4D_Living</a>, <a href="../../../sdk/script/fn/C4D_Object.html">C4D_Object</a>, <a href="../../../sdk/script/fn/C4D_Rule.html">C4D_Rule</a>, <a href="../../../sdk/script/fn/C4D_StaticBack.html">C4D_StaticBack</a>, <a href="../../../sdk/script/fn/C4D_Structure.html">C4D_Structure</a>, <a href="../../../sdk/script/fn/C4D_Vehicle.html">C4D_Vehicle</a>, <a href="../../../sdk/script/fn/GetHomebaseMaterial.html">GetHomebaseMaterial</a>, <a href="../../../sdk/script/fn/GetPlrKnowledge.html">GetPlrKnowledge</a>
+</div>
+<div class="author">Günther, Februar 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

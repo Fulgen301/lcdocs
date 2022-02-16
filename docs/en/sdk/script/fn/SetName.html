@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetName</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetName">SetName</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Status<br><b>Since engine version: </b>4.9.1.0 GWE
+   
+        (extended in 4.9.6.0 CR)
+      
+  </div>
+<h2>Description</h2>
+<div class="text">Changes name of an object or a definition for the duration of the round.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetName
+      (<span class="type">string</span> szNewName, <span class="type">object</span> pObj, <span class="type">id</span> idDef, <span class="type">bool</span> fSetInInfo, <span class="type">bool</span> fMakeValidIfExists);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szNewName: </dt>
+<dd><div class="text">New name. If 0 (not ""!) the object's name is reset to the definition value or the original crew member's name.</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Object you want to rename. Can be 0 in local calls.</div></dd>
+<dt>idDef: </dt>
+<dd><div class="text">
+    [opt]
+  If specified, the pObj value is ignored and the name of the definition is changed instead.</div></dd>
+<dt>fSetInInfo: </dt>
+<dd><div class="text">
+    [opt]
+  For crew members only: if true, the name is changed permanently in the crew info in the player file. There may be no duplicate names within a player file. From CR.</div></dd>
+<dt>fMakeValidIfExists: </dt>
+<dd><div class="text">
+    [opt]
+  Determines what should happen if a clonk of the same name already exists in the player's crew. If false, the function call will fail. If true, a unique name is created by appending a number. From CR.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">Before CE, a call of this function for a crew member woud result in a permanent name change in the player file and a call for a normal object would rename all objects of the same type.</div>
+<h2>Example</h2>
+   <div class="example">
+<pre class="code"><b>protected</b> <b>func</b> InitializePlayer(iPlr)
+  {
+  SetName(<i class="string">"Strunzmuffel"</i>, <a href="../../../sdk/script/fn/GetHiRank.html">GetHiRank</a>(iPlr));
+  <a href="../../../sdk/script/fn/return.html">return</a>(1);
+  }</pre>
+    <div class="text">Scenario script: the highest ranking clonks of joining players get different names in this round.</div>
+   </div>
+  <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GetName.html">GetName</a>, <a href="../../../sdk/script/fn/MakeCrewMember.html">MakeCrewMember</a>
+</div>
+<div class="author">Sven2, Juni 2003</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>ScheduleCall</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="ScheduleCall">ScheduleCall</h1>
+<div class="text">
+<b>Category: </b>Script<br><b>Since engine version: </b>4.9.5.0 CE</div>
+<h2>Description</h2>
+<div class="text">Calls a function after a specified delay.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> ScheduleCall
+      (<span class="type">object</span> pObj, <span class="type">string</span> szFunction, <span class="type">int</span> iInterval, <span class="type">int</span> iRepeat, <span class="type"></span> ...);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">Object in which to call the function. Can be 0 in local calls.</div></dd>
+<dt>szFunction: </dt>
+<dd><div class="text">Name of the function to call.</div></dd>
+<dt>iInterval: </dt>
+<dd><div class="text">Delay after which the first call is made. If iRepeat is greather than 1, this is also the delay inbetween subsequent calls.</div></dd>
+<dt>iRepeat: </dt>
+<dd><div class="text">Number of calls. If 0 or not specified, the call is made exactly once.</div></dd>
+<dt>...: </dt>
+<dd><div class="text">Additional parameters which are passed to the function called.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">This function is implemented in System.c4g using the <a href="../../../sdk/script/Effects.html">effect</a> "IntScheduleCall" in function <a href="../../../sdk/script/fn/Call.html">Call</a>.</div>
+<h2>Example</h2>
+      <div class="example">
+				<pre class="code">ScheduleCall(<a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(CLNK), <i class="string">"Redefine"</i>, 500, 0, MCLK);</pre>
+				<div class="text">Calls the function "Redefine" in a clonk with a delay of 500 ticks and passes "MCLK" as additional parameter. This will cause the clonk to change into a magician after 500 frames unless the call is cancelled earlier using <a href="../../../sdk/script/fn/ClearScheduleCall.html">ClearScheduleCall</a>.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/ClearScheduleCall.html">ClearScheduleCall</a>, <a href="../../../sdk/script/fn/Schedule.html">Schedule</a>
+</div>
+<div class="author">PeterW, August 2005</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

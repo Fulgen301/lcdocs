@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>Collect</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="Collect">Collect</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Inhalt<br><b>Ab Engineversion: </b>4.9.1.0 GWE</div>
+<h2>Beschreibung</h2>
+<div class="text">Sammelt ein Objekt auf. Der Befehl führt dieselben Funktionen aus, als wäre das Objekt durch den normalen Collection-Bereich des Objekts eingesammelt worden (z.B. RejectCollect, Prüfung auf Flagge/Flagge abnehmbar, Hit-Aufruf bei OCF_HitSpeed2, usw.). Die einzigen Unterschiede sind, dass keine Prüfung der Position von pItem auf den Entrance-Bereich von pTarget/this() gemacht wird, und dass pItem nicht auf OCF_Carryable geprüft wird.<br>Mit diesem Befehl lässt sich beispielsweise das Aufnehmen von Objekten aus Containern heraus realisieren. Wenn die Aufnahme fehlschlug (Beispielsweise durch den RejectCollect-Aufruf oder weil der Container voll war), gibt die Funktion 0 zurück. Ansonsten 1.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> Collect
+      (<span class="type">object</span> pItem, <span class="type">object</span> pTarget);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pItem: </dt>
+<dd><div class="text">Objekt, das aufgesammelt werden soll</div></dd>
+<dt>pTarget: </dt>
+<dd><div class="text">
+    [opt]
+  Objekt, das pItem aufsammeln soll. 0 bei lokalem Aufruf.</div></dd>
+</dl>
+<h2>Beispiel</h2>
+			<div class="example">
+<pre class="code"><b>protected</b> <b>func</b> ControlDig (pClonk)
+{
+	<b>var</b> obj; <b>if</b> (!(obj = <a href="../../../sdk/script/fn/Contents.html">Contents</a>())) <a href="../../../sdk/script/fn/return.html">return</a>(1);
+	<b>if</b> (!Collect(obj, pClonk)) <a href="../../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Herausnehmen nicht möglich"</i>, pClonk);
+	<a href="../../../sdk/script/fn/return.html">return</a>(1);
+}
+</pre>
+				<div class="text">Auf Graben wird das erste Inhaltsobjekt an den ausgewählten Clonk übergeben.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/Enter.html">Enter</a>
+</div>
+<div class="author">Sven2, Mai 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

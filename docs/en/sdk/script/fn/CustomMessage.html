@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>CustomMessage</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="CustomMessage">CustomMessage</h1>
+<div class="text">
+<b>Category: </b>Messages<br><b>Since engine version: </b>4.9.6.0 CR</div>
+<h2>Description</h2>
+<div class="text">Prints a message.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> CustomMessage
+      (<span class="type">string</span> message, <span class="type">object</span> obj, <span class="type">int</span> plr, <span class="type">int</span> offset_x, <span class="type">int</span> offset_y, <span class="type">int</span> color, <span class="type">id</span> deco, <span class="type">string</span> portrait, <span class="type">int</span> flags, <span class="type">int</span> iHSize);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>message: </dt>
+<dd><div class="text">Message to be displayed.</div></dd>
+<dt>obj: </dt>
+<dd><div class="text">
+    [opt]
+  If not nil the message will be shown above the specified object.</div></dd>
+<dt>plr: </dt>
+<dd><div class="text">Player number for whom the message should be visible. If NO_OWNER is specified the message will be shown for all players.</div></dd>
+<dt>offset_x: </dt>
+<dd><div class="text">
+    [opt]
+  x-offset of the message position. For global messages, it is the viewport center. For object messages it relative to the default message position above the object. For portrait messages (portrait!=0) it is the offset relative to the upper left viewport corner.</div></dd>
+<dt>offset_y: </dt>
+<dd><div class="text">
+    [opt]
+  y-offset of the message position.</div></dd>
+<dt>color: </dt>
+<dd><div class="text">
+    [opt]
+  Color of the message. 0 means default of 0xffffff (white).</div></dd>
+<dt>deco: </dt>
+<dd><div class="text">
+    [opt]
+  ID for the message decoration. If set a frame will be drawn around the message. Only valid when a portrait is specified.</div></dd>
+<dt>portrait: </dt>
+<dd><div class="text">
+    [opt]
+  Image specification for a picture left of the message inside the frame.</div></dd>
+<dt>flags: </dt>
+<dd><div class="text">
+    [opt]
+  Bit mask composed of additional settings. Possible values: <table>
+<thead><tr>
+<th>Bit</th>
+<th>Constant</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>MSG_NoBreak</td>
+<td>If set no automatic line breaks are made.</td>
+</tr>
+<tr class="dark">
+<td>1</td>
+<td>MSG_Bottom</td>
+<td>Only for global messages. For portrait messages with decoration frame: The position offset is relative to the bottom viewport edge instead f the top. For non-portrait messages the position is only shifted a bit downwards.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>MSG_Multiple</td>
+<td>If set previous messages of the same type aren't removed.</td>
+</tr>
+<tr class="dark">
+<td>3</td>
+<td>MSG_Top</td>
+<td>Only for global messages. For portrait messages with decoration frame: The position offset is relative to the top viewport edge. For non-portrait messages the position is only shifted a bit upwards.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>MSG_Left</td>
+<td>Only for global messages. For portrait messages with decoration frame: The position offset is relative to the left viewport edge. For non-portrait messages the position is only shifted a bit to the left.</td>
+</tr>
+<tr class="dark">
+<td>5</td>
+<td>MSG_Right</td>
+<td>Only for global messages. For portrait messages with decoration frame: The position offset is relative to the right viewport edge. For non-portrait messages the position is only shifted a bit to the right.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>MSG_HCenter</td>
+<td>Only for global messages. The message is centered horizontally.</td>
+</tr>
+<tr class="dark">
+<td>7</td>
+<td>MSG_VCenter</td>
+<td>Only for global messages. The message is centered vertically.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>MSG_DropSpeech</td>
+<td>The message is truncated at the first occurrence of '$'.</td>
+</tr>
+<tr class="dark">
+<td>9</td>
+<td>MSG_WidthRel</td>
+<td>iHSize specifies the text width in percent relative to the viewport width. Only for global and player messages.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>MSG_XRel</td>
+<td>offset_x specifies the x-offset in percent relative to the viewport width. Only for global and player messages. Recommended values: -50 to +50.</td>
+</tr>
+<tr class="dark">
+<td>11</td>
+<td>MSG_YRel</td>
+<td>offset_y specifies the y-offset in percent relative to the viewport height. Only for global and player messages. Recommended values: -70 to +25.</td>
+</tr>
+</tbody>
+</table>
+</div></dd>
+<dt>iHSize: </dt>
+<dd><div class="text">
+    [opt]
+  Text width in pixels.</div></dd>
+</dl>
+<h2>Remarks</h2>
+<div class="text">This function combines the functionality of <a href="../../../sdk/script/fn/Message.html">Message</a>, <a href="../../../sdk/script/fn/PlrMessage.html">PlrMessage</a> and <a href="../../../sdk/script/fn/PlayerMessage.html">PlayerMessage</a> and also gives extended control over the message. For future extendability without needing to create a totally new function it intendedly doesn't have builtin formatting support. Formatting can be done via explicitly using <a href="../../../sdk/script/fn/Format.html">Format</a>.</div>
+<div class="text">The message text may include formatting modifications as usual. Messages starting with '@' don't disappear automatically. "|" represents a line break. The italic tag &lt;i&gt; and the color tag &lt;c&gt; are supported as usual.</div>
+<div class="text">Essentially, messages are displayed until a timeout depending on the message length is over or the message is replaced by another one of the same class. A global message (i.e. obj = nil) replaces all previous global messages, and object messages (obj != nil) replaces all other object messages of the same object. For displaying multiple messages of the same class MSG_Multiple may be used.</div>
+<h2>Examples</h2>
+			<div class="example">
+				<pre class="code">CustomMessage(<i class="string">"This is &lt;i&gt;madness&lt;/i&gt;!"</i>);</pre>
+				<div class="text">Displays the message "This is madness!" visible only for player 0. The word "madness" is italicized.</div>
+			</div>
+			<div class="example">
+				<pre class="code">CustomMessage(<i class="string">"&lt;c ffff00&gt;Tonki:&lt;/c&gt; Hello, world"</i>, 0, NO_OWNER, 100,100, 0, MD69, <i class="string">"Portrait:CLNK::00ff00::1);"</i></pre>
+				<div class="text">Displays a message with decoration frame. The name Tonki is displayed in yellow. Left of the message a green Clonk portrait is shown. The decoration definition MD69 must be loaded.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/AddMessage.html">AddMessage</a>, <a href="../../../sdk/script/fn/Message.html">Message</a>, <a href="../../../sdk/script/fn/PlayerMessage.html">PlayerMessage</a>, <a href="../../../sdk/script/fn/PlrMessage.html">PlrMessage</a>
+</div>
+<div class="author">Sven2, Juli 2008</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

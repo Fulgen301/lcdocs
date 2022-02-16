@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetPlrKnowledge</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetPlrKnowledge">GetPlrKnowledge</h1>
+<div class="text">
+<b>Category: </b>Player<br><b>Since engine version: </b>4.6.5.0 CP</div>
+<h2>Description</h2>
+<div class="text">With id specified the function returns true if the player has the construction plan of the specified object. In this case iIndex and dwCategory are ignored. If id is 0, the function returns the indicated construction plan of the specified category.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> GetPlrKnowledge
+      (<span class="type">int</span> iPlr, <span class="type">id</span> id, <span class="type">int</span> iIndex, <span class="type">int</span> dwCategory);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>iPlr: </dt>
+<dd><div class="text">Player whose construction plans you want to determine.</div></dd>
+<dt>id: </dt>
+<dd><div class="text">
+    [opt]
+  If specified, the function returns true, if the player has the construction plan of the specified object.</div></dd>
+<dt>iIndex: </dt>
+<dd><div class="text">
+    [opt]
+  Specify only if id is not 0.</div></dd>
+<dt>dwCategory: </dt>
+<dd><div class="text">
+    [opt]
+  Specify only if id is not 0.</div></dd>
+</dl>
+<h2>Example</h2>
+			<div class="example">
+				<pre class="code"><a href="../../../sdk/script/fn/if.html">if</a>(GetPlrKnowledge(0,HUT1))
+	<a href="../../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Spieler %s kann Bambushütten bauen"</i>,0,<a href="../../../sdk/script/fn/GetPlayerName.html">GetPlayerName</a>(0));</pre>
+				<div class="text">Displays a message if the first player has the construction plan for bamboo huts.</div>
+				<pre class="code"><b>var</b> def = GetPlrKnowledge( 0,0,4,<a href="../../../sdk/script/fn/C4D_Structure.html">C4D_Structure</a>()) );
+<a href="../../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Der fünfte Gebäude-Bauplan des Spielers ist %i"</i>,0,def);</pre>
+				<div class="text"></div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/C4D_All.html">C4D_All</a>, <a href="../../../sdk/script/fn/C4D_Goal.html">C4D_Goal</a>, <a href="../../../sdk/script/fn/C4D_Knowledge.html">C4D_Knowledge</a>, <a href="../../../sdk/script/fn/C4D_Living.html">C4D_Living</a>, <a href="../../../sdk/script/fn/C4D_Object.html">C4D_Object</a>, <a href="../../../sdk/script/fn/C4D_Rule.html">C4D_Rule</a>, <a href="../../../sdk/script/fn/C4D_StaticBack.html">C4D_StaticBack</a>, <a href="../../../sdk/script/fn/C4D_Structure.html">C4D_Structure</a>, <a href="../../../sdk/script/fn/C4D_Vehicle.html">C4D_Vehicle</a>, <a href="../../../sdk/script/fn/SetPlrKnowledge.html">SetPlrKnowledge</a>
+</div>
+<div class="author">Günther, Februar 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

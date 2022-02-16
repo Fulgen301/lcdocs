@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetTeamConfig</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetTeamConfig">GetTeamConfig</h1>
+<div class="text">
+<b>Category: </b>Teams<br><b>Since engine version: </b>4.9.6.0 CR</div>
+<h2>Description</h2>
+<div class="text">Returns values from Teams.txt or from the lobby settings.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> GetTeamConfig
+      (<span class="type">int</span> iConfig);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iConfig: </dt>
+<dd><div class="text">May be one of the following values:<br><table>
+<thead><tr>
+<th>Name</th>
+<th>Number</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>TEAM_Custom</td>
+<td>1</td>
+</tr>
+<tr class="dark">
+<td>TEAM_Active</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TEAM_AllowHostilityChange</td>
+<td>3</td>
+</tr>
+<tr class="dark">
+<td>TEAM_Dist</td>
+<td>4</td>
+</tr>
+<tr>
+<td>TEAM_AllowTeamSwitch</td>
+<td>5</td>
+</tr>
+<tr class="dark">
+<td>TEAM_AutoGenerateTeams</td>
+<td>6</td>
+</tr>
+<tr>
+<td>TEAM_TeamColors</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">For TEAM_Dist the settings from the lobby will be returned. In this case it must be distinguished if TEAM_AutoGenerateTeams has been enabled or disabled because it determines the available options.
+With TEAM_AutoGenerateTeams = true the possible return values are<br> TEAMDIST_Free (0, free team choice),<br> TEAMDIST_Host (1, teams chosen by host)<br> or 2 (without according constant, no teams).<br>
+With TEAM_AutoGenerateTeams = false (the norm for predefined teams) the return values are<br> TEAMDIST_Free (0),<br> TEAMDIST_Host (1),<br> TEAMDIST_Random (2, random teams)<br> or TEAMDIST_RandomInv (3, random and invisible in the lobby).</div>
+<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GetPlayerTeam.html">GetPlayerTeam</a>, <a href="../../../sdk/script/fn/GetTeamByIndex.html">GetTeamByIndex</a>, <a href="../../../sdk/script/fn/GetTeamColor.html">GetTeamColor</a>, <a href="../../../sdk/script/fn/GetTeamName.html">GetTeamName</a>, <a href="../../../sdk/scenario/Teams.html">Teams</a>
+</div>
+<div class="author">Fulgen / Clonk Wiki, Juli 2016</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

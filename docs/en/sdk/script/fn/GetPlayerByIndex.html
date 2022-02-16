@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetPlayerByIndex</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetPlayerByIndex">GetPlayerByIndex</h1>
+<div class="text">
+<b>Category: </b>Player<br><b>Since engine version: </b>4.9.1.0 GWE
+        (extended in 4.9.6.0 CR)
+      </div>
+<h2>Description</h2>
+<div class="text">Returns the indicated player number. This function guarantees that for values from 0 to GetPlayerCount()-1 a valid player number will be returned (notice that there may be "gaps" between player numbers in case some players have left the game). This makes it easier to process all players in a loop.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> GetPlayerByIndex
+      (<span class="type">int</span> iIndex, <span class="type">int</span> ePlayerType);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>iIndex: </dt>
+<dd><div class="text">Index in the player table</div></dd>
+<dt>ePlayerType: </dt>
+<dd><div class="text">
+    [opt]
+  If specified, the indicated player of the specified type is returned. This can be used e.g. to walk only through the list of human players or only through the list of script players. For a list of all player types see <a href="../../../sdk/script/fn/GetPlayerType.html">GetPlayerType</a>.</div></dd>
+</dl>
+<h2>Examples</h2>
+                        <div class="example">
+<pre class="code"><a href="../../../sdk/script/fn/for.html">for</a>(<b>var</b> i = 0; i &lt; <a href="../../../sdk/script/fn/GetPlayerCount.html">GetPlayerCount</a>(); i++)
+  <a href="../../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Moin, %s"</i>, <a href="../../../sdk/script/fn/GetPlayerName.html">GetPlayerName</a>(GetPlayerByIndex(i)));</pre>
+                                <div class="text">Welcomes all players in the log file.</div>
+                        </div>
+                        <div class="example">
+<pre class="code"><a href="../../../sdk/script/fn/for.html">for</a>(<b>var</b> i = 0; i &lt; <a href="../../../sdk/script/fn/GetPlayerCount.html">GetPlayerCount</a>(C4PT_User); i++)
+  <a href="../../../sdk/script/fn/EliminatePlayer.html">EliminatePlayer</a>(GetPlayerByIndex(i, C4PT_User));</pre>
+                                <div class="text">Eliminates all human players but excludes script players.</div>
+                        </div>
+
+                <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GetPlayerCount.html">GetPlayerCount</a>, <a href="../../../sdk/script/fn/GetPlayerName.html">GetPlayerName</a>, <a href="../../../sdk/script/fn/GetPlayerType.html">GetPlayerType</a>
+</div>
+<div class="author">Sven2, Dezember 2007</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

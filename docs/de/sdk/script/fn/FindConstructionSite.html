@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>FindConstructionSite</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="FindConstructionSite">FindConstructionSite</h1>
+<div class="text">
+<b>Kategorie: </b>Landschaft<br><b>Ab Engineversion: </b>4.6.5.0 CP</div>
+<h2>Beschreibung</h2>
+<div class="text">Sucht einen Bauplatz für ein Gebäude, ausgehend von <a href="../../../sdk/script/fn/Var.html">Var</a>(iVarNumX)/<a href="../../../sdk/script/fn/Var.html">Var</a>(iVarNumY). Wenn ein Bauplatz gefunden wird, wird er in den entsprechenden Variablen abgelegt, und es wird TRUE zurückgegeben. Ansonsten ist der Rückgabewert FALSE.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> FindConstructionSite
+      (<span class="type">id</span> idDef, <span class="type">int</span> iVarNumX, <span class="type">int</span> iVarNumY);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>idDef: </dt>
+<dd><div class="text">ID des gewünschten Gebäudetyps</div></dd>
+<dt>iVarNumX: </dt>
+<dd><div class="text">Variablennummer, in  der die globale X-Position des Bauplatzes abgelegt wird. Diese Variable sollte zuvor eine X-Position für den Start der Suche enthalten.</div></dd>
+<dt>iVarNumY: </dt>
+<dd><div class="text">Variablennummer, in  der die globale Y-Position des Bauplatzes abgelegt wird. Diese Variable sollte zuvor eine Y-Position für den Start der Suche enthalten.</div></dd>
+</dl>
+<h2>Beispiel</h2>
+			<div class="example">
+
+<pre class="code"><a href="../../../sdk/script/fn/Var.html">Var</a>(0)=<a href="../../../sdk/script/fn/GetX.html">GetX</a>(); <a href="../../../sdk/script/fn/Var.html">Var</a>(1)=<a href="../../../sdk/script/fn/GetY.html">GetY</a>();
+<a href="../../../sdk/script/fn/if.html">if</a>(FindConstructionSite(HUT3, 0, 1))
+	<a href="../../../sdk/script/fn/CreateConstruction.html">CreateConstruction</a>(HUT3, <a href="../../../sdk/script/fn/Var.html">Var</a>(0), <a href="../../../sdk/script/fn/Var.html">Var</a>(1), <a href="../../../sdk/script/fn/GetOwner.html">GetOwner</a>(), 1, 1);</pre>
+
+				<div class="text">Sucht einen Bauplatz für eine Hütte, ausgehend von der lokalen Position. Wurde ein Platz gefunden, wird dort eine Baustelle errichtet.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/CreateConstruction.html">CreateConstruction</a>, <a href="../../../sdk/script/fn/SetVar.html">SetVar</a>, <a href="../../../sdk/script/fn/Var.html">Var</a>
+</div>
+<div class="author">Sven2, November 2001</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

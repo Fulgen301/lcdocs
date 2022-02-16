@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Aufruf von Scriptfunktionen</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1>Aufruf von Scriptfunktionen</h1>
+
+	<div class="text">Durch den Aufruf einer Scriptfunktion wird der Script der Funktion ausgeführt. Dabei kann die aufrufende Scriptfunktion Parameter an die Funktion übergeben und den Rückgabewert der Funktion verwerten.</div>
+
+	<h2>Aufruf einer lokalen Funktion</h2>
+	
+		<div class="text">Befindet sich die Funktion, die aufgerufen werden soll, im selben Script wie die aufrufende Funktion, so ist dies ein "lokaler" Funktionsaufruf. Dabei wird die Funktion direkt über ihren Namen aufgerufen.</div>
+
+		<h3>Beispiel:</h3>
+		<pre class="code"><b>func</b> TestFunktion()
+{
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Die Test-Funktion wurde aufgerufen!"</i>);
+}
+
+<b>func</b> Aufruf()
+{
+  TestFunktion();
+}</pre>
+
+		<div class="text">Wird hier die Funktion Aufruf() ausgeführt, so wird die Funktion TestFunktion() aufgerufen, welche eine entsprechende Nachricht ins Log ausgibt.</div>
+	
+
+	<h2>Aufruf einer Funktion in einem anderen Objekt</h2>
+	
+		<div class="text">Will man eine Funktion im Script eines anderen Objekts aufrufen, so reicht der Name nicht aus, um einen Aufruf ausführen zu können. Es muss zusätzlich das Objekt angegeben werden, in dem die aufzurufende Funktion steht.</div>
+
+		<h3>Beispiel:</h3>
+		<div class="text">Script Objekt A (ID AAAA):</div>
+
+		<pre class="code"><b>func</b> Activate()
+{
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Activate wurde in Objekt A aufgerufen!"</i>);
+  <a href="../../sdk/script/fn/Explode.html">Explode</a>(20);
+}</pre>
+
+		<div class="text">Script Objekt B:</div>
+
+		<pre class="code"><b>func</b> Activate()
+{
+  <b>var</b> obj = <a href="../../sdk/script/fn/FindObject.html">FindObject</a>(AAAA, -1, -1, -1, -1);
+  obj-&gt;Activate();
+}	</pre>
+
+		<div class="text">Der Script der Funktion Activate() in Objekt B sucht sich als erstes das nächstliegende Objekt vom Typ A (also mit der ID AAAA) und speichert es in der Veriable obj. Danach wird die Funktion Activate() im Script von diesem Objekt aufgerufen. Dazu wird zuerst das aufzurufende Objekt angegeben, gefolgt von dem Pfeil-Operator, der einen Objektaufruf markiert. Danach folgt der Funktionsname der aufzurufenden Funktion nebst der Parameterliste (in diesem Fall werden keine Parameter übergeben).</div>
+		<div class="text">Es wird also durch den Aufruf von Activate() in Objekt B bewirkt, dass das nächstliegende Objekt vom Typ A in die Luft gejagt wird. Es handelt sich also im Beispiel um eine Art sehr primitiver Fernsteuerung für Objekt A (Der Aufruf erzeugt z.B. einen Fehler, wenn kein Objekt A existiert).</div>
+
+		<h3>Anmerkungen</h3>
+		<div class="text">Die Speicherung des Objektzeigers in der Variable obj im Beispiel ist nicht erforderlich. Die folgende Schreibweise der Funktion Activate() in B ist gleichwertig:</div>
+
+		<pre class="code"><b>func</b> Activate()
+{
+  <a href="../../sdk/script/fn/FindObject.html">FindObject</a>(AAAA, -1, -1, -1, -1)-&gt;Activate();
+}</pre>
+
+		<div class="text">Es kann zusätzlich zum Namen der aufzurufenden Funktion noch die ID der Definition der Scriptfunktion mit angegeben werden. Das macht den Aufruf zum einen in vielen Fällen leicht schneller, außerdem können so auch überladene Funktionen im Zielscript aufgerufen werden (siehe #include/#appendto).</div>
+
+		<pre class="code"><b>func</b> Activate()
+{
+  <b>var</b> obj = <a href="../../sdk/script/fn/FindObject.html">FindObject</a>(AAAA, -1, -1, -1, -1);
+  obj-&gt;AAAA::Activate();
+}</pre>
+	
+
+	<h2>Aufruf globaler Funktionen ohne Objekt- oder Definitionskontext</h2>
+	
+		<div class="text">
+			Seit LC [336] ist es möglich, <code><b>#strict</b> 3</code> oder höher vorausgesetzt, global definierte Funktionen mit <code><b>global</b>-&gt;Function()</code> ohne Kontext aufzurufen. <code><b>global</b>-&gt;~</code> ist ebenfalls möglich. Wichtig ist aber, dass zwischen "global" und "-&gt;" kein Leerzeichen sein darf.
+			Damit ist es zum Beispiel möglich, bei Funktionen, die objektlokale Koordinaten erwarten, globale Koordinaten anzugeben, ohne die eigenen Koordinaten davon abzuziehen.
+		</div>
+
+		<div class="text">Das folgende Script erstellt einen Flint an den globalen Koordinaten 10/10, sogar wenn es innerhalb eines Objektes ausgeführt wird:</div>
+		<pre class="code"><b>global</b>-&gt;<a href="../../sdk/script/fn/CreateObject.html">CreateObject</a>(FLNT, 10, 10, <a href="../../sdk/script/fn/NO_OWNER.html">NO_OWNER</a>);</pre>
+	
+
+
+	<h2>Indirekter Aufruf von Skriptfunktionen</h2>
+	
+		<div class="text">In manchen Situationen kann allerdings auch ein "indirekter" Aufruf durch die Engine-Funktionen <a href="../../sdk/script/fn/Call.html">Call</a> und Verwandte sinnvoll sein. Hier wird der Funktionsname als String übergeben, was den Aufruf einer Funktion "nach Namen" ermöglicht.</div>
+
+		<h3>Beispiel:</h3>
+		<pre class="code"><b>func</b> TestFunktion()
+{
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Die Test-Funktion wurde aufgerufen!"</i>);
+}
+
+<b>func</b> Aufruf()
+{
+  <a href="../../sdk/script/fn/Call.html">Call</a>(<i class="string">"TestFunktion"</i>);
+}</pre>
+
+		<div class="text">Ein solcher indirekter Aufruf ist allerdings in der Regel deutlich langsamer als der direkte Aufruf, da bei Call die entsprechende Funktion erst zur Laufzeit im Script gesucht werden muss. Beim direkten Aufruf steht die aufzurufende Funktion dagegen in der Regel bereits zur Zeit des Parsens (also beim Start der Engine) fest, weshalb dieser Aufruf besser optimiert werden kann und deshalb schneller ist.</div>
+
+		<div class="text">Dieser Nachteil ist aber gleichzeitig in bestimmten Situationen eine Stärke von Call: es ist möglich, zur Laufzeit zu entscheiden, welche Funktion aufgerufen werden soll. Eine Anwendung soll das folgende Beispiel deutlich machen:</div>
+
+		<pre class="code"><b>func</b> TestFunktion()
+{
+  <a href="../../sdk/script/fn/Call.html">Call</a>(<a href="../../sdk/script/fn/Format.html">Format</a>(<i class="string">"Aufruf%d"</i>, <a href="../../sdk/script/fn/Random.html">Random</a>(3)));
+}
+
+<b>func</b> Aufruf0() { <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Die erste Funktion wurde aufgerufen!"</i>); }
+<b>func</b> Aufruf1() { <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Die zweite Funktion wurde aufgerufen!"</i>); }
+<b>func</b> Aufruf2() { <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Die dritte Funktion wurde aufgerufen!"</i>); }</pre>
+
+		<div class="text">Hier wird in TestFunktion() eine <em>zufällige</em> Funktion aufgerufen (mittels <a href="../../sdk/script/fn/Random.html">Random</a> und <a href="../../sdk/script/fn/Format.html">Format</a> wird zufällig einer der drei Strings "Aufruf1", "Aufruf2" oder "Aufruf3" an Call übergeben).</div>
+		<div class="text">Call muss hier verwendet werden, da erst zur Laufzeit bestimmt wird, welche Funktion aufgerufen wird. Außerdem wird bei jeder Ausführung von TestFunktion() eine andere Scriptfunktion ausgewählt, die aufgerufen wird. Dies wäre mit einem direkten Aufruf nicht möglich.</div>
+		<div class="text">Außer Call können auch andere Zugriffsarten indirekt erfolgen, siehe dazu <a href="../../sdk/script/fn/ObjectCall.html">ObjectCall</a> und <a href="../../sdk/script/fn/GameCall.html">GameCall</a>. Besondere Beachtung verdienen außerdem noch <a href="../../sdk/script/fn/PrivateCall.html">PrivateCall</a> und <a href="../../sdk/script/fn/ProtectedCall.html">ProtectedCall</a>. Sie ermöglichen die Umgehung der <a href="../../sdk/script/Funcs.html#Aufrufb">Aufrufbeschränkung</a> und existieren nur in der "Indirekt-Aufruf-Version".</div>
+	
+
+
+<div class="author">PeterW, Mai 2003</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

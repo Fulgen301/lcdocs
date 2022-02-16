@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>C4D_Parallax</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="C4D_Parallax">C4D_Parallax</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Category<br><b>Since engine version: </b>4.9.1.0 GWE</div>
+<h2>Description</h2>
+<div class="text">Object category: the object moves parallax with respect to the landscape. This means that the apparent object position changes depending on the scroll position of the viewport. This can be used to have objects apparently moving in the far background or to create status overlays.<br>Parallax deviation from the normal location is specified in percent and stored in the first two indexed, local variables (see <a href="../../../sdk/script/fn/Local.html">Local</a>) of the object (Local(0) for horizontal, Local(1) for vertical deviation). This means for normal location these two values should be 100. A value of 0 will lock the object to the viewport. For parallax background object use values between 0 and 100. From NET, object positions can also be negative values. Those objects will then be aligned with the right or bottom edge of the screen respectively.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int </span> C4D_Parallax
+      ();
+    </div>
+<h2>Remark</h2>
+<div class="text">This value is also defined as a constant. Thus the parameter brackets can be omitted.</div>
+<h2>Example</h2>
+			<div class="example">
+<pre class="code"><a href="../../../sdk/script/fn/SetCategory.html">SetCategory</a>(<a href="../../../sdk/script/fn/GetCategory.html">GetCategory</a>() | C4D_Parallax() | <a href="../../../sdk/script/fn/C4D_Background.html">C4D_Background</a>());
+<a href="../../../sdk/script/fn/Local.html">Local</a>()=50; <a href="../../../sdk/script/fn/Local.html">Local</a>(1)=100;
+</pre>
+				<div class="text">Moves the calling object into the background and adds horizontal parallaxity.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/C4D_Background.html">C4D_Background</a>, <a href="../../../sdk/script/fn/GetCategory.html">GetCategory</a>, <a href="../../../sdk/script/fn/GetDefinition.html">GetDefinition</a>, <a href="../../../sdk/script/fn/SetCategory.html">SetCategory</a>, <a href="../../../sdk/script/fn/SetSkyParallax.html">SetSkyParallax</a>
+</div>
+<div class="author">Sven2, Juni 2003</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

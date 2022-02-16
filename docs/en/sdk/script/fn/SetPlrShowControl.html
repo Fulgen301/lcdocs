@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetPlrShowControl</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetPlrShowControl">SetPlrShowControl</h1>
+<div class="text">
+<b>Category: </b>Player<br><b>Since engine version: </b>4.6.5.0 CP</div>
+<h2>Description</h2>
+<div class="text">Controls the visual display of the keyboard control block of a given player.<br><br>The following keys can be displayed: <table>
+<thead><tr>
+<th>Number</th>
+<th>Meaning</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Cursor Right</td>
+</tr>
+<tr class="dark">
+<td>1</td>
+<td>Cursor Toggle</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Cursor Left</td>
+</tr>
+<tr class="dark">
+<td>3</td>
+<td>Throw</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Jump</td>
+</tr>
+<tr class="dark">
+<td>5</td>
+<td>Dig</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Left</td>
+</tr>
+<tr class="dark">
+<td>7</td>
+<td>Stop</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Right</td>
+</tr>
+<tr class="dark">
+<td>9</td>
+<td>Options</td>
+</tr>
+</tbody>
+</table> For each key you can specify whether and how it is to be displayed. For each key there are three options: <ul>
+<li>display on or off</li>
+<li>text display of the key's name</li>
+<li>flashing text display</li>
+</ul> Accordingly, there are three option blocks in the string. Each block consists of 10 characters, of which "_" and " " mean "No" and any other character means "Yes" (see example).</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetPlrShowControl
+      (<span class="type">int</span> iPlr, <span class="type">string</span> szDefString);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>iPlr: </dt>
+<dd><div class="text">Player for whom to display the keys.</div></dd>
+<dt>szDefString: </dt>
+<dd><div class="text">Specification of the keys to be displayed.</div></dd>
+</dl>
+<h2>Example</h2>
+			<div class="example">
+				<pre class="code">SetPlrShowControl(0, <i class="string">"____4_678_          __________"</i>);</pre>
+				<div class="text">Displays the keys "Jump", "Left", "Stop", and "Right" for player 0. The numbers in the string are used for readability (see table). To separate the blocks, "_" or " " is used.</div>
+				<pre class="code">SetPlrShowControl(0, <i class="string">"____4_678_    4 678 ____4_678_"</i>);</pre>
+				<div class="text">Enhances the display using flashing text.</div>
+				<pre class="code">SetPlrShowControl(0, <i class="string">"____4_678_    4 678 ____4_____"</i>);</pre>
+				<div class="text">Only the text of the "Jump" key will flash.</div>
+				<pre class="code">SetPlrShowControl(0, <i class="string">"01234567890123456789__________"</i>);</pre>
+				<div class="text">The complete set of keys will be displayed with text.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/SetPlrShowCommand.html">SetPlrShowCommand</a>, <a href="../../../sdk/script/fn/SetPlrShowControlPos.html">SetPlrShowControlPos</a>
+</div>
+<div class="author">PeterW, Juni 2003</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

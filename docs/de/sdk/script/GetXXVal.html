@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>GetDefCoreVal, GetActMapVal, GetObjectVal, GetScenarioVal</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1>GetDefCoreVal, GetActMapVal, GetObjectVal, GetScenarioVal</h1>
+
+	<div class="text"><ul>
+		<li>
+<a href="../../sdk/script/fn/GetDefCoreVal.html">GetDefCoreVal</a>(string strEntry, string strSection, id idDef); </li>
+		<li>
+<a href="../../sdk/script/fn/GetActMapVal.html">GetActMapVal</a>(string strEntry, string strAction, id idDef); </li>
+		<li>
+<a href="../../sdk/script/fn/GetObjectVal.html">GetObjectVal</a>(string strEntry, string strSection, object pObj); </li>
+		<li>
+<a href="../../sdk/script/fn/GetObjectInfoCoreVal.html">GetObjectInfoCoreVal</a>(string strEntry, string strSection, object pObj); </li>
+		<li>
+<a href="../../sdk/script/fn/GetScenarioVal.html">GetScenarioVal</a>(string strEntry, string strSection);</li>
+		<li>
+<a href="../../sdk/script/fn/GetPlayerVal.html">GetPlayerVal</a>(string strEntry, string strSection, int iPlr); </li>
+		<li>
+<a href="../../sdk/script/fn/GetPlayerInfoCoreVal.html">GetPlayerInfoCoreVal</a>(string strEntry, string strSection, int iPlr); </li>
+	</ul></div>
+
+	<div class="text">Diese Funktionsfamilie gewährt direkten Zugriff auf sämtliche Eigenschaften der entsprechenden Objekte, wie sie auch abgespeichert werden.</div>
+	<div class="text">Dabei entsprechen die Funktionen jeweils folgenden Dateien:</div>
+
+	<div class="text"><table>
+<thead><tr>
+<th>Funktion</th>
+<th>Datei</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><a href="../../sdk/script/fn/GetDefCoreVal.html">GetDefCoreVal</a></td>
+<td><a href="../../sdk/definition/defcore.html">*.c4d/DefCore.txt</a></td>
+</tr>
+<tr class="dark">
+<td><a href="../../sdk/script/fn/GetActMapVal.html">GetActMapVal</a></td>
+<td><a href="../../sdk/definition/actmap.html">*.c4d/ActMap.txt</a></td>
+</tr>
+<tr>
+<td><a href="../../sdk/script/fn/GetObjectVal.html">GetObjectVal</a></td>
+<td><a href="../../sdk/scenario/index.html#Objectstxt">*.c4s/Objects.txt</a></td>
+</tr>
+<tr class="dark">
+<td><a href="../../sdk/script/fn/GetScenarioVal.html">GetScenarioVal</a></td>
+<td><a href="../../sdk/scenario/scenario.html">*.c4s/Scenario.txt</a></td>
+</tr>
+<tr>
+<td><a href="../../sdk/script/fn/GetPlayerVal.html">GetPlayerVal</a></td>
+<td>
+<a href="../../sdk/scenario/index.html">*.c4s</a>/Game.txt (in Spielständen)</td>
+</tr>
+<tr class="dark">
+<td><a href="../../sdk/script/fn/GetObjectInfoCoreVal.html">GetObjectInfoCoreVal</a></td>
+<td>
+<a href="../../sdk/files.html#Spielerdateienc4p">*.c4p</a>/*.c4i</td>
+</tr>
+<tr>
+<td><a href="../../sdk/script/fn/GetPlayerInfoCoreVal.html">GetPlayerInfoCoreVal</a></td>
+<td>
+<a href="../../sdk/files.html#Spielerdateienc4p">*.c4p</a>/Player.txt</td>
+</tr>
+</tbody>
+</table></div>
+
+	<div class="text">Die Eigenschaft wird jeweils anhand ihres Namen und ggf. der Sektion übergeben (wird 0 übergeben, so werden alle Sektionen nach einem gleichnamigen Wert durchsucht). Wurde eine entsprechende Eigenschaft nicht gefunden oder entsprcht der Typ der Eigenschaft keinem gültigen Script-Datenformat (z.B. ID-Liste), so wird 0 zurückgegeben.</div>
+	<div class="text">Wird <a href="../../sdk/script/fn/GetObjectVal.html">GetObjectVal</a> für pObj/idDef jeweils 0 zurückgegeben, so wird das Objekt (bzw. dessen Definition), aus dem der Aufruf erfolgte angenommen.</div>
+	<div class="text">Die Zusatzfunktionen in GetXVal.c (in System.c4g) ermöglichen Aufrufe verschiedener Get*Val-Funktionen durch globale Scriptfunktionen (z.B. <code>GetObjWidth()</code>, entspricht <code><a href="../../sdk/script/fn/GetObjectVal.html">GetObjectVal</a>(<i class="string">"Width"</i>, 0, -obj-)</code>).</div>
+
+
+<div class="author">Peter, November 2001</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

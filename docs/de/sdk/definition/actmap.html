@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>ActMap.txt</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="ActMap">ActMap</h1>
+<div class="text">In der Komponente ActMap.txt werden die möglichen
+Aktivitäten eines Objekts beschrieben. Die Animationsphasen einer
+jeden Aktivität werden dabei in der Graphics.png (oder veraltet
+Graphics.bmp) als nebeneinanderliegende Bilder abgelegt und in der
+ActMap.txt über Bildkoordinaten referenziert. Aktivitäten können im
+Spiel von der Engine oder per Script gestartet oder beendet werden
+(siehe <a href="../../sdk/script/fn/SetAction.html">SetAction</a>). Einige
+Aktivitäten, speziell solche von Lebewesen, nutzen dabei Engine-interne
+<a href="../../sdk/definition/procedures.html">Prozeduren</a>, die das Bewegungsverhalten
+des Objekts während der Ausführung dieser Aktivität steuert.</div>
+<div class="text">
+<table>
+<caption id="BeliebigvieleSektionenAction">Beliebig viele Sektionen [Action]</caption>
+<thead><tr>
+<th>Wert</th>
+<th>Datentyp</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>Zeichenfolge (max. 30)</td>
+<td>Name der Aktivität. Siehe <a href="../../sdk/script/fn/SetAction.html">SetAction</a>().</td>
+</tr>
+<tr class="dark">
+<td>Procedure</td>
+<td>Zeichenfolge (max. 30)</td>
+<td>Interne Standardprozedur. Siehe <a href="../../sdk/definition/procedures.html">Prozeduren</a>.</td>
+</tr>
+<tr>
+<td>Directions</td>
+<td>Integer</td>
+<td>Anzahl der Animationsrichtungen. Animationreihen vertikal in Graphics.png.</td>
+</tr>
+<tr class="dark">
+<td>FlipDir</td>
+<td>Integer</td>
+<td>Wenn ungleich 0, gibt dieser Wert die erste Animationsrichtung an, die durch
+Spiegelung einer davor liegenden Animationsrichtung gezeichnet wird. So wird bei Wert
+1 für die Richtung 1 (rechts) die gespiegelte Grafik der Richtung 0 (links) verwendet
+(siehe Clonks). Bei Wert 7 wird für Richtungen &gt;= 7 die gespiegelte Grafik der
+Richtung 6 - n verwendet, d.h. bei höheren Richtungsnummern wird wieder rückwärts nach
+oben gezählt (siehe Banner im Ritterpack).</td>
+</tr>
+<tr>
+<td>Length</td>
+<td>Integer</td>
+<td>Anzahl der Animationsphasen dieser Aktivität (horizontal in Graphics.png).</td>
+</tr>
+<tr class="dark">
+<td>Reverse</td>
+<td>Integer</td>
+<td>0 oder 1. Bei Wert 1 werden die Animationsphasen rückwärts angezeigt.</td>
+</tr>
+<tr>
+<td>Delay</td>
+<td>Integer</td>
+<td>Wartezeit in Frames (Ticks) zwischen zwei Animationsphasen.</td>
+</tr>
+<tr class="dark">
+<td>Step</td>
+<td>Integer</td>
+<td>Legt die Schritte zwischen den Aktionsphasen fest. Beispiel: Bei 2 wird eine Aktionsphase übersprungen, bei 3 zwei Animationsphasen usw. Standardwert 1.</td>
+</tr>
+<tr>
+<td>Attach</td>
+<td>Integer</td>
+<td>Festhalten an Oberflächen: <a href="../../sdk/definition/cnat.html">CNAT-Wert</a>,
+    also z.B. Wert 8 für Boden. Wird nur ausgewertet, wenn Procedure NONE ist.</td>
+</tr>
+<tr class="dark">
+<td>Facet</td>
+<td>6 Integer</td>
+<td>Animationsgrafik: Zielrechteck aus Graphics.png auf Objektposition.</td>
+</tr>
+<tr>
+<td>FacetBase</td>
+<td>Integer</td>
+<td>0 oder 1. Bei Wert 1 wird Facet mit der Standardobjektgrafik unterlegt.</td>
+</tr>
+<tr class="dark">
+<td>FacetTopFace</td>
+<td>Integer</td>
+<td>0 oder 1. Bei 1 wird das TopFace (siehe <a href="../../sdk/definition/defcore.html">DefCore.txt</a>)
+    aus der animierten Facet verwendet.</td>
+</tr>
+<tr>
+<td>FacetTargetStretch</td>
+<td>Boolean</td>
+<td>0 oder 1. Bei 1 wird die Grafik vertikal bis zur oberen Kante des ActionTarget gestretcht.</td>
+</tr>
+<tr class="dark">
+<td>NextAction</td>
+<td>Zeichenfolge (max. 30)</td>
+<td>Nächste Aktivität nach Ablauf der Animationsphasen.</td>
+</tr>
+<tr>
+<td>TurnAction</td>
+<td>Zeichenfolge (max. 30)</td>
+<td>Aktivität, die bei Änderung der Richting gesetzt wird.</td>
+</tr>
+<tr class="dark">
+<td>NoOtherAction</td>
+<td>Integer</td>
+<td>0 oder 1. Bei 1 ist keine Aktivität nach dieser möglich (z.B. Tod, Zerstörung).</td>
+</tr>
+<tr>
+<td>StartCall</td>
+<td>Zeichenfolge (max. 30)</td>
+<td>Objektscriptfunktion, die beim Start der Aktivität aufgerufen wird.</td>
+</tr>
+<tr class="dark">
+<td>EndCall</td>
+<td>Zeichenfolge (max. 30)</td>
+<td>Wird am Ende der Aktivität aufgerufen.</td>
+</tr>
+<tr>
+<td>PhaseCall</td>
+<td>Zeichenfolge (max. 30)</td>
+<td>Wird bei jedem Phasenschritt aufgerufen.</td>
+</tr>
+<tr class="dark">
+<td>AbortCall</td>
+<td>Zeichenfolge (max. 30)</td>
+<td>Wird aufgerufen, wenn die Aktivität vor ihrem Ende durch eine andere ersetzt wird.</td>
+</tr>
+<tr>
+<td>InLiquidAction</td>
+<td>Zeichenfolge (max. 30)</td>
+<td>Auszuführende Aktion, wenn das Objekt in Flüssigkeiten eintaucht.</td>
+</tr>
+<tr class="dark">
+<td>Sound</td>
+<td>Zeichenfolge (max. 30)</td>
+<td>Dauerhaftes Geräusch dieser Aktivität.</td>
+</tr>
+<tr>
+<td>ObjectDisabled</td>
+<td>Integer</td>
+<td>0 oder 1. Eingeschränkte Fähigkeit des Objekts während dieser Aktion.</td>
+</tr>
+<tr class="dark">
+<td>DigFree</td>
+<td>Integer</td>
+<td>Freigraben während dieser Aktion. Objektrechteck 1, sonst Kreisradius.</td>
+</tr>
+<tr>
+<td>EnergyUsage</td>
+<td>Integer</td>
+<td>Nötige Energie für diese Aktion. Maschinen 500.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="author">Sven2, April 2002</div>
+<div class="author">matthes, Juni 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

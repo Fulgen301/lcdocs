@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../doku.css">
+<title>The engine in developer mode</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../sdk/index.html">Introduction</a></li>
+<li><a href="../content.html">Contents</a></li>
+<li><a href="../search.php">Search</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../sdk/files.html">Game Data</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="DieEngineimEntwicklermodus">Engine</h1>
+
+<div class="text">In developer mode, scenarios may be edited in running or paused game mode and saved to disk afterwards.</div>
+<h2 id="Bearbeitungsmodus">Edit mode:</h2>
+<div class="text">
+<img src="../images/icon_em_play.gif" width="16" height="16"> Play: Mouse control works only for the first viewport of a player who has mouse control activated. Keyboard control for all players is accepted in any viewport.</div>
+<div class="text">
+<img src="../images/icon_em_edit.gif" width="16" height="16">Edit objects: Objects may be edited and moved around by mouse. Additional editing options are available by right-clicking on objects in a viewport.In order to create new objects, object definitions (c4d) may be drag &amp; dropped from the menu system or an Explorer window into a viewport of the engine. Objects may be put into other objects by dragging them onto the target object while holding down the control key.</div>
+<div class="text">
+<img src="../images/icon_em_brush.gif" width="16" height="16">Draw: Landscape drawing tools may be configured by right-clicking in a viewport and selecting 'tools'.</div>
+<h2 id="Landschaftsmodus">Landscape mode:</h2>
+<div class="text">
+<img src="../images/icon_em_dynamic.gif" width="16" height="16">Dynamic: Scenarios that have a dynamic landscape generally have a very small file size. But since a new landscape is generated whenever the scenario is started, landscape settings of scenarios edited in developer mode should not contain any random values. Dynamic landscapes cannot be edited. It is not possible to revert static or exact landscapes to dynamic mode.</div>
+<div class="text">
+<img src="../images/icon_em_static.gif" width="16" height="16">Static: Medium file-size. The landscape is zoomed down and saved in coarse blocks only, and will be regenerated rougly when loaded. Static landscapes should be edited in paused game mode, because any runtime changes (e.g. digging clonks, explosions, moved liquids) will be visible while editing, but they won't be saved. This can lead to an inaccurate map.</div>
+<div class="text">
+<img src="../images/icon_em_exact.gif" width="16" height="16">Exact: Extremely high level of detail and file size: The landscape is saved as-is at pixel level of detail.</div>
+<h2 id="Landschaftswerkzeug">Landscape editing tool:</h2>
+<div class="text">
+<img src="../images/icon_em_brush.gif" width="16" height="16">Brush (size adjustable).</div>
+<div class="text">
+<img src="../images/icon_em_line.gif" width="16" height="16">Line (size adjustable).</div>
+<div class="text">
+<img src="../images/icon_em_rect.gif" width="16" height="16">Filled rect.</div>
+<div class="text">
+<img src="../images/icon_em_eyedrop.gif" width="16" height="16">Eye-dropper: Acquires material, texture and background (sky or tunnel) of the landscape at the place you click on in the viewport. Textures can be determined in static landscape mode only.</div>
+<div class="text">
+<img src="../images/icon_em_fill.gif" width="16" height="16">Material-filler (strength adjustable; works in exact maps only).</div>
+<h2 id="Materialhintergrund">Material background:</h2>
+<div class="text">
+<img src="../images/icon_em_sky.gif" width="16" height="16"> If dug free or removed by explosions, sky will appear behind the drawn material.</div>
+<div class="text">
+<img src="../images/icon_em_tunnel.gif" width="16" height="16"> If dug free or removed by explosions, tunnel will appear behind the drawn material.</div>
+<h2 id="Tastaturbelegung">Keyboard shortcuts:</h2>
+<div class="text">In active viewport:</div>
+<div class="text">Scroll lock: Enable/disable scroll bars in current viewport</div>
+<div class="text">Break/Pause: Pause or continue game</div>
+<div class="text">Space: Cycle through editing modes</div>
+<div class="text">Ctrl-W, Ctrl-M, Ctrl-T, Ctrl-I, +/- : Change settings in landscape drawing mode</div>
+
+<div class="author">Sven2, April 2002</div>
+<div class="author">matthes, Juni 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../sdk/index.html">Introduction</a></li>
+<li><a href="../content.html">Contents</a></li>
+<li><a href="../search.php">Search</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../sdk/files.html">Game Data</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

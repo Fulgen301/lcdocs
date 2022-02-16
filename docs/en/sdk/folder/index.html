@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Scenario Folder</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1 id="Folders">Scenario Folder</h1>
+
+	<div class="text">Scenario folders are used to group a number of scenarios. Scenario folders are displayed with a book icon in the startup screen which can then be opened to list contained scenarios.</div>
+	
+	<h2 id="Components">Scenario Components (c4s)</h2>
+	<dl>
+<dt id="c4s">
+<img src="../../images/icon_scenario.gif" width="16" height="16"><a href="../../sdk/scenario/index.html">*.c4s</a>
+</dt>
+<dd><div class="text">Scenario folders can contain any number of scenarios.</div></dd>
+<dt id="c4f">
+<img src="../../images/icon_scenario_folder.gif" width="16" height="16">*.c4f</dt>
+<dd><div class="text">Scenario folders can also contain other scenario folders.</div></dd>
+<dt id="Title">
+<img src="../../images/icon_image.gif" width="16" height="16">Title.png / Title.bmp</dt>
+<dd><div class="text">The title picture of the scenario folder in png format. Size: 200x150 pixel. The older bmp format with 256 colors is still supported as well.</div></dd>
+<dt id="Iconbmp">
+<img src="../../images/icon_image.gif" width="16" height="16">Icon.bmp/Icon.png</dt>
+<dd><div class="text">The icon of a scenario folder which is to be displayed instead of the book icon. BMP format (obsolete): 16x16 pixels, color RGB 255 0 255 (purple) is transparent. PNG format: 24x24 pixels, alpha channel is used for transparency.</div></dd>
+<dt id="Desc__rtf">
+<img src="../../images/icon_text.gif" width="16" height="16">Desc*.rtf</dt>
+<dd>
+<div class="text">The description text of the scenario in rich text format (rtf). '__' is to be replaced by the two digit language code, e.g. DE for German and US for American English. Multiple descriptions for several languages can be contained in a scenario file of which the game will automatically load the one appropriate for the configured language.</div>
+		<div class="text">The font of the description text is set internally on display. The character size in the file should be 10pt for headings and 8pt for text. Images or other rtf tags are ignored.</div>
+		<div class="text">It is recommended to edit this file using a small scale rtf editor such as WordPad.exe in Windows and not a full-blown word processor such as Word as these will stuff kilobytes of unneeded extra information into the rtf file.</div>
+</dd>
+<dt id="Titletxt">
+<img src="../../images/icon_text.gif" width="16" height="16">Title.txt</dt>
+<dd>
+<div class="text">By default, the title of a scenario is set when renaming the scenario in the menu system and stored in section [Head] of Scenario.txt. The file name of the scenario group file may differ. For language dependent titles you should create a Title.txt component with the appropriate contents:</div>
+		<pre class="code">DE:Meine Rundensammlung
+US:My scenario collection</pre>
+		<div class="text">Important: No quotation marks and special characters should be used.</div>
+</dd>
+<dt id="FolderMaptxt">
+<img src="../../images/icon_text.gif" width="16" height="16"><a href="../../sdk/folder/foldermap.html">FolderMap.txt</a>
+</dt>
+<dd><div class="text">From CR, scenario folders can also contain graphical folder maps for the selection of scenarios.</div></dd>
+<dt id="Loader">
+<img src="../../images/icon_image.gif" width="16" height="16">Loader*.png / Loader*.bmp</dt>
+<dd><div class="text">Scenario folders can contain local loader screens. Also see <a href="../../sdk/scenario/index.html">scenarios</a>. The <a href="../../sdk/scenario/index.html#UeberladungenC4S">overloading rules</a> apply.</div></dd>
+<dt id="Materialc4g">
+<img src="../../images/icon_system.gif" width="16" height="16"><a href="../../sdk/material/index.html">Material.c4g</a>
+</dt>
+<dd><div class="text">Scenario folders can contain local material definitions. Also see <a href="../../sdk/scenario/index.html#Materialc4g">scenarios</a>. The <a href="../../sdk/scenario/index.html#UeberladungenC4S">overloading rules</a> apply.</div></dd>
+<dt id="Graphicsc4g">
+<img src="../../images/icon_image.gif" width="16" height="16">Graphics.c4g</dt>
+<dd><div class="text">Scenario folders can overload individual entries of the global Graphics.c4g group. See <a href="../../sdk/#UeberladungenC4S">overloading rules</a>.</div></dd>
+<dt id="Musicc4g">
+<img src="../../images/icon_system.gif" width="16" height="16">Music.c4g</dt>
+<dd><div class="text">Scenario folders can contain local music files. Also see <a href="../../sdk/scenario/index.html#Musicc4g">scenarios</a>. The <a href="../../sdk/scenario/index.html#UeberladungenC4S">overloading rules</a> apply.</div></dd>
+<dt id="c4d">
+<img src="../../images/icon_object_definition.gif" width="16" height="16"><a href="../../sdk/definition/index.html">*.c4d</a>
+</dt>
+<dd><div class="text">Scenario folders can contain object definitions, which will then be available in all scenarios contained in the folder.Also see <a href="../../sdk/scenario/index.html#c4d">scenarios</a>. The <a href="../../sdk/scenario/index.html#UeberladungenC4S">overloading rules</a> apply.</div></dd>
+<dt id="Infotxt">
+<img src="../../images/icon_text.gif" width="16" height="16">Info.txt</dt>
+<dd><div class="text">Here an author can store additional information about the development of his scenario, his email address, or other information he wants to share with other developers.</div></dd>
+<dt id="Authortxt">
+<img src="../../images/icon_text.gif" width="16" height="16">Author.txt</dt>
+<dd><div class="text">Should contain the name of the author in format "Firstname Lastname (Nick)" and is used to maintain the name of the original author, if the scenario group file is edited by another developer at a later point in time. The name stored here is only displayed, however, if the scenario was edited by RedWolf Design. This feature is mainly used for contest scenarios. </div></dd>
+</dl>
+
+
+<div class="author">Sven2, September 2006</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

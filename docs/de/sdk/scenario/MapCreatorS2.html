@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Kartengenerator</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1 id="Kartengenerator">Kartengenerator</h1>
+
+	<div class="text">Neben einfachen dynamischen, statischen und exakten Landkarten steht auch ein leistungsfähiger dynamischer Kartengenerator für komplexe, mit Zufallswerten erzeugte Landschaften zur Verfügung.</div>
+	<div class="text">Dieser arbeitet mit verschachtelten und durch Operatoren verknüpfte Ebenen, denen jeweils ein Materialwert und diverse Attribute zugewiesen werden, die die Form beschreiben. Der Landschaftsgenerator rendert dabei die Karten mit Hilfe dieser Ebenen. Sie werden dann später wie reguläre statische Karten vergrößert</div>
+	<div class="text">Die Objektstruktur aus Karten, Ebenen und Attributen wird aus der Datei 'Landscape.txt' im Szenario gelesen.</div>
+	
+	<h2 id="Syntax">Syntax</h2>
+	<div class="text">Die Sprache zur Beschreibung solcher Karten arbeitet grundsätzlich mit Objekten, Attributen und Operatoren. Groß- und Kleinschreibung wird beachtet. Objekte werden wie folgt definiert:</div>
+	<pre class="code">Objekttyp [Name] { Attribute };</pre>
+	<div class="text">Die Angabe eines Namens ist optional. Für die Objekttypen stehen momentan map, overlay und point (für den Algorithmus poly) zur Verfügung. Wenn ein Objekt benannt wird, kann es später also Vorlage für eine weitere Instanz definieren, die man mit</div>
+	<pre class="code">Name { Attribute };</pre>
+	<div class="text">definiert. Hier würde das vorher definierte Objekt 'Name' kopiert und gegebenenfalls um die entsprechenden Attribute ergänzt werden. Werden keine weiteren Attribute angegeben, können die Klammern hier auch weggelassen werden.</div>
+	<div class="text">Attribute haben grundsätzlich die Form</div>
+	<pre class="code">Attribut=Wert;</pre>
+	<div class="text">und können in beliebiger Reihenfolge im Objekt definiert werden. Sie können dabei optional % oder px als Einheit haben, und als Konstante oder Wertbereich (Zahl1 - Zahl2) angegeben werden (Ab CE). Bei Doppelten Zuweisungen gilt das zuletzt definierte.</div>
+	<div class="text">Zusätzlich zu den Attributen können wieder untergeordnete Objekte definiert und mit Operatoren verknüpft werden:</div>
+	<pre class="code">Objekt1 Operator Objekt2;</pre>
+	<div class="text">Operatorketten können beliebig lang sein und steuern die Kombination von Ebenen. Mögliche Operatoren sind | (oder), &amp; (und) und ^ (exklusiv oder).</div>
+	<div class="text">Einige Beispiele gibt es in den Dynamischen Welten.</div>
+	
+	<h2 id="Attributes">Attribute</h2>
+	
+		<h3 id="Attr_overlay">Ebenen (overlay)</h3>
+		<div class="text">Folgende Attribute sind definiert:</div>
+		<div class="text"><table>
+<thead><tr>
+<th>Attribut</th>
+<th>Typ</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>mat</td>
+<td>Material</td>
+<td>Material. Das Material muss in der entsprechenden Material.c4g definiert sein. Standard ist Himmel.</td>
+</tr>
+<tr class="dark">
+<td>tex</td>
+<td>Textur</td>
+<td>Textur. Die Material-Textur-Kombination sollte in der geladenen TexMap vorhanden sein.</td>
+</tr>
+<tr>
+<td>x, y, wdt, hgt</td>
+<td>Integer</td>
+<td>Größe der beschriebenen Ebene auf der übergeordneten Ebene in Prozent.</td>
+</tr>
+<tr class="dark">
+<td>algo</td>
+<td>Algorithmus</td>
+<td>Füllungstyp der Ebene. Für verfügbare Füllungen siehe <a href="#Algos">Füllalgorithmen</a>
+</td>
+</tr>
+<tr>
+<td>zoomX, zoomY</td>
+<td>Integer</td>
+<td>Gibt die entsprechende Zoomstufe an, um die die Füllung vergrößert/verkleinert werden soll. -100 bis +99</td>
+</tr>
+<tr class="dark">
+<td>ox, oy</td>
+<td>Integer</td>
+<td>Offset auf den Füllalgorithmus in Prozent. Hiermit kann z.B. eine Sinuskurve verschoben werden.</td>
+</tr>
+<tr>
+<td>a, b</td>
+<td>Integer</td>
+<td>Zusatzparameter für den Füllalgorithmus</td>
+</tr>
+<tr class="dark">
+<td>turbulence</td>
+<td>Integer</td>
+<td>10 bis 10.000; Deformierung der Ebene</td>
+</tr>
+<tr>
+<td>rotate</td>
+<td>Integer</td>
+<td>-180 bis +180. Drehung der Ebene.</td>
+</tr>
+<tr class="dark">
+<td>invert</td>
+<td>Boolean</td>
+<td>0 oder 1. Bei 1 wird die Ebenenfüllung umgekehrt.</td>
+</tr>
+<tr>
+<td>seed</td>
+<td>Integer</td>
+<td>Zufallsseed für die Ebenenberechnung. Bei festem Seed wird die Ebene immer gleich erzeugt.</td>
+</tr>
+<tr class="dark">
+<td>loosebounds</td>
+<td>Boolean</td>
+<td>Legt fest, ob die Grenzen durch rotate, turbulence, ox und oy mit transformiert werden.</td>
+</tr>
+<tr>
+<td>mask</td>
+<td>Boolean</td>
+<td>0 oder 1. Bei 1 wird die Ebene nie gezeichnet. Auf untergeordnete Ebenen hat dies keinen Effekt.</td>
+</tr>
+<tr class="dark">
+<td>grp</td>
+<td>b</td>
+<td>0 oder 1. Bei 1 gilt die Ebene als gesetzt, wenn der lokale Algorithmus oder eine der untergeordneten Ebenen erfüllt ist. Folgt ein Operator, so wird die Ebene selber nicht gezeichnet.</td>
+</tr>
+<tr>
+<td>sub</td>
+<td>Boolean</td>
+<td>0 oder 1. Bei 1 ist das Material unterirdisch (standard)</td>
+</tr>
+<tr class="dark">
+<td>lambda</td>
+<td>Integer</td>
+<td>0 bis 20. Zusätzliche turbulence-Iterationen.</td>
+</tr>
+</tbody>
+</table></div>
+		
+		<h3 id="Attr_map">Karten (map)</h3>
+		<div class="text">Karten enthalten grundsätzlich alle Attribute, die Ebenen auch enthalten. Allerdings machen hier nur mat, tex und sub wirklich Sinn, und geben die Hintergrundfüllung an.</div>
+	
+	
+	<h2 id="Algos">Füllalgorithmen</h2>
+	<div class="text">Um festzustellen, ob ein Punkt auf der Karte eine Ebene trifft, wird er zunächst verschoben (zoom, turbulence, rotate, ox/oy), und anschließend ihr Algorithmus ausgewertet. Außerdem wird geprüft, ob er innerhalb der Maskengrenzen (x, y, wdt, hgt) liegt. Normalerweise vor, bei loosebounds nach der Transformation.</div>
+		
+	<dl>
+<dt id="Algo_solid">solid</dt>
+<dd><div class="text">Standardalgorithmus. Gibt immer wahr zurück.</div></dd>
+<dt id="Algo_random">random</dt>
+<dd><div class="text">Zufall. Der Parameter a gibt die Wahrscheinlichkeit an; je höher a, desto seltener ist der Punkt ausgefüllt.</div></dd>
+<dt id="Algo_checker">checker</dt>
+<dd><div class="text">Abwechselnd ausgefüllte Kästen der Größe 10 (bei normalem Zoom)</div></dd>
+<dt id="Algo_bozo">bozo</dt>
+<dd><div class="text">Flecken. Über a kann die Fleckengröße verringert werden.</div></dd>
+<dt id="Algo_sin">sin</dt>
+<dd><div class="text">Horizontale Sinuskurve; Bei Standardzoom beträgt die Amplitude 10, die Periode 20 Pixel.</div></dd>
+<dt id="Algo_boxes">boxes</dt>
+<dd><div class="text">Regelmäßige Blöcke. a gibt die Blockgröße, b den Abstand der Mittelpunkte an.</div></dd>
+<dt id="Algo_rndchecker">rndchecker</dt>
+<dd><div class="text">Wie checker, jedoch ist die Erfüllung nicht alternierend sondern zufällig.</div></dd>
+<dt id="Algo_lines">lines</dt>
+<dd><div class="text">Senkrechte Linien. a gibt die Linienstärke an; b den Abstand der Linienmitten.</div></dd>
+<dt id="Algo_border">border</dt>
+<dd><div class="text">Zieht einen inneren Rahmen im übergeordnete Layer (bzw der gesamten Operatorkette). a und b sind die horizontale und vertikale Rahmendicke. Da zur Berechnung das übergeordnete Layer abgefragt werden muss, darf dieses natürlich nicht als Gruppe (grp) definiert sein.</div></dd>
+<dt id="Algo_mandel">mandel</dt>
+<dd><div class="text">Zeichnet die Mandelbrotmenge in den Zielbereich. Über den Parameter a kann die Iterationstiefe verändert werden (Standard 1000). Ungezommt wird das gesamte "Apfelmännchen" in den Zielbereich gezeichnet (entspricht dem Bereich -2-2i bis 2+2i)</div></dd>
+<dt id="Algo_rndall">rndall</dt>
+<dd><div class="text">Der gesamten Bereich gilt als erfüllt oder nicht erfüllt, je nach Zufallswert. Der Parameter a gibt die Erfüllungschance in Prozent an. Mit diesem algo können beispielsweise mehrere Karten untergeordnet von einem mask=1-Layer angegeben werden, zwischen denen dann gewählt wird.</div></dd>
+<dt id="Algo_script">script</dt>
+<dd>
+<div class="text">Das Verhalten des Algorithmus wird durch eine Script-Funktion im <a href="../../sdk/scenario/script.html">Szenarioscript</a> festgelegt. Diese sollte folgende Form haben:</div>
+		<pre class="code"><b>func</b> ScriptAlgo[Overlay-Name](iX, iY, iAlpha, iBeta)</pre>
+		<div class="text">Als Rückgabewert wird 0 (= kein Material) oder 1 (= Material) erwartet. iX und iY sind die Koordinaten (in Pixeln), für den der Algorithmuswert zurückgegeben werden soll. iAlpha und iBeta entsprechen den Algo-Parametern a und b.</div>
+		<div class="text">Hat die Ebene keinen Namen, wird die Funktion "ScriptAlgo" benutzt.</div>
+</dd>
+<dt id="Algo_poly">poly</dt>
+<dd>
+<div class="text">Ein Pixel gilt als erfüllt, wenn er innerhalb des durch die im overlay enthaltenen Punkte definierten Polygons liegt. Punkte können durch</div>
+		<pre class="code">point { x=&lt;X-Koordinate des Eckpunkts&gt;&lt;Einheit&gt;; y=&lt;Y-Koordinate&gt;&gt;&lt;Einheit&gt;; };</pre> 
+		<div class="text">angegeben werden. Ab CE. Beispiel:</div>
+		<pre class="code">overlay { algo=poly; mat=Earth;
+  point { x=10px; y=25%; };  
+  point { x=20px; y=25%; };  
+  point { x=10px; y=75%; };  
+  point { x=20px; y=75%; };  
+  point { x=30px; y=50%; };
+};</pre>
+</dd>
+</dl>
+	
+	<h2 id="Operators">Operatoren</h2>
+	<div class="text">Mehrere Ebenen können mit Operatoren verbunden werden. Diese werden von oben nach unten ausgewertet, und es wird nur das unterste Glied der Operatorkette ggf gezeichnet. Bei einer Gruppe (grp) werden zusätzlich die untergeordneten Ebenen in die Auswertung mit einbezogen und nicht gezeichnet. Definierte Operatoren sind | (oder), &amp; (und) und ^ (exklusiv oder).</div>
+
+
+<div class="author">Sven2, Juli 2001</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

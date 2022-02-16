@@ -1,0 +1,740 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Effects</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1>Effects</h1>
+
+	<div class="text">Any number of effects can be attached to an object. Effects can perform various tasks, thus eliminating the need for helper objects. This is especially of interest for magic spells that act with a given duration. Effects are available from CE on.</div>
+
+	<h2 id="Intro">Introduction</h2>
+	<div class="text">Effects are, roughly put, dynamic timers that can be attached to objects. Effects themselves have no visible or acoustic representation - for this you would use objects or particles instead - effects are pure scripting helpers. They also offer a general interface that can be used to resolve conflicts of temporary status changes made to objects by other objects at the same time.</div>
+	<div class="text">Here an example of implementing an invisibility spell without effects:</div>
+
+	<pre class="code"><i>/* Unsichtbarkeitszauber ohne Effektsystem */</i>
+
+<b>#strict</b>
+
+<b>local</b> iRestTime; <i>// Zeit, die der Zauber noch aktiv ist
+</i><b>local</b> pTarget;   <i>// Unsichtbar gemachter Clonk
+</i><b>local</b> iOldVisibility; <i>// Vorheriger Sichtbarkeitsstatus
+</i><b>local</b> iOldModulation; <i>// Vorherige Farbmodulation
+</i>
+<b>public</b> <b>func</b> Activate(pCaster, pCaster2)
+{
+  <i>// Zauberer ermitteln
+</i>  <b>if</b> (pCaster2) pCaster = pCaster2; pTarget = pCaster;
+  <i>// Magie kann man hören, ganz klar ;)
+</i>  Sound(<i class="string">"Magic*"</i>);
+  <i>// Vorherige Sichtbarkeit des Zauberers speichern
+</i>  iOldVisibility = GetVisibility(pCaster);
+  iOldModulation = GetClrModulation(pCaster);
+  <i>// Zauberer unsichtbar machen
+</i>  SetVisibility(VIS_Owner() | VIS_Allies() | VIS_God(), pCaster);
+  <i>// Halbdurchsichtig bläulich für den Besitzer und Verbündete
+</i>  SetClrModulation(ModulateColor(iOldModulation, RGBa(127,127,255,127)), pCaster);
+  <i>// Timer starten: 30 Sekunden unsichtbar
+</i>  iRestTime = 30;
+}
+
+<b>protected</b> <b>func</b> TimerCall()
+{
+  <i>// Zeit zählen
+</i>  <b>if</b> (iRestTime--) <b>return</b>(1);
+  <i>// Fertig; Objekt entfernen
+</i>  <b>return</b>(RemoveObject());
+}
+
+<b>protected</b> <b>func</b> Destruction()
+{
+  <i>// Zauber wird entfernt: Unsichtbarkeit aufheben
+</i>  SetClrModulation(iOldModulation, pTarget);
+  SetVisibility(iOldVisibility, pTarget);
+  <b>return</b>(1);
+}</pre>
+	
+	<div class="text">The magic spell object exists until the spell has ended and then makes the clonk visible again. Also, if the spell object is deleted for other reasons (e.g. a scenario section change), the clonk is made visible in the Destruction callback (if this wasn't so, the clonk would remain invisible for ever). Also there is a Timer (defined in the DefCore) called every second. Notice you couldn't just have a single timer call to mark the end of the spell because timer intervals are marked in the engine beginning with the start of the round and you wouldn't know at what point within an engine timer interval the spell would start.</div>
+	<div class="text">However, there are some problems with this implementation: for example, the magician can not cast a second invisibility spell while he's already invisible - the second spell would have practically no effect, because the end of the first spell would make the clonk visible again. The spell script would have to do some special handling for this case - but not only for multiple invisibility spells, but also for any other spell or script that might affect visibility or coloration of the clonk. Even if this spell would remember the previous value e.g. for coloration it could not handle a situation in which other scripts change the color of their own in the middle of the spell. The same problems occur when multiple scripts modify temporary clonk physcials such as jumping, walking speed, fight strength or visibility range, energy, magic energy etc. Using effects, these conflicts can be avoided.</div>
+	
+	<h2 id="Usage">Application</h2>
+	<div class="text">Effects are created using <a href="../../sdk/script/fn/AddEffect.html">AddEffect</a> and removed with <a href="../../sdk/script/fn/RemoveEffect.html">RemoveEffect</a>. If an effect was successfully created, the callback Fx*Start is made (* is replaced with the effect name). Depending on the parameters, there can also be an Fx*Timer call for continuous activity such as casting sparks, adjusting energy etc. Finally, when the effect is deleted, the callback Fx*Stop is made. Now, the invisibility spell implemented using effects:</div>
+	
+	<pre class="code"><i>/* Unsichtbarkeitszauber mit Effektsystem */</i>
+	
+<b>#strict</b>
+
+<i>// EffectVars:
+</i><i>//   0 - Vorheriger Sichtbarkeitsstatus
+</i><i>//   1 - Vorherige Farbmodulation
+</i>
+<b>public</b> <b>func</b> Activate(pCaster, pCaster2)
+{
+  <i>// Zauberer ermitteln
+</i>  <b>if</b> (pCaster2) pCaster = pCaster2;
+  <i>// Magie kann man hören, ganz klar ;)
+</i>  Sound(<i class="string">"Magic*"</i>);
+  <i>// Effekt starten
+</i>  AddEffect(<i class="string">"InvisPSpell"</i>, pCaster, 200, 1111, 0, GetID());
+  <i>// Fertig - das Zauberobjekt wird nun nicht mehr gebraucht
+</i>  <b>return</b>(RemoveObject());
+}
+
+<b>protected</b> <b>func</b> FxInvisPSpellStart(pTarget, iEffectNumber)
+{
+  <i>// Vorherige Sichtbarkeit des Zauberers speichern
+</i>  EffectVar(0, pTarget, iEffectNumber) = GetVisibility(pTarget);
+  <b>var</b> iOldMod = EffectVar(1, pTarget, iEffectNumber) = GetClrModulation(pTarget);
+  <i>// Zauberer unsichtbar machen
+</i>  SetVisibility(VIS_Owner() | VIS_Allies() | VIS_God(), pTarget);
+  <i>// Halbdurchsichtig bläulich für den Besitzer und Verbündete
+</i>  SetClrModulation(ModulateColor(iOldMod, RGBa(127,127,255,127)), pTarget);
+  <i>// Fertig
+</i>  <b>return</b>(1);
+}
+
+<b>protected</b> <b>func</b> FxInvisPSpellStop(pTarget, iEffectNumber)
+{
+  <i>// Status wiederherstellen
+</i>  SetClrModulation(EffectVar(1, pTarget, iEffectNumber), pTarget);
+  SetVisibility(EffectVar(0, pTarget, iEffectNumber), pTarget);
+  <i>// Fertig
+</i>  <b>return</b>(1);
+}</pre>
+	
+	<div class="text">In this case, the magic spell object only starts the effect, then deletes itself immediately. The engine ensures that there are no conflicts with multiple effects modifying the visibility: effects are stored in a stack which ensures that effects are always removed in the opposite order of their addition. For this, there are a couple of extra Start and Stop calls to be made which are explained in detail later.</div>
+	<div class="text">This effects does not have a timer function. It does, however, define a timer interval of 1111 which will invoke the standard timer function after 1111 frames which will delete the effect. Alternatively, you could define a timer function as such:</div>
+	
+	<pre class="code"><b>protected</b> <b>func</b> FxInvisPSpellTimer(pTarget, iEffectNumber)
+{
+  <i>// Rückgabewert -1 bedeutet, dass der Effekt gelöscht wird
+</i>  <b>return</b>(-1);
+}</pre>
+	
+	<div class="text">To store the previous status of the target object, special storage space in <a href="../../sdk/script/fn/EffectVar.html">EffectVar</a>() is used. This is necessary because in this case the effect callbacks to not have any object script context. So you cannot access any object local variables in the effect callbacks - remember that the magic spell object which has created the effect is already deleted. If you require an object context in the effect callbacks you can specify one in <a href="../../sdk/script/fn/AddEffect.html">AddEffect</a>(). In that case, effect callbacks would be in object local context and the effect would automatically be deleted if the target object is destroyed.</div>
+	
+	<h2 id="Priorities">Priorities</h2>
+	<div class="text">When creating an effect you always specify a priority value which determines the effect order. The engine ensures that effects with lower priority are added before effects with a higher priority - even if this means deleting an existing effect of higher priority. So if one effect colors the clonk green and another colors the clonk red, the result will be that of the effect with higher priority. If two effects have the same priority, the order is undefined. However, it is guaranteed that effects added later always notify the Fx*Effect callback of the same priority.</div>
+	<div class="text">In the case of the red and green color, one effect could also determine the previous coloring and then mix a result using ModulateColor. But priorities also have another function: an effect of higher priority can prevent the addition of other effects of lower priority. This is done through the Fx*Effect callback. If any existing effect reacts to this callback with the return value -1, the new effect is not added (the same applies to the Start callback of the effect itself). Here an example:</div>
+	
+	<pre class="code"><i>/* Feuerimmunitätszauber */</i>
+
+<b>#strict</b>
+
+<b>public</b> <b>func</b> Activate(pCaster, pCaster2)
+{
+  <i>// Zauberer ermitteln
+</i>  <b>if</b> (pCaster2) pCaster = pCaster2;
+  <i>// Magie kann man hören, ganz klar ;)
+</i>  Sound(<i class="string">"Magic*"</i>);
+  <i>// Effekt starten
+</i>  AddEffect(<i class="string">"BanBurnPSpell"</i>, pCaster, 180, 1111, 0, GetID());
+  <i>// Fertig - das Zauberobjekt wird nun nicht mehr gebraucht
+</i>  <b>return</b>(RemoveObject());
+}
+
+<b>protected</b> <b>func</b> FxBanBurnPSpellStart(pTarget, iEffectNumber, iTemp)
+{
+  <i>// Beim Start des Effektes: Clonk löschen, wenn er brennt
+</i>  <b>if</b> (!iTemp) Extinguish(pTarget);
+  <b>return</b>(1);
+}
+
+<b>protected</b> <b>func</b> FxBanBurnPSpellEffect(szNewEffect, iEffectTarget, iEffectNumber, iNewEffectNumber, <b>var</b>1, <b>var</b>2, <b>var</b>3)
+{
+  <i>// Feuer abblocken
+</i>  <b>if</b> (WildcardMatch(szNewEffect, <i class="string">"*Fire*"</i>)) <b>return</b>(-1);
+  <i>// Alles andere ist OK
+</i>  <b>return</b>();
+}</pre>
+	
+	<div class="text">This effect makes the clonk fire-proof for 30 seconds. The effect is implemented without any Timer or Stop callbacks as the complete functionality is achieved by simply blocking other effects which might have "Fire" as part of their name. This especially applies to the engine internal fire which has exactly the name "Fire". Of course, you could still add a Timer callback for graphic effects so the player can see that his clonk is immune. Also, you could create special visual effects when preventing incineration in FxBanBurnPSpellEffect. For the like:</div>
+	
+	<pre class="code">[...]
+
+<b>protected</b> <b>func</b> FxBanBurnPSpellEffect(szNewEffect, iEffectTarget, iEffectNumber, iNewEffectNumber, <b>var</b>1, <b>var</b>2, <b>var</b>3)
+{
+  <i>// Nur Feuer behandeln
+</i>  <b>if</b> (!WildcardMatch(szNewEffect, <i class="string">"*Fire*"</i>)) <b>return</b>();
+  <i>// Beim Feuer haben die drei Extraparameter normalerweise folgende Bedeutung:
+</i>  <i>// var1: iCausedBy           - Spieler, der für das Feuer verantwortlich ist
+</i>  <i>// var2: fBlasted            - bool: Ob das Feuer durch eine Explosion zustande kam
+</i>  <i>// var3: pIncineratingObject - Objekt: Anzündendes Objekt
+</i>  <i>// Anzündendes Objekt löschen
+</i>  <b>if</b> (<b>var</b>3 &amp;&amp; GetType(<b>var</b>3) == C4V_C4Object()) Extinguish(<b>var</b>3);
+  <i>// Feuer abblocken
+</i>  <b>return</b>(-1);
+}</pre>
+	
+	<div class="text">This would even delete all burning objects which would otherwise incinerate the target object. The type check for var3 avoids possible conflicts with other "Fire" effects that might have differing parameters. Obviously, conflict situations like this should be avoided at all cost.</div>
+	<div class="text">The following table contains general guidelines for priorities in effects of the original pack:</div>
+	
+	<div class="text"><table>
+<thead><tr>
+<th>Effect</th>
+<th>Priority</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Short special effects</td>
+<td>300-350</td>
+</tr>
+<tr class="dark">
+<td>Effects which cannot be banned</td>
+<td>250-300</td>
+</tr>
+<tr>
+<td>Magic ban spell</td>
+<td>200-250</td>
+</tr>
+<tr class="dark">
+<td>Permanent magic ban spell</td>
+<td>180-200</td>
+</tr>
+<tr>
+<td>Short term, benevolent magic effects</td>
+<td>150-180</td>
+</tr>
+<tr class="dark">
+<td>Short term, malevolent magic effects</td>
+<td>120-150</td>
+</tr>
+<tr>
+<td>Normal Effects</td>
+<td>100-120</td>
+</tr>
+<tr class="dark">
+<td>Fire as used by the engine</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Permanent magic effects</td>
+<td>50-100</td>
+</tr>
+<tr class="dark">
+<td>Permanent other effects</td>
+<td>20-50</td>
+</tr>
+<tr>
+<td>Internal effects, data storage etc.</td>
+<td>1</td>
+</tr>
+</tbody>
+</table></div>
+	
+	<div class="text">Generally, effect priorities should be chosen by dependency: if one effect should prevent another it needs a higher priority to do this (even if it is a permanent effect). Short term effects should have a higher priority than long term effects so that short term changes in the object are visible on top of long term effects.</div>
+	<div class="text">The engine internal fire is of priority 100. So a magic fire which also uses the properties of the engine fire should have a slightly higher priority and should call the respective FxFire* functions within its callbacks. For proper functioning all effect callback (i.e. Start, Timer, and Stop) should be forwarded as each might depend on the action of the others. If this is not possible in your case, you should reimplement the complete fire functionality by script.</div>
+	
+	<div class="text">Effects with priority 1 are a special case: Other effects are never temporarily removed for them and they are never temporarily removed themselves.</div>
+	
+	<h2 id="SpecAddRemove">Special Add/Remove Calls</h2>
+	<div class="text">For the engine to ensure that effects are always removed in opposite order, it might in some cases be necessary to temporarily remove and later re-add existing effects. In these situations, the scripter should obviously take care to remove any object changes and reapply them after re-adding so that other effects will behave accordingly.</div>
+	<div class="text">Effects are also removed when the target object is deleted or dies - the cause for the removal is passed in the iReason parameter to the Remove function of the effect. This can be used e.g. to reanimate a clonk immediately upon his death:</div>
+	
+	<pre class="code"><i>/* Wiederbelebungszauber */</i>
+
+<b>#strict</b>
+
+<i>// EffectVars: 0 - Anzahl der zusätzlichen Wiederbelebungen
+</i>
+<b>public</b> <b>func</b> Activate(pCaster, pCaster2)
+{
+  <i>// Zauberer ermitteln
+</i>  <b>if</b> (pCaster2) pCaster = pCaster2;
+  <i>// Magie kann man hören, ganz klar ;)
+</i>  Sound(<i class="string">"Magic*"</i>);
+  <i>// Effekt starten
+</i>  AddEffect(<i class="string">"ReincarnationPSpell"</i>, pCaster, 180, 0, 0, GetID());
+  <i>// Fertig - das Zauberobjekt wird nun nicht mehr gebraucht
+</i>  <b>return</b>(RemoveObject());
+}
+
+<b>protected</b> <b>func</b> FxReincarnationPSpellStart(pTarget, iEffectNumber, iTemp)
+{
+  <i>// Nur beim ersten Start: Meldung
+</i>  <b>if</b> (!iTemp) Message(<i class="string">"%s bekommt|ein Extraleben"</i>, pTarget, GetName(pTarget));
+  <b>return</b>(1);
+}
+
+<b>protected</b> <b>func</b> FxReincarnationPSpellStop(pTarget, iEffectNumber, iReason, fTemp)
+{
+  <i>// Nur beim Tod des Clonks
+</i>  <b>if</b> (iReason != 4) <b>return</b>(1);
+  <i>// Effekt erhalten, wenn der Clonk lebt: Wurde wohl durch einen anderen Effekt wiederbelebt :)
+</i>  <b>if</b> (GetAlive(pTarget)) <b>return</b>(-1);
+  <i>// Clonk wiederbeleben
+</i>  SetAlive(1, pTarget);
+  <i>// Energie geben
+</i>  DoEnergy(100, pTarget);
+  <i>// Nachricht
+</i>  Sound(<i class="string">"Magic*"</i>, 0, pTarget);
+  Message(<i class="string">"%s|wurde wiederbelebt."</i>, pTarget, GetName(pTarget));
+  <i>// Effekt wirkt nur einmal: Entfernen
+</i>  <b>return</b>(1);
+}</pre>
+	
+	<div class="text">This effect reanimates the clonk as many times as he has cast the reanimation spell.</div>
+	
+	<h2 id="GlobalEffects">Global Effects</h2>
+	<div class="text">Global effects are effects that are not bound to any target object. With global effects, too, priorities are observed and temporary Add/Remove calls might be necessary to ensure order. Simply imagine all global effects are attached to an imaginary object. Global effects are accessed whenever you specify 0 for the target object.</div>
+	<div class="text">This can be used to make changes to gravity, sky color, etc. Here's an example for a spell that temporarily reduces gravity and then resets the original value:</div>
+	
+	<pre class="code"><i>/* Gravitationszauber */</i>
+
+<b>#strict</b>
+
+<i>// EffectVars: 0 - Vorherige Gravitation
+</i><i>//             1 - Änderung durch den Zauber
+</i>
+<b>public</b> <b>func</b> Activate(pCaster, pCaster2)
+{
+  <i>// Magie kann man hören, ganz klar ;)
+</i>  Sound(<i class="string">"Magic*"</i>);
+  <i>// Effekt global starten
+</i>  AddEffect(<i class="string">"GravChangeUSpell"</i>, 0, 150, 37, 0, GetID(), -10);
+  <i>// Fertig - das Zauberobjekt wird nun nicht mehr gebraucht
+</i>  <b>return</b>(RemoveObject());
+}
+
+<b>protected</b> <b>func</b> FxGravChangeUSpellStart(pTarget, iEffectNumber, iTemp, iChange)
+{
+  <i>// Anderen Gravitationseffekt suchen
+</i>  <b>if</b> (!iTemp)
+  {
+    <b>var</b> iOtherEffect = GetEffect(<i class="string">"GravChangeUSpell"</i>, pTarget);
+    <b>if</b> (iOtherEffect == iEffectNumber) iOtherEffect = GetEffect(<i class="string">"GravChangeUSpell"</i>, pTarget, 1);
+    <b>if</b> (iOtherEffect)
+    {
+      <i>// Gravitationsänderung auf diesen Effekt aufrechnen
+</i>      EffectVar(1, pTarget, iOtherEffect) += iChange;
+      SetGravity(GetGravity() + iChange);
+      <i>// Selbst entfernen
+</i>      <b>return</b>(-1);
+    }
+  }
+  <i>// Vorherige Gravitation sichern
+</i>  <b>var</b> iOldGrav = EffectVar(0, pTarget, iEffectNumber) = GetGravity();
+  <i>// Für nichttemporäre Aufrufe wird iChange übergeben, und auf den Änderungswert aufgerechnet
+</i>  <b>if</b> (iChange) EffectVar(1, pTarget, iEffectNumber) += iChange;
+  <i>// Gravitationsänderung setzen
+</i>  <i>// Die Änderung kann in temporären Aufrufen auch ungleich iChange sein
+</i>  SetGravity(iOldGrav + EffectVar(1, pTarget, iEffectNumber));
+  <i>// Fertig
+</i>  <b>return</b>(1);
+}
+
+<b>protected</b> <b>func</b> FxGravChangeUSpellTimer(pTarget, iEffectNumber)
+{
+  <i>// Gravitation in Richtung Normalwert schrauben
+</i>  <b>var</b> iGravChange = EffectVar(1, pTarget, iEffectNumber);
+  <i>// Fertig?
+</i>  <b>if</b> (Inside(iGravChange, -1, 1)) <b>return</b>(-1);
+  <i>// Anpassen
+</i>  <b>var</b> iDir = -iGravChange/Abs(iGravChange);
+  EffectVar(1, pTarget, iEffectNumber) += iDir;
+  SetGravity(GetGravity() + iDir);
+  <b>return</b>(1);
+}
+
+<b>protected</b> <b>func</b> FxGravChangeUSpellStop(pTarget, iEffectNumber)
+{
+  <i>// Gravitation Wiederherstellen
+</i>  SetGravity(EffectVar(0, pTarget, iEffectNumber));
+  <i>// Effekt entfernen
+</i>  <b>return</b>(1);
+}</pre>
+	
+	<div class="text">pTarget will be 0 in all these effect calls. You should still pass this parameter to calls such as <a href="../../sdk/script/fn/EffectVar.html">EffectVar</a>() for then it is also possible to attach effects to the magician or perhaps a magic tower. In this case, gravity would automatically be reset as soon as the magician dies or the magic tower is destroyed.</div>
+	
+	<h2 id="AddEffects">Adding Effects</h2>
+	<div class="text">In the previous example, several gravitational effects were combined so that the gravity change lasts longer if the spell is casted multiple times. Adding these effects cannot be done in the Effect callback because the gravitation effect might always be prevented by another effect with higher priority (e.g. a no-spells-whatsoever-effect). Through the special Fx*Add callback you can achieve the desired result more easily, or at least in a more structured fashion:</div>
+	
+	<pre class="code">[...]
+
+<b>protected</b> <b>func</b> FxGravChangeUSpellEffect(szNewEffect, pTarget, iEffectNumber)
+{
+  <i>// Falls der neu hinzugefügte Effekt auch eine Gravitationsänderung ist, Interesse am Übernehmen anmelden
+</i>  <b>if</b> (szNewEffect eq <i class="string">"GravChangeUSpell"</i>) <b>return</b> (-3);
+  <i>// Ansonsten ignorieren
+</i>  <b>return</b>();
+}
+
+<b>protected</b> <b>func</b> FxGravChangeUSpellAdd(pTarget, iEffectNumber, szNewEffect, pTarget, iNewTimer, iChange)
+{
+  <i>// Aufruf erfolgt, wenn der Effekt übernommen werden konnte
+</i>  <i>// Gravitationsänderung auf diesen Effekt aufrechnen
+</i>  EffectVar(1, pTarget, iEffectNumber) += iChange;
+  SetGravity(GetGravity() + iChange);  
+  <i>// Fertig
+</i>  <b>return</b>(1);
+}</pre>
+	
+	<div class="text">Returning -3 in the Fx*Effect callback will cause the Fx*Add callback to be invoked for the new effect. In this case the new effect is not actually created and the function AddEffect will return the effect number of the effect which has taken on the consequences of the new effect instead. As opposed to the method above this has the advantage that the return value can now be used to determine whether the effect has been created at all.</div>
+	
+	<h2 id="UserCallbacks">User Defined Properties</h2>
+	<div class="text">Effects can be easily classified by name. In this way, e.g. all magic spell effects can easily be found through the respective wildcard string. If, however, you want to create user-defined properties which also apply to existing effects you can do this by defining additional effect functions:</div>
+	
+	<pre class="code"><b>global</b> <b>func</b> FxFireIsHot() { <b>return</b>(1); } <i>// Feuer is heiß
+</i>
+<i>// Funktion, die alle heißen Effekte vom Zielobjekt entfernt
+</i><b>global</b> <b>func</b> RemoveAllHotEffects(pTarget)
+{
+  <i>// Lokaler Aufruf
+</i>  <b>if</b> (!pTarget) pTarget=this();
+  <i>// Alle Effekte durchsuchen und die heißen entfernen
+</i>  <b>var</b> iEffect, i;
+  <b>while</b> (iEffect = GetEffect(<i class="string">"*"</i>, pTarget, i++))
+    <b>if</b> (EffectCall(pTarget, iEffect, <i class="string">"IsHot"</i>))
+      RemoveEffect(0, pTarget, iEffect);
+}</pre>
+	
+	<div class="text">Using <a href="../../sdk/script/fn/EffectCall.html">EffectCall</a>() you can of course also call functions in the effect, e.g. to extend certain effects.</div>
+	
+	<h2 id="BlendFx">Blind Effects</h2>
+	<div class="text">Sometimes effects only need to be created in order to produce the respective callbacks in other effects - for example with magic spells which don't have any animation or long term effects but which nonetheless might be blocked by other effects. Example for the earthquake spell:</div>
+	
+	<pre class="code"><i>/* Erdbebenzauber */</i>
+
+<b>#strict</b>
+
+<b>public</b> <b>func</b> Activate(<b>object</b> pCaster, <b>object</b> pCaster2)
+{
+  Sound(<i class="string">"Magic1"</i>);
+  <i>// Effekt prüfen
+</i>  <b>var</b> iResult;
+  <b>if</b> (iResult = CheckEffect(<i class="string">"EarthquakeNSpell"</i>, 0, 150)) <b>return</b>(iResult!=-1 &amp;&amp; RemoveObject());
+  <i>// Effekt ausführen
+</i>  <b>if</b> (GetDir(pCaster)==DIR_Left()) CastLeft(); <b>else</b> CastRight();
+  <i>// Zauberobjekt entfernen
+</i>  <b>return</b>(RemoveObject());
+}</pre>
+	
+	<div class="text">The return value of <a href="../../sdk/script/fn/CheckEffect.html">CheckEffect</a>() is -1 if the effect was rejected and a positive value or -2 if the effect was accepted. In both cases the effect itself should not be executed, but in the latter case the Activate function may signal success by returning 1.</div>
+	
+	<h2 id="Ext">Extended Possibilities</h2>
+	<div class="text">As every effect has its own data storage, effects are also a way of attaching external data to objects without having to change the object definition for that. Also, simple calls can be delayed, e.g. for one frame after destruction of the object as is done at one place in the Knights pack:</div>
+	
+	<pre class="code"><i>// Der Aufruf von CastleChange muss verzögert erfolgen, damit das Teil zum Aufruf auch wirklich weg ist
+</i><i>// Ansonsten würden FindObject()-Aufrufe dieses Objekt noch finden
+</i><b>public</b> <b>func</b> CastlePartDestruction()
+{
+  <i>// Fundament?
+</i>  <b>if</b> (basement) 
+  	RemoveObject(basement);
+  <i>// Globaler Temporäreffekt, wenn nicht schon vorhanden
+</i>  <b>if</b> (!GetEffect(<i class="string">"IntCPW2CastleChange"</i>))
+  	AddEffect(<i class="string">"IntCPW2CastleChange"</i>, 0, 1, 2, 0, CPW2);
+  <b>return</b>(1);
+}
+
+<b>protected</b> <b>func</b> FxIntCPW2CastleChangeStop()
+{
+  <i>// Alle BurgTeile benachrichtigen
+</i>  <b>var</b> pObj;
+  <b>while</b>(pObj = FindObject(0, 0, 0, 0, 0, OCF_Fullcon(), 0,0, NoContainer(), pObj))
+    pObj-&gt;~CastleChange();
+  <i>// Fertig
+</i>  <b>return</b>(1);
+}</pre>
+	
+	<div class="text">For this application, the effect name should start with "Int" (especially if working with global callbacks) followed by the id of the object to avoid any kind of name conflict with other effects.</div>
+	
+	<div class="text">Also, certain action can be taken at the death of an object without having to modify that object's definition. A scenario script might contain:</div>
+	
+	<pre class="code"><i>/* Szenarioscript */</i>
+
+<b>#strict</b>
+
+<b>protected</b> <b>func</b> Initialize()
+{
+  <i>// Alle Wipfe manipulieren
+</i>  <b>var</b> obj;
+  <b>while</b> (obj = FindObject(WIPF, 0,0,0,0, OCF_Alive(), 0,0, 0, obj))
+    AddEffect(<i class="string">"ExplodeOnDeathCurse"</i>, obj, 20);
+}
+
+<b>global</b> <b>func</b> FxExplodeOnDeathCurseStop(pTarget, iEffectNumber, iReason)
+{
+  <i>// Bumm!
+</i>  <b>if</b> (iReason == 4) Explode(20, pTarget);
+  <b>return</b>(1);
+}</pre>
+
+	<div class="text">All wipfs present at the beginning of the scenario will explode on death.</div>
+	
+	<h2 id="Naming">Naming</h2>
+	<div class="text">So that effects might properly recognize and manipulate each other you should stick to the following naming scheme ("*abc" means endings, "abc*" means prefixes, and "*abc*" means string parts which might occur anywhere in the name).</div>
+	
+	<div class="text"><table>
+<thead><tr>
+<th>Name section</th>
+<th>Meaning</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>*Spell</td>
+<td>Magic effect</td>
+</tr>
+<tr class="dark">
+<td>*PSpell</td>
+<td>Benevolent magic effect</td>
+</tr>
+<tr>
+<td>*NSpell</td>
+<td>Malevolent magic effect</td>
+</tr>
+<tr class="dark">
+<td>*USpell</td>
+<td>Neutral magic effect</td>
+</tr>
+<tr>
+<td>*Fire*</td>
+<td>Fire effect - the function <a href="../../sdk/script/fn/Extinguish.html">Extinguish</a>() removes all effects of this name.</td>
+</tr>
+<tr class="dark">
+<td>*Curse*</td>
+<td>Curse</td>
+</tr>
+<tr>
+<td>*Ban*</td>
+<td>Effect preventing other effects (e.g. fire proofness or immunity)</td>
+</tr>
+<tr class="dark">
+<td>Int*</td>
+<td>Internal effect (data storage etc.)</td>
+</tr>
+<tr>
+<td>*Potion</td>
+<td>Magic potion</td>
+</tr>
+</tbody>
+</table></div>
+	
+	<div class="text">Warning: as function names may not be more than 100 characters in length (and you will lose oversight eventually), you should not stuff too much information into the effect name. Effect names are case sensitive. Also, you should avoid using any of these identifiers in your effect names if your effect doesn't have anything to do with them.</div>
+	
+	<h2 id="CBRef">Callback Reference</h2>
+	
+		<div class="text">The following callbacks are made by the engine and should be implemented in your script according to necessity. * is to be replaced by your effect name.</div>
+		
+		<h3>Fx*Start</h3>
+		<div class="text"><code><b>int</b> Fx*Start (<b>object</b> pTarget, <b>int</b> iEffectNumber, <b>int</b> iTemp, C4Value <b>var</b>1, C4Value <b>var</b>2, C4Value <b>var</b>3, C4Value <b>var</b>4);</code></div>
+		<div class="text">Called at the start of the effect. pTarget is the target object of the effect. iEffectNumber is the effect index. These two parameters can be used to identify the effect, e.g. to manipulate corresponding variables in <a href="../../sdk/script/fn/EffectVar.html">EffectVar</a>().</div>
+		<div class="text">In normal operation the parameter iTemp is 0. It is 1 if the effect is re-added after having been temporarily removed and 2 if the effect was temporarily removed and is now to be deleted (in this case a Remove call will follow).</div>
+		<div class="text">Values var1 to var4 are the additional parameters passed to /() and can be custom used.</div>
+		<div class="text">If iTemp is 0 and this callback returns -1 the effect is not created and the corrsponding <a href="../../sdk/script/fn/AddEffect.html">AddEffect</a>() call returns 0.</div>
+		
+		<h3>Fx*Stop</h3>
+		<div class="text"><code><b>int</b> Fx*Stop (<b>object</b> pTarget, <b>int</b> iEffectNumber, <b>int</b> iReason, <b>bool</b> fTemp);</code></div>
+		<div class="text">When the effect is temporarily or permanently removed. pTarget again is the target object and iEffectNumber the index into the effects list of that object.</div>
+		<div class="text">iReason contains the cause of the removal and can be one of the following values:</div>
+		
+		<div class="text"><table>
+<thead><tr>
+<th>iReason</th>
+<th>Meaning</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Normal removal</td>
+</tr>
+<tr class="dark">
+<td>1</td>
+<td>Temporary removal (fTemp is 1).</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Not used</td>
+</tr>
+<tr class="dark">
+<td>3</td>
+<td>The target object has been deleted</td>
+</tr>
+<tr>
+<td>4</td>
+<td>The target object has died</td>
+</tr>
+</tbody>
+</table></div>
+		
+		<div class="text">The effect can prevent removal by returning -1. This will not help, however, in temporary removals or if the target object has been deleted.</div>
+		
+		<h3>Fx*Timer</h3>
+		<div class="text"><code><b>int</b> Fx*Timer (<b>object</b> pTarget, <b>int</b> iEffectNumber, <b>int</b> iEffectTime);</code></div>
+		<div class="text">Periodic timer call, if a timer interval has been specified at effect creation. pTarget and iEffectNumber as usual.</div>
+		<div class="text">iEffectTime specifies how long the effect has now been active. This might alternatively be determined using <a href="../../sdk/script/fn/GetEffect.html">GetEffect</a>().</div>
+		<div class="text">If this function is not implemented or returns -1, the effect will be deleted after this call.</div>
+		
+		
+		<h3>Fx*Effect</h3>
+		<div class="text"><code><b>int</b> Fx*Effect (<b>string</b> szNewEffectName, <b>object</b> pTarget, <b>int</b> iEffectNumber, <b>int</b> iNewEffectNumber, C4Value <b>var</b>1, C4Value <b>var</b>2, C4Value <b>var</b>3, C4Value <b>var</b>4);</code></div>
+		<div class="text">A call to all effects of higher priority if a new effect is to be added to the same target object. szNewEffectName is the name of the new effect; iEffectNumber is the index of the effect being called; and iNewEffectNumber is the index of the new effect.</div>
+		<div class="text">Warning: the new effect is not yet properly initialized and should not be manipulated in any way. Especially the priority field might not yet have been set. The iNewEffectNumber can however be used to request information via <a href="../../sdk/script/fn/EffectCall.html">EffectCall</a>(). In calls made by <a href="../../sdk/script/fn/CheckEffect.html">CheckEffect</a>() iNewEffectNumber is always 0.</div>
+		<div class="text">This function can return -1 to reject the new effect. As the new effect might also be rejected by other effects, this callback should not try to add effects or similar (see gravitation spell). Generally you should not try to manipulate any effects during this callback.</div>
+		<div class="text">Return -2 or -3 to accept the new effect. As long as the new effect is not rejected by any other effect, the Fx*Add call is then made to the accepting effect, the new effect is not actually created, and the calling AddEffect function returns the effect index of the accepting effect. The return value -3 will also temporarily remove all higher prioriy effects just before the Fx*Add callback and re-add them later.</div>
+		<div class="text">var1 bis var4 are the parameters passed to <a href="../../sdk/script/fn/AddEffect.html">AddEffect</a>()</div>
+		
+		<h3>Fx*Add</h3>
+		<div class="text"><code><b>int</b> Fx*Add (<b>object</b> pTarget, <b>int</b> iEffectNumber, <b>string</b> szNewEffectName, <b>int</b> iNewEffectTimer, C4Value <b>var</b>1, C4Value <b>var</b>2, C4Value <b>var</b>3, C4Value <b>var</b>4);</code></div>
+		<div class="text">Callback to the accepting effect if that has returned -2 or -3 to a prior Fx*Effect call. iEffectNumber identifies the accepting effect to which the consequences of the new effect will be added; pTarget is the target object (0 for global effects).</div>
+		<div class="text">iNewEffectTimer is the timer interval of the new effect; var1 to var4 are the parameters from AddEffect. Notice: in temporary calls, these parameters are not available - here they will be 0.</div>
+		<div class="text">If -1 is returned, the accepting effect is deleted also. Logically, the calling AddEffect function will then return -2.</div>
+		
+		<h3>Fx*Damage</h3>
+		<div class="text"><code><b>int</b> Fx*Damage (<b>object</b> pTarget, <b>int</b> iEffectNumber, <b>int</b> iDmgEngy, <b>int</b> iCause, <b>int</b> iCausePlr);</code></div>
+		<div class="text">Every effect receives this callback whenever the energy or damage value of the target object is to change. If the function is defined, it should then return whether to allow the change.</div>
+		<div class="text">iDmgEngy is the change amount. Negative values are used for damage, positive values for healing (in case of living beings).</div>
+		<div class="text">Energy values are exact, meaning 100,000 is the full energy value of a normal clonk of rank 10 (C4MaxPhysical). The conversion factor from GetEnergy to this value is 1,000.</div>
+		<div class="text">This callback is made upon life energy changes in living beings and damage value changes in non-livings - but not vice versa. iCause contains the value change and reason:</div>
+		
+		<div class="text"><table>
+<thead><tr>
+<th>Script constant</th>
+<th>iCause</th>
+<th>Meaning</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>FX_Call_DmgScript</td>
+<td>0</td>
+<td>Damage by script call <a href="../../sdk/script/fn/DoDamage.html">DoDamage</a>()</td>
+</tr>
+<tr class="dark">
+<td>FX_Call_DmgBlast</td>
+<td>1</td>
+<td>Damage by explosion</td>
+</tr>
+<tr>
+<td>FX_Call_DmgFire</td>
+<td>2</td>
+<td>Damage by fire</td>
+</tr>
+<tr class="dark">
+<td>FX_Call_DmgChop</td>
+<td>3</td>
+<td>Damage by chopping (only trees)</td>
+</tr>
+<tr>
+<td>FX_Call_EngScript</td>
+<td>32</td>
+<td>Energy value change by script call <a href="../../sdk/script/fn/DoEnergy.html">DoEnergy</a>()</td>
+</tr>
+<tr class="dark">
+<td>FX_Call_EngBlast</td>
+<td>33</td>
+<td>Energy loss by explosion</td>
+</tr>
+<tr>
+<td>FX_Call_EngObjHit</td>
+<td>34</td>
+<td>Energy loss by object hit</td>
+</tr>
+<tr class="dark">
+<td>FX_Call_EngFire</td>
+<td>35</td>
+<td>Energy loss by fire</td>
+</tr>
+<tr>
+<td>FX_Call_EngBaseRefresh</td>
+<td>36</td>
+<td>Energy recharge at the home base</td>
+</tr>
+<tr class="dark">
+<td>FX_Call_EngAsphyxiation</td>
+<td>37</td>
+<td>Energy loss by suffocation</td>
+</tr>
+<tr>
+<td>FX_Call_EngCorrosion</td>
+<td>38</td>
+<td>Energy loss through acid</td>
+</tr>
+<tr class="dark">
+<td>FX_Call_EngStruct</td>
+<td>39</td>
+<td>Energy loss of buildings (only "living" buildings)</td>
+</tr>
+<tr>
+<td>FX_Call_EngGetPunched</td>
+<td>40</td>
+<td>Energy loss through clonk-to-clonk battle</td>
+</tr>
+</tbody>
+</table></div>
+
+		<div class="text">Generally, the expression "iCause &amp; 32" can be used to determine whether the energy or damage values were changed.</div>
+		<div class="text">iCausePlr is the player number of the player who caused the change.</div>
+		<div class="text">Using this callback, damage to an object can be prevented, lessened, or increased. You could deduct magic energy instead, transfer damage to other objects, or something similar.</div>
+		
+		<h3>Fx*Info</h3>
+		<div class="text"><code><b>int</b> Fx*Info(<b>object</b> pTarget, <b>int</b> iEffectNumber)</code></div>
+		<div class="text">Is being called when the info of an object is shown via the context menu of the object target.</div>
+	
+	
+	<h2 id="FnRef">Function Reference</h2>
+	<div class="text">There are the following functions for manipulation of effects:</div>
+	
+	<div class="text"><ul>
+		<li>
+<a href="../../sdk/script/fn/AddEffect.html">AddEffect</a>() - for effect creation</li>
+		<li>
+<a href="../../sdk/script/fn/RemoveEffect.html">RemoveEffect</a>() - for effect removal</li>
+		<li>
+<a href="../../sdk/script/fn/GetEffect.html">GetEffect</a>() - to request effect parameters</li>
+		<li>
+<a href="../../sdk/script/fn/GetEffectCount.html">GetEffectCount</a>() - for effect counting</li>
+		<li>
+<a href="../../sdk/script/fn/EffectCall.html">EffectCall</a>() - for user defined calls in effects</li>
+		<li>
+<a href="../../sdk/script/fn/EffectVar.html">EffectVar</a>() - to request effect variables</li>
+		<li>
+<a href="../../sdk/script/fn/ChangeEffect.html">ChangeEffect</a>() - to modify effect names and timers (e.g. for multi-stage effects)</li>
+		<li>
+<a href="../../sdk/script/fn/CheckEffect.html">CheckEffect</a>() - to cause effects callbacks without actually creating an effect</li>
+	</ul></div>
+
+
+<div class="author">Sven2, März 2004</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetTransferZone</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetTransferZone">SetTransferZone</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Status<br><b>Ab Engineversion: </b>4.6.5.0 CP</div>
+<h2>Beschreibung</h2>
+<div class="text">Setzt einen neuen Transferbereich für ein Objekt. Führt die Suche der Wegfindung durch einen Transferbereich (dieser gilt für die Wegfindung immer als komplett durchlaufbar), werden für den Clonk ControlTransfer-Aufrufe an das Script des Objekts aufgerufen. In diesen sollte mit Hilfe von Befehlen dafür gesorgt werden, dass der Clonk an seine Zielposition kommt.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetTransferZone
+      (<span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">int</span> iWdt, <span class="type">int</span> iHgt, <span class="type">object</span> pObj);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iX: </dt>
+<dd><div class="text">X-Position der oberen linken Ecke der neuen Transferzone; relativ zum Objektmittelpunkt</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">Y-Position der oberen linken Ecke der neuen Transferzone; relativ zum Objektmittelpunkt</div></dd>
+<dt>iWdt: </dt>
+<dd><div class="text">Breite der neuen Transferzone</div></dd>
+<dt>iHgt: </dt>
+<dd><div class="text">Höhe der neuen Transferzone</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Objekt, dessen Transferzone geändert werden soll. 0 bei lokalem Aufruf.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Transferzonen müssen neu gesetzt werden, wenn sich das Objekt bewegt. Außerdem sollten sie immer als Antwort auf einen UpdateTransferZone-Callback der Engine neu gesetzt werden.</div>
+<h2>Beispiel</h2>
+      <div class="example">
+<pre class="code"><b>protected</b> <b>func</b> Initialize() { <a href="../../../sdk/script/fn/return.html">return</a>(UpdateTransferZone()); }
+
+<b>protected</b> <b>func</b> UpdateTransferZone() { <a href="../../../sdk/script/fn/return.html">return</a>(SetTransferZone(-<a href="../../../sdk/script/fn/GetX.html">GetX</a>(), -<a href="../../../sdk/script/fn/GetY.html">GetY</a>(), <a href="../../../sdk/script/fn/LandscapeWidth.html">LandscapeWidth</a>(), <a href="../../../sdk/script/fn/LandscapeHeight.html">LandscapeHeight</a>()));
+
+<b>protected</b> <b>func</b> ControlTransfer(pClonk, iToX, iToY)
+  {
+  <a href="../../../sdk/script/fn/SetPosition.html">SetPosition</a>(iToX, iToY, pClonk);
+  <a href="../../../sdk/script/fn/return.html">return</a>(1);
+  }</pre>
+        <div class="text">Script für ein Cheatobjekt: Ein Spieler, der mit der Maussteuerung an ein Ziel klickt, wird sofort dorthin versetzt.</div>
+      </div>
+    <div class="author">Sven2, Juni 2003</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

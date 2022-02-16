@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>ResortObjects</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="ResortObjects">ResortObjects</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Position<br><b>Ab Engineversion: </b>4.9.1.0 GWE</div>
+<h2>Beschreibung</h2>
+<div class="text">Sortiert die Objektliste teilweise oder komplett neu. Dafür wird ein einfacher Sortierungsalgorithmus angewandt, der immer wieder die angegebene Funktion aufruft, welche dann die Relation zweier Objekte zueinander zurückgeben muss. Die beiden Objekte werden als <a href="../../../sdk/script/fn/Par.html">Par</a>(0) und <a href="../../../sdk/script/fn/Par.html">Par</a>(1) übergeben. Wenn das erste Objekt vor dem zweiten stehen sollte, muss die Funktion einen Wert kleiner Null zurückgeben. Ansonsten einen Wert größer oder gleich Null.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> ResortObjects
+      (<span class="type">string</span> szResortFunc, <span class="type">int</span> iCategory);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>szResortFunc: </dt>
+<dd><div class="text">Name der Funktion, die für die Umsortierung aufgerufen wird.</div></dd>
+<dt>iCategory: </dt>
+<dd><div class="text">
+    [opt]
+  Umzusortierende Objektkategorie (z.B. <a href="../../../sdk/script/fn/C4D_StaticBack.html">C4D_StaticBack</a>). 0 sortiert alle Objekte neu.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Die Sortierung findet intern erst am Ende des Frames statt.</div>
+<h2>Beispiel</h2>
+			<div class="example">
+
+<pre class="code">  ResortObjects(<i class="string">"ResortProc"</i>, <a href="../../../sdk/script/fn/C4D_StaticBack.html">C4D_StaticBack</a>());
+
+<b>protected</b> ResortProc: <b>return</b>(<a href="../../../sdk/script/fn/GetMass.html">GetMass</a>(<a href="../../../sdk/script/fn/Par.html">Par</a>(0))-<a href="../../../sdk/script/fn/GetMass.html">GetMass</a>(<a href="../../../sdk/script/fn/Par.html">Par</a>(1)));</pre>
+				<div class="text">Sortiert alle C4D_StaticBack-Objekte nach Gewicht (leichte Objekte nach vorne).</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/Resort.html">Resort</a>, <a href="../../../sdk/script/fn/SetObjectOrder.html">SetObjectOrder</a>
+</div>
+<div class="author">Sven2, November 2001</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

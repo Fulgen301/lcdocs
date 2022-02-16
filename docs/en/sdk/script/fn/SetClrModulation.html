@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetClrModulation</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetClrModulation">SetClrModulation</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Display<br><b>Since engine version: </b>4.9.1.0 GWE
+        (extended in 4.9.6.0 CR)
+      </div>
+<h2>Description</h2>
+<div class="text">Changes the color modulation of an object. This is a color value which is multiplied with the object color. <a href="../../../sdk/script/fn/RGB.html">RGB</a>(255,0,0) will only let the red part of the color show. <a href="../../../sdk/script/fn/RGBa.html">RGBa</a>(255,255,255,128) will make all color half transparent (unless alpha addition is disabled in the graphics options).</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetClrModulation
+      (<span class="type">int</span> dwClr, <span class="type">object</span> pObj, <span class="type">int</span> iOverlayID);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>dwClr: </dt>
+<dd><div class="text">New color which is used for color modulation. If 0, modulation is deactivated. To create a 'black' color, use a value slightly higher than 0 such as <a href="../../../sdk/script/fn/RGB.html">RGB</a>(0,0,1).</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">Object the coloration of which you want to change. Can be 0 in local calls.</div></dd>
+<dt>iOverlayID: </dt>
+<dd><div class="text">
+    [opt]
+  If specified, sets the color modulation of the graphics overlay instead. The overlay must have been created using <a href="../../../sdk/script/fn/SetGraphics.html">SetGraphics</a> first. From CR.</div></dd>
+</dl>
+<h2>Example</h2>
+			<div class="example">
+				<pre class="code">SetClrModulation(<a href="../../../sdk/script/fn/RGBa.html">RGBa</a>(128,128,255,128), <a href="../../../sdk/script/fn/GetCursor.html">GetCursor</a>());</pre>
+				<div class="text">Colors the selected clonk of the first player slightly blue and makes him half transparent.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GetClrModulation.html">GetClrModulation</a>, <a href="../../../sdk/script/fn/RGB.html">RGB</a>, <a href="../../../sdk/script/fn/RGBa.html">RGBa</a>, <a href="../../../sdk/script/fn/SetColorDw.html">SetColorDw</a>, <a href="../../../sdk/script/fn/SetGamma.html">SetGamma</a>, <a href="../../../sdk/script/fn/SetObjectBlitMode.html">SetObjectBlitMode</a>
+</div>
+<div class="author">Sven2, April 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

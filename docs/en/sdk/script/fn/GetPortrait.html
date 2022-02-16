@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetPortrait</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetPortrait">GetPortrait</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Display<br><b>Since engine version: </b>4.9.5.0 CE</div>
+<h2>Description</h2>
+<div class="text">Retrieves name or id of the portrait of a crew member.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">any</span> GetPortrait
+      (<span class="type">object</span> pObj, <span class="type">bool</span> fGetID, <span class="type">bool</span> fGetPermanent);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Object of which you want to retrieve portrait information. Can be 0 in local calls.</div></dd>
+<dt>fGetID: </dt>
+<dd><div class="text">
+    [opt]
+  If true, the function returns the id of the definition from which the portrait was taken. Otherwise, the name of the portrait.</div></dd>
+<dt>fGetPermanent: </dt>
+<dd><div class="text">
+    [opt]
+  If true, the function returns the values of the object's permanent portrait. Otherwise, the values of the currently used portrait which might be temporary.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">If the crew member has an individually stored portrait, the function returns "custom" and the id NONE. Also see the table and description of the fCopyGfx parameter in <a href="../../../sdk/script/fn/SetPortrait.html">SetPortrait</a>
+</div>
+<h2>Examples</h2>
+      <div class="example">
+        <pre class="code"><b>if</b>(!WildcardMatch(<a href="../../../sdk/script/fn/GetPortrait.html">GetPortrait</a>(0, 0, 1), <i class="string">"?"</i>) )
+  <a href="../../../sdk/script/fn/SetPortrait.html">SetPortrait</a>(<i class="string">"random"</i>, 0, <a href="../../../sdk/script/fn/GetPortrait.html">GetPortrait</a>(0, 1, 1), 1);
+        </pre>
+        <div class="text">Assigns a random portrait to this clonk if the name of the current portrait is not just an index (i.e. "1", "2", "3") but a full portrait name (i.e. "Armored1", "Armored2").</div>
+      </div>
+      <div class="example">
+        <pre class="code"><a href="../../../sdk/script/fn/SetPortrait.html">SetPortrait</a>(<a href="../../../sdk/script/fn/GetPortrait.html">GetPortrait</a>(0, 0, 1), 0, <a href="../../../sdk/script/fn/GetPortrait.html">GetPortrait</a>(0, 1, 1) );
+        </pre>
+        <div class="text">Restores the default portrait of a clonk in case it was changed by a SetPortrait call.</div>
+      </div>
+    <div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/SetPortrait.html">SetPortrait</a>
+</div>
+<div class="author">Clonk-Karl, Dezember 2005</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

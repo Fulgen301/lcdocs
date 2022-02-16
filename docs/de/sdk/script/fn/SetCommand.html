@@ -1,0 +1,509 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetCommand</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetCommand">SetCommand</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Commands<br><b>Ab Engineversion: </b>4.6.5.0 CP
+        (erweitert ab 4.9.1.0 GWE)
+      </div>
+<h2>Beschreibung</h2>
+<div class="text">
+      Gibt einem Objekt ein Kommando, welches dieses selbstständig (ggf. durch automatische Wegfindung) auszuführen versucht.
+    </div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetCommand
+      (<span class="type">object</span> pObj, <span class="type">string</span> szCommand, <span class="type">object</span> pTarget, <span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">object</span> pTarget2, <span class="type">any</span> Data, <span class="type">int</span> iRetries);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">Objekt, dem das Kommando gegeben wird.</div></dd>
+<dt>szCommand: </dt>
+<dd><div class="text">Kommandoname (als String). Siehe untere Tabelle </div></dd>
+<dt>pTarget: </dt>
+<dd><div class="text">
+    [opt]
+  Zielobjekt für Aktion</div></dd>
+<dt>iX: </dt>
+<dd><div class="text">
+    [opt]
+  X-Zielkoordinate</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">
+    [opt]
+  Y-Zielkoordinate</div></dd>
+<dt>pTarget2: </dt>
+<dd><div class="text">
+    [opt]
+  zweites Zielobjekt</div></dd>
+<dt>Data: </dt>
+<dd><div class="text">
+    [opt]
+  zusätzliche Daten zur Aktion</div></dd>
+<dt>iRetries: </dt>
+<dd><div class="text">
+    [opt]
+  Anzahl der Wiederholungen (wenn das Kommando fehlschlägt), bis das Kommando abgebrochen wird.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">
+       Es sind folgende Kommandos definiert:
+      <table>
+<thead><tr>
+<th>szCommand</th>
+<th>pTarget</th>
+<th>iX,iY</th>
+<th>pTarget2</th>
+<th>iData</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Acquire</td>
+<td>Null</td>
+<td>0,0</td>
+<td>Behälter ignorieren</td>
+<td>Objekttyp (id)</td>
+<td>Objekt von Objekttyp beschaffen, wenn nötig kaufen. Material im angegebenen Behälter (Target2) wird bei der Suche ignoriert.</td>
+</tr>
+<tr class="dark">
+<td>Activate</td>
+<td>Zielobjekt</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Zielobjekt aktivieren (aus Gebäude herausholen).</td>
+</tr>
+<tr>
+<td>Activate</td>
+<td>Null</td>
+<td>0,0</td>
+<td>Zielobjekt</td>
+<td></td>
+<td>Holen-Menü für Inhalt des Zielobjekts öffnen.</td>
+</tr>
+<tr class="dark">
+<td>Activate</td>
+<td>Null</td>
+<td>Anzahl,0</td>
+<td>Zielobjekt</td>
+<td>Objekttyp (id)</td>
+<td>Anzahl Objekte von Objekttyp in Zielobjekt aktivieren.</td>
+</tr>
+<tr>
+<td>Attack</td>
+<td>Zielobjekt</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Zielobjekt angreifen.</td>
+</tr>
+<tr class="dark">
+<td>Build</td>
+<td>Zielobjekt</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Zielobjekt bauen und anschließend mit Energie versorgen.</td>
+</tr>
+<tr>
+<td>Buy</td>
+<td>Null</td>
+<td>0,0</td>
+<td>Null</td>
+<td>Objekttyp (id)</td>
+<td>Objekt von Objekttyp in nächstgelegener Basis kaufen.</td>
+</tr>
+<tr class="dark">
+<td>Buy</td>
+<td>Basis</td>
+<td>Anzahl,0</td>
+<td>Null</td>
+<td>Objekttyp (id)</td>
+<td>Anzahl Objekte von Objekttyp in Basis kaufen.</td>
+</tr>
+<tr>
+<td>Buy</td>
+<td>Basis</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Kaufen-Menü für angegebene Basis öffnen.</td>
+</tr>
+<tr class="dark">
+<td>Call</td>
+<td>Objekt</td>
+<td>Par(1),Par(2)</td>
+<td>Par(3)</td>
+<td>
+<em>Funktion</em> (string)</td>
+<td>
+<em>Funktion</em> im Objekt-Script von Objekt aufrufen, Par(0) ist dabei das aufrufende Objekt. Schlägt das Kommando fehl, weil untergeordnete Befehle nicht ausgeführt werden konnten, wird stattdessen <em>Funktion</em>Failed aufgerufen.</td>
+</tr>
+<tr>
+<td>Chop</td>
+<td>Zielobjekt</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Zielobjekt fällen.</td>
+</tr>
+<tr class="dark">
+<td>Construct</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Bauauftragsmenü öffnen.</td>
+</tr>
+<tr>
+<td>Construct</td>
+<td>Null</td>
+<td>0,0</td>
+<td>Null</td>
+<td>Objekttyp (id)</td>
+<td>An der nächstmöglichen Zielposition Baustelle errichten.</td>
+</tr>
+<tr class="dark">
+<td>Construct</td>
+<td>Null</td>
+<td>Zielposition</td>
+<td>Null</td>
+<td>Objekttyp (id)</td>
+<td>An der Zielposition Baustelle errichten und anschließend bauen.</td>
+</tr>
+<tr>
+<td>Construct</td>
+<td>Zielobjekt</td>
+<td>Zielposition [opt]</td>
+<td>Null</td>
+<td>Objekttyp (id)</td>
+<td>Zielobjekt helfen, die Baustelle zu errichten (der Clonk baut mit, sobald die Baustelle errichtet wurde)</td>
+</tr>
+<tr class="dark">
+<td>Dig</td>
+<td>Null</td>
+<td>Zielposition</td>
+<td></td>
+<td></td>
+<td>Zur Zielposition graben.</td>
+</tr>
+<tr>
+<td>Drop</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Erstes getragenes Objekt sofort ablegen.</td>
+</tr>
+<tr class="dark">
+<td>Drop</td>
+<td>Null</td>
+<td>Zielposition</td>
+<td></td>
+<td></td>
+<td>Erstes getragenes Objekt an Zielposition ablegen.</td>
+</tr>
+<tr>
+<td>Drop</td>
+<td>Zielobjekt</td>
+<td>Zielposition</td>
+<td></td>
+<td></td>
+<td>Zielobjekt einsammeln und an Zielposition ablegen.</td>
+</tr>
+<tr class="dark">
+<td>Energy</td>
+<td>Zielobjekt</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Zielobjekt vom nächsten Versorger mit Energie versorgen.</td>
+</tr>
+<tr>
+<td>Energy</td>
+<td>Zielobjekt</td>
+<td>0,0</td>
+<td>Versorger</td>
+<td></td>
+<td>Zielobjekt vom Versorger mit Energie versorgen.</td>
+</tr>
+<tr class="dark">
+<td>Enter</td>
+<td>Zielobjekt</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Das Zielobjekt betreten.</td>
+</tr>
+<tr>
+<td>Exit</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Den aktuellen Behälter verlassen.</td>
+</tr>
+<tr class="dark">
+<td>Follow</td>
+<td>Zielobjekt</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Dem Zielobjekt folgen (dauerhaft).</td>
+</tr>
+<tr>
+<td>Get</td>
+<td>Zielobjekt</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Zielobjekt einsammeln (ggf. ausgraben).</td>
+</tr>
+<tr class="dark">
+<td>Get</td>
+<td>Null</td>
+<td>Anzahl,0</td>
+<td>Zielobjekt</td>
+<td>Objekttyp (id)</td>
+<td>Anzahl Objekte von Objekttyp aus Zielobjekt holen. Ab 4.9.8.3.</td>
+</tr>
+<tr>
+<td>Grab</td>
+<td>Zielobjekt</td>
+<td>Offset</td>
+<td></td>
+<td></td>
+<td>Das Zielobjekt am Offset zur Objektmitte anfassen.</td>
+</tr>
+<tr class="dark">
+<td>Home</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Zurück zur nächstgelegenen Heimatbasis.</td>
+</tr>
+<tr>
+<td>Jump</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>In aktuelle Richtung springen.</td>
+</tr>
+<tr class="dark">
+<td>Jump</td>
+<td>Null</td>
+<td>Zielposition</td>
+<td></td>
+<td></td>
+<td>In Richtung der Zielposition springen.</td>
+</tr>
+<tr>
+<td>MoveTo</td>
+<td>Zielobjekt</td>
+<td>0,0</td>
+<td>Null</td>
+<td>Keine Anpassung? (bool)</td>
+<td>Zur Position des Zielobjekts bewegen. iData true um die Koordinaten nicht an die Landschaftsform anzupassen.</td>
+</tr>
+<tr class="dark">
+<td>MoveTo</td>
+<td>Null</td>
+<td>Zielposition</td>
+<td>Null</td>
+<td>Keine Anpassung? (bool)</td>
+<td>Zur Zielposition bewegen. iData true um die Koordinaten nicht an die Landschaftsform anzupassen.</td>
+</tr>
+<tr>
+<td>None</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Aktuelle Befehle löschen.</td>
+</tr>
+<tr class="dark">
+<td>PushTo</td>
+<td>Zielobjekt</td>
+<td>Zielposition</td>
+<td></td>
+<td></td>
+<td>Zielobjekt an Zielposition schieben.</td>
+</tr>
+<tr>
+<td>PushTo</td>
+<td>Objekt</td>
+<td>0,0</td>
+<td>Zielobjekt</td>
+<td></td>
+<td>Objekt in Zielobjekt schieben.</td>
+</tr>
+<tr class="dark">
+<td>Put</td>
+<td>Zielobjekt</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Erstes getragenes Objekt im Zielobjekt ablegen.</td>
+</tr>
+<tr>
+<td>Put</td>
+<td>Zielobjekt</td>
+<td>Anzahl,0</td>
+<td></td>
+<td></td>
+<td>Die angegebene Anzahl getragener Objekte im Zielobjekt ablegen. Ab 4.9.8.3.</td>
+</tr>
+<tr class="dark">
+<td>Put</td>
+<td>Zielobjekt</td>
+<td>0,0</td>
+<td>Objekt</td>
+<td></td>
+<td>Objekt einsammeln und im Zielobjekt ablegen.</td>
+</tr>
+<tr>
+<td>Put</td>
+<td>Zielobjekt</td>
+<td>0,0</td>
+<td>Null</td>
+<td>Objekttyp (id)</td>
+<td>Getragenes Objekt von Objekttyp im Zielobjekt ablegen.</td>
+</tr>
+<tr class="dark">
+<td>Put</td>
+<td>Zielobjekt</td>
+<td>Anzahl,0</td>
+<td>Null</td>
+<td>Objekttyp (id)</td>
+<td>Die angegebene Anzahl getragener Objekte von Objekttyp im Zielobjekt ablegen. Ab 4.9.8.3.</td>
+</tr>
+<tr>
+<td>Sell</td>
+<td>Null</td>
+<td>0,0</td>
+<td>Objekt2</td>
+<td>Objekttyp (id)</td>
+<td>Objekt von Objekttyp in nächstgelegener Basis verkaufen. Bei angegebenem Objekt2 wird zuerst dieses verkauft, wenn es in der Basis ist.</td>
+</tr>
+<tr class="dark">
+<td>Sell</td>
+<td>Basis</td>
+<td>Anzahl,0</td>
+<td>Objekt2</td>
+<td>Objekttyp (id)</td>
+<td>Anzahl Objekte von Objekttyp in Basis verkaufen. Bei angegebenem Objekt2 wird zuerst dieses verkauft, wenn es in der Basis ist.</td>
+</tr>
+<tr>
+<td>Sell</td>
+<td>Basis</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Verkaufen-Menü für angegebene Basis öffnen.</td>
+</tr>
+<tr class="dark">
+<td>Throw</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Erstes getragenes Objekt sofort werfen.</td>
+</tr>
+<tr>
+<td>Throw</td>
+<td>Null</td>
+<td>Zielposition</td>
+<td></td>
+<td></td>
+<td>Erstes getragenes Objekt auf Zielposition werfen.</td>
+</tr>
+<tr class="dark">
+<td>Throw</td>
+<td>Zielobjekt</td>
+<td>Zielposition</td>
+<td></td>
+<td></td>
+<td>Zielobjekt einsammeln und an Zielposition werfen.</td>
+</tr>
+<tr>
+<td>UnGrab</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Aktuell angefaßtes Objekt loslassen.</td>
+</tr>
+<tr class="dark">
+<td>Wait</td>
+<td>Null</td>
+<td>0,0</td>
+<td>Null</td>
+<td>Frames</td>
+<td>Anzahl Frames/Ticks warten.</td>
+</tr>
+</tbody>
+</table>
+<br>
+	  Um das Holen-Menü für ein Objekt zu öffnen, muss der Data-Parameter auf true gesetzt sein. Beispiel: 
+	  <code><b>func</b> ControlLeft(<b>object</b> byObj) { SetCommand(byObj, <i class="string">"Get"</i>, <a href="../../../sdk/script/fn/this.html">this</a>, 0, 0, 0, <b>true</b>); }</code>
+    </div>
+<h2>Beispiel</h2>
+      <div class="example">
+        <pre class="code">SetCommand(<a href="../../../sdk/script/fn/this.html">this</a>, <i class="string">"Attack"</i>, <a href="../../../sdk/script/fn/FindObjectOwner.html">FindObjectOwner</a>(CLNK, 1, 0, 0, -1, -1), 0, 0, 0, 0, 10);</pre>
+        <div class="text">
+Dieser Script gibt dem ausführenden Clonk den Befehl, den nächstgelegenen Clonk von Spieler 1 zu attackieren. Dabei soll er nicht so schnell aufgeben und (wenn er z.B.
+daran scheitert, den Weg zum Feind zu finden) es 10 Mal zu versuchen, bis er sein Ziel erreicht hat oder abbricht.
+        </div>
+      </div>
+    <div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/AddCommand.html">AddCommand</a>, <a href="../../../sdk/script/fn/AppendCommand.html">AppendCommand</a>, <a href="../../../sdk/script/fn/FinishCommand.html">FinishCommand</a>, <a href="../../../sdk/script/fn/GetCommand.html">GetCommand</a>, <a href="../../../sdk/script/fn/PlayerObjectCommand.html">PlayerObjectCommand</a>
+</div>
+<div class="author">PeterW, November 2001</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

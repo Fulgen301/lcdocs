@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetAction</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetAction">SetAction</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Activity<br><b>Since engine version: </b>4.6.5.0 CP</div>
+<h2>Description</h2>
+<div class="text">Sets the activity of the calling object. Also see <a href="../../../sdk/definition/actmap.html">ActMap.txt</a>.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetAction
+      (<span class="type">string</span> szAction, <span class="type">object</span> pTarget1, <span class="type">object</span> pTarget2, <span class="type">bool</span> fDirect);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>szAction: </dt>
+<dd><div class="text">New action to be set. "ActIdle" or "Idle" will clear any action.</div></dd>
+<dt>pTarget1: </dt>
+<dd><div class="text">
+    [opt]
+  First target object for the action</div></dd>
+<dt>pTarget2: </dt>
+<dd><div class="text">
+    [opt]
+  Second target object for the action</div></dd>
+<dt>fDirect: </dt>
+<dd><div class="text">
+    [opt]
+  If true, Start- and AbortCalls aren't made and the action will be set even if the current action is specified as NoOtherAction.</div></dd>
+</dl>
+<h2>Remarks</h2>
+<div class="text">If pTarget1 or pTarget2 is omitted or 0, the previously set action target(s) will be preserved. To effectively clear action targets, use <a href="../../../sdk/script/fn/SetActionTargets.html">SetActionTargets</a>.</div>
+<div class="text">To set the action of another object, use <a href="../../../sdk/script/fn/ObjectSetAction.html">ObjectSetAction</a> or obj-&gt;SetAction().</div>
+<div class="text">If fDirect is false, the StartCall of the defined action is called during the execution of SetAction. So if the StartCall should happen to delete the object you must not access the object in any way following the call to SetAction!</div>
+<h2>Example</h2>
+			<div class="example">
+				<pre class="code">SetAction(<i class="string">"Dead"</i>);</pre>
+				<div class="text">The calling clonk will pretend death.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GetAction.html">GetAction</a>, <a href="../../../sdk/script/fn/GetActionTarget.html">GetActionTarget</a>, <a href="../../../sdk/script/fn/ObjectSetAction.html">ObjectSetAction</a>, <a href="../../../sdk/script/fn/SetDir.html">SetDir</a>, <a href="../../../sdk/script/fn/SetPhase.html">SetPhase</a>
+</div>
+<div class="author">Sven2, Juni 2003</div>
+<div class="author">Günther, Dezember 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

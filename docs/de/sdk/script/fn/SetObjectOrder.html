@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetObjectOrder</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetObjectOrder">SetObjectOrder</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Position<br><b>Ab Engineversion: </b>4.9.1.0 GWE
+        (erweitert ab 4.9.5.0 CE)
+      </div>
+<h2>Beschreibung</h2>
+<div class="text">Sorgt dafür, dass ein Objekt mit Sicherheit vor oder hinter einem anderen Objekt angeordnet ist. Dadurch lässt sich beispielsweise sicherstellen, dass sich ein Fahrstuhlkorb immer vor dem zugehörigen Fahrstuhl befindet.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetObjectOrder
+      (<span class="type">object</span> pObjBeforeOrAfter, <span class="type">object</span> pSortObj, <span class="type">bool</span> fAfter);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pObjBeforeOrAfter: </dt>
+<dd><div class="text">Objekt, vor oder nach dem pSortObj einsortiert werden soll</div></dd>
+<dt>pSortObj: </dt>
+<dd><div class="text">
+    [opt]
+  Objekt, das vor oder nach pObjBefore eingeordnet wird. 0 bei lokalem Aufruf.</div></dd>
+<dt>fAfter: </dt>
+<dd><div class="text">
+    [opt]
+  Wenn ungleich 0, wird sichergestellt, dass das pSortObj hinter statt vor pObjBeforeOrAfter einsortiert wird.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Es sollten nur Objekte gleicher Kategorie voreinander angeordnet werden, da sonst die interne Objektsortierung durcheinandergerät.<br>Die eigentliche Umsortierung findet erst später, aber mit Sicherheit noch im selben Frame wie der Scriptaufruf statt.</div>
+<h2>Beispiel</h2>
+			<div class="example">
+				<pre class="code">SetObjectOrder(<a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(TRE1), <a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(TRE2));</pre>
+				<div class="text">Ordnet den ersten, gefundenen Baum vom Typ TRE2 vor den ersten, gefundenen Baum vom Typ TRE1.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/Resort.html">Resort</a>, <a href="../../../sdk/script/fn/ResortObjects.html">ResortObjects</a>
+</div>
+<div class="author">Sven2, April 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

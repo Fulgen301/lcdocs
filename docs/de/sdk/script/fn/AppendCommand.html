@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>AppendCommand</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="AppendCommand">AppendCommand</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Commands<br><b>Ab Engineversion: </b>4.6.5.0 CP
+        (erweitert ab 4.9.1.0 GWE)
+      </div>
+<h2>Beschreibung</h2>
+<div class="text">Fügt ein Kommando der Kommandoliste eines Objekts am Ende hinzu. Das Objekt wird also das zuerst gegebene Kommando ausführen und sich danach automatisch dem mit AppendCommand hinzugefügten widmen.<br>
+          Für Kommando-Beschreibungen siehe <a href="../../../sdk/script/fn/SetCommand.html">SetCommand</a><br>
+          Bemerkung: Mit AppendCommand hinzugefügte Befehle werden nicht an gesteuerte Fahrzeuge weitergeleitet (siehe VehicleControl)</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> AppendCommand
+      (<span class="type">object</span> pObj, <span class="type">string</span> szCommand, <span class="type">object</span> pTarget, <span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">object</span> pTarget2, <span class="type">int</span> iInterval, <span class="type">any</span> Data, <span class="type">int</span> iRetries, <span class="type">int</span> iBaseMode);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">Objekt, dem das Kommando gegeben wird.</div></dd>
+<dt>szCommand: </dt>
+<dd><div class="text">Kommandoname (als String). Siehe untere Tabelle </div></dd>
+<dt>pTarget: </dt>
+<dd><div class="text">
+    [opt]
+  Zielobjekt für Aktion</div></dd>
+<dt>iX: </dt>
+<dd><div class="text">
+    [opt]
+  X-Zielkoordinate</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">
+    [opt]
+  Y-Zielkoordinate</div></dd>
+<dt>pTarget2: </dt>
+<dd><div class="text">
+    [opt]
+  zweites Zielobjekt</div></dd>
+<dt>iInterval: </dt>
+<dd><div class="text">
+    [opt]
+  Zeit (in Ticks/Frames), bis das Kommando abgebrochen wird</div></dd>
+<dt>Data: </dt>
+<dd><div class="text">
+    [opt]
+  zusätzliche Daten zur Aktion</div></dd>
+<dt>iRetries: </dt>
+<dd><div class="text">
+    [opt]
+  Anzahl der Wiederholungen (wenn das Kommando fehlschlägt), bis das Kommando abgebrochen wird.</div></dd>
+<dt>iBaseMode: </dt>
+<dd><div class="text">
+    [opt]
+  Befehlsstapelmodus. Werte siehe <a href="../../../sdk/script/fn/AddCommand.html">AddCommand</a>.</div></dd>
+</dl>
+<h2>Beispiel</h2>
+      <div class="example">
+        <pre class="code"><b>var</b> base = <a href="../../../sdk/script/fn/FindBase.html">FindBase</a>();
+<a href="../../../sdk/script/fn/SetCommand.html">SetCommand</a>(<a href="../../../sdk/script/fn/this.html">this</a>(), <i class="string">"MoveTo"</i>, base);
+AppendCommand(<a href="../../../sdk/script/fn/this.html">this</a>(), <i class="string">"Throw"</i>, 0, <a href="../../../sdk/script/fn/GetX.html">GetX</a>(base), <a href="../../../sdk/script/fn/GetY.html">GetY</a>(base));</pre>
+        <div class="text">
+Gibt dem Clonk den Befehl, zuerst zu der ersten (gefundenen) Basis zu laufen, und dann das erste Objekt, das er trägt, auf diese zu werfen.<br>
+        </div>
+      </div>
+    <div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/AddCommand.html">AddCommand</a>, <a href="../../../sdk/script/fn/FinishCommand.html">FinishCommand</a>, <a href="../../../sdk/script/fn/GetCommand.html">GetCommand</a>, <a href="../../../sdk/script/fn/PlayerObjectCommand.html">PlayerObjectCommand</a>, <a href="../../../sdk/script/fn/SetCommand.html">SetCommand</a>
+</div>
+<div class="author">PeterW, November 2001</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

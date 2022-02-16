@@ -1,0 +1,586 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Objektscripte</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="Objektscripte">Objektscripte</h1>
+
+<div class="text">Objektscripte kontrollieren die komplexen Verhaltensweisen eines Objekts. Für eine
+Beschreibung der Scriptsprache C4Script siehe
+<a href="../../sdk/script/index.html">C4Script</a>-Dokumentation.</div>
+
+<h2>Erschaffung</h2>
+<div class="text">Für jedes Objekt ruft die Engine bei der Erschaffung des Objekts die Funktion
+<a href="#Initialize">Initialize</a> im Objektscript auf.</div>
+
+<pre class="code"><b>func</b> Initialize()
+{
+  <a href="../../sdk/script/fn/CreateContents.html">CreateContents</a>(ROCK);
+  <a href="../../sdk/script/fn/return.html">return</a>(1);
+}
+</pre>
+
+<div class="text">Ein Objekt mit diesem Script enthält sofort nach seiner Erschaffung einen Stein. Die
+Initialisierungsfunktion wird erst aufgerufen, nachdem das Objekt seine volle Größe
+erreicht hat. Bei Bauwerken also erst, nachdem sie vollständig gebaut wurden und bei Lebewesen
+erst, wenn sie voll ausgewachsen sind.</div>
+<h2>TimerCall</h2>
+<div class="text">Jede Objektdefinition kann im <a href="../../sdk/definition/defcore.html">DefCore</a> einen
+TimerCall bestimmen. Der TimerCall ist eine Funktion, die in regelmäßigen Abständen
+im Objektscript aufgerufen wird. Den Zeitabstand der Aufrufe bestimmt der DefCore-Eintrag Timer.
+Ohne spezielle Angabe für den Timer gilt der Vorgabewert von 35 Frames (also ca. einmal pro
+Sekunde).</div>
+<h2>ActMap.txt</h2>
+<div class="text">Ein aktives Objekt kann außerdem in seiner
+<a href="../../sdk/definition/actmap.html">Aktivitätsdefinition</a> Script-Aufrufe enthalten. Die
+als StartCall definierte Funktion wird immer dann aufgerufen wird, wenn die Aktivitätsschleife
+erneut startet. EndCall wird aufgerufen, wenn die Aktivitätsschleife endet. PhaseCall wird bei
+jedem Animationsschritt aufgerufen (da dies äußerst rechenintensiv ist, sollte PhaseCall
+nur bei seltenen und kurzzeitig ausgeführten Aktivitäten eingesetzt werden). Die Frequenz
+der Aufrufe bestimmt sich aus der Aktivitätsgeschwindigkeit.</div>
+<h2>#include</h2>
+<div class="text">Ein Objektscript kann auf dem Script eines anderen Objekts basieren:</div>
+<pre class="code"><b>#include</b> CLNK</pre>
+<div class="text">An dieser Position wird das komplette Script der jeweiligen Objektdefinition (hier des Clonks)
+eingefügt, die selbstverständlich vorhanden und geladen sein muss. Funktionen können
+durch später im Script folgende Funktionen gleichen Namens überladen werden. Siehe auch
+<a href="../../sdk/script/fn/inherited.html">inherited</a>().</div>
+<h2 id="Zugangsberechtigung">Zugangsberechtigung</h2>
+<div class="text">Für Funktionen in Objektscripten kann eine Zugangsberechtigung festgelegt werden:
+<table><tbody>
+<tr>
+<td>public</td>
+<td>darf vom Objekt selbst, von der Engine oder von anderen Objekten aufgerufen werden</td>
+</tr>
+<tr class="dark">
+<td>protected</td>
+<td>darf nur vom Objekt selbst oder von der Engine aufgerufen werden</td>
+</tr>
+<tr>
+<td>private</td>
+<td>darf nur vom Objekt selbst aufgerufen werden</td>
+</tr>
+</tbody></table>
+TimerCall, StartCall, PhaseCall und EndCall können zwar zur Abwärtskompatibilität
+auch private Funktionen aufrufen; sie sollten jedoch der Einheitlichkeit halber besser protected
+sein. Objekt-Calls der Engine (siehe unten) können nur protected oder public aufrufen.</div>
+
+<div class="text">Funktionen ohne besondere Deklaration gelten als public. Wer sich also unsicher ist, welche
+Zugangsberechtigung er verwenden muss, oder aus moralischen oder ideologischen Gründen keine
+Funktionen nach außen hin schützen will, kann die Zugangsberechtigung einfach weglassen,
+und ist damit immer auf der sicheren Seite.</div>
+
+<h2 id="ObjektCallsderEngine">Objekt-Calls der Engine</h2>
+<div class="text">Die Engine ruft zu Zeiten die folgenden Funktionen in Objektscripten auf.
+<table>
+<thead><tr>
+<th>Funktion</th>
+<th>Parameter</th>
+<th>Beschreibung</th>
+</tr></thead>
+<tbody>
+<tr id="Initialize">
+<td>Initialize</td>
+<td></td>
+<td>Wenn das Objekt fertiggestellt wird (<a href="../../sdk/script/fn/GetCon.html">Con</a>
+  größer gleich 100).</td>
+</tr>
+<tr id="Completion" class="dark">
+<td>Completion</td>
+<td></td>
+<td>Veraltet. Wie Initialize.</td>
+</tr>
+<tr id="Construction">
+<td>Construction</td>
+<td>object pByObj</td>
+<td>Wenn das Objekt erzeugt wird. Als Parameter wird das Objekt übergeben, in dem das erzeugende Script steht. Siehe auch <a href="../../sdk/script/fn/Construction.html">Construction</a>
+</td>
+</tr>
+<tr id="Destruction" class="dark">
+<td>Destruction</td>
+<td></td>
+<td>Wenn das Objekt gelöscht wird.</td>
+</tr>
+<tr id="Hit">
+<td>Hit</td>
+<td>int xdir, int ydir</td>
+<td>Wenn das Objekt bei hoher Geschwindigkeit (&gt;= 15; siehe
+  <a href="../../sdk/script/fn/OCF_HitSpeed1.html">OCF_HitSpeed1</a>) mit der Landschaft kollidiert oder
+  aufgenommen wird (Collection).<br>
+  xdir und ydir geben die Aufprallgeschwindigkeit mit Precision 100 (siehe <a href="../../sdk/script/fn/GetXDir.html">GetXDir</a>) an. Die Parameter werden bei Collection nicht übergeben.</td>
+</tr>
+<tr id="Hit2" class="dark">
+<td>Hit2</td>
+<td>int xdir, int ydir</td>
+<td>Wie Hit, bei Geschwindigkeiten &gt;= 20 (siehe
+  <a href="../../sdk/script/fn/OCF_HitSpeed2.html">OCF_HitSpeed2</a>).</td>
+</tr>
+<tr id="Hit3">
+<td>Hit3</td>
+<td>int xdir, int ydir</td>
+<td>Wie Hit, bei Geschwindigkeiten &gt;= 60 (siehe
+  <a href="../../sdk/script/fn/OCF_HitSpeed3.html">OCF_HitSpeed3</a>).</td>
+</tr>
+<tr id="Grab" class="dark">
+<td>Grab</td>
+<td>object pTarget, bool fGrab</td>
+<td>Wenn das Objekt ein anderes Objekt anfasst oder loslässt.</td>
+</tr>
+<tr id="Grabbed">
+<td>Grabbed</td>
+<td>object pByObject, bool fGrab</td>
+<td>Wenn das Objekt durch ein anderes Objekt angefasst oder losgelassen wird. Ab 4.9.8.4.</td>
+</tr>
+<tr id="Get" class="dark">
+<td>Get</td>
+<td>object pTarget</td>
+<td>Wenn das Objekt ein Objekt aus einem anderen Objekt herausnimmt.</td>
+</tr>
+<tr id="Put">
+<td>Put</td>
+<td></td>
+<td>Wenn das Objekt ein Objekt in einem anderen Objekt ablegt.</td>
+</tr>
+<tr id="Damage" class="dark">
+<td>Damage</td>
+<td>int iChange, int iByPlayer</td>
+<td>Wenn das Objekt beschädigt wird.</td>
+</tr>
+<tr id="DeepBreath">
+<td>DeepBreath</td>
+<td></td>
+<td>Wenn das Lebewesen nach dem Auftauchen mehr als die Hälfte seiner Atemkapazität
+  auffüllt.</td>
+</tr>
+<tr id="Incineration" class="dark">
+<td>Incineration</td>
+<td>int iByPlayer</td>
+<td>Wenn das Objekt entzündet wird. Achtung: Bei Objekten, die ihre Definition mit BurnTo
+  ändern, findet der Aufruf im verbrannten Objekt statt!</td>
+</tr>
+<tr id="IncinerationEx">
+<td>IncinerationEx</td>
+<td>int iByPlayer</td>
+<td>Wenn das Objekt in einer löschenden Flüssigkeit gesprengt, und damit nicht
+  angezündet wird. Aufruf analog zu Incineration. Ab CE.</td>
+</tr>
+<tr id="Death" class="dark">
+<td>Death</td>
+<td></td>
+<td>Wenn ein Lebwesen stirbt.</td>
+</tr>
+<tr id="Activate">
+<td>Activate</td>
+<td>object pByObj</td>
+<td>Aktivierung durch einen Doppelklick auf Graben. Nur getragene Objekte und direkt
+  spielergesteuerte Objekte. Wird aufgerufen, nachdem die interne Befehlskette (z.B. Bäume
+  fällen) abgearbeitet wurde.</td>
+</tr>
+<tr id="Contact_" class="dark">
+<td>Contact_</td>
+<td></td>
+<td>Wenn das Objekt die Landschaft berührt. Siehe <a href="../../sdk/definition/cnat.html">CNAT
+  - Contact Attachment</a>.</td>
+</tr>
+<tr id="Control_">
+<td>Control_</td>
+<td>object pByObj</td>
+<td>Wenn das Objekt von außen gesteuert wird. Siehe <a href="#Control-Funktionen">Control-Funktionen</a>.</td>
+</tr>
+<tr id="Contained_" class="dark">
+<td>Contained_</td>
+<td>object pByObj</td>
+<td>Wenn das Objekt von innen gesteuert wird. Siehe <a href="#Control-Funktionen">Control-Funktionen</a>.</td>
+</tr>
+<tr id="ControlCommand">
+<td>ControlCommand</td>
+<td>string strCommand, object pTarget, int iTx, int iTy, object pTarget2, int iData, object pCmdObj</td>
+<td>Wenn dem Objekt durch den Spieler ein selbständig auszuführender Befehl gegeben
+wurde. Siehe <a href="#Control-Funktionen">Control-Funktionen</a>.</td>
+</tr>
+<tr id="ControlCommandFinished" class="dark">
+<td>ControlCommandFinished</td>
+<td>string strCommand, object pTarget, int iTx, int iTy, object pTarget2, C4Value Data</td>
+<td>Wenn das Objekt einen selbständigen auszuführenden Befehl vollendet hat oder die
+Ausführung des Befehls fehlgeschlagen ist.</td>
+</tr>
+<tr id="ControlTransfer">
+<td>ControlTransfer</td>
+<td>object pObj, int iTx, int iTy</td>
+<td>Wenn ein durch die Wegfindungsroutine gesteuertes Objekt (pObj) die Transferzone dieses
+Objekts zum Zielpunkt iTx/iTy passieren möchte. Die Transferfunktion kann dem Objekt
+entsprechende Kommandos geben und sollte bei erfolgreicher Bearbeitung true zurückliefern.
+Siehe auch <a href="../../sdk/script/fn/SetTransferZone.html">SetTransferZone</a>().</td>
+</tr>
+<tr id="UpdateTransferZone" class="dark">
+<td>UpdateTransferZone</td>
+<td></td>
+<td>Wenn ein Objekt geladen oder synchronisiert wird. Objekte mit einer TransferZone sollten
+diese bei jedem Aufruf von UpdateTransferZone neu setzen. Siehe auch <a href="../../sdk/script/fn/SetTransferZone.html">SetTransferZone</a>().</td>
+</tr>
+<tr id="MenuQueryCancel">
+<td>MenuQueryCancel</td>
+<td>int iSelection, object pMenuObj</td>
+<td>Wird in einem Objekt aufgerufen, wenn der Spieler ein benutzerdefiniertes Menu
+schließen will. Bei Rückgabewert true bleibt das Menu geöffnet.</td>
+</tr>
+<tr id="IsFulfilled" class="dark">
+<td>IsFulfilled</td>
+<td></td>
+<td>Nur bei Spielziel-Objekten. Bei Rückgabewert true ist das Spielziel erfüllt.</td>
+</tr>
+<tr id="ControlContents">
+<td>ControlContents</td>
+<td>id idTarget</td>
+<td>Wenn ein neues Inhaltsobjekt angewählt wird. Siehe <a href="#Control-Funktionen">Control-Funktionen</a>.</td>
+</tr>
+<tr id="Selection" class="dark">
+<td>Selection</td>
+<td>object pContainer</td>
+<td>Wenn das Objekt durch einen Inventarwechsel ausgewählt wird. Wenn die Funktion
+abgefangen wird, sollte ein eigener Auswahlsound abgespielt werden.</td>
+</tr>
+<tr id="CatchBlow">
+<td>CatchBlow</td>
+<td>int iLevel, object pBy</td>
+<td>Wenn das Objekt von einem anderen Objekt geschlagen oder getroffen wird.</td>
+</tr>
+<tr id="QueryCatchBlow" class="dark">
+<td>QueryCatchBlow</td>
+<td>object pBy</td>
+<td>Bevor das Objekt von einem anderen Objekt geschlagen oder getroffen wird. Wenn QueryCatchBlow
+true zurückgibt, können damit physikalische Treffer abgefangen werden.</td>
+</tr>
+<tr id="LineBreak">
+<td>LineBreak</td>
+<td>int iCause</td>
+<td>Wenn ein Leitungsobjekt unterbrochen wird. iCause: 0 durch Bewegung, 1 durch fehlendes oder unvollständiges Zielobjekt.</td>
+</tr>
+<tr id="BuildNeedsMaterial" class="dark">
+<td>BuildNeedsMaterial</td>
+<td>id idMaterial, int iAmount</td>
+<td>Wenn das Objekt ein anderes Objekt baut und noch Baumaterial benötigt wird. Parameter
+sind Typ und Menge des ersten noch benötigten Baustoffs. Durch Rückgabewert true kann die
+Textmeldung über fehlendes Material abgefangen werden.</td>
+</tr>
+<tr id="AttachTargetLost">
+<td>AttachTargetLost</td>
+<td></td>
+<td>Wenn das Objekt eine ATTACH-Aktivität besessen hatte, aber das Actiontarget verloren
+hat. Die Aktivität ist beim Aufruf bereits zurückgesetzt.</td>
+</tr>
+<tr id="CrewSelection" class="dark">
+<td>CrewSelection</td>
+<td>bool fDeselect, bool fCursorOnly</td>
+<td>Bei Änderung der Crewauswahl. fCursorOnly gibt an, ob nur das Mannschaftsmitglied angewählt wurde, welches den Cursor hat.</td>
+</tr>
+<tr id="GetObject2Drop">
+<td>GetObject2Drop</td>
+<td>object pForCollectionOfObj</td>
+<td>Zur Ermittlung des am wenigsten gebrauchten Objekts, wenn der Clonk versucht, ein neues
+aufzunehmen. Die Funktion sollte das abzulegende Objekt zurückliefern, oder 0 für
+keins.</td>
+</tr>
+<tr id="OnMenuSelection" class="dark">
+<td>OnMenuSelection</td>
+<td>int iItemIndex, object pMenuObject</td>
+<td>Wenn ein Menueintrag ausgewählt wurde.</td>
+</tr>
+<tr id="CalcValue">
+<td>CalcValue</td>
+<td>object pInBase, int iForPlayer</td>
+<td>Ermittelt den Wert eines Objekts. Siehe auch <a href="../../sdk/script/fn/GetValue.html">GetValue</a>().</td>
+</tr>
+<tr id="CalcDefValue" class="dark">
+<td>CalcDefValue</td>
+<td>object pInBase, int iForPlayer</td>
+<td>Ermittelt den Wert eines (noch nicht gekauften) Objekttyps. Siehe auch <a href="../../sdk/script/fn/GetValue.html">GetValue</a>().</td>
+</tr>
+<tr id="CalcBuyValue">
+<td>CalcBuyValue</td>
+<td>id idItem, int iDefValue</td>
+<td>Rückgabewert ist Einkaufspreis des Objekttyps.</td>
+</tr>
+<tr id="CalcSellValue" class="dark">
+<td>CalcSellValue</td>
+<td>object pObj, int iObjValue</td>
+<td>Rückgabewert ist Verkaufspreis des Objekttyps.</td>
+</tr>
+<tr id="LiftTop">
+<td>LiftTop</td>
+<td></td>
+<td>Wenn das Objekt bei einer LIFT-Aktivität ein anderes Objekt höher angehoben hat als in der DefCore angegeben.</td>
+</tr>
+<tr id="Stuck" class="dark">
+<td>Stuck</td>
+<td></td>
+<td>Wird aufgerufen, wenn das Ziel einer PUSH- oder LIFT-Aktivität festhängt.</td>
+</tr>
+<tr id="GrabLost">
+<td>GrabLost</td>
+<td></td>
+<td>Wenn das Ziel einer PUSH- oder PULL-Aktion verloren geht.</td>
+</tr>
+<tr id="Collection" class="dark">
+<td>Collection</td>
+<td>object pObj, bool fPut</td>
+<td>Wenn das Objekt ein anderes Objekt (pObj) aufgenommen hat (nur durch einsammeln oder anfassen und ablegen).</td>
+</tr>
+<tr id="Collection2">
+<td>Collection2</td>
+<td>object pObj</td>
+<td>Wenn das Objekt ein anderes Objekt (pObj) aufgenommen hat (immer, auch durch Scriptbefehl
+Enter) </td>
+</tr>
+<tr id="Departure" class="dark">
+<td>Departure</td>
+<td>object pContainer</td>
+<td>Wenn das Objekt ein anderes Objekt (pContainer) verlassen hat.</td>
+</tr>
+<tr id="Ejection">
+<td>Ejection</td>
+<td>object pObj</td>
+<td>Wenn ein Objekt (pObj) dieses Objekt verlassen hat (auch durch Scriptbefehl
+Exit).</td>
+</tr>
+<tr id="Entrance" class="dark">
+<td>Entrance</td>
+<td>object pContainer</td>
+<td>Wenn das Objekt ein anderes Objekt (pContainer) betreten hat.</td>
+</tr>
+<tr id="ActivateEntrance">
+<td>ActivateEntrance</td>
+<td>object pByObj</td>
+<td>Wenn ein anderes Objekt versucht, das Objekt durch Entrance zu betreten.</td>
+</tr>
+<tr id="RejectCollect" class="dark">
+<td>RejectCollect</td>
+<td>id idObj, object pObj</td>
+<td>Wird vor Collection aufgerufen. Wenn RejectCollect true zurückgibt, kann damit die
+Aufnahme des anderen Objekts verhindert werden.</td>
+</tr>
+<tr id="RejectEntrance">
+<td>RejectEntrance</td>
+<td>object pIntoObj</td>
+<td>Wird vor Entrance aufgerufen. Wenn RejectEntrance true zurückgibt, kann damit das
+Hineinversetzen in das andere Objekt verhindert werden.</td>
+</tr>
+<tr id="InitializePlayer" class="dark">
+<td>InitializePlayer</td>
+<td>int iPlr, int iX, int iY, object pBase, int iTeam, id idExtra</td>
+<td>Aufruf in Spielziel, -regel und Umweltobjekten nach der Platzierung eines beitretenden
+Spielers, und vor dem entsprechenden Aufruf im Szenarioscript. Durch Angabe einer ID lassen sich Scriptspieler-Typen unterscheiden.
+Beispielsweise könnte ein Szenario dynamisch Alien- oder Clonkgegner anbieten.</td>
+</tr>
+<tr id="SellTo">
+<td>SellTo</td>
+<td>int iByPlr</td>
+<td>Wenn das Objekt verkauft wird. Rückgabewert 0 oder die ID des Objekts, welches dem
+Heimatbasismaterial hinzugefügt wird.</td>
+</tr>
+<tr id="Sale" class="dark">
+<td>Sale</td>
+<td>int iByPlr</td>
+<td>Wenn das Objekt verkauft wird. Ab CE.</td>
+</tr>
+<tr id="Purchase">
+<td>Purchase</td>
+<td>int iByPlr, object BuyObject</td>
+<td>Wenn das Objekt gekauft wird. Ab CE.</td>
+</tr>
+<tr id="Recruitment" class="dark">
+<td>Recruitment</td>
+<td>int iPlr</td>
+<td>Wenn das Objekt der Crew eines Spielers hinzugefügt wird. Ab CE 4.95.2.</td>
+</tr>
+<tr id="RejectTeamSwitch">
+<td>RejectTeamSwitch</td>
+<td>int iPlr, int iNewTeam</td>
+<td>Aufruf in Spielziel, -regel und Umweltobjekten und dem Szenarioscript. Wenn RejectTeamSwitch true zurückgibt, kann der Teamwechsel eines Spielers (durch <a href="../../sdk/script/fn/SetPlayerTeam.html">SetPlayerTeam</a>) verhindert werden. Ab 4.9.6.0 CR.</td>
+</tr>
+<tr id="ContentsDestruction" class="dark">
+<td>ContentsDestruction</td>
+<td>object pObj</td>
+<td>Die Funktion wird im Container von pObj aufgerufen, wenn dieses gelöscht wird.</td>
+</tr>
+<tr id="DoMagicEnergy">
+<td>DoMagicEnergy</td>
+<td>int iChange, object pObj, bool fAllowPartial</td>
+<td>Wird bei jeder Veränderung der Mana aufgerufen.</td>
+</tr>
+<tr id="GetCustomComponents" class="dark">
+<td>array GetCustomComponents</td>
+<td>object pBuilder</td>
+<td>Callback um Komponenten eines Objektes zu setzen. Wird in jedem Menü aufgerufen, dass das Objekt bzw. ID hat. Wird auch beim Bauen eines Objektes aufgerufen. pBuilder ist das Menü-aufrufende-Objekt bzw. der Erbauer. Rückgabewert muss ein Array mit ID/IDs sein. Siehe auch GetComponent, SetComponent, Split2Components.</td>
+</tr>
+<tr id="IsFullfilledforPlr">
+<td>IsFullfilledforPlr</td>
+<td>int iPlr</td>
+<td>Wenn die Regel "Wettstreit" (EN=Rivalry; ID=RVLR) aktiviert ist, wird IsFulfilledforPlr aufgerufen, ansonsten IsFulfilled. Nur bei Spielziel-Objekten. Bei Rückgabewert true ist das Spielziel für iPlr erfüllt.</td>
+</tr>
+<tr id="MouseSelection" class="dark">
+<td>MouseSelection</td>
+<td>int iPlr</td>
+<td>Wenn das Objekt per Maus angeklickt wurde. Objekt muss die Category C4D_MouseSelect haben.</td>
+</tr>
+<tr id="OnActionJump">
+<td>OnActionJump</td>
+<td>int iXDir100, int iYDir100, bool fByCom</td>
+<td>Wird immer aufgerufen wenn das Objekt in die Aktion "Jump" wechselt. Als iXDir100 und iYDir100 werden die X- bzw. Y-Geschwindigkeit mit einer Präzision von 100 übergeben.
+fByCom ist true bei echtem Sprung; also wenn man per Sprungtaste, per Command (Maus oder Script-Commands) oder per Jump() springt; oder wenn man beim Hangeln/Klettern loslässt; ansonsten false.
+Wenn OnActionJump true zurückgibt, wird der Engine-Sprung unterbunden.</td>
+</tr>
+<tr id="OnOwnerChanged" class="dark">
+<td>OnOwnerChanged</td>
+<td>int iNewOwner, int iOldOwner</td>
+<td>Wird aufgerufen, wenn das Objekt seinen Besitzer wechselt.</td>
+</tr>
+<tr id="RejectContents">
+<td>RejectContents</td>
+<td></td>
+<td>Wenn true zurückgegeben wird, lässt sich kein Inhaltsmenü öffnen. </td>
+</tr>
+<tr id="RejectFight" class="dark">
+<td>RejectFight</td>
+<td>object pEnemy</td>
+<td>Wird vor jedem Kampf aufgerufen. Wenn true zurückgegeben wird, findet kein Kampf statt. </td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="Control-Funktionen">Control-Funktionen</h2>
+<div class="text">Die Engine ruft bei jedem Spielerkommando (Left, Up, Right, Down, Dig, Throw, Special, Special2, CursorLeft, CursorToggle, CursorRight) im
+Script eines spielergesteuerten Objekts die entsprechende Control-Funktion auf, wenn diese vorhanden
+ist. Gibt die aufgerufene Control-Funktion 1 zurück, so wird die interne Bearbeitung des
+Spielerkommandos übersprungen. Ist die Funktion nicht vorhanden oder gibt 0 zurück, findet
+die interne Bearbeitung des Spielerkommandos statt.</div>
+<pre class="code"><b>func</b> ControlThrow()
+{
+  <a href="../../sdk/script/fn/if.html">if</a> (<a href="../../sdk/script/fn/FindContents.html">FindContents</a>(SPER))
+    <a href="../../sdk/script/fn/return.html">return</a>(<a href="../../sdk/script/fn/SetAction.html">SetAction</a>(<i class="string">"ThrowSpear"</i>));
+  <a href="../../sdk/script/fn/return.html">return</a>(0);
+}
+</pre>
+<div class="text">Trägt ein Clonk mit diesem Script einen Speer, so führt er seine eigene spezielle
+Wurf-Aktion aus, sobald der Spieler das Werfen-Kommando gibt (in diesem Fall wird das
+Werfen-Kommando jedoch nicht wie üblich an alle weiteren ausgewählten
+Mannschaftsmitglieder weitergegeben). Trägt er keinen Speer, gibt die Funktion 0 zurück
+und die normale interne Wurf-Aktion wird ausgeführt.</div>
+<div class="text">Control-Funktionen werden außerdem an angefasste (indirekt gesteuerte) Objekte
+weitergeleitet.</div>
+<div class="text">Einzelklicks und Doppelklicks: Die Engine ruft bei jedem Spielerkommando zunächst die
+einfache Variante der Control-Funktion auf (z.B. ControlDown) und anschließend die
+spezifizierte Variante (also ControlDownSingle bzw. ControlDownDouble). Beim Überladen von
+Control-Funktionen ist dementsprechend darauf zu achten, dass auch die richtige Variante abgefangen
+wird.</div>
+<div class="text">ContainedControl: Befindet sich das direkt spielergesteuerte Objekt in einem anderen Objekt
+(Behälter), so werden zunächst die Standardkommandos Down (Verlassen), Throw (Ablegen), Up
+(Kaufen, in Basisgebäude) und Dig (Verkaufen, in Basisgebäude) ausgewertet.
+Anschließend wird die Steuerung als Contained-Funktion an den Behälter weitergegeben.
+Ausnahme: die Spezialkommandos ControlSpecial, ControlSpecial2, ControlCursorLeft, ControlCursorToggle, ControlCursorRight und ControlWheelUp/Down sind nur
+für die direkte Steuerung gedacht und werden nicht an den Behälter umgeleitet.</div>
+<div class="text">ControlCommand: die Engine führt auch <a href="#ObjektCallsderEngine">Objekt-Calls</a>
+für selbständig auszuführende Befehle (Commands) aus, die direkt durch den Spieler
+gegeben wurden (z.B. durch Maussteuerung).</div>
+
+<pre class="code"><b>func</b> ControlCommand(<b>string</b> strCommand, <b>object</b> pTarget, <b>int</b> iTx, <b>int</b> iTy, <b>object</b> pTarget2, <b>int</b> iData, <b>object</b> pCmdObj)
+{
+  <i>// Ein Kommando mit Zielobjekt
+</i>  <a href="../../sdk/script/fn/if.html">if</a> (pTarget)
+    <a href="../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Befehl: %s Ziel: %s Koordinaten: %d/%d"</i>, <a href="../../sdk/script/fn/this.html">this</a>(), strCommand, pTarget-&gt;GetName(), iTx, iTy);
+  <i>// Ein Kommando ohne Zielobjekt
+</i>  <b>else</b>
+    <a href="../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Befehl: %s Koordinaten: %d/%d"</i>, <a href="../../sdk/script/fn/this.html">this</a>(), strCommand, iTx, iTy);
+  <i>// Kommando nicht abfangen
+</i>  <a href="../../sdk/script/fn/return.html">return</a>(0);
+}
+</pre>
+
+<div class="text">Durch Rückgabe des Werts 1 kann der Befehl abgefangen und die interne Verarbeitung
+verhindert werden. "pCmdObj" ist in jedem Fall das Objekt, für das das Kommando gesetzt werden
+soll, auch wenn der Aufruf von einem enthaltenen Objekt kommt (siehe VehicleControl in der <a href="../../sdk/definition/defcore.html">DefCore</a>). Der Script-Befehl <a href="../../sdk/script/fn/SetCommand.html">SetCommand</a> verursacht keinen ControlCommand-Aufruf.</div>
+<div class="text">ControlCommand-Aufrufe werden an angefasste oder von innen gesteuerte Fahrzeuge
+weitergeleitet, wenn diese ein entsprechendes VehicleControl-Flag besitzen. Diese Weiterleitung wird
+nach dem ControlCommand-Aufruf des Clonk-Scripts durchgeführt, aber noch vor der internen
+Verarbeitung, so dass auch das gesteuerte Fahrzeug bei Bedarf den Befehl auswerten und abfangen
+(überladen) kann.</div>
+<div class="text">ControlWheelUp und ControlWheelDown werden durch Mausraddrehungen außerhalb von
+Menüs aufgerufen. Wenn sie nicht überladen sind, führen sie einen
+ShiftContents-Befehl durch. Dessen Auswirkungen können wiederum durch ControlContents
+abgefangen werden.</div>
+<div class="text">ControlContents wird aufgerufen, wenn durch das Mausrad, direktes Anklicken mit der Maus oder
+einen ShiftContents-Befehl im Script (zum Beispiel bei ControlSpecial oder ControlSpecial2) ein
+Inventarwechsel stattgefunden hat. Hier können zum Beispiel Aktionen wie das Ablegen von Waffen
+bei entsprechenden Clonks, oder eigene Inventarwechseldsounds, ausgeführt werden. Wird die
+Funktion mit einem Rückgabewert ungleich 0 abgefangen, wird der Inventarwechsel
+unterdrückt. Ansonsten rückt das Objekt mit dem entsprechenden, im ersten Parameter
+übergebenen ID nach vorne und es wird ein Selection-Call an das neue, erste Inhaltsobjekt
+ausgeführt. Wird dieser nicht abgefangen, wird der Soundeffekt "Grab" beim inventarwechselnden
+Objekt abgespielt.</div>
+
+<h2 id="Context-Funktionen">Context-Funktionen</h2>
+<div class="text">Context-Funktionen in Objektscripten (Context_) erscheinen im Spiel im Kontextmenü des
+Objekts. Die Engine übergibt beim Aufruf einen Zeiger auf das aufrufende Objekt als ersten
+Parameter (bei Mannschaftsmitgliedern immer das Objekt selbst). Context-Funktionen sollten immer
+eine gültige Funktionsbeschreibung haben und müssen public sein.</div>
+
+<pre class="code"><b>public</b> <b>func</b> ContextConstruction(<b>object</b> pCaller)
+{
+  [Bauauftrag|Image=CXCN|Condition=HasKnowledge]
+  SetCommand(this(), <i class="string">"Construct"</i>);
+  <b>return</b>(1);
+}
+</pre>
+
+<div class="text">Über das Condition-Feld kann bestimmt werden, dass die Funktion nur dann im Kontextmenü
+auftaucht, wenn die entsprechende Funktion (hier HasKnowledge) im Objektscript vorhanden ist und
+einen positiven Wert zurückliefert. Das Menüobjekt wird als erster Parameter an die
+Condition-Funktion übergeben.</div>
+
+<div class="author">sulai, November 2003</div>
+<div class="author">Sven2, Februar 2004</div>
+<div class="author">matthes, Juli 2004</div>
+<div class="author">Clonkonaut, April 2008</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

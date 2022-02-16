@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>ShiftContents</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="ShiftContents">ShiftContents</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Inhalt<br><b>Ab Engineversion: </b>4.6.5.0 CP
+        (erweitert ab 4.9.1.0 GWE)
+      </div>
+<h2>Beschreibung</h2>
+<div class="text">Sortiert die Inhaltsobjekte so um, dass das nächste Objekt mit anderer ID vorne liegt. Die häufigste Anwendung für diesen Befehl ist ein Inventarwechsel.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> ShiftContents
+      (<span class="type">object</span> pObj, <span class="type">bool</span> fShiftBack, <span class="type">id</span> idTarget, <span class="type">bool</span> fDoCalls);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Objekt, dessen Inhaltsobjekte rotiert werden sollen. 0 bei lokalem Aufruf.</div></dd>
+<dt>fShiftBack: </dt>
+<dd><div class="text">
+    [opt]
+  Wenn wahr, wird rückwärts durchsortiert.</div></dd>
+<dt>idTarget: </dt>
+<dd><div class="text">
+    [opt]
+  ID des Objekttyps, der als nächstes ausgewählt sein soll. Wenn dieser Parameter angegeben ist, wird kein ControlContents-Aufruf mehr getätigt, sondern es wird direkt und ohne das Abspielen eines Sounds durchgeschaltet. Damit lässt sich beispielsweise das Durchschalten des Inventars in ControlConents überladen, und mit eigenen Sounds oder Zusatzaktivitäten versehen.</div></dd>
+<dt>fDoCalls: </dt>
+<dd><div class="text">
+    [opt]
+  Wenn wahr, werden ControlContents- und Selection-Aufrufe getätigt.</div></dd>
+</dl>
+<h2>Anmerkungen</h2>
+<div class="text">Der Befehl ruft im Behälter ControlContents auf, womit die Umsortierung überladen werden kann. Gibt diese Funktion 0 zurück oder existiert nicht, wird für das neue selektierte Objekt "Selection" aufgerufen. Existiert diese Funktion nicht oder gibt 0 zurück, wird der Sound "Grab" beim Containerobjekt abgespielt. Siehe dazu auch <a href="../../../sdk/definition/script.html">Objektscripte</a>.</div>
+<div class="text">Achtung: Durch das neue ControlContents-System, das ein variableres Interface für die Inventarauswahl bilden soll, ruft wie beschrieben auch ShiftContents den Auswahlsound hervor. Um Dopplungen zu vermeiden, sollten Objektscripte entsprechend angepasst werden, und beim Inventarwechsel keinen eigenen Sound mehr abspielen, bzw. diesen wie im Beispiel weiter unten nach ControlContents verlagern.</div>
+<h2>Beispiele</h2>
+      <div class="example">
+<pre class="code"><b>protected</b> <b>func</b> ControlSpecial()
+  {
+  [Inventarwechsel]
+  ShiftContents();
+  <a href="../../../sdk/script/fn/return.html">return</a>(1);
+  }</pre>
+        <div class="text">Teil eines Objektscripts. Verschiebt die Inhaltsobjekte eines Objekts auf Spezialtaste 1.</div>
+      </div>
+      <div class="example">
+<pre class="code"><b>protected</b> <b>func</b> ControlContents(idTarget)
+  {
+  <b>if</b> (!ShiftContents(0, 0, idTarget)) <a href="../../../sdk/script/fn/return.html">return</a>(1);
+  <a href="../../../sdk/script/fn/return.html">return</a>(1, <a href="../../../sdk/script/fn/Sound.html">Sound</a>(<i class="string">"Ding"</i>));
+  }</pre>
+        <div class="text">Durch dieses Objektscript verursacht das Auswählen eines anderen Gegenstandes im Inventar einen Ding-Sound.</div>
+      </div>
+    <div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/ResortObjects.html">ResortObjects</a>, <a href="../../../sdk/script/fn/ScrollContents.html">ScrollContents</a>
+</div>
+<div class="author">Sven2, April 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

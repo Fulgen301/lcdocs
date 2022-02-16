@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>CreateParticle</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="CreateParticle">CreateParticle</h1>
+<div class="text">
+<b>Kategorie: </b>Partikel<br><b>Ab Engineversion: </b>4.9.1.0 GWE
+        (erweitert ab 4.9.5.0 CE)
+      </div>
+<h2>Beschreibung</h2>
+<div class="text">Erzeugt ein Partikel. Das Partikel muss unter dem angegebenen Namen geladen sein. Für weitere Informationen siehe Partikeldokumentation.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> CreateParticle
+      (<span class="type">string</span> szName, <span class="type">int</span> iX, <span class="type">int</span> iY, <span class="type">int</span> iXDir, <span class="type">int</span> iYDir, <span class="type">int</span> a, <span class="type">int</span> b, <span class="type">object</span> pObj, <span class="type">bool</span> fBehind);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>szName: </dt>
+<dd><div class="text">Name des Partikels</div></dd>
+<dt>iX: </dt>
+<dd><div class="text">X-Position des Partikels. Relative Koordinaten bei lokalem Aufruf.</div></dd>
+<dt>iY: </dt>
+<dd><div class="text">Y-Position des Partikels. Relative Koordinaten bei lokalem Aufruf.</div></dd>
+<dt>iXDir: </dt>
+<dd><div class="text">Horizontale Anfangsgeschwindigkeit des Partikels</div></dd>
+<dt>iYDir: </dt>
+<dd><div class="text">Vertikale Anfangsgeschwindigkeit des Partikels</div></dd>
+<dt>a: </dt>
+<dd><div class="text">Zusatzparameter. Dies ist normalerweise die Größe des Partikels in 1/5-Pixeln.</div></dd>
+<dt>b: </dt>
+<dd><div class="text">Zweiter Zusatzparameter. Dies ist normalerweise die Farbmodulation des Partikels.</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Zielobjekt für objektlokale Partikel. Objektlokale Partikel werden direkt über den jeweiligen Objekten gezeichnet, und beim Entfernen des Objekts gelöscht.</div></dd>
+<dt>fBehind: </dt>
+<dd><div class="text">
+    [opt]
+  Wenn ungleich null wird der Partikel hinter dem Zielobjekt gezeichnet.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Diese Funktion gibt im 8Bit-Modus immer 1 zurück. Ansonsten wird nur 0 zurückgegeben, wenn die Partikeldefinition unter dem Namen nicht geladen wurde. Es gibt also keine Möglichkeit, herauszufinden, ob ein Partikel wirklich erzeugt wurde. Dies muss aus Gründen der Netzwerksynchronisation so sein, und Partikel sollten darum nur für kurzzeitige Effekte verwendet werden. Wer mehr Kontolle benötigt, sollte stattdessen auf Objekte zurückgreifen.</div>
+<h2>Beispiel</h2>
+			<div class="example">
+				<pre class="code">CreateParticle(<i class="string">"Blast"</i>, 0,0, 0,0, 100, <a href="../../../sdk/script/fn/RGBa.html">RGBa</a>(128,128,255,0));</pre>
+				<div class="text">Erzeugt eine bläuliche Explosionsgrafik an der Position des aufrufenden Objekts.</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/ClearParticles.html">ClearParticles</a>, <a href="../../../sdk/script/fn/PushParticles.html">PushParticles</a>
+</div>
+<div class="author">Sven2, April 2002</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

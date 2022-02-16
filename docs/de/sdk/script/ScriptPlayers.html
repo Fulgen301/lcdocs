@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Scriptspieler</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1>Scriptspieler</h1>
+
+	<h2 id="Intro">Einleitung</h2>
+	<div class="text">Ab CR Build 265 ist es möglich, Spieler auch per Script beitreten zu lassen. Solche Spieler verhalten sich wie normale Spieler. Sie besitzen eine Crew, ein Konto, Heimatbasismaterial, ein Team, Baupläne, etc. Einziger Unterschied ist, dass sie von keinem Spieler gesteuert werden und auf keinem Rechner ein Sichtfenster für diese Spieler geöffnet wird.</div>
+	
+	<div class="text">Scriptspieler sind nützlich, um zum Beispiel KI-Gegner zu realisieren.</div>
+
+	<h2 id="Runtime">Beitritt zur Laufzeit</h2>
+<div class="text">Fürs Erstellen einer KI zur Laufzeit - zum Beispiel als Gegner im Deathmatch - dient <a href="../../sdk/script/fn/CreateScriptPlayer.html">CreateScriptPlayer</a>. Daraufhin erfolgt (unter Umständen verzögert, weil es sich um einen Spielerbeitritt handelt!) ein InitializePlayer-Aufruf für diesen Scriptspieler. Da der Aufruf verzögert ist, sollte die eigentliche KI-Initialisierung in diesem Aufruf passieren.</div>
+
+<div class="text">Dazu ein Beispiel:</div>
+
+<pre class="code"><i>/* Script einer aktivierten Spielregel namens "KI Erzeugen" */</i>
+
+<b>#strict</b>
+
+<b>public</b> <b>func</b> Activate(<b>int</b> iPlr)
+  {
+  <i>// Der Spieler iPlr hat die Spielregel ausgewählt. Erzeuge einen KI-Gegner!
+</i>  <a href="../../sdk/script/fn/return.html">return</a>(<a href="../../sdk/script/fn/CreateScriptPlayer.html">CreateScriptPlayer</a>(<i class="string">"Computer"</i>, 0x7f7f7f));
+  }
+  
+<b>protected</b> <b>func</b> InitializePlayer(<b>int</b> iPlr)
+  {
+  <i>// Ein Spieler ist beigetreten. Dieser Aufruf erfolgt an das Szenarienscript, sowie an alle Spielregeln,
+</i>  <i>// Spielziele und Umweltobjekte
+</i>  <i>// Ist es ein Scriptspieler?
+</i>  <a href="../../sdk/script/fn/if.html">if</a> (<a href="../../sdk/script/fn/GetPlayerType.html">GetPlayerType</a>(iPlr) == C4PT_Script)
+    {
+    <i>// Dann übernimm die Steuerung für alle Clonks!
+</i>    <b>var</b> iCrew, pCrew;
+    <a href="../../sdk/script/fn/while.html">while</a> (pCrew = <a href="../../sdk/script/fn/GetCrew.html">GetCrew</a>(iPlr, iCrew++))
+      <a href="../../sdk/script/fn/AddEffect.html">AddEffect</a>(<i class="string">"Int_EAI"</i>, pCrew, 1, 100, <a href="../../sdk/script/fn/this.html">this</a>());
+    }
+  }
+  
+<b>protected</b> <b>func</b> FxInt_EAITimer(<b>object</b> pCrew, <b>int</b> iEffNum, <b>int</b> iEffTime)
+  {
+  <i>// Nächsten Gegner angreifen
+</i>  <b>var</b> pEnemy = <a href="../../sdk/script/fn/FindObject2.html">FindObject2</a>(<a href="../../sdk/script/fn/Find_Hostile.html">Find_Hostile</a>(<a href="../../sdk/script/fn/GetOwner.html">GetOwner</a>(pCrew)), <a href="../../sdk/script/fn/Find_OCF.html">Find_OCF</a>(<a href="../../sdk/script/fn/OCF_Alive.html">OCF_Alive</a>), <a href="../../sdk/script/fn/Sort_Distance.html">Sort_Distance</a>());
+  <a href="../../sdk/script/fn/if.html">if</a> (pEnemy) <a href="../../sdk/script/fn/SetCommand.html">SetCommand</a>(pCrew, <i class="string">"Attack"</i>, pEnemy);
+  <a href="../../sdk/script/fn/return.html">return</a> FX_OK;
+  }
+</pre>
+
+<div class="text">Dieses Beispielscript für ein Regelobjekt erlaubt dem Spieler, zur Laufzeit KI-Gegner zu erstellen. Außerdem sorgt es dafür, dass alle Clonks dieses KI-Gegners angreifen. Achtung: Das Beispiel übernimmt die Kontrolle nur für alle Clonks, die der Spieler zu Spielbeginn nach Szenarienvorgaben erhalten hat. Wenn ein Szenarienscript zum Beispiel noch andere Clonks erstellen würde, würden diese nicht gesteuert.</div>
+
+<div class="text">Für Internetspiele kann man auch MaxScriptPlayers in der <a href="../../sdk/scenario/Teams.html">Teams.txt</a> auf einen Wert &gt;0 setzen. Dann bekommt man in der Lobby die Option, Scriptspieler zu aktivieren. Diese Spieler treten auch wie gewöhnliche Spieler bei, und man sollte auch hier in InitializePlayer entsprechend das KI-Kontrollobjekt erstellen. Das obige Beispiel würde also auch sofort mit in der Lobby aktivierten KI-Spielern funktionieren.</div>
+
+<h2 id="Preset">Beitritt als Vorgabe</h2>
+
+<div class="text">Wenn ein Szenario schon von Anfang an einen Scriptspieler beinhalten soll - zum Beispiel weil Objekte in der Objects.txt in dessen Besitz sein sollen, oder weil in Initialize Objekte für diesen Spieler erzeugt werden, dann sollte man diesen wie in einem Savegame definieren. Also eine SavePlayerInfos.txt wie diese anlegen:</div>
+
+<pre class="code">[PlayerInfoList]
+LastPlayerID=1
+
+  [Client]
+  ID=0
+  Flags=Initial
+
+    [Player]
+    Name=<i class="string">"Aliens"</i>
+    Flags=Joined
+    ID=1
+    Type=Script
+    Team=2
+    Color=65535
+    GameNumber=1
+    GameJoinFrame=0
+</pre>
+
+<div class="text">Dies führt eine Spieler-Wiederherstellung durch, analog zur Wiederherstellung nach einem Savegame. Es wird also kein InitializePlayer für diesen Spieler aufgerufen. Das Szenarienscript sollte in der Initialisierung die Crew für diesen Spieler erstellen, oder es sollte eine entsprechende Crew in der Objects.txt vorhanden sein. Ansonsten wird der Scriptspieler sofort zum Spielbeginn eliminiert.</div>
+
+<div class="text">Scriptspieler werden im Gegensatz zu regulären Spielern ebenfalls gespeichert, wenn man in der Konsole "Speichern als Szenario" wählt. Auf diese Weise kann man sich die richtige SavePlayerInfos.txt automatisch anlegen lassen. Dazu sollte einfach im Entwicklermodus manuell <a href="../../sdk/script/fn/CreateScriptPlayer.html">CreateScriptPlayer</a> aufgerufen und dann Clonks für diesen Scriptspieler verteilt werden. Speichert man dann als Szenario, wird der Scriptspieler mitgespeichert und steht beim Starten wieder zur Verfügung.</div>
+
+<h2 id="Specialized">Spezialisierte Spieler</h2>
+<div class="text">Manchmal kann es sinnvoll sein, einen Scriptspieler erst zur Laufzeit zu erstellen aber trotzdem eine spezielle Initialisierung durchzuführen. Zum Beispiel sollte ein spezieller Alien-Gegner in einem Hazard-Deathmatch keine Hazardclonks erhalten.</div>
+<div class="text">Mit einem Parameter an <a href="../../sdk/script/fn/CreateScriptPlayer.html">CreateScriptPlayer</a> lassen sich die szenarienspezifische Initialisierung, das heißt das Erzeugen des Startmaterials, das Setzen der Startparameter nach Vorgaben und auch alle InitializePlayer-Aufrufe unterbinden. Stattdessen erfolgt nur ein InitializeScriptPlayer-Definitionsaufruf in der angegebenen Definition. Dazu ein Beispiel:</div>
+
+<pre class="code"><i>/* Script einer aktivierten Spielregel namens "Aliens erzeugen" */</i>
+
+<b>#strict</b>
+
+<b>public</b> <b>func</b> Activate(<b>int</b> iPlr)
+  {
+  <i>// Der Spieler iPlr hat die Spielregel ausgewählt. Erzeuge einen Alien-Gegner!
+</i>  <a href="../../sdk/script/fn/return.html">return</a>(<a href="../../sdk/script/fn/CreateScriptPlayer.html">CreateScriptPlayer</a>(<i class="string">"Aliens"</i>, 0x00ff00, 0, CSPF_FixedAttributes | CSPF_NoScenarioInit, GetID()));
+  }
+  
+<b>protected</b> <b>func</b> InitializeScriptPlayer(<b>int</b> iPlr, <b>int</b> idTeam)
+  {
+  <i>// Ein Alienspieler ist beigetreten
+</i>  <i>// Da keine Szenarieninitialisierung durchgeführt wurde, muss in diesem Callback eine Crew für den Spieler erstellt werden
+</i>  <i>// Erstelle einen grünen Clonk - ein richtiges Szenario sollte natürlich echte Aliens mitbringen :)
+</i>  <b>var</b> pAlien = CreateObject(CLNK, LandscapeWidth()/2, -1, iPlr);
+  MakeCrewMember(pAlien, iPlr);
+  SetClrModulation(0x7fff7f, pAlien);
+  <i>// Und angreifen lassen
+</i>  <a href="../../sdk/script/fn/AddEffect.html">AddEffect</a>(<i class="string">"Int_EAI"</i>, pAlien, 1, 100, 0, GetID());
+  }
+  
+<b>protected</b> <b>func</b> FxInt_EAITimer(<b>object</b> pCrew, <b>int</b> iEffNum, <b>int</b> iEffTime)
+  {
+  <i>// Nächsten Gegner angreifen
+</i>  <b>var</b> pEnemy = <a href="../../sdk/script/fn/FindObject2.html">FindObject2</a>(<a href="../../sdk/script/fn/Find_Hostile.html">Find_Hostile</a>(<a href="../../sdk/script/fn/GetOwner.html">GetOwner</a>(pCrew)), <a href="../../sdk/script/fn/Find_OCF.html">Find_OCF</a>(<a href="../../sdk/script/fn/OCF_Alive.html">OCF_Alive</a>), <a href="../../sdk/script/fn/Sort_Distance.html">Sort_Distance</a>());
+  <a href="../../sdk/script/fn/if.html">if</a> (pEnemy) <a href="../../sdk/script/fn/SetCommand.html">SetCommand</a>(pCrew, <i class="string">"Attack"</i>, pEnemy);
+  <a href="../../sdk/script/fn/return.html">return</a> FX_OK;
+  }
+</pre>
+
+
+
+<div class="author">Sven2, Dezember 2007</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

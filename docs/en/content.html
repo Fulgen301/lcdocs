@@ -1,0 +1,2674 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Developer Mode</title>
+	<link rel=stylesheet type="text/css" href="doku.css">
+	<style type="text/css">
+	ul {
+		list-style:none;
+		padding:0;
+		margin:0;
+	}
+	ul ul {
+		padding-left:1em;
+	}
+	ul h1, ul h2, ul h3, ul h4, ul h5, ul h6 {
+		font-size: 100%;
+		font-weight: bold;
+		font-style: normal;
+		margin: 0;
+		border: none;
+		padding: 0;
+	}
+	ul a {
+		color: navy; 
+		text-decoration: none;  
+	}  
+	ul a.visited {
+		color: navy;  
+		text-decoration: none;  
+	}
+	.collapseimg {
+		cursor: pointer;
+	}
+	.toggleinvisi * .invisi {
+		display: none;
+	}
+	</style>
+</head>
+
+<body id='thebody'>
+<script type='text/javascript'>
+	<!--
+	//# Javascript aus mwForum, www.mwforum.org
+	function tb(listId) {
+		var branch = document.getElementById('brn' + listId);
+		var toggle = document.getElementById('tgl' + listId);
+		if (!branch || !toggle) return;
+		if (branch.style.display != 'none' && branch.className!='invisi') {
+			branch.style.display = 'none';
+			toggle.src = 'images/bullet_folder.gif';
+			toggle.title = 'Zweig expandieren';
+			toggle.alt = '+';
+		} else {
+			branch.style.display = '';
+			toggle.src = 'images/bullet_folder_open.gif';
+			toggle.title = 'Zweig zusammenklappen';
+			toggle.alt = '-';
+		}
+		branch.className='';
+		return true;
+	}
+
+	function ta(listId) {
+		var branch = document.getElementById('brn' + listId);
+		var divs = document.getElementsByTagName('ul');
+		var display = '', img = 'bullet_folder_open.gif';
+		if (branch.style.display != 'none' && branch.className!='invisi') {
+			display = 'none';
+			img = 'bullet_folder.gif';
+		}
+		for (var i=0; i < divs.length; i++) {
+			if (divs[i].id.indexOf('brn') == 0) {
+				divs[i].style.display = display;
+				divs[i].className='';
+			}
+		}
+		var imgs = document.getElementsByTagName('img');
+		for (var i=0; i < imgs.length; i++) {
+			if (imgs[i].id.indexOf('tgl') == 0) imgs[i].src = 'images/' + img;
+		}
+		return true;
+	}
+	
+	//# Alle als anfaenglich geschlossen markierten Listitems unsichtbar machen
+	//# Beim Laden sind sie sichtbar, damit die Seite ohne Javascript benutzbar ist
+	document.getElementById('thebody').className = 'toggleinvisi';
+	//-->
+</script>
+<ul class="nav"><li class="fineprint">Clonk Developer Mode Documentation</li>
+<li><a href="sdk/index.html">Introduction</a></li>
+<li><a href="content.html">Contents</a></li>
+<li><a href="search.php">Search</a></li>
+<li><a href="sdk/console.html">Engine</a></li>
+<li><a href="sdk/cmdline.html">Command Line</a></li>
+<li><a href="sdk/files.html">Game Data</a></li>
+<li><a href="sdk/script/index.html">Script</a></li>
+</ul>
+<h1>Contents</h1>
+<div class="text">
+<ul>
+	<li>
+	<h2><img id='tgl1' class='collapseimg' src='images/bullet_folder_open.gif' alt='-' onclick='tb(1)' ondblclick='ta(1)'>
+	Developer Mode</h2>
+	<ul id='brn1'>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/index.html">Introduction</a></li>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/console.html">Engine</a></li>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/cmdline.html">Command line parameters</a></li>
+	</ul>
+	</li>
+	<li>
+	<h2><img id='tgl2' class='collapseimg' src='images/bullet_folder_open.gif' alt='-' onclick='tb(2)' ondblclick='ta(2)'>
+	<a href="sdk/files.html">Game Data</a></h2>
+	<ul id='brn2'>
+		<li>
+		<h3><img id='tgl3' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(3)' ondblclick='ta(3)'>
+		<a href="sdk/definition/index.html">Object Definitions</a></h3>
+		<ul id='brn3' class='invisi'>
+			<li>
+			<h4><img id='tgl4' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(4)' ondblclick='ta(4)'>
+			<a href="sdk/definition/defcore.html">DefCore</a></h4>
+			<ul id='brn4' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/definition/category.html">Category</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/definition/ocf.html">OCF</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/definition/vertices.html">Vertices</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/definition/lineconnect.html">LineConnect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/definition/cnat.html">CNAT - Contact Attatchment</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl5' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(5)' ondblclick='ta(5)'>
+			<a href="sdk/definition/actmap.html">ActMap</a></h4>
+			<ul id='brn5' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/definition/procedures.html">Procedures</a></li>
+			</ul>
+			</li>
+			<li><img src='images/bullet_sheet.gif' alt='-'>
+			<a href="sdk/definition/script.html">Script</a></li>
+			<li><img src='images/bullet_sheet.gif' alt='-'>
+			<a href="sdk/particle/index.html">Particle</a></li>
+		</ul>
+		</li>
+		<li>
+		<h3><img id='tgl6' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(6)' ondblclick='ta(6)'>
+		<a href="sdk/scenario/index.html">Scenarios</a></h3>
+		<ul id='brn6' class='invisi'>
+			<li><img src='images/bullet_sheet.gif' alt='-'>
+			<a href="sdk/scenario/scenario.html">Scenario</a></li>
+			<li><img src='images/bullet_sheet.gif' alt='-'>
+			<a href="sdk/scenario/MapCreatorS2.html">Map Generator</a></li>
+			<li><img src='images/bullet_sheet.gif' alt='-'>
+			<a href="sdk/scenario/script.html">Script</a></li>
+		</ul>
+		</li>
+		<li>
+		<h3><img id='tgl7' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(7)' ondblclick='ta(7)'>
+		<a href="sdk/material/index.html">Materials</a></h3>
+		<ul id='brn7' class='invisi'>
+			<li><img src='images/bullet_sheet.gif' alt='-'>
+			<a href="sdk/material/c4m.html">Definitions</a></li>
+		</ul>
+		</li>
+		<li>
+		<h3><img id='tgl8' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(8)' ondblclick='ta(8)'>
+		Languages</h3>
+		<ul id='brn8' class='invisi'>
+			<li><img src='images/bullet_sheet.gif' alt='-'>
+			<a href="sdk/lang.html">Localization</a></li>
+		</ul>
+		</li>
+	</ul>
+	</li>
+	<li>
+	<h2><img id='tgl9' class='collapseimg' src='images/bullet_folder_open.gif' alt='-' onclick='tb(9)' ondblclick='ta(9)'>
+	<a href="sdk/script/index.html">Script</a></h2>
+	<ul id='brn9'>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/script/Funcs.html">Functions</a></li>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/script/FuncCall.html">Calling Script Functions</a></li>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/script/Strict.html">#strict</a></li>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/script/AppendTo.html">#appendto</a></li>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/script/BreakContinue.html">break / continue</a></li>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/script/for.html">for</a></li>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/script/NamedVar.html">Named Variables</a></li>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/script/operatoren.html">Operators</a></li>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/script/Typechecks.html">Data Types</a></li>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/script/Effects.html">Effects</a></li>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/script/ScriptPlayers.html">Script players</a></li>
+		<li><img src='images/bullet_sheet.gif' alt='-'>
+		<a href="sdk/script/GetXXVal.html">Get*Val</a></li>
+		<li>
+		<h3><img id='tgl10' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(10)' ondblclick='ta(10)'>
+		Functions by Category</h3>
+		<ul id='brn10' class='invisi'>
+			<li>
+			<h4><img id='tgl11' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(11)' ondblclick='ta(11)'>
+			Arithmetics</h4>
+			<ul id='brn11' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Abs.html#Abs">Abs</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Angle.html#Angle">Angle</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ArcCos.html#ArcCos">ArcCos</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ArcSin.html#ArcSin">ArcSin</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/BoundBy.html#BoundBy">BoundBy</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Cos.html#Cos">Cos</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Distance.html#Distance">Distance</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoRGBaValue.html#DoRGBaValue">DoRGBaValue</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetRGBaValue.html#GetRGBaValue">GetRGBaValue</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/HSL.html#HSL">HSL</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/HSL2RGB.html#HSL2RGB">HSL2RGB</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/HSLa.html#HSLa">HSLa</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Inside.html#Inside">Inside</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Max.html#Max">Max</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Min.html#Min">Min</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Pow.html#Pow">Pow</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/RGB.html#RGB">RGB</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/RGB2HSL.html#RGB2HSL">RGB2HSL</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/RGBa.html#RGBa">RGBa</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Random.html#Random">Random</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/RandomX.html#RandomX">RandomX</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetRGBaValue.html#SetRGBaValue">SetRGBaValue</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Sin.html#Sin">Sin</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SplitRGBaValue.html#SplitRGBaValue">SplitRGBaValue</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Sqrt.html#Sqrt">Sqrt</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl12' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(12)' ondblclick='ta(12)'>
+			Callbacks</h4>
+			<ul id='brn12' class='invisi'>
+				<li>
+				<h5><img id='tgl13' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(13)' ondblclick='ta(13)'>
+				Objects</h5>
+				<ul id='brn13' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Activate.html#Activate">Activate</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Construction.html#Construction">Construction</a></li>
+				</ul>
+				</li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl14' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(14)' ondblclick='ta(14)'>
+			Effects</h4>
+			<ul id='brn14' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AddEffect.html#AddEffect">AddEffect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ChangeEffect.html#ChangeEffect">ChangeEffect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CheckEffect.html#CheckEffect">CheckEffect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/EffectCall.html#EffectCall">EffectCall</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/EffectVar.html#EffectVar">EffectVar</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetEffect.html#GetEffect">GetEffect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetEffectCount.html#GetEffectCount">GetEffectCount</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/RemoveEffect.html#RemoveEffect">RemoveEffect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Sound.html#Sound">Sound</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SoundLevel.html#SoundLevel">SoundLevel</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl15' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(15)' ondblclick='ta(15)'>
+			Developer</h4>
+			<ul id='brn15' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/EditCursor.html#EditCursor">EditCursor</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LocateFunc.html#LocateFunc">LocateFunc</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ReloadDef.html#ReloadDef">ReloadDef</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ReloadParticle.html#ReloadParticle">ReloadParticle</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/StartScriptProfiler.html#StartScriptProfiler">StartScriptProfiler</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/StopScriptProfiler.html#StopScriptProfiler">StopScriptProfiler</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl16' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(16)' ondblclick='ta(16)'>
+			Get*Val</h4>
+			<ul id='brn16' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetActMapVal.html#GetActMapVal">GetActMapVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetDefCoreVal.html#GetDefCoreVal">GetDefCoreVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetMaterialVal.html#GetMaterialVal">GetMaterialVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetObjectInfoCoreVal.html#GetObjectInfoCoreVal">GetObjectInfoCoreVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetObjectVal.html#GetObjectVal">GetObjectVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerInfoCoreVal.html#GetPlayerInfoCoreVal">GetPlayerInfoCoreVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerVal.html#GetPlayerVal">GetPlayerVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetScenarioVal.html#GetScenarioVal">GetScenarioVal</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl17' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(17)' ondblclick='ta(17)'>
+			Global</h4>
+			<ul id='brn17' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AddEvaluationData.html#AddEvaluationData">AddEvaluationData</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FrameCounter.html#FrameCounter">FrameCounter</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GameOver.html#GameOver">GameOver</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetGravity.html#GetGravity">GetGravity</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/HideSettlementScoreInEvaluation.html#HideSettlementScoreInEvaluation">HideSettlementScoreInEvaluation</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/IsNetwork.html#IsNetwork">IsNetwork</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LoadScenarioSection.html#LoadScenarioSection">LoadScenarioSection</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ResetGamma.html#ResetGamma">ResetGamma</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetGameSpeed.html#SetGameSpeed">SetGameSpeed</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetGamma.html#SetGamma">SetGamma</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetGravity.html#SetGravity">SetGravity</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetNextMission.html#SetNextMission">SetNextMission</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl18' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(18)' ondblclick='ta(18)'>
+			Sky</h4>
+			<ul id='brn18' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetSkyAdjust.html#GetSkyAdjust">GetSkyAdjust</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetSkyColor.html#GetSkyColor">GetSkyColor</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetSkyAdjust.html#SetSkyAdjust">SetSkyAdjust</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetSkyParallax.html#SetSkyParallax">SetSkyParallax</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SkyPar_Keep.html#SkyPar_Keep">SkyPar_Keep</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl19' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(19)' ondblclick='ta(19)'>
+			Interface</h4>
+			<ul id='brn19' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AbortMessageBoard.html#AbortMessageBoard">AbortMessageBoard</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AddMsgBoardCmd.html#AddMsgBoardCmd">AddMsgBoardCmd</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CallMessageBoard.html#CallMessageBoard">CallMessageBoard</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoScoreboardShow.html#DoScoreboardShow">DoScoreboardShow</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/InputCallback.html#InputCallback">InputCallback</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ScoreboardCol.html#ScoreboardCol">ScoreboardCol</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetScoreboardData.html#SetScoreboardData">SetScoreboardData</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SortScoreboard.html#SortScoreboard">SortScoreboard</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/TestMessageBoard.html#TestMessageBoard">TestMessageBoard</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl20' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(20)' ondblclick='ta(20)'>
+			Landscape</h4>
+			<ul id='brn20' class='invisi'>
+				<li>
+				<h5><img id='tgl21' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(21)' ondblclick='ta(21)'>
+				Material</h5>
+				<ul id='brn21' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ExtractLiquid.html#ExtractLiquid">ExtractLiquid</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ExtractMaterialAmount.html#ExtractMaterialAmount">ExtractMaterialAmount</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GBackLiquid.html#GBackLiquid">GBackLiquid</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GBackSemiSolid.html#GBackSemiSolid">GBackSemiSolid</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GBackSky.html#GBackSky">GBackSky</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GBackSolid.html#GBackSolid">GBackSolid</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetMaterial.html#GetMaterial">GetMaterial</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetMaterialColor.html#GetMaterialColor">GetMaterialColor</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetMaterialCount.html#GetMaterialCount">GetMaterialCount</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/InsertMaterial.html#InsertMaterial">InsertMaterial</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Material.html#Material">Material</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/MaterialName.html#MaterialName">MaterialName</a></li>
+				</ul>
+				</li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/BlastFree.html#BlastFree">BlastFree</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastPXS.html#CastPXS">CastPXS</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastPXSX.html#CastPXSX">CastPXSX</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DigFree.html#DigFree">DigFree</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DigFreeRect.html#DigFreeRect">DigFreeRect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DrawDefMap.html#DrawDefMap">DrawDefMap</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DrawMap.html#DrawMap">DrawMap</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DrawMaterialQuad.html#DrawMaterialQuad">DrawMaterialQuad</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DrawVolcanoBranch.html#DrawVolcanoBranch">DrawVolcanoBranch</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FindConstructionSite.html#FindConstructionSite">FindConstructionSite</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FlameConsumeMaterial.html#FlameConsumeMaterial">FlameConsumeMaterial</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FreeRect.html#FreeRect">FreeRect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPath.html#GetPath">GetPath</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPathLength.html#GetPathLength (veraltet)">GetPathLength (veraltet)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/InLiquid.html#InLiquid">InLiquid</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LandscapeHeight.html#LandscapeHeight">LandscapeHeight</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LandscapeWidth.html#LandscapeWidth">LandscapeWidth</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PathFree.html#PathFree">PathFree</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetClimate.html#SetClimate">SetClimate</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetLandscapePixel.html#SetLandscapePixel">SetLandscapePixel</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetMatAdjust.html#SetMatAdjust">SetMatAdjust</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ShakeFree.html#ShakeFree">ShakeFree</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl22' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(22)' ondblclick='ta(22)'>
+			Music</h4>
+			<ul id='brn22' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Music.html#Music">Music</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/MusicLevel.html#MusicLevel">MusicLevel</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlayList.html#SetPlayList">SetPlayList</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl23' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(23)' ondblclick='ta(23)'>
+			Messages</h4>
+			<ul id='brn23' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AddMessage.html#AddMessage">AddMessage</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CustomMessage.html#CustomMessage">CustomMessage</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DebugLog.html#DebugLog">DebugLog</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FatalError.html#FatalError">FatalError</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Log.html#Log">Log</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Message.html#Message">Message</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PlayerMessage.html#PlayerMessage">PlayerMessage</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PlrMessage.html#PlrMessage">PlrMessage</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl24' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(24)' ondblclick='ta(24)'>
+			Objects</h4>
+			<ul id='brn24' class='invisi'>
+				<li>
+				<h5><img id='tgl25' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(25)' ondblclick='ta(25)'>
+				Activity</h5>
+				<ul id='brn25' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ActIdle.html#ActIdle">ActIdle</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/DIR_Left.html#DIR_Left">DIR_Left</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/DIR_Right.html#DIR_Right">DIR_Right</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetActTime.html#GetActTime">GetActTime</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetAction.html#GetAction">GetAction</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetActionTarget.html#GetActionTarget">GetActionTarget</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetDir.html#GetDir">GetDir</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetPhase.html#GetPhase">GetPhase</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetProcedure.html#GetProcedure">GetProcedure</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ObjectSetAction.html#ObjectSetAction">ObjectSetAction</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetAction.html#SetAction">SetAction</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetActionData.html#SetActionData">SetActionData</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetActionTargets.html#SetActionTargets">SetActionTargets</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetBridgeActionData.html#SetBridgeActionData">SetBridgeActionData</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetDir.html#SetDir">SetDir</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetPhase.html#SetPhase">SetPhase</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl26' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(26)' ondblclick='ta(26)'>
+				Movement</h5>
+				<ul id='brn26' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/COMD_Down.html#COMD_Down">COMD_Down</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/COMD_DownLeft.html#COMD_DownLeft">COMD_DownLeft</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/COMD_DownRight.html#COMD_DownRight">COMD_DownRight</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/COMD_Left.html#COMD_Left">COMD_Left</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/COMD_None.html#COMD_None">COMD_None</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/COMD_Right.html#COMD_Right">COMD_Right</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/COMD_Stop.html#COMD_Stop">COMD_Stop</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/COMD_Up.html#COMD_Up">COMD_Up</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/COMD_UpLeft.html#COMD_UpLeft">COMD_UpLeft</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/COMD_UpRight.html#COMD_UpRight">COMD_UpRight</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Fling.html#Fling">Fling</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetComDir.html#GetComDir">GetComDir</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetR.html#GetR">GetR</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetRDir.html#GetRDir">GetRDir</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetXDir.html#GetXDir">GetXDir</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetYDir.html#GetYDir">GetYDir</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Jump.html#Jump">Jump</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetComDir.html#SetComDir">SetComDir</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetR.html#SetR">SetR</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetRDir.html#SetRDir">SetRDir</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetXDir.html#SetXDir">SetXDir</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetYDir.html#SetYDir">SetYDir</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SimFlight.html#SimFlight">SimFlight</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl27' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(27)' ondblclick='ta(27)'>
+				Commands</h5>
+				<ul id='brn27' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/AddCommand.html#AddCommand">AddCommand</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/AppendCommand.html#AppendCommand">AppendCommand</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/FinishCommand.html#FinishCommand">FinishCommand</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetCommand.html#GetCommand">GetCommand</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/PlayerObjectCommand.html#PlayerObjectCommand">PlayerObjectCommand</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetCommand.html#SetCommand">SetCommand</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl28' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(28)' ondblclick='ta(28)'>
+				Display</h5>
+				<ul id='brn28' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetClrModulation.html#GetClrModulation">GetClrModulation</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetColor.html#GetColor">GetColor</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetColorDw.html#GetColorDw">GetColorDw</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetObjectBlitMode.html#GetObjectBlitMode">GetObjectBlitMode</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetPortrait.html#GetPortrait">GetPortrait</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetUnusedOverlayID.html#GetUnusedOverlayID">GetUnusedOverlayID</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetClrModulation.html#SetClrModulation">SetClrModulation</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetColor.html#SetColor">SetColor</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetColorDw.html#SetColorDw">SetColorDw</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetGraphics.html#SetGraphics">SetGraphics</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetObjDrawTransform.html#SetObjDrawTransform">SetObjDrawTransform</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetObjectBlitMode.html#SetObjectBlitMode">SetObjectBlitMode</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetPicture.html#SetPicture">SetPicture</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetPortrait.html#SetPortrait">SetPortrait</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl29' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(29)' ondblclick='ta(29)'>
+				Creation</h5>
+				<ul id='brn29' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Buy.html#Buy">Buy</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/CastObjects.html#CastObjects">CastObjects</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/CastObjectsX.html#CastObjectsX">CastObjectsX</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ComposeContents.html#ComposeContents">ComposeContents</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/CreateConstruction.html#CreateConstruction">CreateConstruction</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/CreateContents.html#CreateContents">CreateContents</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/CreateObject.html#CreateObject">CreateObject</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/PlaceInMaterial.html#PlaceInMaterial">PlaceInMaterial</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/PlaceObjects.html#PlaceObjects">PlaceObjects</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl30' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(30)' ondblclick='ta(30)'>
+				Existence</h5>
+				<ul id='brn30' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Explode.html#Explode">Explode</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/RemoveObject.html#RemoveObject">RemoveObject</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Sell.html#Sell">Sell</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Split2Components.html#Split2Components">Split2Components</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl31' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(31)' ondblclick='ta(31)'>
+				Contents</h5>
+				<ul id='brn31' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Collect.html#Collect">Collect</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Contained.html#Contained">Contained</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Contents.html#Contents">Contents</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ContentsCount.html#ContentsCount">ContentsCount</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GrabContents.html#GrabContents">GrabContents</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ScrollContents.html#ScrollContents">ScrollContents</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ShiftContents.html#ShiftContents">ShiftContents</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl32' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(32)' ondblclick='ta(32)'>
+				Category</h5>
+				<ul id='brn32' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/C4D_All.html#C4D_All">C4D_All</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/C4D_Background.html#C4D_Background">C4D_Background</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/C4D_Goal.html#C4D_Goal">C4D_Goal</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/C4D_Knowledge.html#C4D_Knowledge">C4D_Knowledge</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/C4D_Living.html#C4D_Living">C4D_Living</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/C4D_Object.html#C4D_Object">C4D_Object</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/C4D_Parallax.html#C4D_Parallax">C4D_Parallax</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/C4D_Rule.html#C4D_Rule">C4D_Rule</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/C4D_StaticBack.html#C4D_StaticBack">C4D_StaticBack</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/C4D_Structure.html#C4D_Structure">C4D_Structure</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/C4D_Vehicle.html#C4D_Vehicle">C4D_Vehicle</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetCategory.html#GetCategory">GetCategory</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetCategory.html#SetCategory">SetCategory</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl33' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(33)' ondblclick='ta(33)'>
+				Components</h5>
+				<ul id='brn33' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ComponentAll.html#ComponentAll">ComponentAll</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetComponent.html#GetComponent">GetComponent</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetComponent.html#SetComponent">SetComponent</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl34' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(34)' ondblclick='ta(34)'>
+				Living Beings</h5>
+				<ul id='brn34' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/DeathAnnounce.html#DeathAnnounce">DeathAnnounce</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/DoBreath.html#DoBreath">DoBreath</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetAlive.html#GetAlive">GetAlive</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetBreath.html#GetBreath">GetBreath</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Kill.html#Kill">Kill</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Punch.html#Punch">Punch</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetAlive.html#SetAlive">SetAlive</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl35' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(35)' ondblclick='ta(35)'>
+				Crew</h5>
+				<ul id='brn35' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/CrewMember.html#CrewMember">CrewMember</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/DoCrewExp.html#DoCrewExp">DoCrewExp</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetCaptain.html#GetCaptain">GetCaptain</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetController.html#GetController">GetController</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetCrew.html#GetCrew">GetCrew</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetCrewCount.html#GetCrewCount">GetCrewCount</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetCrewEnabled.html#GetCrewEnabled">GetCrewEnabled</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetCursor.html#GetCursor">GetCursor</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetHiRank.html#GetHiRank">GetHiRank</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GrabObjectInfo.html#GrabObjectInfo">GrabObjectInfo</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/MakeCrewMember.html#MakeCrewMember">MakeCrewMember</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetCrewEnabled.html#SetCrewEnabled">SetCrewEnabled</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetCrewStatus.html#SetCrewStatus">SetCrewStatus</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/UnselectCrew.html#UnselectCrew">UnselectCrew</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl36' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(36)' ondblclick='ta(36)'>
+				Menu</h5>
+				<ul id='brn36' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/AddMenuItem.html#AddMenuItem">AddMenuItem</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ClearMenuItems.html#ClearMenuItems">ClearMenuItems</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/CloseMenu.html#CloseMenu">CloseMenu</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/CreateMenu.html#CreateMenu">CreateMenu</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetMenu.html#GetMenu">GetMenu</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetMenuSelection.html#GetMenuSelection">GetMenuSelection</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SelectMenuItem.html#SelectMenuItem">SelectMenuItem</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetMenuDecoration.html#SetMenuDecoration">SetMenuDecoration</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetMenuSize.html#SetMenuSize">SetMenuSize</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ShowInfo.html#ShowInfo">ShowInfo</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl37' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(37)' ondblclick='ta(37)'>
+				OCF</h5>
+				<ul id='brn37' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetOCF.html#GetOCF">GetOCF</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Alive.html#OCF_Alive">OCF_Alive</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_AttractLightning.html#OCF_AttractLightning">OCF_AttractLightning</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Available.html#OCF_Available">OCF_Available</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Chop.html#OCF_Chop">OCF_Chop</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Collectible.html#OCF_Collectible">OCF_Collectible</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Collection.html#OCF_Collection">OCF_Collection</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Construct.html#OCF_Construct">OCF_Construct</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Container.html#OCF_Container">OCF_Container</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_CrewMember.html#OCF_CrewMember">OCF_CrewMember</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Edible.html#OCF_Edible">OCF_Edible</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Entrance.html#OCF_Entrance">OCF_Entrance</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Exclusive.html#OCF_Exclusive">OCF_Exclusive</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_FightReady.html#OCF_FightReady">OCF_FightReady</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Fullcon.html#OCF_Fullcon">OCF_Fullcon</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Grab.html#OCF_Grab">OCF_Grab</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_HitSpeed1.html#OCF_HitSpeed1">OCF_HitSpeed1</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_HitSpeed2.html#OCF_HitSpeed2">OCF_HitSpeed2</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_HitSpeed3.html#OCF_HitSpeed3">OCF_HitSpeed3</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_HitSpeed4.html#OCF_HitSpeed4">OCF_HitSpeed4</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_InFree.html#OCF_InFree">OCF_InFree</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_InLiquid.html#OCF_InLiquid">OCF_InLiquid</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_InSolid.html#OCF_InSolid">OCF_InSolid</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Inflammable.html#OCF_Inflammable">OCF_Inflammable</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_LineConstruct.html#OCF_LineConstruct">OCF_LineConstruct</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Living.html#OCF_Living">OCF_Living</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_NotContained.html#OCF_NotContained">OCF_NotContained</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_OnFire.html#OCF_OnFire">OCF_OnFire</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_PowerConsumer.html#OCF_PowerConsumer">OCF_PowerConsumer</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_PowerSupply.html#OCF_PowerSupply">OCF_PowerSupply</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Prey.html#OCF_Prey">OCF_Prey</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OCF_Rotate.html#OCF_Rotate">OCF_Rotate</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl38' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(38)' ondblclick='ta(38)'>
+				Position</h5>
+				<ul id='brn38' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/AbsX.html#AbsX">AbsX</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/AbsY.html#AbsY">AbsY</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Enter.html#Enter">Enter</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Exit.html#Exit">Exit</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetX.html#GetX">GetX</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetY.html#GetY">GetY</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Resort.html#Resort">Resort</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ResortObject.html#ResortObject">ResortObject</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ResortObjects.html#ResortObjects">ResortObjects</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetObjectOrder.html#SetObjectOrder">SetObjectOrder</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetPosition.html#SetPosition">SetPosition</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl39' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(39)' ondblclick='ta(39)'>
+				Visibility</h5>
+				<ul id='brn39' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetVisibility.html#GetVisibility">GetVisibility</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetVisibility.html#SetVisibility">SetVisibility</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/VIS_All.html#VIS_All">VIS_All</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/VIS_Allies.html#VIS_Allies">VIS_Allies</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/VIS_Enemies.html#VIS_Enemies">VIS_Enemies</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/VIS_God.html#VIS_God">VIS_God</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/VIS_LayerToggle.html#VIS_LayerToggle">VIS_LayerToggle</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/VIS_Local.html#VIS_Local">VIS_Local</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/VIS_None.html#VIS_None">VIS_None</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/VIS_OverlayOnly.html#VIS_OverlayOnly">VIS_OverlayOnly</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/VIS_Owner.html#VIS_Owner">VIS_Owner</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl40' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(40)' ondblclick='ta(40)'>
+				Status</h5>
+				<ul id='brn40' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ChangeDef.html#ChangeDef">ChangeDef</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/CheckEnergyNeedChain.html#CheckEnergyNeedChain">CheckEnergyNeedChain</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/DoCon.html#DoCon">DoCon</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/DoDamage.html#DoDamage">DoDamage</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/DoEnergy.html#DoEnergy">DoEnergy</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/DoMagicEnergy.html#DoMagicEnergy">DoMagicEnergy</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/EnergyCheck.html#EnergyCheck">EnergyCheck</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Extinguish.html#Extinguish">Extinguish</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/FightWith.html#FightWith">FightWith</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetCon.html#GetCon">GetCon</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetContact.html#GetContact">GetContact</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetDamage.html#GetDamage">GetDamage</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetDefBottom.html#GetDefBottom">GetDefBottom</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetDesc.html#GetDesc">GetDesc</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetKiller.html#GetKiller">GetKiller</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetMass.html#GetMass">GetMass</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetNeededMatStr.html#GetNeededMatStr">GetNeededMatStr</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetObjectLayer.html#GetObjectLayer">GetObjectLayer</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetObjectStatus.html#GetObjectStatus">GetObjectStatus</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetOwner.html#GetOwner">GetOwner</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetPhysical.html#GetPhysical">GetPhysical</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetValue.html#GetValue">GetValue</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/OnFire.html#OnFire">OnFire</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ResetPhysical.html#ResetPhysical">ResetPhysical</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetCon.html#SetCon">SetCon</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetContactDensity.html#SetContactDensity">SetContactDensity</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetController.html#SetController">SetController</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetMass.html#SetMass">SetMass</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetName.html#SetName">SetName</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetObjectLayer.html#SetObjectLayer">SetObjectLayer</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetObjectStatus.html#SetObjectStatus">SetObjectStatus</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetOwner.html#SetOwner">SetOwner</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetPhysical.html#SetPhysical">SetPhysical</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetSolidMask.html#SetSolidMask">SetSolidMask</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetTransferZone.html#SetTransferZone">SetTransferZone</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Stuck.html#Stuck">Stuck</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/TrainPhysical.html#TrainPhysical">TrainPhysical</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Value.html#Value">Value</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl41' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(41)' ondblclick='ta(41)'>
+				Search</h5>
+				<ul id='brn41' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/AnyContainer.html#AnyContainer">AnyContainer</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/FindBase.html#FindBase">FindBase</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/FindContents.html#FindContents">FindContents</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/FindObject.html#FindObject">FindObject</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/FindObject2.html#FindObject2">FindObject2</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/FindObjectOwner.html#FindObjectOwner">FindObjectOwner</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/FindObjects.html#FindObjects">FindObjects</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/FindOtherContents.html#FindOtherContents">FindOtherContents</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_Action.html#Find_Action">Find_Action</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_ActionTarget.html#Find_ActionTarget">Find_ActionTarget</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_Allied.html#Find_Allied">Find_Allied</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_And.html#Find_And">Find_And</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_AnyContainer.html#Find_AnyContainer">Find_AnyContainer</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_AtPoint.html#Find_AtPoint">Find_AtPoint</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_Category.html#Find_Category">Find_Category</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_Container.html#Find_Container">Find_Container</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_Distance.html#Find_Distance">Find_Distance</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_Exclude.html#Find_Exclude">Find_Exclude</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_Func.html#Find_Func">Find_Func</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_Hostile.html#Find_Hostile">Find_Hostile</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_ID.html#Find_ID">Find_ID</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_InRect.html#Find_InRect">Find_InRect</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_Layer.html#Find_Layer">Find_Layer</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_NoContainer.html#Find_NoContainer">Find_NoContainer</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_Not.html#Find_Not">Find_Not</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_OCF.html#Find_OCF">Find_OCF</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_Or.html#Find_Or">Find_Or</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Find_Owner.html#Find_Owner">Find_Owner</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/NoContainer.html#NoContainer">NoContainer</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ObjectCount.html#ObjectCount">ObjectCount</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ObjectCount2.html#ObjectCount2">ObjectCount2</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl42' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(42)' ondblclick='ta(42)'>
+				Vertices</h5>
+				<ul id='brn42' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/AddVertex.html#AddVertex">AddVertex</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetVertex.html#GetVertex">GetVertex</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetVertexNum.html#GetVertexNum">GetVertexNum</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/RemoveVertex.html#RemoveVertex">RemoveVertex</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetVertex.html#SetVertex">SetVertex</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetVertexXY.html#SetVertexXY">SetVertexXY</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/VerticesStuck.html#VerticesStuck">VerticesStuck</a></li>
+				</ul>
+				</li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/BlastObjects.html#BlastObjects">BlastObjects</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetDefinition.html#GetDefinition">GetDefinition</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetEnergy.html#GetEnergy">GetEnergy</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetEntrance.html#GetEntrance">GetEntrance</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetID.html#GetID">GetID</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetMagicEnergy.html#GetMagicEnergy">GetMagicEnergy</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetName.html#GetName">GetName</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetRank.html#GetRank">GetRank</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Incinerate.html#Incinerate">Incinerate</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/IncinerateLandscape.html#IncinerateLandscape">IncinerateLandscape</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Object.html#Object">Object</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ObjectDistance.html#ObjectDistance">ObjectDistance</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ObjectNumber.html#ObjectNumber">ObjectNumber</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetEntrance.html#SetEntrance">SetEntrance</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetShape.html#SetShape">SetShape</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ShakeObjects.html#ShakeObjects">ShakeObjects</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/this.html#this">this</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl43' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(43)' ondblclick='ta(43)'>
+			Particle</h4>
+			<ul id='brn43' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastBackParticles.html#CastBackParticles">CastBackParticles</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastParticles.html#CastParticles">CastParticles</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ClearParticles.html#ClearParticles">ClearParticles</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CreateParticle.html#CreateParticle">CreateParticle</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DrawParticleLine.html#DrawParticleLine">DrawParticleLine</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PushParticles.html#PushParticles">PushParticles</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl44' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(44)' ondblclick='ta(44)'>
+			Script</h4>
+			<ul id='brn44' class='invisi'>
+				<li>
+				<h5><img id='tgl45' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(45)' ondblclick='ta(45)'>
+				Function call</h5>
+				<ul id='brn45' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Call.html#Call">Call</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/DefinitionCall.html#DefinitionCall">DefinitionCall</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GameCall.html#GameCall">GameCall</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GameCallEx.html#GameCallEx">GameCallEx</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ObjectCall.html#ObjectCall">ObjectCall</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/PrivateCall.html#PrivateCall">PrivateCall</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/ProtectedCall.html#ProtectedCall">ProtectedCall</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl46' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(46)' ondblclick='ta(46)'>
+				Strings</h5>
+				<ul id='brn46' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/C4Id.html#C4Id">C4Id</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/CreateArray.html#CreateArray">CreateArray</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Format.html#Format">Format</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetChar.html#GetChar">GetChar</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetLength.html#GetLength">GetLength</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetLength.html#SetLength">SetLength</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/WildcardMatch.html#WildcardMatch">WildcardMatch</a></li>
+				</ul>
+				</li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ClearScheduleCall.html#ClearScheduleCall">ClearScheduleCall</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Par.html#Par">Par</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Schedule.html#Schedule">Schedule</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ScheduleCall.html#ScheduleCall">ScheduleCall</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ScriptCounter.html#ScriptCounter">ScriptCounter</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ScriptGo.html#ScriptGo">ScriptGo</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/_inherited.html#_inherited">_inherited</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/eval.html#eval">eval</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/for.html#for">for</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/goto.html#goto">goto</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/if.html#if">if</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/inherited.html#inherited">inherited</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/return.html#return">return</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/while.html#while">while</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl47' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(47)' ondblclick='ta(47)'>
+			Player</h4>
+			<ul id='brn47' class='invisi'>
+				<li>
+				<h5><img id='tgl48' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(48)' ondblclick='ta(48)'>
+				View</h5>
+				<ul id='brn48' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetPlrView.html#GetPlrView">GetPlrView</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetPlrViewMode.html#GetPlrViewMode">GetPlrViewMode</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetFilmView.html#SetFilmView">SetFilmView</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetFoW.html#SetFoW">SetFoW</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetPlrView.html#SetPlrView">SetPlrView</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetPlrViewRange.html#SetPlrViewRange">SetPlrViewRange</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetViewCursor.html#SetViewCursor">SetViewCursor</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetViewOffset.html#SetViewOffset">SetViewOffset</a></li>
+				</ul>
+				</li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ClearLastPlrCom.html#ClearLastPlrCom">ClearLastPlrCom</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CreateScriptPlayer.html#CreateScriptPlayer">CreateScriptPlayer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoHomebaseMaterial.html#DoHomebaseMaterial">DoHomebaseMaterial</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoHomebaseProduction.html#DoHomebaseProduction">DoHomebaseProduction</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoScore.html#DoScore">DoScore</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoWealth.html#DoWealth">DoWealth</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/EliminatePlayer.html#EliminatePlayer">EliminatePlayer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetBase.html#GetBase">GetBase</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetCrewExtraData.html#GetCrewExtraData">GetCrewExtraData</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetHomebaseMaterial.html#GetHomebaseMaterial">GetHomebaseMaterial</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetHomebaseProduction.html#GetHomebaseProduction">GetHomebaseProduction</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerByIndex.html#GetPlayerByIndex">GetPlayerByIndex</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerCount.html#GetPlayerCount">GetPlayerCount</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerID.html#GetPlayerID">GetPlayerID</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerName.html#GetPlayerName">GetPlayerName</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerTeam.html#GetPlayerTeam">GetPlayerTeam</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerType.html#GetPlayerType">GetPlayerType</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrColorDw.html#GetPlrColorDw">GetPlrColorDw</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrControlName.html#GetPlrControlName">GetPlrControlName</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrDownDouble.html#GetPlrDownDouble">GetPlrDownDouble</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrExtraData.html#GetPlrExtraData">GetPlrExtraData</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrKnowledge.html#GetPlrKnowledge">GetPlrKnowledge</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrMagic.html#GetPlrMagic">GetPlrMagic</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrValue.html#GetPlrValue">GetPlrValue</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrValueGain.html#GetPlrValueGain">GetPlrValueGain</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetScore.html#GetScore">GetScore</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetSelectCount.html#GetSelectCount">GetSelectCount</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTaggedPlayerName.html#GetTaggedPlayerName">GetTaggedPlayerName</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetWealth.html#GetWealth">GetWealth</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Hostile.html#Hostile">Hostile</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/InitScenarioPlayer.html#InitScenarioPlayer">InitScenarioPlayer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/NO_OWNER.html#NO_OWNER">NO_OWNER</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SelectCrew.html#SelectCrew">SelectCrew</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetCrewExtraData.html#SetCrewExtraData">SetCrewExtraData</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetCursor.html#SetCursor">SetCursor</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetHostility.html#SetHostility">SetHostility</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetKiller.html#SetKiller">SetKiller</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetMaxPlayer.html#SetMaxPlayer">SetMaxPlayer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlayerTeam.html#SetPlayerTeam">SetPlayerTeam</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrExtraData.html#SetPlrExtraData">SetPlrExtraData</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrKnowledge.html#SetPlrKnowledge">SetPlrKnowledge</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrMagic.html#SetPlrMagic">SetPlrMagic</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrShowCommand.html#SetPlrShowCommand">SetPlrShowCommand</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrShowControl.html#SetPlrShowControl">SetPlrShowControl</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrShowControlPos.html#SetPlrShowControlPos">SetPlrShowControlPos</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetWealth.html#SetWealth">SetWealth</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl49' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(49)' ondblclick='ta(49)'>
+			System</h4>
+			<ul id='brn49' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GainMissionAccess.html#GainMissionAccess">GainMissionAccess</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetLeague.html#GetLeague">GetLeague</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetMissionAccess.html#GetMissionAccess">GetMissionAccess</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetSystemTime.html#GetSystemTime">GetSystemTime</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTime.html#GetTime">GetTime</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetRestoreInfos.html#SetRestoreInfos">SetRestoreInfos</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl50' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(50)' ondblclick='ta(50)'>
+			Teams</h4>
+			<ul id='brn50' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTeamByIndex.html#GetTeamByIndex">GetTeamByIndex</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTeamColor.html#GetTeamColor">GetTeamColor</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTeamConfig.html#GetTeamConfig">GetTeamConfig</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTeamCount.html#GetTeamCount">GetTeamCount</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTeamName.html#GetTeamName">GetTeamName</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl51' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(51)' ondblclick='ta(51)'>
+			Environment</h4>
+			<ul id='brn51' class='invisi'>
+				<li>
+				<h5><img id='tgl52' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(52)' ondblclick='ta(52)'>
+				Effects</h5>
+				<ul id='brn52' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Bubble.html#Bubble">Bubble</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/Smoke.html#Smoke">Smoke</a></li>
+				</ul>
+				</li>
+				<li>
+				<h5><img id='tgl53' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(53)' ondblclick='ta(53)'>
+				Weather</h5>
+				<ul id='brn53' class='invisi'>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetClimate.html#GetClimate">GetClimate</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetSeason.html#GetSeason">GetSeason</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetTemperature.html#GetTemperature">GetTemperature</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/GetWind.html#GetWind">GetWind</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/LaunchLightning.html#LaunchLightning">LaunchLightning</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetSeason.html#SetSeason">SetSeason</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetTemperature.html#SetTemperature">SetTemperature</a></li>
+					<li><img src='images/bullet_sheet.gif' alt='-'>
+					<a href="sdk/script/fn/SetWind.html#SetWind">SetWind</a></li>
+				</ul>
+				</li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LaunchEarthquake.html#LaunchEarthquake">LaunchEarthquake</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LaunchVolcano.html#LaunchVolcano">LaunchVolcano</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PlaceAnimal.html#PlaceAnimal">PlaceAnimal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PlaceVegetation.html#PlaceVegetation">PlaceVegetation</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl54' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(54)' ondblclick='ta(54)'>
+			Variables</h4>
+			<ul id='brn54' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_Any.html#C4V_Any">C4V_Any</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_Array.html#C4V_Array">C4V_Array</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_Bool.html#C4V_Bool">C4V_Bool</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_C4ID.html#C4V_C4ID">C4V_C4ID</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_C4Object.html#C4V_C4Object">C4V_C4Object</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_Int.html#C4V_Int">C4V_Int</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_String.html#C4V_String">C4V_String</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastAny.html#CastAny">CastAny</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastBool.html#CastBool">CastBool</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastC4ID.html#CastC4ID">CastC4ID</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastInt.html#CastInt">CastInt</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetIndexOf.html#GetIndexOf">GetIndexOf</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetKeys.html#GetKeys">GetKeys</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetType.html#GetType">GetType</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetValues.html#GetValues">GetValues</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GlobalN.html#GlobalN">GlobalN</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/IsRef.html#IsRef">IsRef</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LocalN.html#LocalN (veraltet)">LocalN (veraltet)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/VarN.html#VarN">VarN</a></li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+		<li>
+		<h3><img id='tgl55' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(55)' ondblclick='ta(55)'>
+		Functions by Version</h3>
+		<ul id='brn55' class='invisi'>
+			<li>
+			<h4><img id='tgl56' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(56)' ondblclick='ta(56)'>
+			4.6.5.0 CP</h4>
+			<ul id='brn56' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Abs.html#Abs">Abs</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ActIdle.html#ActIdle">ActIdle</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Activate.html#Activate">Activate</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AddVertex.html#AddVertex">AddVertex</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AnyContainer.html#AnyContainer">AnyContainer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/BlastFree.html#BlastFree">BlastFree</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/BoundBy.html#BoundBy">BoundBy</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Bubble.html#Bubble">Bubble</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4D_All.html#C4D_All">C4D_All</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4D_Goal.html#C4D_Goal">C4D_Goal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4D_Knowledge.html#C4D_Knowledge">C4D_Knowledge</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4D_Living.html#C4D_Living">C4D_Living</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4D_Object.html#C4D_Object">C4D_Object</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4D_Rule.html#C4D_Rule">C4D_Rule</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4D_StaticBack.html#C4D_StaticBack">C4D_StaticBack</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4D_Structure.html#C4D_Structure">C4D_Structure</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4D_Vehicle.html#C4D_Vehicle">C4D_Vehicle</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4Id.html#C4Id">C4Id</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/COMD_Down.html#COMD_Down">COMD_Down</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/COMD_DownLeft.html#COMD_DownLeft">COMD_DownLeft</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/COMD_DownRight.html#COMD_DownRight">COMD_DownRight</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/COMD_Left.html#COMD_Left">COMD_Left</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/COMD_None.html#COMD_None">COMD_None</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/COMD_Right.html#COMD_Right">COMD_Right</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/COMD_Stop.html#COMD_Stop">COMD_Stop</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/COMD_Up.html#COMD_Up">COMD_Up</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/COMD_UpLeft.html#COMD_UpLeft">COMD_UpLeft</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/COMD_UpRight.html#COMD_UpRight">COMD_UpRight</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Call.html#Call">Call</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastObjects.html#CastObjects">CastObjects</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastPXS.html#CastPXS">CastPXS</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ChangeDef.html#ChangeDef">ChangeDef</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CheckEnergyNeedChain.html#CheckEnergyNeedChain">CheckEnergyNeedChain</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ComponentAll.html#ComponentAll">ComponentAll</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ComposeContents.html#ComposeContents">ComposeContents</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Contained.html#Contained">Contained</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Contents.html#Contents">Contents</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ContentsCount.html#ContentsCount">ContentsCount</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CreateConstruction.html#CreateConstruction">CreateConstruction</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CreateMenu.html#CreateMenu">CreateMenu</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CreateObject.html#CreateObject">CreateObject</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CrewMember.html#CrewMember">CrewMember</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DIR_Left.html#DIR_Left">DIR_Left</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DIR_Right.html#DIR_Right">DIR_Right</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DeathAnnounce.html#DeathAnnounce">DeathAnnounce</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DefinitionCall.html#DefinitionCall">DefinitionCall</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DigFree.html#DigFree">DigFree</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DigFreeRect.html#DigFreeRect">DigFreeRect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Distance.html#Distance">Distance</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoBreath.html#DoBreath">DoBreath</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoCon.html#DoCon">DoCon</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoDamage.html#DoDamage">DoDamage</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoHomebaseMaterial.html#DoHomebaseMaterial">DoHomebaseMaterial</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoScore.html#DoScore">DoScore</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/EditCursor.html#EditCursor">EditCursor</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/EliminatePlayer.html#EliminatePlayer">EliminatePlayer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/EnergyCheck.html#EnergyCheck">EnergyCheck</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Enter.html#Enter">Enter</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Exit.html#Exit">Exit</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Extinguish.html#Extinguish">Extinguish</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ExtractLiquid.html#ExtractLiquid">ExtractLiquid</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ExtractMaterialAmount.html#ExtractMaterialAmount">ExtractMaterialAmount</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FindBase.html#FindBase">FindBase</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FindConstructionSite.html#FindConstructionSite">FindConstructionSite</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FindContents.html#FindContents">FindContents</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FindOtherContents.html#FindOtherContents">FindOtherContents</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Fling.html#Fling">Fling</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Format.html#Format">Format</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GBackLiquid.html#GBackLiquid">GBackLiquid</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GBackSemiSolid.html#GBackSemiSolid">GBackSemiSolid</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GBackSky.html#GBackSky">GBackSky</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GBackSolid.html#GBackSolid">GBackSolid</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GainMissionAccess.html#GainMissionAccess">GainMissionAccess</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GameCall.html#GameCall">GameCall</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GameCallEx.html#GameCallEx">GameCallEx</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GameOver.html#GameOver">GameOver</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetActTime.html#GetActTime">GetActTime</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetAction.html#GetAction">GetAction</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetActionTarget.html#GetActionTarget">GetActionTarget</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetAlive.html#GetAlive">GetAlive</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetBase.html#GetBase">GetBase</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetBreath.html#GetBreath">GetBreath</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetCaptain.html#GetCaptain">GetCaptain</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetCategory.html#GetCategory">GetCategory</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetClimate.html#GetClimate">GetClimate</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetComDir.html#GetComDir">GetComDir</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetComponent.html#GetComponent">GetComponent</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetCon.html#GetCon">GetCon</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetController.html#GetController">GetController</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetCrew.html#GetCrew">GetCrew</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetCrewCount.html#GetCrewCount">GetCrewCount</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetDefinition.html#GetDefinition">GetDefinition</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetDir.html#GetDir">GetDir</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetEnergy.html#GetEnergy">GetEnergy</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetGravity.html#GetGravity">GetGravity</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetHiRank.html#GetHiRank">GetHiRank</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetHomebaseMaterial.html#GetHomebaseMaterial">GetHomebaseMaterial</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetID.html#GetID">GetID</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetMagicEnergy.html#GetMagicEnergy">GetMagicEnergy</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetMaterialCount.html#GetMaterialCount">GetMaterialCount</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetOCF.html#GetOCF">GetOCF</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetOwner.html#GetOwner">GetOwner</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPhase.html#GetPhase">GetPhase</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPhysical.html#GetPhysical">GetPhysical</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerName.html#GetPlayerName">GetPlayerName</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrDownDouble.html#GetPlrDownDouble">GetPlrDownDouble</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrKnowledge.html#GetPlrKnowledge">GetPlrKnowledge</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrMagic.html#GetPlrMagic">GetPlrMagic</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrValue.html#GetPlrValue">GetPlrValue</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrValueGain.html#GetPlrValueGain">GetPlrValueGain</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrView.html#GetPlrView">GetPlrView</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrViewMode.html#GetPlrViewMode">GetPlrViewMode</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetR.html#GetR">GetR</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetRDir.html#GetRDir">GetRDir</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetRank.html#GetRank">GetRank</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetSeason.html#GetSeason">GetSeason</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetSelectCount.html#GetSelectCount">GetSelectCount</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetSkyColor.html#GetSkyColor">GetSkyColor</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTemperature.html#GetTemperature">GetTemperature</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetVertex.html#GetVertex">GetVertex</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetVertexNum.html#GetVertexNum">GetVertexNum</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetWealth.html#GetWealth">GetWealth</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetX.html#GetX">GetX</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetXDir.html#GetXDir">GetXDir</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetY.html#GetY">GetY</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetYDir.html#GetYDir">GetYDir</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GrabContents.html#GrabContents">GrabContents</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/InLiquid.html#InLiquid">InLiquid</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Incinerate.html#Incinerate">Incinerate</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Inside.html#Inside">Inside</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/IsNetwork.html#IsNetwork">IsNetwork</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/IsRef.html#IsRef">IsRef</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Jump.html#Jump">Jump</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LandscapeHeight.html#LandscapeHeight">LandscapeHeight</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LandscapeWidth.html#LandscapeWidth">LandscapeWidth</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LaunchEarthquake.html#LaunchEarthquake">LaunchEarthquake</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LaunchVolcano.html#LaunchVolcano">LaunchVolcano</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Log.html#Log">Log</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/MakeCrewMember.html#MakeCrewMember">MakeCrewMember</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Material.html#Material">Material</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Max.html#Max">Max</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Message.html#Message">Message</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Min.html#Min">Min</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/MusicLevel.html#MusicLevel">MusicLevel</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/NoContainer.html#NoContainer">NoContainer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_AttractLightning.html#OCF_AttractLightning">OCF_AttractLightning</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Available.html#OCF_Available">OCF_Available</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Chop.html#OCF_Chop">OCF_Chop</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Collectible.html#OCF_Collectible">OCF_Collectible</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Construct.html#OCF_Construct">OCF_Construct</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Container.html#OCF_Container">OCF_Container</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_CrewMember.html#OCF_CrewMember">OCF_CrewMember</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Edible.html#OCF_Edible">OCF_Edible</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Fullcon.html#OCF_Fullcon">OCF_Fullcon</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Grab.html#OCF_Grab">OCF_Grab</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_InFree.html#OCF_InFree">OCF_InFree</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_InLiquid.html#OCF_InLiquid">OCF_InLiquid</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_InSolid.html#OCF_InSolid">OCF_InSolid</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Living.html#OCF_Living">OCF_Living</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_OnFire.html#OCF_OnFire">OCF_OnFire</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_PowerConsumer.html#OCF_PowerConsumer">OCF_PowerConsumer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_PowerSupply.html#OCF_PowerSupply">OCF_PowerSupply</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Prey.html#OCF_Prey">OCF_Prey</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ObjectCall.html#ObjectCall">ObjectCall</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ObjectCount.html#ObjectCount">ObjectCount</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ObjectDistance.html#ObjectDistance">ObjectDistance</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OnFire.html#OnFire">OnFire</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Par.html#Par">Par</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PathFree.html#PathFree">PathFree</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PlaceAnimal.html#PlaceAnimal">PlaceAnimal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PlaceVegetation.html#PlaceVegetation">PlaceVegetation</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PlayerMessage.html#PlayerMessage">PlayerMessage</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PrivateCall.html#PrivateCall">PrivateCall</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ProtectedCall.html#ProtectedCall">ProtectedCall</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Punch.html#Punch">Punch</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Random.html#Random">Random</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ScriptGo.html#ScriptGo">ScriptGo</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SelectCrew.html#SelectCrew">SelectCrew</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetAction.html#SetAction">SetAction</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetActionData.html#SetActionData">SetActionData</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetAlive.html#SetAlive">SetAlive</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetCategory.html#SetCategory">SetCategory</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetClimate.html#SetClimate">SetClimate</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetComDir.html#SetComDir">SetComDir</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetComponent.html#SetComponent">SetComponent</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetDir.html#SetDir">SetDir</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetEntrance.html#SetEntrance">SetEntrance</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetGravity.html#SetGravity">SetGravity</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetOwner.html#SetOwner">SetOwner</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPhase.html#SetPhase">SetPhase</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrKnowledge.html#SetPlrKnowledge">SetPlrKnowledge</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrMagic.html#SetPlrMagic">SetPlrMagic</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrShowCommand.html#SetPlrShowCommand">SetPlrShowCommand</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrShowControl.html#SetPlrShowControl">SetPlrShowControl</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrShowControlPos.html#SetPlrShowControlPos">SetPlrShowControlPos</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrView.html#SetPlrView">SetPlrView</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetSeason.html#SetSeason">SetSeason</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetSolidMask.html#SetSolidMask">SetSolidMask</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetTemperature.html#SetTemperature">SetTemperature</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetTransferZone.html#SetTransferZone">SetTransferZone</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetWealth.html#SetWealth">SetWealth</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetWind.html#SetWind">SetWind</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ShakeFree.html#ShakeFree">ShakeFree</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ShakeObjects.html#ShakeObjects">ShakeObjects</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ShowInfo.html#ShowInfo">ShowInfo</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Smoke.html#Smoke">Smoke</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Split2Components.html#Split2Components">Split2Components</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Sqrt.html#Sqrt">Sqrt</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Stuck.html#Stuck">Stuck</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Value.html#Value">Value</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/if.html#if">if</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/return.html#return">return</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/this.html#this">this</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/while.html#while">while</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl57' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(57)' ondblclick='ta(57)'>
+			4.9.1.0 GWE</h4>
+			<ul id='brn57' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AbsX.html#AbsX">AbsX</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AbsY.html#AbsY">AbsY</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AddMsgBoardCmd.html#AddMsgBoardCmd">AddMsgBoardCmd</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ArcCos.html#ArcCos">ArcCos</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ArcSin.html#ArcSin">ArcSin</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Buy.html#Buy">Buy</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4D_Background.html#C4D_Background">C4D_Background</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4D_Parallax.html#C4D_Parallax">C4D_Parallax</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_Any.html#C4V_Any">C4V_Any</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_Bool.html#C4V_Bool">C4V_Bool</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_C4ID.html#C4V_C4ID">C4V_C4ID</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_C4Object.html#C4V_C4Object">C4V_C4Object</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_Int.html#C4V_Int">C4V_Int</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_String.html#C4V_String">C4V_String</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ClearMenuItems.html#ClearMenuItems">ClearMenuItems</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ClearParticles.html#ClearParticles">ClearParticles</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CloseMenu.html#CloseMenu">CloseMenu</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Collect.html#Collect">Collect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoCrewExp.html#DoCrewExp">DoCrewExp</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoRGBaValue.html#DoRGBaValue">DoRGBaValue</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DrawDefMap.html#DrawDefMap">DrawDefMap</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DrawMap.html#DrawMap">DrawMap</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DrawMaterialQuad.html#DrawMaterialQuad">DrawMaterialQuad</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DrawParticleLine.html#DrawParticleLine">DrawParticleLine</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FightWith.html#FightWith">FightWith</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FindObjectOwner.html#FindObjectOwner">FindObjectOwner</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FrameCounter.html#FrameCounter">FrameCounter</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetActMapVal.html#GetActMapVal">GetActMapVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetChar.html#GetChar">GetChar</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetColor.html#GetColor">GetColor</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetColorDw.html#GetColorDw">GetColorDw</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetCrewEnabled.html#GetCrewEnabled">GetCrewEnabled</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetDamage.html#GetDamage">GetDamage</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetDefCoreVal.html#GetDefCoreVal">GetDefCoreVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetEntrance.html#GetEntrance">GetEntrance</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetMaterial.html#GetMaterial">GetMaterial</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetMaterialColor.html#GetMaterialColor">GetMaterialColor</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetMaterialVal.html#GetMaterialVal">GetMaterialVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetMenu.html#GetMenu">GetMenu</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetMenuSelection.html#GetMenuSelection">GetMenuSelection</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetMissionAccess.html#GetMissionAccess">GetMissionAccess</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetNeededMatStr.html#GetNeededMatStr">GetNeededMatStr</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetObjectInfoCoreVal.html#GetObjectInfoCoreVal">GetObjectInfoCoreVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetObjectVal.html#GetObjectVal">GetObjectVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPathLength.html#GetPathLength (veraltet)">GetPathLength (veraltet)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerInfoCoreVal.html#GetPlayerInfoCoreVal">GetPlayerInfoCoreVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerVal.html#GetPlayerVal">GetPlayerVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrExtraData.html#GetPlrExtraData">GetPlrExtraData</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetProcedure.html#GetProcedure">GetProcedure</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetScenarioVal.html#GetScenarioVal">GetScenarioVal</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetScore.html#GetScore">GetScore</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetSkyAdjust.html#GetSkyAdjust">GetSkyAdjust</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetSystemTime.html#GetSystemTime">GetSystemTime</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTime.html#GetTime">GetTime</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetType.html#GetType">GetType</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetVisibility.html#GetVisibility">GetVisibility</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GlobalN.html#GlobalN">GlobalN</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GrabObjectInfo.html#GrabObjectInfo">GrabObjectInfo</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/HSL2RGB.html#HSL2RGB">HSL2RGB</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LocalN.html#LocalN (veraltet)">LocalN (veraltet)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/MaterialName.html#MaterialName">MaterialName</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Alive.html#OCF_Alive">OCF_Alive</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Collection.html#OCF_Collection">OCF_Collection</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Entrance.html#OCF_Entrance">OCF_Entrance</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Exclusive.html#OCF_Exclusive">OCF_Exclusive</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_FightReady.html#OCF_FightReady">OCF_FightReady</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_HitSpeed1.html#OCF_HitSpeed1">OCF_HitSpeed1</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_HitSpeed2.html#OCF_HitSpeed2">OCF_HitSpeed2</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_HitSpeed3.html#OCF_HitSpeed3">OCF_HitSpeed3</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_HitSpeed4.html#OCF_HitSpeed4">OCF_HitSpeed4</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Inflammable.html#OCF_Inflammable">OCF_Inflammable</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_LineConstruct.html#OCF_LineConstruct">OCF_LineConstruct</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_NotContained.html#OCF_NotContained">OCF_NotContained</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/OCF_Rotate.html#OCF_Rotate">OCF_Rotate</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Object.html#Object">Object</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ObjectNumber.html#ObjectNumber">ObjectNumber</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PlaceInMaterial.html#PlaceInMaterial">PlaceInMaterial</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PlrMessage.html#PlrMessage">PlrMessage</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Pow.html#Pow">Pow</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PushParticles.html#PushParticles">PushParticles</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/RGB.html#RGB">RGB</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/RGB2HSL.html#RGB2HSL">RGB2HSL</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/RGBa.html#RGBa">RGBa</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ReloadDef.html#ReloadDef">ReloadDef</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ReloadParticle.html#ReloadParticle">ReloadParticle</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/RemoveVertex.html#RemoveVertex">RemoveVertex</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ResetGamma.html#ResetGamma">ResetGamma</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Resort.html#Resort">Resort</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ResortObject.html#ResortObject">ResortObject</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ResortObjects.html#ResortObjects">ResortObjects</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ScriptCounter.html#ScriptCounter">ScriptCounter</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ScrollContents.html#ScrollContents">ScrollContents</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SelectMenuItem.html#SelectMenuItem">SelectMenuItem</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Sell.html#Sell">Sell</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetActionTargets.html#SetActionTargets">SetActionTargets</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetColor.html#SetColor">SetColor</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetColorDw.html#SetColorDw">SetColorDw</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetCon.html#SetCon">SetCon</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetCrewEnabled.html#SetCrewEnabled">SetCrewEnabled</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetFilmView.html#SetFilmView">SetFilmView</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetFoW.html#SetFoW">SetFoW</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetGameSpeed.html#SetGameSpeed">SetGameSpeed</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetGamma.html#SetGamma">SetGamma</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetLandscapePixel.html#SetLandscapePixel">SetLandscapePixel</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetMass.html#SetMass">SetMass</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetMatAdjust.html#SetMatAdjust">SetMatAdjust</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetMaxPlayer.html#SetMaxPlayer">SetMaxPlayer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetMenuSize.html#SetMenuSize">SetMenuSize</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPicture.html#SetPicture">SetPicture</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlayList.html#SetPlayList">SetPlayList</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrExtraData.html#SetPlrExtraData">SetPlrExtraData</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlrViewRange.html#SetPlrViewRange">SetPlrViewRange</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetRGBaValue.html#SetRGBaValue">SetRGBaValue</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetShape.html#SetShape">SetShape</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetSkyAdjust.html#SetSkyAdjust">SetSkyAdjust</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetSkyParallax.html#SetSkyParallax">SetSkyParallax</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetVertexXY.html#SetVertexXY">SetVertexXY</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetVisibility.html#SetVisibility">SetVisibility</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SkyPar_Keep.html#SkyPar_Keep">SkyPar_Keep</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/UnselectCrew.html#UnselectCrew">UnselectCrew</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/VIS_All.html#VIS_All">VIS_All</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/VIS_Allies.html#VIS_Allies">VIS_Allies</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/VIS_Enemies.html#VIS_Enemies">VIS_Enemies</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/VIS_God.html#VIS_God">VIS_God</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/VIS_Local.html#VIS_Local">VIS_Local</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/VIS_None.html#VIS_None">VIS_None</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/VIS_Owner.html#VIS_Owner">VIS_Owner</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/VarN.html#VarN">VarN</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/VerticesStuck.html#VerticesStuck">VerticesStuck</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/_inherited.html#_inherited">_inherited</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/eval.html#eval">eval</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/for.html#for">for</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/inherited.html#inherited">inherited</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AddCommand.html#AddCommand">AddCommand (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AppendCommand.html#AppendCommand">AppendCommand (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FindObject.html#FindObject">FindObject (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetCommand.html#GetCommand">GetCommand (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetCursor.html#GetCursor">GetCursor (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetDefBottom.html#GetDefBottom">GetDefBottom (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetDesc.html#GetDesc">GetDesc (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetMass.html#GetMass">GetMass (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetName.html#GetName">GetName (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetValue.html#GetValue">GetValue (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/InsertMaterial.html#InsertMaterial">InsertMaterial (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LaunchLightning.html#LaunchLightning">LaunchLightning (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Music.html#Music">Music (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/RemoveObject.html#RemoveObject">RemoveObject (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetCommand.html#SetCommand">SetCommand (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetHostility.html#SetHostility">SetHostility (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetR.html#SetR">SetR (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetRDir.html#SetRDir">SetRDir (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetXDir.html#SetXDir">SetXDir (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetYDir.html#SetYDir">SetYDir (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ShiftContents.html#ShiftContents">ShiftContents (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/goto.html#goto">goto (extended)</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl58' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(58)' ondblclick='ta(58)'>
+			4.9.10.10 [341] LC</h4>
+			<ul id='brn58' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetRestoreInfos.html#SetRestoreInfos">SetRestoreInfos</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl59' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(59)' ondblclick='ta(59)'>
+			4.9.10.7 [334] LC</h4>
+			<ul id='brn59' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetKeys.html#GetKeys">GetKeys</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPath.html#GetPath">GetPath</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetValues.html#GetValues">GetValues</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl60' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(60)' ondblclick='ta(60)'>
+			4.9.5.0 CE</h4>
+			<ul id='brn60' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AddEffect.html#AddEffect">AddEffect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ChangeEffect.html#ChangeEffect">ChangeEffect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CheckEffect.html#CheckEffect">CheckEffect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ClearScheduleCall.html#ClearScheduleCall">ClearScheduleCall</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/EffectCall.html#EffectCall">EffectCall</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/EffectVar.html#EffectVar">EffectVar</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FinishCommand.html#FinishCommand">FinishCommand</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetContact.html#GetContact">GetContact</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetEffect.html#GetEffect">GetEffect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetEffectCount.html#GetEffectCount">GetEffectCount</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrColorDw.html#GetPlrColorDw">GetPlrColorDw</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPortrait.html#GetPortrait">GetPortrait</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetRGBaValue.html#GetRGBaValue">GetRGBaValue</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/HSL.html#HSL">HSL</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/HSLa.html#HSLa">HSLa</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/NO_OWNER.html#NO_OWNER">NO_OWNER</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PlaceObjects.html#PlaceObjects">PlaceObjects</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/RemoveEffect.html#RemoveEffect">RemoveEffect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Schedule.html#Schedule">Schedule</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ScheduleCall.html#ScheduleCall">ScheduleCall</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetCrewStatus.html#SetCrewStatus">SetCrewStatus</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetObjDrawTransform.html#SetObjDrawTransform">SetObjDrawTransform</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPortrait.html#SetPortrait">SetPortrait</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetViewOffset.html#SetViewOffset">SetViewOffset</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SimFlight.html#SimFlight">SimFlight</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SplitRGBaValue.html#SplitRGBaValue">SplitRGBaValue</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/WildcardMatch.html#WildcardMatch">WildcardMatch</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AddCommand.html#AddCommand">AddCommand (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AddMenuItem.html#AddMenuItem">AddMenuItem (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Angle.html#Angle">Angle (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastParticles.html#CastParticles">CastParticles (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Cos.html#Cos">Cos (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CreateParticle.html#CreateParticle">CreateParticle (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FreeRect.html#FreeRect">FreeRect (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetCommand.html#GetCommand">GetCommand (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetWind.html#GetWind">GetWind (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Hostile.html#Hostile">Hostile (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Kill.html#Kill">Kill (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ObjectSetAction.html#ObjectSetAction">ObjectSetAction (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/RandomX.html#RandomX">RandomX (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetCursor.html#SetCursor">SetCursor (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetGraphics.html#SetGraphics">SetGraphics (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetObjectOrder.html#SetObjectOrder">SetObjectOrder (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetVertex.html#SetVertex">SetVertex (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Sin.html#Sin">Sin (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Sound.html#Sound">Sound (extended)</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl61' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(61)' ondblclick='ta(61)'>
+			4.9.6.0 CR</h4>
+			<ul id='brn61' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AbortMessageBoard.html#AbortMessageBoard">AbortMessageBoard</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AddEvaluationData.html#AddEvaluationData">AddEvaluationData</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/AddMessage.html#AddMessage">AddMessage</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/C4V_Array.html#C4V_Array">C4V_Array</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CallMessageBoard.html#CallMessageBoard">CallMessageBoard</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastAny.html#CastAny">CastAny</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastBool.html#CastBool">CastBool</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastC4ID.html#CastC4ID">CastC4ID</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastInt.html#CastInt">CastInt</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CreateArray.html#CreateArray">CreateArray</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CreateScriptPlayer.html#CreateScriptPlayer">CreateScriptPlayer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CustomMessage.html#CustomMessage">CustomMessage</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoScoreboardShow.html#DoScoreboardShow">DoScoreboardShow</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DrawVolcanoBranch.html#DrawVolcanoBranch">DrawVolcanoBranch</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FindObject2.html#FindObject2">FindObject2</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FindObjects.html#FindObjects">FindObjects</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_Action.html#Find_Action">Find_Action</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_ActionTarget.html#Find_ActionTarget">Find_ActionTarget</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_Allied.html#Find_Allied">Find_Allied</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_And.html#Find_And">Find_And</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_AnyContainer.html#Find_AnyContainer">Find_AnyContainer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_AtPoint.html#Find_AtPoint">Find_AtPoint</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_Category.html#Find_Category">Find_Category</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_Container.html#Find_Container">Find_Container</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_Distance.html#Find_Distance">Find_Distance</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_Exclude.html#Find_Exclude">Find_Exclude</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_Func.html#Find_Func">Find_Func</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_Hostile.html#Find_Hostile">Find_Hostile</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_ID.html#Find_ID">Find_ID</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_InRect.html#Find_InRect">Find_InRect</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_NoContainer.html#Find_NoContainer">Find_NoContainer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_Not.html#Find_Not">Find_Not</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_OCF.html#Find_OCF">Find_OCF</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_Or.html#Find_Or">Find_Or</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_Owner.html#Find_Owner">Find_Owner</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetCrewExtraData.html#GetCrewExtraData">GetCrewExtraData</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetKiller.html#GetKiller">GetKiller</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetLeague.html#GetLeague">GetLeague</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetLength.html#GetLength">GetLength</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerID.html#GetPlayerID">GetPlayerID</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerTeam.html#GetPlayerTeam">GetPlayerTeam</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerType.html#GetPlayerType">GetPlayerType</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTaggedPlayerName.html#GetTaggedPlayerName">GetTaggedPlayerName</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTeamByIndex.html#GetTeamByIndex">GetTeamByIndex</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTeamColor.html#GetTeamColor">GetTeamColor</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTeamConfig.html#GetTeamConfig">GetTeamConfig</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTeamCount.html#GetTeamCount">GetTeamCount</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetTeamName.html#GetTeamName">GetTeamName</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/HideSettlementScoreInEvaluation.html#HideSettlementScoreInEvaluation">HideSettlementScoreInEvaluation</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/InputCallback.html#InputCallback">InputCallback</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LoadScenarioSection.html#LoadScenarioSection">LoadScenarioSection</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ObjectCount2.html#ObjectCount2">ObjectCount2</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/PlayerObjectCommand.html#PlayerObjectCommand">PlayerObjectCommand</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ScoreboardCol.html#ScoreboardCol">ScoreboardCol</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetContactDensity.html#SetContactDensity">SetContactDensity</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetController.html#SetController">SetController</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetCrewExtraData.html#SetCrewExtraData">SetCrewExtraData</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetLength.html#SetLength">SetLength</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetMenuDecoration.html#SetMenuDecoration">SetMenuDecoration</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPlayerTeam.html#SetPlayerTeam">SetPlayerTeam</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetScoreboardData.html#SetScoreboardData">SetScoreboardData</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SortScoreboard.html#SortScoreboard">SortScoreboard</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/StartScriptProfiler.html#StartScriptProfiler">StartScriptProfiler</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/StopScriptProfiler.html#StopScriptProfiler">StopScriptProfiler</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/TestMessageBoard.html#TestMessageBoard">TestMessageBoard</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/TrainPhysical.html#TrainPhysical">TrainPhysical</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/BlastObjects.html#BlastObjects">BlastObjects (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CreateContents.html#CreateContents">CreateContents (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CreateMenu.html#CreateMenu">CreateMenu (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoEnergy.html#DoEnergy">DoEnergy (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoMagicEnergy.html#DoMagicEnergy">DoMagicEnergy (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Explode.html#Explode">Explode (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetClrModulation.html#GetClrModulation">GetClrModulation (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetObjectBlitMode.html#GetObjectBlitMode">GetObjectBlitMode (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerByIndex.html#GetPlayerByIndex">GetPlayerByIndex (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlayerCount.html#GetPlayerCount">GetPlayerCount (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ResetPhysical.html#ResetPhysical">ResetPhysical (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetClrModulation.html#SetClrModulation">SetClrModulation (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetHostility.html#SetHostility">SetHostility (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetName.html#SetName">SetName (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetObjectBlitMode.html#SetObjectBlitMode">SetObjectBlitMode (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPhysical.html#SetPhysical">SetPhysical (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetPosition.html#SetPosition">SetPosition (extended)</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SoundLevel.html#SoundLevel">SoundLevel (extended)</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl62' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(62)' ondblclick='ta(62)'>
+			4.9.6.2 CR</h4>
+			<ul id='brn62' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Construction.html#Construction">Construction (extended)</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl63' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(63)' ondblclick='ta(63)'>
+			4.9.7.0 CR</h4>
+			<ul id='brn63' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastBackParticles.html#CastBackParticles">CastBackParticles</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastObjectsX.html#CastObjectsX">CastObjectsX</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/CastPXSX.html#CastPXSX">CastPXSX</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/ClearLastPlrCom.html#ClearLastPlrCom">ClearLastPlrCom</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DebugLog.html#DebugLog">DebugLog</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoWealth.html#DoWealth">DoWealth</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FatalError.html#FatalError">FatalError</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/FlameConsumeMaterial.html#FlameConsumeMaterial">FlameConsumeMaterial</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetIndexOf.html#GetIndexOf">GetIndexOf</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetObjectStatus.html#GetObjectStatus">GetObjectStatus</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetPlrControlName.html#GetPlrControlName">GetPlrControlName</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/IncinerateLandscape.html#IncinerateLandscape">IncinerateLandscape</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/InitScenarioPlayer.html#InitScenarioPlayer">InitScenarioPlayer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/LocateFunc.html#LocateFunc">LocateFunc</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetKiller.html#SetKiller">SetKiller</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetNextMission.html#SetNextMission">SetNextMission</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetObjectStatus.html#SetObjectStatus">SetObjectStatus</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetViewCursor.html#SetViewCursor">SetViewCursor</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/VIS_LayerToggle.html#VIS_LayerToggle">VIS_LayerToggle</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/VIS_OverlayOnly.html#VIS_OverlayOnly">VIS_OverlayOnly</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl64' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(64)' ondblclick='ta(64)'>
+			4.9.8.5 CR</h4>
+			<ul id='brn64' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/DoHomebaseProduction.html#DoHomebaseProduction">DoHomebaseProduction</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetHomebaseProduction.html#GetHomebaseProduction">GetHomebaseProduction</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetUnusedOverlayID.html#GetUnusedOverlayID">GetUnusedOverlayID</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl65' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(65)' ondblclick='ta(65)'>
+			4.9.9.0 CR</h4>
+			<ul id='brn65' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetBridgeActionData.html#SetBridgeActionData">SetBridgeActionData</a></li>
+			</ul>
+			</li>
+			<li>
+			<h4><img id='tgl66' class='collapseimg' src='images/bullet_folder.gif' alt='-' onclick='tb(66)' ondblclick='ta(66)'>
+			N/A</h4>
+			<ul id='brn66' class='invisi'>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/Find_Layer.html#Find_Layer">Find_Layer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/GetObjectLayer.html#GetObjectLayer">GetObjectLayer</a></li>
+				<li><img src='images/bullet_sheet.gif' alt='-'>
+				<a href="sdk/script/fn/SetObjectLayer.html#SetObjectLayer">SetObjectLayer</a></li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+	</ul>
+	</li>
+</ul>
+</div>
+
+</body>
+</html>

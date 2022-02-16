@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Die For-Schleife</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1>Die for-Schleife</h1>
+
+<div class="text">Die <code>for</code>-Schleife stellt eine recht komfortable Schleife mit Anfangsbedingung dar. Am
+häufigsten wird sie als sog. <a href="#Zaehlschleife">Zählschleife</a> benutzt. Sie nimmt 3
+Anweisungen als Parameter, die jeweils mit einem Strichpunkt ';' getrennt sind. Darauf folgt der
+auszuführende Teil:
+</div>
+<pre class="code"><b>for</b>([Initialisierung]; [Bedingung]; [Inkrementierung]))
+  [Auszuführende Anweisung];
+</pre>
+<div class="text">
+<ul>
+<li>Die Anweisung im ersten Parameter wird einmalig beim Eintritt in die Schleife ausgeführt. Hier
+werden ggf. Variablen vor Eintritt in die Schleife initialisiert.</li>
+<li>Im zweiten Parameter wird eine Ausführbedingung übergeben. Die Schleife wird abgebrochen, wenn
+der Ausdruck falsch ist. Er wird vor jedem Schleifendurchlauf geprüft.</li>
+<li>Der im dritten Parameter angegebene Ausdruck wird jeweils als letztes ausgeführt. Hier wird
+typischerweise z.B. eine Variable für den nächsten Schleifendurchlauf hochgezählt.</li>
+</ul>
+</div>
+<div class="text">Es ist erlaubt, einen oder mehrere dieser Parameter wegzulassen, den Platz zwischen den
+Strichpunkten also freizulassen. Wird die Bedingung weggelassen, so wird die Schleife nie
+automatisch abgebrochen. (Um die Schleife zu beenden, sollte dann <code>break</code> verwendet
+werden.) Auf diese Weise lässt sich z.B. eine Endlosschleife konstruieren: </div>
+<pre class="code"><b>for</b>(;;)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Fl00d!"</i>);
+</pre>
+
+<h2 id="Zaehlschleife">Gebrauch der for-Schleife als Zählschleife</h2>
+
+<div class="text"> Am Häufigsten findet die <code>for</code>-Schleife Verwendung als Zählschleife. Will man sich
+z.B. alle Zahlen zwischen 1 und 10 ausgeben lassen, so sieht das Script folgendermaßen aus: </div>
+
+<pre class="code"><b>for</b>(<b>var</b> i = 1; i &lt;= 10; i++)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"%d"</i>, i);
+</pre>
+
+<div class="text"> Zur Verdeutlichung: Die folgende <a href="../../sdk/script/fn/while.html">while</a>-Schleife tut
+exakt dasselbe: </div>
+
+<pre class="code"><b>var</b> i = 0;
+<a href="../../sdk/script/fn/while.html">while</a>(++i &lt;= 10)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"%d"</i>, i);
+</pre>
+
+<h2 id="Arrayschleife">Gebrauch der for-Schleife zum Durchlauf von Arrays</h2>
+
+<div class="text"> Eine weitere Funktion der <code>for</code>-Schleife ist es, Arrays Element für Element zu durchlaufen
+und für einen Durchlauf ein Element in einer Variable zu speichern. Das Script sieht folgendermaßen aus: </div>
+
+<pre class="code"><b>for</b>(<b>var</b> element in a)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"%v"</i>, element);
+</pre>
+
+<div class="text"> Mit diesem Script würden alle Elemente des Array <code>a</code> ins Log ausgegeben.</div>
+
+<h2 id="Mapschleife">Gebrauch der for-Schleife zum Durchlauf von Maps</h2>
+
+<div class="text"> Eine weitere Funktion der <code>for</code>-Schleife ist es, Schlüssel-Wert-Paare von Maps nacheinander zu durchlaufen. Das Script sieht folgendermaßen aus: </div>
+
+<pre class="code"><b>for</b>(<b>var</b> key, value in m)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"%v =&gt; %v"</i>, key, value);
+</pre>
+
+<div class="text"> Mit diesem Script würden alle Einträge der Map <code>m</code> durchlaufen und im Format "Schlüssel =&gt; Wert" geloggt.</div>
+
+<h2>Weitere Beispiele:</h2>
+
+<pre class="code"><b>for</b>(<b>var</b> i = 10; i &gt;= 1; i--)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"%d"</i>, i);
+</pre>
+
+<div class="text">
+Zählt rückwärts von 10 bis 1.
+</div>
+
+<pre class="code"><a href="../../sdk/script/fn/Var.html">Var</a>(0) = 2;
+<a href="../../sdk/script/fn/Var.html">Var</a>(1) = 1;
+<a href="../../sdk/script/fn/Var.html">Var</a>(2) = 4;
+<a href="../../sdk/script/fn/Var.html">Var</a>(3) = 3;
+<a href="../../sdk/script/fn/Var.html">Var</a>(4) = 2;
+<b>for</b>(<b>var</b> i = 0; <a href="../../sdk/script/fn/Var.html">Var</a>(i) != 3; i++)
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Var(%d) = %d"</i>, i, <a href="../../sdk/script/fn/Var.html">Var</a>(i));
+</pre>
+
+<div class="text"> Gibt die lokalen nummerierten Variablen (siehe <code><a href="../../sdk/script/fn/Var.html">Var</a>()</code>) aus,
+bis die erste  3 gefunden wird. Im Beispiel wird also folgende Ausgabe erzeugt: </div>
+
+<pre class="code">Var(0) = 2
+Var(1) = 1
+Var(2) = 4
+</pre>
+
+<div class="author">Peter, Juni 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../content.html">Inhalt</a></li>
+<li><a href="../../search.php">Suche</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

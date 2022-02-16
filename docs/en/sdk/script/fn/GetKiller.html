@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetKiller</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetKiller">GetKiller</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Status<br><b>Since engine version: </b>4.9.6.0 CR</div>
+<h2>Description</h2>
+<div class="text">Returns the player who has lastly caused energy loss to an object.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">int</span> GetKiller
+      (<span class="type">object</span> pObj);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>pObj: </dt>
+<dd><div class="text">
+    [opt]
+  Object to be checked. Can be 0 in local calls.</div></dd>
+</dl>
+<h2>Remark</h2>
+<div class="text">Because of the complexity of Clonk, it may not always be possible to determine the actual killer of a Clonk in chain reactions. In order to determine energy losses, every object stores a controller (see <a href="../../../sdk/script/fn/GetController.html">GetController</a> for details). The controller is used to determine the player responsible for energy loss on a Clonk:<br><ul>
+<li>For object hits: The controlling player of the thrown object. The controller will automatically be set upon collection.</li>
+<li>For clonk-to-clonk-fights: The controlling player of the fighting opponent. This is usually the owner.</li>
+<li>For fire: The controller of the original fire causing player, i.e. the calling object of the original call to <a href="../../../sdk/script/fn/Incinerate.html">Incinerate</a>(). The causing player is kept independently of owners and controllers of the burning object in incineration chains. If, for example, player A incinerates a Clonk of player B and player B uses his burning Clonk to incinerate a Clonk of player C, both incinerations are marked as caused by player A.</li>
+</ul> The energy loss causing player is automatically reset to NO_OWNER (no player), whenever the Clonk executes an action that does not have ObjectDisabled=1 set (e.g. "Walk").<br> Energy loss caused by the controller of the Clonk itself only sets the field if it was NO_OWNER before. This prevents players from committing suicide in order to deny scores from other players. Consequently, if a Clonk is hit by a rock and falls out of the bottom of the map, the killer is the player who threw the rock.</div>
+<h2>Example</h2>
+			<div class="example">
+				<pre class="code"><b>protected</b> <b>func</b> Death()
+{
+	<b>var</b> iKiller = GetKiller();
+	<b>if</b> (iKiller == <a href="../../../sdk/script/fn/GetController.html">GetController</a>()) <a href="../../../sdk/script/fn/Message.html">Message</a>(<i class="string">"%s hat sich selbst umgebracht."</i>, <a href="../../../sdk/script/fn/this.html">this</a>(), <a href="../../../sdk/script/fn/GetName.html">GetName</a>());
+	<b>else</b> <b>if</b> (iKiller &gt; NO_OWNER) <a href="../../../sdk/script/fn/Message.html">Message</a>(<i class="string">"%s wurde von %s geplättet!"</i>, <a href="../../../sdk/script/fn/this.html">this</a>(), <a href="../../../sdk/script/fn/GetName.html">GetName</a>(), <a href="../../../sdk/script/fn/GetPlayerName.html">GetPlayerName</a>(iKiller));
+	<b>else</b> <a href="../../../sdk/script/fn/DeathAnnounce.html">DeathAnnounce</a>();
+	<a href="../../../sdk/script/fn/return.html">return</a>(<b>true</b>);
+}</pre>
+				<div class="text">Script for the death of a Clonk: Customized death messages which show the murderer are shown.</div>
+			</div>
+		<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/DoEnergy.html">DoEnergy</a>, <a href="../../../sdk/script/fn/GetController.html">GetController</a>, <a href="../../../sdk/script/fn/GetOwner.html">GetOwner</a>, <a href="../../../sdk/script/fn/SetController.html">SetController</a>, <a href="../../../sdk/script/fn/SetKiller.html">SetKiller</a>
+</div>
+<div class="author">Sven2, April 2007</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

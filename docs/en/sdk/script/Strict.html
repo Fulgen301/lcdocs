@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>#strict</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1>#strict</h1>
+
+<div class="text">With activated <code>#strict</code> various old scripting inaccuracies will be ignored and proper type checking can be applied.</div>
+
+<h2 id="Syntax">Declaration</h2>
+<div class="text">The #strict directive has to be placed at the beginning of each script. #include or #appendto will follow the strictness of the script to be included or to which is to be appended.</div>
+
+<h2>Results</h2>
+<div class="text"><ul>
+<li>A function call to the same function name is always a recursive call</li>
+<li>
+<a href="../../sdk/script/fn/inherited.html">inherited</a>() and <a href="../../sdk/script/fn/_inherited.html">_inherited</a>() become available</li>
+<li>
+<a href="../../sdk/script/fn/goto.html">goto</a>() does not imply <a href="../../sdk/script/fn/return.html">return</a>()</li>
+<li><a href="../../sdk/script/Typechecks.html">Strict data type checking</a></li>
+<li>
+<a href="../../sdk/script/fn/CreateObject.html">CreateObject</a>() and <a href="../../sdk/script/fn/CreateConstruction.html">CreateConstruction</a>() will not override the owner in an object local function call</li>
+</ul></div>
+
+<h1>#strict 2</h1>
+
+<div class="text">With activated <code><b>#strict</b> 2</code> various old scripting inaccuracies will be ignored and proper type checking can be applied.</div>
+
+<h2>Declaration</h2>
+<div class="text">The <code><b>#strict</b> 2</code> directive has to be placed at the beginning of each script. With <code>#include</code> or <code>#appendto</code> the strictness of the script in which a function was defined is used.</div>
+
+<h2>Results</h2>
+<div class="text"><ul>
+<li>
+<code>&amp;&amp;</code> and <code>||</code> do not evaluate the second operand if the result is already determined by the first operand.</li>
+<li>
+<code>return</code>, <code>if</code> and <code>while</code> only accept one parameter. Also some other expressions which used to cause a warning only are now no longer accepted.</li>
+<li>
+<code>==</code> and <code>!=</code> do not compare identity of two values, but their type and contents. Example: [1,2]==[2-1,2], "Hallo"=="Hallo" and CastInt(CLNK)!=CLNK.</li>
+<li>Function and variable names may only contain the character a-z, A-Z, 0-9, and '_'.</li>
+<li>
+<code>eq</code>, <code>ne</code>, <code>S=</code> are not available anymore. <code>eq</code> and <code>ne</code> can now be used as names of functions or variables or a variable of name <code>S</code> can be assigned via <code>S=42;</code>.</li>
+</ul></div>
+
+
+	<h1>#strict 3</h1>
+	
+		<div class="text">Any new script should be <code><b>#strict</b> 3</code>. In this way further old scripting inaccuracies will be ignored, even stronger type checking can be applied and new language features are activated. Scripts without <code><b>#strict</b> 3</code> are accepted only for backwards compatibility reasons.</div>
+
+		<h2>Declaration</h2>
+		<div class="text">The <code><b>#strict</b> 3</code> directive has to be placed at the beginning of each script. With <code>#include</code> or <code>#appendto</code> the strictness of the script in which a function was defined is used.</div>
+
+		<h2>nil</h2>
+		<div class="text">
+<code><b>#strict</b> 3</code> introduces the new value <code>nil</code>. It represents undefined and unset values and is of type <code>any</code>. Furthermore, 0 and <code>false</code> are not implicitly converted to <code>any</code> anymore but keep their respective type. This makes it possible distinguish undefined values from 0 and <code>false</code>, for example for defining default parameter values that can be overriden by 0 or <code>false</code>. <code>nil</code> is unequal to any possible value of any other type, including 0 and <code>false</code>. Thus, it suffices to check <code>x != <b>nil</b></code> to tell if a value has been defined. Anyway, <code>!<b>nil</b></code> is <code>true</code>.</div>
+		<div class="text">Because 0 and false are not <code>any</code> anymore, they can not be converted to other types like <code>string</code>, <code>object</code>, <code>array</code> or <code>map</code> which would trigger an error. Consequently, function arguments that should be passed as unset also have to be set to nil instead of 0.</div>
+
+		<h2>The ? modifier</h2>
+		<div class="text">Likewise <code><b>#strict</b> 3</code> introduces a new modifier which allows "safe" navigation. ? is prepended to the navigation operators to obtain one of the following constructs: <code>?.</code>, <code>?[i]</code>, <code>?-&gt;</code> or <code>?-&gt;~</code>. By using the ? modifier, those accesses do not trigger an error if the underlying value is nil. Instead, the whole expression is aborted and evaluates nil. Because by using this modifier the expression is assumed to return nil sometimes, the expression result is always dereferenced. This is due to the fact that using the result of a ?-modified expression in a reference context would defeat the purpose of the modifier, because in the case nil is returned it would error anyway.</div>
+
+		<h2>Further Effects</h2>
+		<div class="text"><ul>
+			<li>Maps and the .-navigation syntax are activated</li>
+			<li>
+<a href="../../sdk/script/Funcs.html#Aufrufb">Permissions</a> are also checked when using the <code>-&gt;</code> syntax to call a function, given that the target script is also at least <code><b>#strict</b> 3</code>.</li>
+			<li>
+<code><b>global</b>-&gt;</code> and <code><b>global</b>-&gt;~</code> become available.</li>
+			<li>
+<code><b>false</b> != 0</code> and <code><b>true</b> != 1</code>
+</li>
+		</ul></div>
+	
+	<div class="author">Sven2, Juli 2001</div>
+	<div class="author">Günther, Dezember 2007</div>
+	<div class="author">Der Tod, Oktober 2019</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

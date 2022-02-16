@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../doku.css">
+<title>Spieldaten</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../sdk/index.html">Einleitung</a></li>
+<li><a href="../content.html">Inhalt</a></li>
+<li><a href="../search.php">Suche</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../sdk/files.html">Spieldaten</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="Spieldaten">Spieldaten</h1>
+
+<div class="text">Die Spieldaten von Clonk sind in komprimierten Gruppendateien zusammen gefasst, die jeweils
+einzelne Komponenten oder weitere Gruppendateien enthalten:</div>
+<dl>
+<dt id="Spielerdateienc4p">
+<img src="../images/icon_player.gif" width="16" height="16">Spielerdateien (c4p)</dt>
+<dd><div class="text">In einer Spielerdatei werden die persönlichen Einstellungen eines Spielers, seine
+erspielten Punkte, Informationen zu seiner Stammcrew und gegebenenfalls sein Portrait
+gespeichert.</div></dd>
+<dt id="Szenarienc4s">
+<img src="../images/icon_scenario.gif" width="16" height="16"><a href="../sdk/scenario/index.html">Szenarien (c4s)</a>
+</dt>
+<dd><div class="text">Szenariodateien setzen sich aus einem Informationskern und weiteren Komponenten, wie einer
+Landkarte, Titelbild und Beschreibungstexten, einer Himmelsgrafik, einem Script und lokalen
+Objektdefinitionen zusammen.</div></dd>
+<dt id="Objektdefinitionenc4d">
+<img src="../images/icon_object_definition.gif" width="16" height="16"><a href="../sdk/definition/index.html">Objektdefinitionen (c4d)</a>
+</dt>
+<dd><div class="text">Objektdefinitionen enthalten einen Informationskern, Grafikelemente, eine
+Aktivitätstabelle, Scripte und Beschreibungstexte. Auch <a href="../sdk/particle/index.html">Partikel</a> werden in Objektordnern angelegt.</div></dd>
+<dt id="Rundenordnerc4f">
+<img src="../images/icon_scenario_folder.gif" width="16" height="16"><a href="../sdk/folder/index.html">Rundenordner (c4f)</a>
+</dt>
+<dd><div class="text">Szenarien können in Rundenordnern zusammen gefasst werden.</div></dd>
+<dt id="Systemdatenc4g">
+<img src="../images/icon_system.gif" width="16" height="16">Systemdaten (c4g)</dt>
+<dd>
+<div class="text">Grafiken, Sounds und Musik des Spiels sind in eigenen Gruppen zusammen gefasst und sollten
+nicht verändert werden.</div>
+<div class="text">Mit dem Menüsystem von Clonk lassen sich Gruppendateien bearbeiten und/oder in normale
+Verzeichnisse umwandeln. Die Komponenten der Gruppendateien lassen sich direkt mit allen
+gängigen Anwendungsprogrammen editieren. Sowohl Menüsystem als auch Engine können
+generell sowohl gepackte als auch offene Gruppen verarbeiten.</div>
+<div class="text">Das Entpacken von Gruppen liefert vor allem einen Geschwindigkeitsvorteil beim Bearbeiten von
+größeren oder verschachtelten Dateien.</div>
+</dd>
+</dl>
+<div class="author">Sven2, April 2002</div>
+<div class="author">matthes, Juni 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../sdk/index.html">Einleitung</a></li>
+<li><a href="../content.html">Inhalt</a></li>
+<li><a href="../search.php">Suche</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../sdk/files.html">Spieldaten</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

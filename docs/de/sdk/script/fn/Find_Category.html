@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>Find_Category</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="Find_Category">Find_Category</h1>
+<div class="text">
+<b>Kategorie: </b>Objekte
+    / Suche<br><b>Ab Engineversion: </b>4.9.6.0 CR</div>
+<h2>Beschreibung</h2>
+<div class="text">Suchkriterium: sucht alle Objekte mit der entsprechenden Kategorie.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">array</span> Find_Category
+      (<span class="type">int</span> iCategory);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>iCategory: </dt>
+<dd><div class="text">Objektkategorie der zu suchenden Objekte</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Für weitere Informationen und Beispiele zur Benutzung dieser Funktion sehe <a href="../../../sdk/script/fn/FindObjects.html">FindObjects</a>.</div>
+<h2>Beispiele</h2>
+			<div class="example">
+	<pre class="code"><a href="../../../sdk/script/fn/FindObjects.html">FindObjects</a>(Find_Category(<a href="../../../sdk/script/fn/C4D_Structure.html">C4D_Structure</a>))</pre>
+					<div class="text">Gibt eine Liste aller im Spiel befindlichen Gebäude zurück.</div>
+			</div>
+			<div class="example">
+					<pre class="code"><a href="../../../sdk/script/fn/FindObjects.html">FindObjects</a>(Find_Category(<a href="../../../sdk/script/fn/C4D_Rule.html">C4D_Rule</a> | <a href="../../../sdk/script/fn/C4D_Goal.html">C4D_Goal</a>))</pre>
+					<div class="text">
+						Liefert alle aktiven Spielregeln und Spielziele zurück. Man beachte, dass sich die Kategorien mit "|" kombinieren lassen.
+						In diesem Fall trifft das Kriterium auf alle Objekte zu, bei denen mindestens eine gesetzte Kategorie übereinstimmt.
+					</div>
+			</div>
+		<div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/FindObjects.html">FindObjects</a>
+</div>
+<div class="author">Clonkonaut, Juli 2006</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

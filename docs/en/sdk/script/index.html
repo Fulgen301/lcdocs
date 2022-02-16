@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Script</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1 id="C4ScriptDokumentation">Script</h1>
+
+<h2 id="Scripte">Introduction</h2>
+<div class="text">Clonk supports its own scripting language: C4Script.</div>
+<div class="text">Object definitions and scenarios can contain a script. Function calls made from scenario scripts are considered "global" calls. Function calls made within an object script are considered "local" calls.</div>
+<div class="text">For further information on the two types of script see <a href="../../sdk/definition/script.html">object scripts</a> and <a href="../../sdk/scenario/script.html">scenario scripts</a>.</div>
+
+<div class="text">C4Script uses a C-style syntax. It includes <a href="../../sdk/script/operatoren.html">operators</a>, <a href="../../sdk/script/NamedVar.html">variable declarations</a>, compound statements, conditional statements (<a href="../../sdk/script/fn/if.html">if</a>) and loops (<a href="../../sdk/script/fn/for.html">for</a> and <a href="../../sdk/script/fn/while.html">while</a>).</div>
+
+<h2 id="Debugging">Debugging</h2>
+<div class="text">Activate the debug mode in the developer section of the game options to have additional error messages displayed. Anyone writing scripts should do this.</div>
+
+<h2 id="Funktionen">Functions</h2>
+<div class="text">As in other programming languages you can define <a href="../../sdk/script/Funcs.html">functions</a> in C4Script:</div>
+<pre class="code"><b>func</b> CreateRock()
+{
+  [Erzeugt einen Stein|Image=ROCK]
+  <a href="../../sdk/script/fn/CreateObject.html">CreateObject</a>(ROCK,50,50);
+  <a href="../../sdk/script/fn/return.html">return</a>(1);
+}
+</pre>
+<div class="text">Directly following the function name you can include a short descriptive text, an icon reference (object ID of the object whose image is to be used), and a conditional statement for when to display the function in the context menu, all within a set of [ ] brackets, separated by a | symbol.</div>
+
+<h2 id="VariablenParameter">Variables/Parameters</h2>
+<div class="text">Variables can hold values of type int, bool, id, string, or object. Any parameter not directly specified in a function call will hold the default value 0. Functions can have a maximum of ten parameters.</div>
+<h2 id="Kommentare">Comments</h2>
+<div class="text">Scripts may contain code comments in C-style. Comment test will be completely ignored when the script is comipiled for execution.</div>
+<pre class="code"><b>func</b> MeineFunktion() <i>// Ein Kommentar bis zum Ende der Zeile
+</i>{
+  <a href="../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Dieser Code wird ausgeführt"</i>); <i>/* Ein Kommentar in einem Block */</i> <a href="../../sdk/script/fn/Message.html">Message</a>(<i class="string">"Dieser auch"</i>);
+  <a href="../../sdk/script/fn/return.html">return</a>(1);
+}
+</pre>
+
+<h2 id="Infos">Additional Information</h2>
+<div class="text"><a href="../../sdk/script/AppendTo.html">#appendto: for appending code to existing scripts</a></div>
+<div class="text"><a href="../../sdk/script/Strict.html">#strict: the new coding standard</a></div>
+<div class="text"><a href="../../sdk/script/BreakContinue.html">Loop Control</a></div>
+<div class="text"><a href="../../sdk/script/FuncCall.html">Calling Script Functions</a></div>
+<div class="text"><a href="../../sdk/script/Effects.html">Effects</a></div>
+<div class="text"><a href="../../sdk/script/GetXXVal.html">Querying Game Data</a></div>
+<div class="text"><a href="../../sdk/script/NamedVar.html">Named variables and their scope</a></div>
+<div class="text"><a href="../../sdk/script/operatoren.html">Operators: +, -, = etc. in C4Script</a></div>
+<div class="text"><a href="../../sdk/script/Typechecks.html">Data type checking at runtime</a></div>
+<div class="text"><a href="../../sdk/script/ScriptPlayers.html">Script Player (i.e. AI player)</a></div>
+
+<div class="author">Sven2, April 2002</div>
+<div class="author">matthes, Juni 2004</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>SetObjectStatus</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="SetObjectStatus">SetObjectStatus</h1>
+<div class="text">
+<b>Category: </b>Objects
+    / Status<br><b>Since engine version: </b>4.9.7.0 CR</div>
+<h2>Description</h2>
+<div class="text">Changes the internal state of an object. Primarily needed for <a href="../../../sdk/script/fn/LoadScenarioSection.html">LoadScenarioSection</a>.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">bool</span> SetObjectStatus
+      (<span class="type">int</span> iNewStatus, <span class="type">object</span> pObj, <span class="type">bool</span> fClearPointers);
+    </div>
+<h2>Parameters</h2>
+<dl>
+<dt>iNewStatus: </dt>
+<dd><div class="text">New object status. The following values are possible:<br><table>
+<thead><tr>
+<th>Name</th>
+<th>Value</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>C4OS_DELETED</td>
+<td>0</td>
+<td>The object has been deleted. Can't be set via SetObjectStatus.</td>
+</tr>
+<tr class="dark">
+<td>C4OS_NORMAL</td>
+<td>1</td>
+<td>Object is activated.</td>
+</tr>
+<tr>
+<td>C4OS_INACTIVE</td>
+<td>2</td>
+<td>Object is deactivated.</td>
+</tr>
+</tbody>
+</table>
+</div></dd>
+<dt>pObj: </dt>
+<dd><div class="text">Object of which the status should be changed.</div></dd>
+<dt>fClearPointers: </dt>
+<dd><div class="text">If true, all engine-internal connections to the object are deleted. The object is taken out of its container, its contents are ejected, effects assigned to the object are deleted, etc.</div></dd>
+</dl>
+<div class="text">
+<b>See also: </b><a href="../../../sdk/script/fn/GetObjectStatus.html">GetObjectStatus</a>, <a href="../../../sdk/script/fn/LoadScenarioSection.html">LoadScenarioSection</a>
+</div>
+<div class="author">Fulgen, Clonk Wiki, Juli 2016</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Introduction</a></li>
+<li><a href="../../../content.html">Contents</a></li>
+<li><a href="../../../search.php">Search</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../../sdk/files.html">Game Data</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

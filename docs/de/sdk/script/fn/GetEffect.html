@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../../doku.css">
+<title>GetEffect</title>
+<?php 
+  $g_page_language = 'german';
+  require_once('../../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+<h1 id="GetEffect">GetEffect</h1>
+<div class="text">
+<b>Kategorie: </b>Effekte<br><b>Ab Engineversion: </b>4.9.5.0 CE</div>
+<h2>Beschreibung</h2>
+<div class="text">Fragt Effektdaten ab, oder ermittelt, ob ein bstimmter Effekt vorhanden ist. Der Rückgabetyp richtet sich nach dem abgefragten Wert. Wurde der Effekt nicht gefunden, wird immer 0 zurückgegeben.</div>
+<h2>Syntax</h2>
+<div class="text fnsyntax">
+<span class="type">any</span> GetEffect
+      (<span class="type">string</span> szEffectName, <span class="type">object</span> pTarget, <span class="type">int</span> iIndex, <span class="type">int</span> iQueryVal, <span class="type">int</span> iMaxPriority);
+    </div>
+<h2>Parameter</h2>
+<dl>
+<dt>szEffectName: </dt>
+<dd><div class="text">
+    [opt]
+  Name des Effektes ohne vorangestelltes Fx. Es können '*' und '?' als Suchmaske verwendet werden.</div></dd>
+<dt>pTarget: </dt>
+<dd><div class="text">
+    [opt]
+  Zielobjekt, in dem Effekte abgefragt werden sollen. Bei 0 wird die globale Effektliste durchsucht.</div></dd>
+<dt>iIndex: </dt>
+<dd><div class="text">
+    [opt]
+  Effektindex. Bei angegebenem szEffectName gibt dies bei mehreren, der Suchmaske entsprechenden Effekten den indizierten Effekt in der Liste der passenden Effekte an. Ist szEffectName nicht angegeben, wird dagegen der Effekt mit der entsprechenden Effektnummer abgefragt. Im Gegensatz zu Effektnummern ist bei Indizes stets sichergestellt, dass beim Hochzählen von 0 bis zur Effektzahl alle Effekte erfasst werden.</div></dd>
+<dt>iQueryVal: </dt>
+<dd><div class="text">
+    [opt]
+  Index des Wertes, der abgefragt werden soll. Siehe Anmerkung.</div></dd>
+<dt>iMaxPriority: </dt>
+<dd><div class="text">
+    [opt]
+  Wenn ungleich 0, werden nur Effekte zurückgegeben, die höchstens die angegebene Priorität haben.</div></dd>
+</dl>
+<h2>Anmerkung</h2>
+<div class="text">Über den Parameter iQueryVal können folgende Werte abgefragt werden:<br><br>
+      <table>
+<thead><tr>
+<th>iQueryVal</th>
+<th>Wert</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Effektnummer</td>
+</tr>
+<tr class="dark">
+<td>1</td>
+<td>Name</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Priorität</td>
+</tr>
+<tr class="dark">
+<td>3</td>
+<td>Timer-Intervall</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Befehlsziel</td>
+</tr>
+<tr class="dark">
+<td>5</td>
+<td>Befehlsziel-ID</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Laufzeit des Effektes</td>
+</tr>
+</tbody>
+</table>
+    </div>
+<h2>Beispiel</h2>
+      <div class="example">
+        <pre class="code"><b>var</b> obj, i, iEffect;
+<i>// Alle Objekte durchsuchen
+</i><a href="../../../sdk/script/fn/while.html">while</a> (obj=<a href="../../../sdk/script/fn/FindObject.html">FindObject</a>(0, 0,0,0,0, 0, 0,0, 0, obj))
+  {
+  <i>// Von Effektzahl abwärts zählen, da Effekte entfernt werden
+</i>  i = <a href="../../../sdk/script/fn/GetEffectCount.html">GetEffectCount</a>(0, obj);
+  <a href="../../../sdk/script/fn/while.html">while</a> (i--)
+    <a href="../../../sdk/script/fn/if.html">if</a> (iEffect = GetEffect(<i class="string">"*Spell"</i>, obj, i))
+      <a href="../../../sdk/script/fn/RemoveEffect.html">RemoveEffect</a>(0, obj, iEffect);
+  }
+<i>// Globale Effekte entfernen
+</i>i = <a href="../../../sdk/script/fn/GetEffectCount.html">GetEffectCount</a>();
+<a href="../../../sdk/script/fn/while.html">while</a> (i--)
+  <a href="../../../sdk/script/fn/if.html">if</a> (iEffect = GetEffect(<i class="string">"*Spell"</i>, 0, i))
+    <a href="../../../sdk/script/fn/RemoveEffect.html">RemoveEffect</a>(0, 0, iEffect);</pre>
+        <div class="text">Entfernt alle Zaubereffekte von allen Objekten und global.</div>
+      </div>
+    <div class="text">
+<b>Siehe auch: </b><a href="../../../sdk/script/fn/AddEffect.html">AddEffect</a>, <a href="../../../sdk/script/fn/ChangeEffect.html">ChangeEffect</a>, <a href="../../../sdk/script/fn/CheckEffect.html">CheckEffect</a>, <a href="../../../sdk/script/fn/EffectCall.html">EffectCall</a>, <a href="../../../sdk/script/fn/EffectVar.html">EffectVar</a>, <a href="../../../sdk/script/Effects.html">Effekte-Dokumentation</a>, <a href="../../../sdk/script/fn/GetEffectCount.html">GetEffectCount</a>, <a href="../../../sdk/script/fn/RemoveEffect.html">RemoveEffect</a>
+</div>
+<div class="author">Sven2, März 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Entwicklermodus Dokumentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_en_sml.gif" alt="English" border="0"></a></li>
+<li><a href="../../../sdk/index.html">Einleitung</a></li>
+<li><a href="../../../content.html">Inhalt</a></li>
+<li><a href="../../../search.php">Suche</a></li>
+<li><a href="../../../sdk/console.html">Engine</a></li>
+<li><a href="../../../sdk/cmdline.html">Kommandozeile</a></li>
+<li><a href="../../../sdk/files.html">Spieldaten</a></li>
+<li><a href="../../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

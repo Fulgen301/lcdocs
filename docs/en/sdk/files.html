@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../doku.css">
+<title>Game Data</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../sdk/index.html">Introduction</a></li>
+<li><a href="../content.html">Contents</a></li>
+<li><a href="../search.php">Search</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../sdk/files.html">Game Data</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+
+<h1 id="Spieldaten">Game Data</h1>
+
+<div class="text">The game data of clonk is stored in compressed group files which each contain one component or further group files.</div>
+<dl>
+<dt id="Spielerdateienc4p">
+<img src="../images/icon_player.gif" width="16" height="16">Player files (c4p)</dt>
+<dd><div class="text">Player files contains personal settings, gained score and information about the crew. It may also contain a portrait file.</div></dd>
+<dt id="Szenarienc4s">
+<img src="../images/icon_scenario.gif" width="16" height="16"><a href="../sdk/scenario/index.html">Scenarios (c4s)</a>
+</dt>
+<dd><div class="text">Scenario files consist of an information core and additional components, such as a landscape, title image, description texts, sky graphics, a script, local object definitions, etc.</div></dd>
+<dt id="Objektdefinitionenc4d">
+<img src="../images/icon_object_definition.gif" width="16" height="16"><a href="../sdk/definition/index.html">Object definitions (c4d)</a>
+</dt>
+<dd><div class="text">Object definitions contain an information core, graphic elements, action tables, script, and descriptive text. Also, <a href="../sdk/particle/index.html">particles</a> are stored in object definition folders.</div></dd>
+<dt id="Rundenordnerc4f">
+<img src="../images/icon_scenario_folder.gif" width="16" height="16"><a href="../sdk/folder/index.html">Scenario Folder (c4f)</a>
+</dt>
+<dd><div class="text">Scenarios are grouped in scenario folders.</div></dd>
+<dt id="Systemdatenc4g">
+<img src="../images/icon_system.gif" width="16" height="16">System files (c4g)</dt>
+<dd>
+<div class="text">Graphics, sound, and music of the original game are grouped in these folders and should not be modified.</div>
+<div class="text">Using the menu system, group files can be edited and/or converted to normal directories. Group file components can then be edited using common applications for text or graphics editing. Menu system and game engine can both load packed group files or unpacked directories directly.</div>
+<div class="text">Unpacking group files greatly increases speed while editing large or deeply nested groups.</div>
+</dd>
+</dl>
+<div class="author">Sven2, April 2002</div>
+<div class="author">matthes, Juni 2004</div>
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../sdk/index.html">Introduction</a></li>
+<li><a href="../content.html">Contents</a></li>
+<li><a href="../search.php">Search</a></li>
+<li><a href="../sdk/console.html">Engine</a></li>
+<li><a href="../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../sdk/files.html">Game Data</a></li>
+<li><a href="../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>

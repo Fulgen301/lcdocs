@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../../doku.css">
+<title>Calling Script Functions</title>
+<?php 
+  $g_page_language = 'english';
+  require_once('../../../webnotes/core/api.php');
+  pwn_head();
+?><script type="text/javascript">
+  function switchLanguage() {
+    var loc = window.location.href;
+    if (loc.match(/\/en\//)) loc = loc.replace(/\/en\//, "/de/");
+    else loc = loc.replace(/\/de\//, "/en/");
+    window.location = loc;
+  }
+</script>
+</head>
+<body>
+<ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+
+
+<h1>Calling Script Functions</h1>
+
+	<div class="text">By calling a script function you will execute that function's code. The calling script may pass parameter values to the function and receive a return value from the function.</div>
+
+	<h2>Calling a local function</h2>
+	
+		<div class="text">If the function to be called was declared in the same script as the calling script it this is considered a "local call". The function can be called directly by its function name only.</div>
+
+		<h3>Example:</h3>
+		<pre class="code"><b>func</b> TestFunktion()
+{
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Die Test-Funktion wurde aufgerufen!"</i>);
+}
+
+<b>func</b> Aufruf()
+{
+  TestFunktion();
+}</pre>
+
+		<div class="text">When function Aufruf() is executed, it will also call the function TestFunktion() which will output a message to the log.</div>
+	
+
+	<h2>Calling a function in another object</h2>
+	
+		<div class="text">To call a function in another object you have to specify that object first, then the function name.</div>
+
+		<h3>Example:</h3>
+		<div class="text">Script Object A (ID AAAA):</div>
+
+		<pre class="code"><b>func</b> Activate()
+{
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Activate wurde in Objekt A aufgerufen!"</i>);
+  <a href="../../sdk/script/fn/Explode.html">Explode</a>(20);
+}</pre>
+
+		<div class="text">Script Object B:</div>
+
+		<pre class="code"><b>func</b> Activate()
+{
+  <b>var</b> obj = <a href="../../sdk/script/fn/FindObject.html">FindObject</a>(AAAA, -1, -1, -1, -1);
+  obj-&gt;Activate();
+}	</pre>
+
+		<div class="text">The function Activate() in the script of object B will first search for the closest object of type A (definition ID AAAA) and store a pointer to this object in the variable "obj". Then the function Activate() is called in the script of object A. To do this we first specifiy the variable containing the pointer to the object, followed by an arrow operator, then the function name including the parameter list (no parameters in this case).</div>
+		<div class="text">Calling Activate() in object B will cause the closest object of type A to be blown up. You may consider this a very primitive type of remote control. By the way, this script will cause an error if no object of type A can be found.</div>
+
+		<h3>Remarks</h3>
+		<div class="text">You don't have to store the object pointer in a variable as done in this example. You could also continue calling the function directly on the search result as in this case:</div>
+
+		<pre class="code"><b>func</b> Activate()
+{
+  <a href="../../sdk/script/fn/FindObject.html">FindObject</a>(AAAA, -1, -1, -1, -1)-&gt;Activate();
+}</pre>
+
+		<div class="text">To make sure that an object function is called from a given definition script you can also specify the definition's ID just before the function name. In some cases this may be necessary to resolve ambiguities if functions of the same name override each other.</div>
+
+		<pre class="code"><b>func</b> Activate()
+{
+  <b>var</b> obj = <a href="../../sdk/script/fn/FindObject.html">FindObject</a>(AAAA, -1, -1, -1, -1);
+  obj-&gt;AAAA::Activate();
+}</pre>
+	
+
+	<h2>Calling global functions without object or definition context</h2>
+	
+		<div class="text">Since LC [336] it is possible to call globally defined functions without any context using <code><b>global</b>-&gt;Function()</code>, provided <code><b>#strict</b> 3</code> or higher is enabled. <code><b>global</b>-&gt;~</code> is possible as well. Though, it is important to note that there must not be any space between "global" and "-&gt;". With this it is for example possible to call functions which expect local coordinates with global coordinates, without the need of first subtracting the object's own coordinates.</div>
+
+		<div class="text">The following script creates a flint at the global coordinates 10/10 even if it is executed in an object context:</div>
+		<pre class="code"><b>global</b>-&gt;<a href="../../sdk/script/fn/CreateObject.html">CreateObject</a>(FLNT, 10, 10, <a href="../../sdk/script/fn/NO_OWNER.html">NO_OWNER</a>);</pre>
+	
+
+
+	<h2>Indirect call of script functions</h2>
+	
+		<div class="text">In some cases you may want somebody else to call a script function that you have specified. The engine function <a href="../../sdk/script/fn/Call.html">Call</a> can do such "indirect" calls. You simply pass the function name of the function to be called as string.</div>
+
+		<h3>Example:</h3>
+		<pre class="code"><b>func</b> TestFunktion()
+{
+  <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Die Test-Funktion wurde aufgerufen!"</i>);
+}
+
+<b>func</b> Aufruf()
+{
+  <a href="../../sdk/script/fn/Call.html">Call</a>(<i class="string">"TestFunktion"</i>);
+}</pre>
+
+		<div class="text">Usually, indirect calls are a bit slower than direct calls, since they cannot be precompiled and the function will have to be searched by name at runtime.</div>
+
+		<div class="text">On the other hand, with indirect calls you can "decide" at runtime which function to call as is done in the following example:</div>
+
+		<pre class="code"><b>func</b> TestFunktion()
+{
+  <a href="../../sdk/script/fn/Call.html">Call</a>(<a href="../../sdk/script/fn/Format.html">Format</a>(<i class="string">"Aufruf%d"</i>, <a href="../../sdk/script/fn/Random.html">Random</a>(3)));
+}
+
+<b>func</b> Aufruf0() { <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Die erste Funktion wurde aufgerufen!"</i>); }
+<b>func</b> Aufruf1() { <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Die zweite Funktion wurde aufgerufen!"</i>); }
+<b>func</b> Aufruf2() { <a href="../../sdk/script/fn/Log.html">Log</a>(<i class="string">"Die dritte Funktion wurde aufgerufen!"</i>); }</pre>
+
+		<div class="text">In TestFunktion() a <em>random</em> function is called (using <a href="../../sdk/script/fn/Random.html">Random</a> and <a href="../../sdk/script/fn/Format.html">Format</a> one of the three strings "Aufruf1", "Aufruf2", and "Aufruf3" is randomly composed and passed to <code>Call</code>).</div>
+		<div class="text">This process has to be done with indirect calls as only at runtime we can know which function is to be called.</div>
+		<div class="text">There are also some other methods of indirect calls. See <a href="../../sdk/script/fn/ObjectCall.html">ObjectCall</a> and <a href="../../sdk/script/fn/GameCall.html">GameCall</a>. Also see <a href="../../sdk/script/fn/PrivateCall.html">PrivateCall</a> and <a href="../../sdk/script/fn/ProtectedCall.html">ProtectedCall</a>. They allow for bypassing the <a href="../../sdk/script/Funcs.html#Aufrufb">calling permission</a> and only exist as indirect calls.</div>
+	
+
+
+<div class="author">PeterW, Mai 2003</div>
+
+<?php 
+  pwn_body(basename (dirname(__FILE__)) . basename(__FILE__,".html"), $_SERVER['SCRIPT_NAME']);
+?><ul class="nav">
+<li class="fineprint">Clonk Developer Mode Documentation</li>
+<li class="switchlang"><a href="javascript:switchLanguage()"><img src="/deco/dco_de_sml.gif" alt="German" border="0"></a></li>
+<li><a href="../../sdk/index.html">Introduction</a></li>
+<li><a href="../../content.html">Contents</a></li>
+<li><a href="../../search.php">Search</a></li>
+<li><a href="../../sdk/console.html">Engine</a></li>
+<li><a href="../../sdk/cmdline.html">Command Line</a></li>
+<li><a href="../../sdk/files.html">Game Data</a></li>
+<li><a href="../../sdk/script/index.html">Script</a></li>
+</ul>
+</body>
+</html>
