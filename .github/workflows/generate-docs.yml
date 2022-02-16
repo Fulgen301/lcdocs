@@ -13,11 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
-    - name: Setup Python
-      uses: actions/setup-python@v2.3.2
-      with:
-        python-version: '2.7'
 
     - name: Install Dependencies
       run: sudo DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends xsltproc python-libxml2 gettext -y
